@@ -1,3 +1,7 @@
+---
+noheader: true
+---
+
 # Hands-On Introduction to Semantic Interoperability
 
 _Step-by-step tutorial to Semantic Web technologies with focus on
