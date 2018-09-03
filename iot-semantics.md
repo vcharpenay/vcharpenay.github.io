@@ -2,7 +2,7 @@
 noheader: true
 ---
 
-<p style="color:crimson;font-weight:bold;">Warning: page in construction!<p>
+<p style="color:crimson;font-weight:bold;">Warning: page in construction!</p>
 
 # Hands-On Introduction to Semantic Interoperability
 
@@ -37,8 +37,7 @@ language), RDFS and OWL DL.
 alignments with theirs. Alignments are defined via a Web form.
 
 First, please provide a SPARQL endpoint URI to use throughout the tutorial:
-
-<input type="url" placeholder="e.g. http://192.168.X.X/sparql"></input>
+<input type="url" placeholder="e.g. http://192.168.X.X/sparql"/>
 
 ## GraphQL Schema Definition
 
@@ -58,9 +57,11 @@ functions:
 Define a GraphQL schema for all features you consider relevant for
 BAS engineering:
 
-<div class="language-graphql highlighter-rouge">
-  <textarea cols="80"></textarea>
-</div>
+<p>
+  <div class="language-graphql highlighter-rouge">
+    <textarea cols="80"></textarea>
+  </div>
+</p>
 
 ## From GraphQL to Schema.org
 
@@ -120,4 +121,4 @@ Basic alignments:
  - `p equivalentProperty q`
 
 _This tutorial was first presented during the [8th International Conference on
-the Internet of Things (IoT 2018)](http://www.iot-conference.org/)_
+the Internet of Things (IoT 2018)](http://www.iot-conference.org/)._
