@@ -2,7 +2,9 @@
 noheader: true
 ---
 
-<p style="color:crimson;font-weight:bold;">Warning: page in construction!</p>
+<p style="color:crimson;font-weight:bold;">
+  Warning: page under construction!
+</p>
 
 # Hands-On Introduction to Semantic Interoperability
 
