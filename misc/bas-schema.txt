@@ -1,0 +1,75 @@
+"""
+Any kind of building
+"""
+type Building {
+	# use RDFS property subsumption to define floors, rooms as hasPart relations
+	# use OWL reverse properties to define partOf relations
+	floors: [Floor]
+}
+
+"""
+Portion of a building at a certain level above the ground
+"""
+type Floor {
+	# OWL equivalence between different referentials (e.g. from cellar or from first floor)?
+	level: Int
+	rooms: [Room]
+}
+
+"""
+Portion of a building spatially delimited by walls
+"""
+type Room {
+	number: ID
+	name: String
+	# OWL restriction that adjacent rooms must be on the same floor?
+	adjacencies: [Room],
+	appliances: [Appliance]
+}
+
+"""
+Any appliance one can find in a room
+"""
+union Appliance = ConferenceEquipment | HvacEquipment
+
+"""
+Any manufactured product, identified by a GTIN
+"""
+interface Product {
+	# combination with external knowledge about what features vendor products offer?
+	gtin: ID!
+	vendor: String
+	model: String
+}
+
+"""
+Any conference equipment (e.g. beamer, microphone)
+"""
+type ConferenceEquipment implements Product {
+	features: [ConferencingFeature]
+}
+
+"""
+Individual feature offered by some conference equipment
+"""
+enum ConferencingFeature {
+	audio
+	video
+	display
+}
+
+"""
+Any HVAC equipment (e.g. radiator, thermostat)
+"""
+type HvacEquipment implements Product {
+	features: [HvacFeature]
+}
+
+"""
+Individual feature offered by some HVAC equipment
+"""
+enum HvacFeature {
+	heating
+	cooling
+	ventilation
+}

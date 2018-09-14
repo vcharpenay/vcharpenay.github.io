@@ -1,0 +1,11 @@
+{
+	"@context": {
+		"@vocab": "http://xmlns.com/foaf/0.1/"
+	},
+	"nick": "vcharpenay",
+	"familyName": "Charpenay",
+	"givenName": "Victor",
+	"homepage": "http://vcharpenay.github.io",
+	"workplaceHomepage": "http://www.siemens.com",
+	"based_near": { "@id": "http://sws.geonames.org/2867714/" }
+}

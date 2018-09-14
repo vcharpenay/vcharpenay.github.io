@@ -7,23 +7,27 @@ Science from the engineering school [INSA Lyon](http://insa-lyon.fr/) and
 the University of Passau. My research topics include semantics for the Web
 of Things, knowledge management and exchange in embedded environments.
 
+See also my [FOAF profile](vcharpenay.jsonld).
+
 ## Publications
 
- - V. Charpenay, S. Kaebisch, and H. Kosch, “Towards a Binary Object Notation
-   for RDF,” in Proceedings of the 15th Extended Semantic Web Conference
-   (ESWC), Heraklion, 2018.
- - V. Charpenay, S. Käbisch, and H. Kosch, “μRDF Store: Towards Extending the
-   Semantic Web to Embedded Devices,” in The Semantic Web: ESWC 2017 Satellite
-   Events, vol. 10577, E. Blomqvist, K. Hose, H. Paulheim, A. Ławrynowicz, F.
-   Ciravegna, and O. Hartig, Eds. Cham: Springer International Publishing,
-   2017, pp. 76–80.
- - V. Charpenay, S. Kaebisch, and H. Kosch, “Introducing Thing Descriptions and
-   Interactions: An Ontology for the Web of Things,” in Joint Proceedings of
-   the 3rd Stream Reasoning (SR 2016) and the 1st Semantic Web Technologies for
-   the Internet of Things (SWIT 2016) workshops, Kobe, 2016.
- - V. Charpenay, S. Käbisch, D. Anicic, and H. Kosch, “An ontology design
-   pattern for IoT device tagging systems,” in 2015 5th International
-   Conference on the Internet of Things (IOT), 2015, pp. 138–145.
+ - V. Charpenay, S. Kaebisch, and H. Kosch, [“Towards a Binary Object
+   Notation for RDF,”](publications/2018-eswc.pdf) in Proceedings of the
+   15th Extended Semantic Web Conference (ESWC), Heraklion, 2018.
+ - V. Charpenay, S. Käbisch, and H. Kosch, [“μRDF Store: Towards Extending
+   the Semantic Web to Embedded Devices,”](publications/2017-eswc.pdf)
+   in The Semantic Web: ESWC 2017 Satellite Events, vol. 10577,
+   E. Blomqvist, K. Hose, H. Paulheim, A. Ławrynowicz, F. Ciravegna, and
+   O. Hartig, Eds. Cham: Springer International Publishing, 2017, pp. 76–80.
+ - V. Charpenay, S. Kaebisch, and H. Kosch, [“Introducing Thing Descriptions and
+   Interactions: An Ontology for the Web of Things,”](publications/2016-swit.pdf)
+   in Joint Proceedings of the 3rd Stream Reasoning (SR 2016) and the 1st
+   Semantic Web Technologies for the Internet of Things (SWIT 2016) workshops,
+   Kobe, 2016.
+ - V. Charpenay, S. Käbisch, D. Anicic, and H. Kosch, [“An ontology design
+   pattern for IoT device tagging systems,”](publications/2015-iot.pdf)
+   in 2015 5th International Conference on the Internet of Things (IOT),
+   2015, pp. 138–145.
 
 See also my [ORCID profile](https://orcid.org/0000-0002-9210-1583).
    
@@ -37,3 +41,4 @@ See also my [ORCID profile](https://orcid.org/0000-0002-9210-1583).
 
  - [Thingweb Directory](https://github.com/thingweb/thingweb-directory/)
  - [STTL.js](https://github.com/vcharpenay/STTL.js)
+ - [schemaorg-clj](https://github.com/vcharpenay/schemaorg-clj)

@@ -39,7 +39,7 @@ language), RDFS and OWL DL.
 alignments with theirs. Alignments are defined via a Web form.
 
 First, please provide a SPARQL endpoint URI to use throughout the tutorial:
-<input type="url" placeholder="e.g. http://192.168.X.X/sparql"/>
+<input id="sparql-input" type="url" placeholder="e.g. http://192.168.X.X/sparql"/>
 
 ## GraphQL Schema Definition
 
@@ -60,8 +60,8 @@ Define a GraphQL schema for all features you consider relevant for
 BAS engineering:
 
 <p>
-  <div class="language-graphql highlighter-rouge">
-    <textarea cols="80"></textarea>
+  <div>
+    <textarea id="graphql-text" cols="80"></textarea>
   </div>
 </p>
 
@@ -82,16 +82,16 @@ Semantic Web technologies.
 First, your GraphQL schema must be turned into RDF (using the schema.org
 meta-vocabulary). This step is automatic.
 
-<button>Transform</button>
+<button id="transform-button">Transform</button>
 
 Then, the output of this transformation (an RDF vocabulary) can be published
 on the (Semantic) Web via a SPARQL endpoint.
 
-<button>Publish</button>
+<button id="publish-button">Publish</button>
 
 Now, you can browse the generated HTML documentation for your vocabulary.
 
-<a href="">Link</a>
+<a id="browse-anchor" href="">Link</a>
 
 ## Introduction to Model Theoretical Semantics
 
@@ -124,3 +124,49 @@ Basic alignments:
 
 _This tutorial was first presented during the [8th International Conference on
 the Internet of Things (IoT 2018)](http://www.iot-conference.org/)._
+
+<!-- see /js/graphql2rdf.js for original source file -->
+<script type="text/javascript" src="/js/graphql2rdf.bundle.js"></script>
+
+<script type="text/javascript">
+const graphql2rdf = require('graphql2rdf');
+
+const si = document.getElementById('sparql-input'),
+      tb = document.getElementById('transform-button'),
+      pb = document.getElementById('publish-button'),
+      gt = document.getElementById('graphql-text');
+
+let endpoint = null;
+let vocab = null;
+
+si.oninput = function(ev) {
+	endpoint = si.value;
+};
+	  
+tb.onclick = function(ev) {
+	// TODO construct base from sparql
+	// TODO error handling
+	// TODO show vocab in DOM
+	vocab = graphql2rdf.rdfVocabulary(gt.value, 'http://example.org/ns1/');
+};
+
+pb.onclick = function(ev) {
+	// TODO error handling
+	if (endpoint == null) throw new Error('SPARQL endpoint not set.');
+	if (vocab == null) throw new Error('Vocabulary not available.');
+	
+	// TODO generate user ID (one per computer)
+	let graph = 'urn:ns1';
+	let uri = endpoint + '?graph=' + graph;
+	let req = new Request(uri, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/ld+json' },
+		body: JSON.stringify(vocab)
+	});
+	
+	fetch(req).then(function(resp) {
+		// TODO error handling and OK feedback
+		console.log(resp);
+	});
+};
+</script>
