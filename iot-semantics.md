@@ -39,7 +39,12 @@ language), RDFS and OWL DL.
 alignments with theirs. Alignments are defined via a Web form.
 
 First, please provide a SPARQL endpoint URI to use throughout the tutorial:
-<input id="sparql-input" type="url" placeholder="e.g. http://192.168.X.X/sparql"/>
+
+<p>
+  <div style="width:100%;display:inline-block;">
+    <input id="sparql-input" style="width:100%;display:block;" class="message input" type="url" placeholder="e.g. http://192.168.X.X/sparql"/>
+  </div>
+</p>
 
 ## GraphQL Schema Definition
 
@@ -59,12 +64,8 @@ functions:
 Define a GraphQL schema for all features you consider relevant for
 BAS engineering:
 
-<!-- See /misc/bas-schema.txt for an example schema-->
-<p>
-  <div>
-    <textarea id="graphql-text" cols="80"></textarea>
-  </div>
-</p>
+<!-- See /misc/bas-schema.txt for an example schema -->
+<div id="graphql-text" style="height: 500px;"></div>
 
 ## From GraphQL to Schema.org
 
@@ -83,16 +84,32 @@ Semantic Web technologies.
 First, your GraphQL schema must be turned into RDF (using the schema.org
 meta-vocabulary). This step is automatic.
 
-<button id="transform-button">Transform</button>
+<p>
+  <div style="width:100%">
+    <div style="width:66%;display:inline-block;">
+      <span id="transform-msg" style="display:block;" class="message"></span>
+    </div>
+    <div style="width:33%;display:inline-block;">
+      <span id="transform-button" style="display:block;" class="button">TRANSFORM</span>
+    </div>
+  </div>
+</p>
 
 Then, the output of this transformation (an RDF vocabulary) can be published
 on the (Semantic) Web via a SPARQL endpoint.
 
-<button id="publish-button">Publish</button>
+<p>
+  <div style="width:100%">
+    <div style="width:66%;display:inline-block;">
+      <span id="publish-msg" style="display:block;" class="message"></span>
+    </div>
+    <div style="width:33%;display:inline-block;">
+      <span id="publish-button" style="display:block;" class="button">PUBLISH</span>
+    </div>
+  </div>
+</p>
 
 Now, you can browse the generated HTML documentation for your vocabulary.
-
-<a id="browse-anchor" href="">Link</a>
 
 ## Introduction to Model Theoretical Semantics
 
@@ -129,45 +146,98 @@ the Internet of Things (IoT 2018)](http://www.iot-conference.org/)._
 <!-- see /js/graphql2rdf.js for the original source file -->
 <script type="text/javascript" src="/js/graphql2rdf.bundle.js"></script>
 
+<script type="text/javascript" src="/js/ace.js"></script>
+<script type="text/javascript" src="/js/ace-mode-graphqlschema.js"></script>
+<script type="text/javascript" src="/js/ace-theme-tomorrow.js"></script>
+
 <script type="text/javascript">
 const graphql2rdf = require('graphql2rdf');
 
 const si = document.getElementById('sparql-input'),
       tb = document.getElementById('transform-button'),
-      pb = document.getElementById('publish-button'),
-      gt = document.getElementById('graphql-text');
+      tm = document.getElementById('transform-msg'),
+	  pb = document.getElementById('publish-button'),
+	  pm = document.getElementById('publish-msg'),
+	  gt = ace.edit('graphql-text');
 
+// TODO store to session storage to be persistant over refresh
+let session = null;
 let endpoint = null;
 let vocab = null;
+
+// graph URI constructed from endpoint URI and session number
+const graph = function(ep, s) { return ep + '/ns' + s + '/'; };
+
+// display feedback message 'msg' in HTML element 'e'
+const feedback = function(e, msg) {
+	e.classList.remove('ok', 'error');
+
+	if (msg instanceof Error) {
+		e.textContent = msg.message;
+		e.classList.add('error');
+	} else if (msg) {
+		e.innerHTML = msg;
+		e.classList.add('ok');
+	} else {
+		e.textContent = '';
+	}
+}
 
 si.oninput = function(ev) {
 	endpoint = si.value;
 };
-	  
+
 tb.onclick = function(ev) {
-	// TODO construct base from sparql
-	// TODO error handling
-	// TODO show vocab in DOM
-	vocab = graphql2rdf.rdfVocabulary(gt.value, 'http://example.org/ns1/');
+	try {
+		if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
+		vocab = graphql2rdf.rdfVocabulary(gt.getValue(), graph(endpoint, session));
+		console.log(vocab); // TODO show vocab in DOM?
+		feedback(tm, 'Success (see result on the Web console).');
+	} catch (e) {
+		console.error(e);
+		feedback(tm, e);
+	}
 };
 
 pb.onclick = function(ev) {
-	// TODO error handling
-	if (endpoint == null) throw new Error('SPARQL endpoint not set.');
-	if (vocab == null) throw new Error('Vocabulary not available.');
-	
-	// TODO generate user ID (one per computer)
-	let graph = 'urn:ns1';
-	let uri = endpoint + '?graph=' + graph;
-	let req = new Request(uri, {
-		method: 'PUT',
-		headers: { 'Content-Type': 'application/ld+json' },
-		body: JSON.stringify(vocab)
-	});
-	
-	fetch(req).then(function(resp) {
-		// TODO error handling and OK feedback
-		console.log(resp);
-	});
+	try {
+		if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
+		if (vocab == null) throw new Error('Vocabulary not available.');
+		
+		let g = graph(endpoint, session);
+		let uri = endpoint + '?graph=' + g;
+		let req = new Request(uri, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/ld+json' },
+			body: JSON.stringify(vocab)
+		});
+		
+		fetch(req)
+			.then(function(resp) {
+				if (resp.ok) {
+					let n = vocab['@graph'][0];
+					let a = '<a href="' + n['@id'] + '">for class ' + n['label'] + '</a>';
+					feedback(pm, 'Success (see online documentation, e.g. ' + a + ').');
+				} else {
+					console.error(resp);
+					feedback(pm, new Error('HTTP error: received ' + resp.status + '.'));
+				}
+			})
+			.catch(function(e) {
+				console.error(e);
+				feedback(pm, e);
+			});
+
+		// re-init feedback message
+		feedback(pm);
+	} catch (e) {
+		console.error(e);
+		feedback(pm, e);
+	}
 };
+	  
+gt.setTheme('ace/theme/tomorrow');
+gt.session.setMode('ace/mode/graphqlschema');
+
+session = Math.round(Math.random() * 65536);
 </script>

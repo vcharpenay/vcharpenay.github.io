@@ -193,7 +193,7 @@ function rdfVocabulary(schema, base) {
 
 /**
  * This file can be bundled with GraphQL.js using Browserify:
- * browserify graphql2rdf.js -o graphql2rdf.bundle.js -r graphql2rdf
+ * browserify -r ./graphql2rdf.js:graphql2rdf -o graphql2rdf.bundle.js
  * 
  * See http://browserify.org
  */
