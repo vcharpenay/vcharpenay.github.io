@@ -23,22 +23,57 @@
  */
 const graphql = require('graphql/language');
 
+/**
+ * Returns true if the input GraphQL definition is that of a built-in scalar
+ * type (Int, Float, String, Boolean or ID).
+ */
+function isBuiltIn(def) {
+	return [
+		'Int',
+		'Float',
+		'String',
+		'Boolean',
+		'ID'
+	].indexOf(def.name.value) > -1;
+}
+
+/**
+ * Returns a JSON-LD node object with the @id key only (referencing an RDF
+ * resource) based on the input GraphQL definition object.
+ * 
+ * The definition name is interpreted as a relative URI and used as value
+ * for @id.
+ */
 function rdfReference(def) {
 	return { '@id': def.name.value };
 }
 
+/**
+ * Returns a JSON-LD node object with an @id, label (rdfs:label) and
+ * comment (rdfs:comment) based on the input GraphQL definition object. This
+ * node object should be the main definintion of the corresponding RDF
+ * resource.
+ * 
+ * The definition name is used as plain label and, if it exists, the
+ * description of the definition is used as comment.
+ */
 function rdfEntity(def) {
 	let e = rdfReference(def);
 
-	// TODO DataType labels are different	
 	e['label'] = def.name.value;
 	e['comment'] = def.description ?
-	               def.description.value :
+				   def.description.value :
 				   '';
 	
 	return e;
 }
 
+/**
+ * Returns a JSON-LD node object with @type Property (rdf:Property) based on
+ * the input GraphQL definition object.
+ *  
+ * Almost identical to rdfEntity(), with the exception of the @type key.
+ */
 function rdfProperty(def) {
 	let p = rdfEntity(def);
 	p['@type'] = 'Property';
@@ -46,6 +81,23 @@ function rdfProperty(def) {
 	return p;
 }
 
+/**
+ * Returns a JSON-LD node object with @type Class (rdfs:Class) based on the
+ * input GraphQL definition object. The following rules apply:
+ * 
+ * interface C { p: C' }  ->  C a rdfs:Class ;
+ *                            p a rdf:Property ;
+ *                            p schema:domainIncludes C ;
+ *                            p schema:rangeIncludes C' .
+ * type C implements C'   ->  C rdfs:subClassOf C' .
+ * union C = C1 | C2      ->  C1 rdfs:subClassOf C ;
+ *                            C2 rdfs:subClassOf C .
+ * enum C { i1, i2 }      ->  C rdfs:subClassOf schema:Enumeration ;
+ *                            i1 a C ;
+ *                            i2 a C .
+ * 
+ * Array types and nullable types are ignored.
+ */
 function rdfsClass(def) {
 	let c = rdfEntity(def);
 	c['@type'] = 'Class';
@@ -61,10 +113,12 @@ function rdfsClass(def) {
 				// TODO rename field if conflict with existing definitions
 				let p = rdfProperty(fieldDef);
 				
+				// TODO include array and nullable annotation?
 				let classDef = fieldDef.type.kind === 'NamedType' ?
 				               fieldDef.type :
 							   fieldDef.type.type;
-				p['rangeIncludes'] = rdfReference(classDef);
+				let rdfRef = rdfReference(classDef);
+				p['rangeIncludes'] = isBuiltIn(classDef) ? rdfRef['@id'] : rdfRef;
 				
 				return p;
 			});
@@ -78,11 +132,20 @@ function rdfsClass(def) {
 			c['subClassOf'] = { '@id': 'Enumeration' };
 			c['@reverse']['a'] = def.values.map(rdfEntity);
 			break;
+
+		// TODO case 'ScalarTypeDefinition' 
 	}
 	
 	return c;
 }
 
+/**
+ * Returns an RDF vocabulary based on the list of definitions contained in the
+ * input GraphQL schema.
+ * 
+ * The optional 'base' argument is a base URI, relative to which definition
+ * names will resolve.
+ */
 function rdfVocabulary(graphQLSchema, base) {
 	let ast = graphql.parse(graphQLSchema);
 	
@@ -98,7 +161,10 @@ function rdfVocabulary(graphQLSchema, base) {
 			'Property': 'rdf:Property',
 			'subClassOf': 'rdfs:subClassOf',
 			'domainIncludes': 'schema:domainIncludes',
-			'rangeIncludes': 'schema:rangeIncludes',
+			'rangeIncludes': {
+				'@id': 'schema:rangeIncludes',
+				'@type': '@vocab'
+			},
 			'Int': 'schema:Integer',
 			'Float': 'schema:Number',
 			'String': 'schema:Text',
@@ -113,4 +179,10 @@ function rdfVocabulary(graphQLSchema, base) {
 	return vocab;
 }
 
+/**
+ * This file can be bundled with GraphQL.js using Browserify:
+ * browserify graphql2rdf.js -o graphql2rdf.bundle.js -r graphql2rdf
+ * 
+ * See http://browserify.org
+ */
 exports.rdfVocabulary = rdfVocabulary;

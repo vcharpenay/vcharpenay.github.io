@@ -59,6 +59,7 @@ functions:
 Define a GraphQL schema for all features you consider relevant for
 BAS engineering:
 
+<!-- See /misc/bas-schema.txt for an example schema-->
 <p>
   <div>
     <textarea id="graphql-text" cols="80"></textarea>
@@ -125,7 +126,7 @@ Basic alignments:
 _This tutorial was first presented during the [8th International Conference on
 the Internet of Things (IoT 2018)](http://www.iot-conference.org/)._
 
-<!-- see /js/graphql2rdf.js for original source file -->
+<!-- see /js/graphql2rdf.js for the original source file -->
 <script type="text/javascript" src="/js/graphql2rdf.bundle.js"></script>
 
 <script type="text/javascript">
