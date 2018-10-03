@@ -134,11 +134,13 @@ function rdfsClass(def) {
 			break;
 			
 		case 'EnumTypeDefinition':
-			c['subClassOf'] = { '@id': 'Enumeration' };
+			c['subClassOf'] = 'Enumeration';
 			c['@reverse']['a'] = def.values.map(rdfEntity);
 			break;
 
-		// TODO case 'ScalarTypeDefinition' 
+		case 'ScalarTypeDefinition':
+			c['subClassOf'] = 'DataType';
+			break;
 	}
 	
 	return c;
@@ -164,7 +166,10 @@ function rdfVocabulary(schema, base) {
 			'comment': 'rdfs:comment',
 			'Class': 'rdfs:Class',
 			'Property': 'rdf:Property',
-			'subClassOf': 'rdfs:subClassOf',
+			'subClassOf': {
+				'@id': 'rdfs:subClassOf',
+				'@type': '@vocab'
+			},
 			'subPropertyOf': 'rdfs:subPropertyOf',
 			'domainIncludes': 'schema:domainIncludes',
 			'rangeIncludes': {
@@ -176,7 +181,8 @@ function rdfVocabulary(schema, base) {
 			'String': 'schema:Text',
 			'Boolean': 'schema:Boolean',
 			'ID': 'schema:URL', // note: loosely related
-			'Enumeration': 'schema:Enumeration'
+			'Enumeration': 'schema:Enumeration',
+			'DataType': 'schema:DataType'
 		},
 		'@graph': ast.definitions.map(rdfsClass)
 	};

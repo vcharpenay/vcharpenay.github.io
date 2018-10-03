@@ -33,11 +33,16 @@ Any appliance one can find in a room
 union Appliance = ConferenceEquipment | HvacEquipment
 
 """
+Global Trade Item Number, as specified by GS1
+"""
+scalar Gtin
+
+"""
 Any manufactured product, identified by a GTIN
 """
 interface Product {
 	# combination with external knowledge about what features vendor products offer?
-	gtin: ID!
+	gtin: Gtin!
 	vendor: String
 	model: String
 }
