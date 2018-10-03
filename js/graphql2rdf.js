@@ -24,8 +24,8 @@
 const graphql = require('graphql/language');
 
 /**
- * Returns true if the input GraphQL definition is that of a built-in scalar
- * type (Int, Float, String, Boolean or ID).
+ * Returns true if the input GraphQL definition 'def' is that of a built-in
+ * scalar type (Int, Float, String, Boolean or ID).
  */
 function isBuiltIn(def) {
 	return [
@@ -39,7 +39,7 @@ function isBuiltIn(def) {
 
 /**
  * Returns a JSON-LD node object with the @id key only (referencing an RDF
- * resource) based on the input GraphQL definition object.
+ * resource) based on the input GraphQL definition object 'def'.
  * 
  * The definition name is interpreted as a relative URI and used as value
  * for @id.
@@ -50,8 +50,8 @@ function rdfReference(def) {
 
 /**
  * Returns a JSON-LD node object with an @id, label (rdfs:label) and
- * comment (rdfs:comment) based on the input GraphQL definition object. This
- * node object should be the main definintion of the corresponding RDF
+ * comment (rdfs:comment) based on the input GraphQL definition object 'def'.
+ * This node object should be the main definintion of the corresponding RDF
  * resource.
  * 
  * The definition name is used as plain label and, if it exists, the
@@ -70,30 +70,36 @@ function rdfEntity(def) {
 
 /**
  * Returns a JSON-LD node object with @type Property (rdf:Property) based on
- * the input GraphQL definition object.
+ * the input GraphQL definition object 'def'.
  *  
- * Almost identical to rdfEntity(), with the exception of the @type key.
+ * The input RDFS class definition 'c' is used to build a unique identifier by
+ * concatenating its local name to the GraphQL field name in Camel case.
  */
-function rdfProperty(def) {
+function rdfProperty(def, c) {
 	let p = rdfEntity(def);
 	p['@type'] = 'Property';
-	
+
+	p['@id'] = c['@id'][0].toLowerCase()
+			 + c['@id'].substring(1)
+			 + p['@id'][0].toUpperCase()
+			 + p['@id'].substring(1);
+
 	return p;
 }
 
 /**
  * Returns a JSON-LD node object with @type Class (rdfs:Class) based on the
- * input GraphQL definition object. The following rules apply:
+ * input GraphQL definition object 'def'. The following rules apply:
  * 
- * interface C { p: C' }  ->  C a rdfs:Class ;
- *                            p a rdf:Property ;
- *                            p schema:domainIncludes C ;
+ * interface C { p: C' }  ->  C a rdfs:Class .
+ *                            p a rdf:Property .
+ *                            p schema:domainIncludes C .
  *                            p schema:rangeIncludes C' .
  * type C implements C'   ->  C rdfs:subClassOf C' .
- * union C = C1 | C2      ->  C1 rdfs:subClassOf C ;
+ * union C = C1 | C2      ->  C1 rdfs:subClassOf C .
  *                            C2 rdfs:subClassOf C .
- * enum C { i1, i2 }      ->  C rdfs:subClassOf schema:Enumeration ;
- *                            i1 a C ;
+ * enum C { i1, i2 }      ->  C rdfs:subClassOf schema:Enumeration .
+ *                            i1 a C .
  *                            i2 a C .
  * 
  * Array types and nullable types are ignored.
@@ -110,15 +116,14 @@ function rdfsClass(def) {
 		
 		case 'InterfaceTypeDefinition':
 			c['@reverse']['domainIncludes'] = def.fields.map(fieldDef => {
-				// TODO rename field if conflict with existing definitions
-				let p = rdfProperty(fieldDef);
+				let p = rdfProperty(fieldDef, c);
 				
 				// TODO include array and nullable annotation?
 				let classDef = fieldDef.type.kind === 'NamedType' ?
 				               fieldDef.type :
 							   fieldDef.type.type;
-				let rdfRef = rdfReference(classDef);
-				p['rangeIncludes'] = isBuiltIn(classDef) ? rdfRef['@id'] : rdfRef;
+				let range = rdfReference(classDef);
+				p['rangeIncludes'] = isBuiltIn(classDef) ? range['@id'] : range;
 				
 				return p;
 			});
@@ -141,13 +146,13 @@ function rdfsClass(def) {
 
 /**
  * Returns an RDF vocabulary based on the list of definitions contained in the
- * input GraphQL schema.
+ * input GraphQL schema 'schema'.
  * 
  * The optional 'base' argument is a base URI, relative to which definition
  * names will resolve.
  */
-function rdfVocabulary(graphQLSchema, base) {
-	let ast = graphql.parse(graphQLSchema);
+function rdfVocabulary(schema, base) {
+	let ast = graphql.parse(schema);
 	
 	let vocab = {
 		'@context': {
@@ -160,6 +165,7 @@ function rdfVocabulary(graphQLSchema, base) {
 			'Class': 'rdfs:Class',
 			'Property': 'rdf:Property',
 			'subClassOf': 'rdfs:subClassOf',
+			'subPropertyOf': 'rdfs:subPropertyOf',
 			'domainIncludes': 'schema:domainIncludes',
 			'rangeIncludes': {
 				'@id': 'schema:rangeIncludes',
