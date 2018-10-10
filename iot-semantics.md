@@ -140,6 +140,22 @@ Basic alignments:
  - `C equivalentClass D`
  - `p equivalentProperty q`
 
+<!-- See /misc/bas-alignment.jsonld for examples -->
+<div id="jsonld-text" style="height: 200px;"></div>
+
+You can then add these alignments to the RDF backend.
+
+<p>
+  <div style="width:100%">
+    <div style="width:66%;display:inline-block;">
+      <span id="align-msg" style="display:block;" class="message"></span>
+    </div>
+    <div style="width:33%;display:inline-block;">
+      <span id="align-button" style="display:block;" class="button">ADD</span>
+    </div>
+  </div>
+</p>
+
 _This tutorial was first presented during the [8th International Conference on
 the Internet of Things (IoT 2018)](http://www.iot-conference.org/)._
 
@@ -148,6 +164,7 @@ the Internet of Things (IoT 2018)](http://www.iot-conference.org/)._
 
 <script type="text/javascript" src="/js/ace.js"></script>
 <script type="text/javascript" src="/js/ace-mode-graphqlschema.js"></script>
+<script type="text/javascript" src="/js/ace-mode-json.js"></script>
 <script type="text/javascript" src="/js/ace-theme-tomorrow.js"></script>
 
 <script type="text/javascript">
@@ -158,7 +175,10 @@ const si = document.getElementById('sparql-input'),
       tm = document.getElementById('transform-msg'),
 	  pb = document.getElementById('publish-button'),
 	  pm = document.getElementById('publish-msg'),
-	  gt = ace.edit('graphql-text');
+	  ab = document.getElementById('align-button'),
+	  am = document.getElementById('align-msg'),
+	  gt = ace.edit('graphql-text'),
+	  jt = ace.edit('jsonld-text');
 
 // TODO store to session storage to be persistant over refresh
 let session = null;
@@ -235,9 +255,67 @@ pb.onclick = function(ev) {
 		feedback(pm, e);
 	}
 };
-	  
+
+ab.onclick = function(ev) {
+	try {
+		let j = JSON.parse(jt.getValue());
+		j['@context'] = {
+			'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+			'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+			'owl': 'http://www.w3.org/2002/07/owl#',
+			// TODO add @vocab 
+			'subClassOf': {
+				'@id': 'rdfs:subClassOf',
+				'@type': '@vocab'
+			},
+			'subPropertyOf': {
+				'@id': 'rdfs:subPropertyOf',
+				'@type': '@vocab'
+			},
+			'equivalentClass': {
+				'@id': 'owl:equivalentClass',
+				'@type': '@vocab'
+			},
+			'equivalentProperty': {
+				'@id': 'owl:equivalentProperty',
+				'@type': '@vocab'
+			}
+		};
+
+		let uri = endpoint + '?default';
+		let req = new Request(uri, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/ld+json' },
+			body: JSON.stringify(j)
+		});
+		
+		fetch(req)
+			.then(function(resp) {
+				if (resp.ok) {
+					feedback(am, 'Success.');
+				} else {
+					console.error(resp);
+					feedback(am, new Error('HTTP error: received ' + resp.status + '.'));
+				}
+			})
+			.catch(function(e) {
+				console.error(e);
+				feedback(am, e);
+			});
+
+		// re-init feedback message
+		feedback(am);
+	} catch (e) {
+		console.error(e);
+		feedback(am, e);
+	}
+};
+
 gt.setTheme('ace/theme/tomorrow');
 gt.session.setMode('ace/mode/graphqlschema');
+
+jt.setTheme('ace/theme/tomorrow');
+jt.session.setMode('ace/mode/json');
 
 session = Math.round(Math.random() * 65536);
 </script>
