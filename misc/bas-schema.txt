@@ -2,8 +2,6 @@
 Any kind of building
 """
 type Building {
-	# use RDFS property subsumption to define floors, rooms as hasPart relations
-	# use OWL reverse properties to define partOf relations
 	floors: [Floor]
 }
 
@@ -11,7 +9,6 @@ type Building {
 Portion of a building at a certain level above the ground
 """
 type Floor {
-	# OWL equivalence between different referentials (e.g. from cellar or from first floor)?
 	level: Int
 	rooms: [Room]
 }
@@ -22,7 +19,6 @@ Portion of a building spatially delimited by walls
 type Room {
 	number: ID
 	name: String
-	# OWL restriction that adjacent rooms must be on the same floor?
 	adjacencies: [Room],
 	appliances: [Appliance]
 }
