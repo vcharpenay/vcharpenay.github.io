@@ -1,4 +1,7 @@
-{
-	"@id": "C",
-	"subClassOf": "D"
-}
+[{
+  "@id": "/lwm2m/3303",
+  "equivalentClass": "http://w3id.org/saref#TemperatureSensor"
+}, {
+  "@id": "/lwm2m/3311",
+  "subClassOf": "http://w3id.org/saref#LightingDevice"
+}]

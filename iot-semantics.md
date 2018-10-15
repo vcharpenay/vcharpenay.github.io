@@ -272,8 +272,9 @@ reference model, such as [iot.schema.org](https://iot.schema.org/). This
 requires, however, to integrate it into the software development process of IoT
 applications, which most do not. Other relevant vocabularies include the
 [Sensor, Observation, Sample and Actuator (SOSA) vocabulary](https://www.w3.org/TR/vocab-ssn/)
-and, for the modeling of rooms and BA systems, the
-[Industry Foundation Class (IFC) ontology](http://openbimstandards.org/standards/ifcowl/),
+and, for the modeling of rooms and BA systems,
+the [Smart Appliance Reference (SAREF) ontology](),
+the [Industry Foundation Class (IFC) ontology](http://openbimstandards.org/standards/ifcowl/),
 vocabularies from the W3C Linked Building Data group like the
 [Building Topology Ontology (BOT)](https://w3c-lbd-cg.github.io/bot/), as well
 as the [Brick schema](http://brickschema.org/).
@@ -417,6 +418,7 @@ const feedback = function(e, msg) {
 	}
 }
 
+if (si.value) endpoint = si.value;
 si.oninput = function(ev) {
 	endpoint = si.value;
 };
