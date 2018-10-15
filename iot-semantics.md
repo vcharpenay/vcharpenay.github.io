@@ -9,7 +9,6 @@ noheader: true
 To do:
  - link for an intro to RDF?
  - more IoT-related example of schema.org?
- - show the resulting JSON-LD doc
  - add links to the software we used
  - add link to the IoT paper
 
@@ -132,13 +131,16 @@ RDF) so that your GraphQL schema can be published as RDF.
   </small>
 </p>
 
-Show the result (in a JSON syntax for RDF called
-[JSON-LD](http://www.w3.org/TR/json-ld/)).
+<pre style="max-height:200px;">
+  <code id="transform-out">...</code>
+</pre>
 
-The output of this transformation (an RDF vocabulary) can be published on the
-Web. We wrote a small Web server that generates documentation in the same style
-as schema.org. Publish your vocabulary on this server and have a look at the
-generated documentation:
+The output of this transformation is an RDF vocabulary, encoded in a JSON
+format for RDF ([JSON-LD](http://www.w3.org/TR/json-ld/)). The standard
+procedure is to publish it on the Web and provide a human-readable
+documentation for it. We wrote a small Web server that automatically generates
+documentation in the same style as schema.org. Publish your vocabulary on this
+server and have a look at the generated documentation:
 
 <p>
   <div style="width:100%">
@@ -153,7 +155,12 @@ generated documentation:
 
 If you know the namespace under which other participants published their own
 model, you can start browsing their vocabulary the same way and identify
-commonalities.
+commonalities. By doing so, you might notice that some of the terms others have
+come up with are not self-explanatory. For this reason, it is a good practice
+to document every term with a textual description, very much like documenting
+source code. GraphQL also provides means to textually describe classes and
+properties. If you have time, add text wherever is appropriate and re-publish
+your vocabulary.
 
 In the following, we will define equivalences between your schema and
 what other participants produced. To that purpose, we will use the following
@@ -178,56 +185,56 @@ the following alignments can be defined (we use the same syntax as above,
 JSON-LD).
 
 1. `T` has the same properties as `Tp` and more:
-```js
+```
 {
-	"@id": "T",
-	"subClassOf": "Tp"
+  "@id": "T",
+  "subClassOf": "Tp"
 }
 ```
 
 2. `T` and `Tp` have exactly the same properties:
-```js
+```
 {
-	"@id": "T",
-	"equivalentClass": "Tp"
+  "@id": "T",
+  "equivalentClass": "Tp"
 }
 ```
 
 3. A subset of the properties of `T` and `Tp` are common but not all:
-```js
+```
 [{
-	"@id": "T",
-	"subClassOf": "Ts"
+  "@id": "T",
+  "subClassOf": "Ts"
 }, {
-	"@id": "Tp",
-	"subClassOf": "Ts"
+  "@id": "Tp",
+  "subClassOf": "Ts"
 }]
 ```
 
 4. `p` is used for the same classes as `pp` and more:
-```js
+```
 {
-	"@id": "p",
-	"subPropertyOf": "pp"
+"@id": "p",
+"subPropertyOf": "pp"
 }
 ```
 
 5. `p` is used for exactly the same classes as `pp`:
-```js
+```
 {
-	"@id": "p",
-	"equivalentProperty": "pp"
+"@id": "p",
+"equivalentProperty": "pp"
 }
 ```
 
 6. the domain and range of `p` and `pp` overlap but only partially:
-```js
+```
 [{
-	"@id": "p",
-	"subPropertyOf": "ps"
+"@id": "p",
+"subPropertyOf": "ps"
 }, {
-	"@id": "pp",
-	"subPropertyOf": "ps"
+"@id": "pp",
+"subPropertyOf": "ps"
 }]
 ```
 
@@ -378,7 +385,8 @@ const graphql2rdf = require('graphql2rdf');
 
 const si = document.getElementById('sparql-input'),
       tb = document.getElementById('transform-button'),
-      tm = document.getElementById('transform-msg'),
+	  tm = document.getElementById('transform-msg'),
+	  to = document.getElementById('transform-out'),
 	  pb = document.getElementById('publish-button'),
 	  pm = document.getElementById('publish-msg'),
 	  ab = document.getElementById('align-button'),
@@ -417,8 +425,10 @@ tb.onclick = function(ev) {
 	try {
 		if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
 		vocab = graphql2rdf.rdfVocabulary(gt.getValue(), graph(endpoint, session));
-		console.log(vocab); // TODO show vocab in DOM?
-		feedback(tm, 'Success (see result on the Web console).');
+		feedback(tm, 'Success.');
+		to.textContent = JSON.stringify({
+			'@graph': vocab['@graph']
+		}, null, 2); // 2-spaces indentation
 	} catch (e) {
 		console.error(e);
 		feedback(tm, e);
