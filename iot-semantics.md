@@ -2,16 +2,6 @@
 noheader: true
 ---
 
-<p style="color:crimson;font-weight:bold;">
-  Warning: page under construction!
-</p>
-
-To do:
- - link for an intro to RDF?
- - more IoT-related example of schema.org?
- - add links to the software we used
- - add link to the IoT paper
-
 # Hands-On Introduction to Semantic Interoperability
 
 _Step-by-step tutorial on Semantic Web technologies with focus on
@@ -34,7 +24,7 @@ The tutorial is organized in four phases:
 4. [Get an introduction to inference and semantics](#introduction-to-model-theoretical-semantics)
 
 This tutorial is interactive and requires a Web server to store data schemas
-and generate browsable documentation. Please enter in the field below the
+and generate browsable documentations. Please enter in the field below the
 server endpoint to use for this session:
 
 <p>
@@ -99,9 +89,9 @@ GraphQL schemas are meant to be published by a Web server and consumed by
 clients to validate queries and data updates (called "mutations"). However, as
 we will see later, the GraphQL specification offers quite limited features for
 semantic alignment and integration between different schemas. In the following,
-we will extend your GraphQL schema with elements of the [W3C Resource
-Description Framework (RDF)](), a major technology for semantic
-interoperability on the Web.
+we will extend your GraphQL schema with elements of the [Resource
+Description Framework (RDF)](http://docs.rdf4j.org/rdf-tutorial/), a major
+technology for semantic interoperability on the Web.
 
 Schema.org itself relies on RDF. It is a collection of class and property
 definitions, each referenced by a URI and accessible on the Web. Have a
@@ -138,9 +128,11 @@ RDF) so that your GraphQL schema can be published as RDF.
 The output of this transformation is an RDF vocabulary, encoded in a JSON
 format for RDF ([JSON-LD](http://www.w3.org/TR/json-ld/)). The standard
 procedure is to publish it on the Web and provide a human-readable
-documentation for it. We wrote a small Web server that automatically generates
-documentation in the same style as schema.org. Publish your vocabulary on this
-server and have a look at the generated documentation:
+documentation for it. We wrote a
+[small Web server](https://github.com/vcharpenay/schemaorg-clj) that
+automatically generates documentation in the same style as schema.org.
+Publish your vocabulary on this server and have a look at the generated
+documentation:
 
 <p>
   <div style="width:100%">
@@ -266,11 +258,13 @@ models of three IoT standards:
  - [specifications by the Open Connectiviy Foundation (OCF)](https://openconnectivity.org/)
  - [oneM2M](http://www.onem2m.org/)
 
-We developed [an approach based on SPARQL inference rules](), generated
-semi-automatically. Another (simpler) approach is to provide alignments with a
-reference model, such as [iot.schema.org](https://iot.schema.org/). This
-requires, however, to integrate it into the software development process of IoT
-applications, which most do not. Other relevant vocabularies include the
+We developed
+[an approach based on SPARQL inference rules](https://vcharpenay.github.io/publications/2018-iot.pdf), 
+generated semi-automatically. Another (simpler) approach is to provide
+alignments with a reference model, such as
+[iot.schema.org](https://iot.schema.org/). This requires, however, to integrate
+it into the software development process of IoT applications, which most do
+not. Other relevant vocabularies include the
 [Sensor, Observation, Sample and Actuator (SOSA) vocabulary](https://www.w3.org/TR/vocab-ssn/)
 and, for the modeling of rooms and BA systems,
 the [Smart Appliance Reference (SAREF) ontology](),
@@ -400,10 +394,20 @@ let session = null;
 let endpoint = null;
 let vocab = null;
 
-// graph URI constructed from endpoint URI and session number
-const graph = function(ep, s) { return ep + '/ns' + s + '/'; };
+/**
+ * Builds a graph URI constructed from a SPARQL endpoint URI
+ * and a session number.
+ */
+const graph = function(ep, s) {
+	let base = ep.match(/https?:\/\/[^:/]*/);
+	// TODO add graph port to configurable parameters
+	let p  = 8080;
+	return base + ':' + p + '/ns' + s + '/';
+};
 
-// display feedback message 'msg' in HTML element 'e'
+/**
+ * Displays feedback message 'msg' in HTML element 'e'
+ */
 const feedback = function(e, msg) {
 	e.classList.remove('ok', 'error');
 
@@ -418,29 +422,43 @@ const feedback = function(e, msg) {
 	}
 }
 
+/**
+ * Sets up interaction for the SPARQL endpoint configuration
+ * ('Overview' section).
+ */
 if (si.value) endpoint = si.value;
 si.oninput = function(ev) {
 	endpoint = si.value;
 };
 
+/**
+ * Sets up interaction for the transformation action
+ * ('Publishing Schemas on the Web' section).
+ */
 tb.onclick = function(ev) {
 	try {
 		if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
-		vocab = graphql2rdf.rdfVocabulary(gt.getValue(), graph(endpoint, session));
+		let base = graph(endpoint, session);
+		vocab = graphql2rdf.rdfVocabulary(gt.getValue(), base);
 		feedback(tm, 'Success.');
 		to.textContent = JSON.stringify({
 			'@graph': vocab['@graph']
 		}, null, 2); // 2-spaces indentation
+		console.log('Transformed GraphQL schema with base: ' + base);
 	} catch (e) {
 		console.error(e);
 		feedback(tm, e);
 	}
 };
 
+/**
+ * Sets up interaction for the publication action
+ * ('Publishing Schemas on the Web' section).
+ */
 pb.onclick = function(ev) {
 	try {
 		if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
-		if (vocab == null) throw new Error('Vocabulary not available.');
+		if (vocab == null) throw new Error('Vocabulary not available (perform transformation first).');
 		
 		let g = graph(endpoint, session);
 		let uri = endpoint + '?graph=' + g;
@@ -454,8 +472,9 @@ pb.onclick = function(ev) {
 			.then(function(resp) {
 				if (resp.ok) {
 					let n = vocab['@graph'][0];
-					let a = '<a href="' + n['@id'] + '">for class ' + n['label'] + '</a>';
+					let a = '<a href="' + g + n['@id'] + '">for class ' + n['label'] + '</a>';
 					feedback(pm, 'Success (see online documentation, e.g. ' + a + ').');
+					console.log('Published schema, entry point: ' + n['@id']);
 				} else {
 					console.error(resp);
 					feedback(pm, new Error('HTTP error: received ' + resp.status + '.'));
@@ -474,14 +493,20 @@ pb.onclick = function(ev) {
 	}
 };
 
+/**
+ * Sets up interaction for the alignment action
+ * ('Semantic Alignment' section).
+ */
 ab.onclick = function(ev) {
 	try {
+		let base = graph(endpoint, session);
 		let j = JSON.parse(jt.getValue());
+		if (j instanceof Array) j = { '@graph': j };
 		j['@context'] = {
 			'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 			'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
 			'owl': 'http://www.w3.org/2002/07/owl#',
-			// TODO add @vocab 
+			'@base': base,
 			'subClassOf': {
 				'@id': 'rdfs:subClassOf',
 				'@type': '@vocab'
@@ -502,7 +527,7 @@ ab.onclick = function(ev) {
 
 		let uri = endpoint + '?default';
 		let req = new Request(uri, {
-			method: 'PUT',
+			method: 'POST',
 			headers: { 'Content-Type': 'application/ld+json' },
 			body: JSON.stringify(j)
 		});
@@ -511,6 +536,7 @@ ab.onclick = function(ev) {
 			.then(function(resp) {
 				if (resp.ok) {
 					feedback(am, 'Success.');
+					console.log('Added alignments with base: ' + base);
 				} else {
 					console.error(resp);
 					feedback(am, new Error('HTTP error: received ' + resp.status + '.'));
@@ -529,11 +555,22 @@ ab.onclick = function(ev) {
 	}
 };
 
+/**
+ * Sets up interaction for the editing of a BA schema
+ * ('A Data Schema for Building Automation' section).
+ */
 gt.setTheme('ace/theme/tomorrow');
 gt.session.setMode('ace/mode/graphqlschema');
 
+/**
+ * Sets up interaction for the editing of alignments
+ * ('Semantic Alignment' section).
+ */
 jt.setTheme('ace/theme/tomorrow');
 jt.session.setMode('ace/mode/json');
 
+/**
+ * Generates a session ID.
+ */
 session = Math.round(Math.random() * 65536);
 </script>
