@@ -11,6 +11,13 @@ See also my [FOAF profile](vcharpenay.jsonld).
 
 ## Publications
 
+ - V. Charpenay, K. Sebastian, and K. Harald, [“A Framework for Semantic
+   Discovery on the Web of Things,”](publications/2018-ssn.pdf) Studies on the
+   Semantic Web, pp. 147–162, 2018.
+ - V. Charpenay, S. Käbisch, and H. Kosch, [“Semantic Data Integration on the
+   Web of Things,”](publications/2018-iot.pdf) in Proceedings of the 8th
+   International Conference on the Internet of Things, New York, NY, USA, 2018,
+   pp. 3:1–3:8.
  - V. Charpenay, S. Kaebisch, and H. Kosch, [“Towards a Binary Object
    Notation for RDF,”](publications/2018-eswc.pdf) in Proceedings of the
    15th Extended Semantic Web Conference (ESWC), Heraklion, 2018.
