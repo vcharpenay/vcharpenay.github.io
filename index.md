@@ -47,5 +47,5 @@ See also my [ORCID profile](https://orcid.org/0000-0002-9210-1583).
 ## Software
 
  - [Thingweb Directory](https://github.com/thingweb/thingweb-directory/)
+ - [uRDF.js](https://github.com/vcharpenay/uRDF.js)
  - [STTL.js](https://github.com/vcharpenay/STTL.js)
- - [schemaorg-clj](https://github.com/vcharpenay/schemaorg-clj)
