@@ -1,0 +1,70 @@
+{
+    "@context": {
+        "@base": "https://vcharpenay.github.io/",
+        "@vocab": "http://purl.org/ontology/bibo/",
+        "dct": "http://purl.org/dc/terms/",
+        "authorList": {
+            "@container": "@list",
+            "@type": "@id"
+        },
+        "title": {
+            "@id": "dct:title"
+        }
+    },
+    "@graph": [
+        {
+            "@id": "#2018-ssn",
+            "@type": "Document",
+            "title": "A Framework for Semantic Discovery on the Web of Things",
+            "authorList": [
+                "#me"
+            ],
+            "presentedAt": {}
+        },
+        {
+            "@id": "#2018-iot",
+            "@type": "Document",
+            "title": "Semantic Data Integration on the Web of Things",
+            "authorList": [
+                "#me"
+            ],
+            "presentedAt": {}
+        },
+        {
+            "@id": "#2018-eswc",
+            "@type": "Document",
+            "title": "Towards a Binary Object Notation for RDF",
+            "authorList": [
+                "#me"
+            ],
+            "presentedAt": {}
+        },
+        {
+            "@id": "#2017-eswc",
+            "@type": "Document",
+            "title": "μRDF Store: Towards Extending the Semantic Web to Embedded Devices",
+            "authorList": [
+                "#me"
+            ],
+            "presentedAt": {}
+        },
+        {
+            "@id": "#2016-swit",
+            "@type": "Document",
+            "title": "Introducing Thing Descriptions and Interactions: An Ontology for the Web of Things",
+            "authorList": [
+                "#me"
+            ],
+            "presentedAt": {}
+        },
+        {
+            "@id": "#2015-iot",
+            "@type": "Document",
+            "title": "An ontology design pattern for IoT device tagging systems",
+            "authorList": [
+                "#me"
+            ],
+            "presentedAt": {}
+        }
+    ]
+}

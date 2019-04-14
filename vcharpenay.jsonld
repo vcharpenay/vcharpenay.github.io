@@ -1,11 +1,74 @@
 {
-	"@context": {
-		"@vocab": "http://xmlns.com/foaf/0.1/"
-	},
-	"nick": "vcharpenay",
-	"familyName": "Charpenay",
-	"givenName": "Victor",
-	"homepage": "http://vcharpenay.github.io",
-	"workplaceHomepage": "http://www.siemens.com",
-	"based_near": { "@id": "http://sws.geonames.org/2867714/" }
+	"@context": [
+		"http://schema.org/",
+		{
+			"@base": "https://vcharpenay.github.io/"
+		}
+	],
+	"@graph": [
+		{
+			"@id": "#me",
+			"@type": "Person",
+			"mainEntityOfPage": "",
+			"givenName": "Victor",
+			"familyName": "Charpenay",
+			"description": "I am a Computer & Web Science researcher, currently based in Nuremberg. I hold a double-degree in Computer Science from the engineering school INSA Lyon and the University of Passau. My research topics include semantics for the Web of Things, knowledge management and exchange in embedded environments. I am a contributor to the W3C Web of Things standards.",
+			"email": "victor.charpenay@fau.de",
+			"affiliation": {
+				"@type": "CollegeOrUniversity",
+				"name": {
+					"@value": "Friedrich-Alexander-Universität (FAU) Erlangen-Nürnberg",
+					"@language": "de"
+				},
+				"alternateName": "FAU",
+				"mainEntityOfPage": "https://www.fau.de/"
+			},
+			"alumniOf": [
+				{
+					"@type": "CollegeOrUniversity",
+					"name": [{
+						"@value": "Universität Passau",
+						"@language": "de"
+					}, {
+						"@value": "University of Passau",
+						"@language": "en"
+					}],
+					"mainEntityOfPage": "http://www.uni-passau.de/"
+				},
+				{
+					"@type": "CollegeOrUniversity",
+					"name": {
+						"@value": "Institut National des Sciences Appliquées (INSA) Lyon",
+						"@language": "fr"
+					},
+					"alternateName": "INSA Lyon",
+					"mainEntityOfPage": "https://www.insa-lyon.fr/"
+				}
+			],
+			"author": [
+				{
+					"@type": "Course",
+					"name": "Hands-On Introduction to Semantic Interoperability",
+					"mainEntityOfPage": {
+						"@id": "iot-semantics"
+					}
+				},
+				{
+					"@type": "SoftwareSourceCode",
+					"codeRepository": "https://github.com/thingweb/thingweb-directory/",
+					"name": "Thingweb Directory"
+				},
+				{
+					"@type": "SoftwareSourceCode",
+					"codeRepository": "https://github.com/vcharpenay/uRDF.js/",
+					"name": "uRDF.js"
+				},
+				{
+					"@type": "SoftwareSourceCode",
+					"codeRepository": "https://github.com/vcharpenay/STTL.js/",
+					"name": "STTL.js"
+				}
+			]
+		}
+	]
 }

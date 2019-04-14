@@ -1,0 +1,170 @@
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#index>(?person) {
+    "<!DOCTYPE HTML>"
+    "<html>"
+        "<head>"
+            "<meta charset=\"UTF-8\">"
+            "<title>"
+                st:call-template(<#name>, ?person)
+            "</title>"
+            "<link rel=\"stylesheet\" href=\"css/basic.css\">"
+        "</head>"
+        "<body>"
+            st:call-template(<#intro>, ?person)
+            st:call-template(<#publications>, ?person)
+            st:call-template(<#talks>, ?person)
+            st:call-template(<#software>, ?person)
+        "</body>"
+    "</html>"
+} where {}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#name>(?person) {
+    format { "%s %s" ?fname ?lname }
+} where {
+    ?person a s:Person ;
+            s:givenName ?fname ;
+            s:familyName ?lname .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#intro>(?person) {
+    "<h1>"
+        st:call-template(<#name>, ?person)
+    "</h1>"
+    "<p>"
+        format {
+            "%s"
+            st:call-template(<#with-entity-linking>, ?desc)
+        }
+    "</p>"
+} where {
+    ?person a s:Person ;
+            s:description ?desc .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#with-entity-linking>(?text) {
+    format {
+        "%s"
+        ?text
+    }
+} where {
+    # TODO recursive call to replace name with anchored text
+}
+
+---
+
+base <https://vcharpenay.github.io/>
+template <#anchor>(?href ?label) {
+    format { "<a href=\"%s\">%s</a>" ?href ?label }
+} where {}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#publications>(?person) {
+    "<h2>Publications</h2>"
+    "<ul>"
+        st:call-template(<#publication>, ?person)
+    "</ul>"
+} where {
+    ?person a s:Person .
+}
+
+---
+
+prefix bib: <http://purl.org/ontology/bibo/>
+prefix dct: <http://purl.org/dc/terms/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#publication>(?person) {
+    "<li>"
+        format { "%s" ?title }
+    "</li>"
+} where {
+    ?pub a bib:Document ;
+         bib:authorList ?l ;
+         dct:title ?title .
+    # TODO support lists in uRDF.js
+    #?l rdf:first ?person .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#talks>(?person) {
+    "<h2>Talks &amp; Tutorials</h2>"
+    "<ul>"
+        st:call-template(<#talk>, ?person)
+    "</ul>"
+} where {
+    ?person a s:Person .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#talk>(?person) {
+    "<li>"
+        st:call-template(<#anchor>, ?url, ?name)
+    "</li>"
+} where {
+    ?person a s:Person ;
+            s:author ?talk .
+    ?talk a s:Course ;
+          s:name ?name ;
+          s:mainEntityOfPage ?url .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#software>(?person) {
+    "<h2>Software</h2>"
+    "<ul>"
+        st:call-template(<#software-item>, ?person)
+    "</ul>"
+} where {
+    ?person a s:Person .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#software-item>(?person) {
+    "<li>"
+        st:call-template(<#anchor>, ?repo, ?name)
+    "</li>"
+} where {
+    ?person a s:Person ;
+            s:author ?soft .
+    ?soft a s:SoftwareSourceCode ;
+          s:codeRepository ?repo ;
+          s:name ?name .
+}
