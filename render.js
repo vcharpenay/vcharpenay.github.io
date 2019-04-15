@@ -1,3 +1,7 @@
+/**
+ * $ npm install vcharpenay/uRDF.js vcharpenay/STTL.js
+ * $ node render.js
+ */
 const fs = require('fs');
 const urdf = require('urdf');
 const sttl = require('sttl');

@@ -2,7 +2,8 @@
 	"@context": [
 		"http://schema.org/",
 		{
-			"@base": "https://vcharpenay.github.io/"
+			"@base": "https://vcharpenay.github.io/",
+			"wdt": "http://www.wikidata.org/prop/direct/"
 		}
 	],
 	"@graph": [
@@ -68,7 +69,25 @@
 					"codeRepository": "https://github.com/vcharpenay/STTL.js/",
 					"name": "STTL.js"
 				}
-			]
+			],
+			"wdt:P496": "0000-0002-9210-1583",
+			"wdt:P2037": "vcharpenay"
+		},
+		{
+			"@id": "wdt:P496",
+			"name": "ORCID iD",
+			"wdt:P1630": "https://orcid.org/$1",
+			"wdt:P2910": {
+				"@id": "https://upload.wikimedia.org/wikipedia/commons/0/06/ORCID_iD.svg"
+			}
+		},
+		{
+			"@id": "wdt:P2037",
+			"name": "GitHub username",
+			"wdt:P1630": "https://github.com/$1",
+			"wdt:P2910": {
+				"@id": "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+			}
 		}
 	]
 }

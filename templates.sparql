@@ -43,10 +43,10 @@ template <#intro>(?person) {
         st:call-template(<#name>, ?person)
     "</h1>"
     "<p>"
-        format {
-            "%s"
-            st:call-template(<#with-entity-linking>, ?desc)
-        }
+        st:call-template(<#with-entity-linking>, ?desc)
+    "</p>"
+    "<p>"
+        "See also: " st:call-template(<#id-list>, ?person)
     "</p>"
 } where {
     ?person a s:Person ;
@@ -65,6 +65,25 @@ template <#with-entity-linking>(?text) {
     }
 } where {
     # TODO recursive call to replace name with anchored text
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix wdt: <http://www.wikidata.org/prop/direct/>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#id-list>(?person) {
+    format { "<img class=\"inline\" src=\"%s\">" ?logo } " "
+    st:call-template( <#anchor>, ?fullid, ?id) ; separator = " / "
+} where {
+    ?p a s:Person ;
+       ?pid ?id .
+    {
+        ?pid wdt:P1630 ?uri ;
+            wdt:P2910 ?logo .
+    }
+    bind (replace(?uri, "\\$1", ?id) as ?fullid)
 }
 
 ---

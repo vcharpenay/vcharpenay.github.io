@@ -3,4 +3,9 @@ body {
     max-width: 640px;
     margin: auto;
     padding: 10px;
+    border-top: 5px solid lightsteelblue;
+}
+
+img.inline {
+    max-width: 1em;
 }
