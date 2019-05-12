@@ -1,11 +1,12 @@
 {
-	"@context": [
-		"http://schema.org/",
-		{
-			"@base": "https://vcharpenay.github.io/",
-			"wdt": "http://www.wikidata.org/prop/direct/"
+	"@context": {
+		"@vocab": "http://schema.org/",
+		"@base": "https://vcharpenay.github.io/",
+		"wdt": "http://www.wikidata.org/prop/direct/",
+		"mainEntityOfPage": {
+			"@type": "@id"
 		}
-	],
+	},
 	"@graph": [
 		{
 			"@id": "#me",
@@ -51,7 +52,7 @@
 					"@type": "Course",
 					"name": "Hands-On Introduction to Semantic Interoperability",
 					"mainEntityOfPage": {
-						"@id": "iot-semantics"
+						"@id": "iot-semantics.html"
 					}
 				},
 				{

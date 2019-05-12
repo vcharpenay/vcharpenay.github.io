@@ -116,14 +116,77 @@ prefix st: <http://ns.inria.fr/sparql-template/>
 base <https://vcharpenay.github.io/>
 template <#publication>(?person) {
     "<li>"
-        format { "%s" ?title }
+        if(?isConferencePaper, st:call-template(<#conference-paper>, ?title), "")
     "</li>"
 } where {
     ?pub a bib:Document ;
          bib:authorList ?l ;
-         dct:title ?title .
+         dct:title ?title ;
+         dct:issued ?date .
+    {
+        ?pub bib:presentedAt ?event .
+        bind (true as ?isConferencePaper)
+    }
+    # union journal paper...
+} order by desc(?date)
+
+---
+
+prefix s: <http://schema.org/>
+prefix bib: <http://purl.org/ontology/bibo/>
+prefix dct: <http://purl.org/dc/terms/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#conference-paper>(?title) {
+    st:call-template(<#author-list>, ?title, 0)
+    ", "
+    format {
+        "\"%s,\" In Proc. %s, %s."
+        if(?a, st:call-template(<#anchor>, ?url, ?title), ?title)
+        ?name
+        ?date
+    }
+} where {
+    ?pub a bib:Document ;
+         dct:title ?title ;
+         bib:presentedAt ?event ;
+         dct:issued ?date .
+    optional {
+        ?pub s:mainEntityOfPage ?url
+    }
+    ?event s:name ?name
+    bind (bound(?url) as ?a)
     # TODO support lists in uRDF.js
     #?l rdf:first ?person .
+}
+
+---
+
+prefix s: <http://schema.org/>
+prefix bib: <http://purl.org/ontology/bibo/>
+prefix dct: <http://purl.org/dc/terms/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix st: <http://ns.inria.fr/sparql-template/>
+base <https://vcharpenay.github.io/>
+template <#author-list>(?title ?idx) {
+    format {
+        "%s%s%s. %s"
+        if(?first, "", ", ")
+        if(?last && !?first, "and ", "")
+        substr(?gname, 0, 1) # TODO include compound names
+        ?fname
+    }
+    if(?last, "", st:call-template(<#author-list>, ?title, ?idx + 1))
+} where {
+    ?pub a bib:Document ;
+         bib:authorList ?l ;
+         dct:title ?title .
+    bind (?idx = 0 as ?first)
+    bind (?idx = (<javascript:urdf.length>(?l) - 1) as ?last)
+    bind (<javascript:urdf.valueAt>(?l, ?idx) as ?author)
+    ?author s:givenName ?gname ;
+            s:familyName ?fname .
 }
 
 ---

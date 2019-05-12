@@ -1,0 +1,59 @@
+a:hover {
+    font-weight: unset;
+}
+
+.button {
+    border: 0;
+    padding: 10px;
+    color: white;
+    background: rgba(112, 128, 144, 0.8);
+    cursor: pointer;
+    text-align: center;
+}
+
+.button:hover {
+    background: rgba(112, 128, 144, 1);
+}
+
+.button:active {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.message {
+    border: 0;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.message.error {
+    border-right: solid 5px rgb(220, 20, 60);
+    color: rgb(220, 20, 60);
+    background: rgba(220, 20, 60, 0.2);
+}
+
+.message.ok {
+    border-right: solid 5px rgb(85, 107, 47);
+    color: rgb(85, 107, 47);
+    background: rgba(85, 107, 47, 0.2);
+}
+
+.message.input {
+    border-right: solid 5px rgb(25, 25, 112);
+    color: rgb(25, 25, 112);
+    background: rgba(25, 25, 112, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: solid 1px #e5e5e5;
+}
+
+pre {
+    border: solid 1px #e5e5e5;
+    background: #f8f8f8;
+    padding: 8px 15px;
+}

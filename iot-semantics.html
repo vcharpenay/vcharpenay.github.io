@@ -1,0 +1,744 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hands-On Introduction to Semantic Interoperability | Victor Charpenay</title>
+    <link rel="stylesheet" href="css/basic.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+</head>
+
+<body>
+    <h1>Hands-On Introduction to Semantic Interoperability</h1>
+
+    <p><i>
+            Step-by-step tutorial on Semantic Web technologies with focus on interoperability
+            in the Internet of Things (IoT). Duration: 2h.
+        </i></p>
+
+    <p>
+        This tutorial aims mostly at software developers and IoT practitioners who face
+        the problem of having to deal with highly heterogeneous data and seek solutions
+        to make IoT systems more <i>interoperable</i>. The approach we present here borrows
+        from the successful <a href="http://schema.org/">schema.org</a> community, which
+        develops a curated vocabulary for content annotation on the Web. We will essentially
+        extend schema.org to provide IoT-specific terms.
+    </p>
+
+    <h2>Overview</h2>
+
+    <p>
+        The tutorial is organized in four phases:
+    </p>
+
+    <ol>
+        <li>
+            <a href="#a-data-schema-for-building-automation">Model a data schema for Building Automation</a>
+        </li>
+        <li>
+            <a href="#publishing-schemas-on-the-web">Publish your data schema</a>
+        </li>
+        <li>
+            <a href="#semantic-alignment">Align semantically with other data schemas</a>
+        </li>
+        <li>
+            <a href="#introduction-to-model-theoretical-semantics">Get an introduction to inference and semantics</a>
+        </li>
+    </ol>
+
+    <p>
+        This tutorial is interactive and requires a Web server to store data schemas
+        and generate browsable documentations. Please enter in the field below the
+        server endpoint to use for this session:
+    </p>
+
+    <p>
+        <div style="width:100%;display:inline-block;">
+            <input id="sparql-input" style="width:100%;display:block;" class="message input" type="url"
+                placeholder="e.g. http://localhost/" />
+        </div>
+        <small>
+            What is this? This URI points to a
+            <a href="https://www.w3.org/TR/2013/REC-sparql11-overview-20130321/">SPARQL</a>
+            endpoint, a standard interface to expose and query semantic data on the Web.
+        </small>
+    </p>
+
+    <h2>A Data Schema for Building Automation</h2>
+
+    <p>
+        Every IoT agent, like sensors, industrial controllers and humans, have their
+        own <i>domain model</i>, which only includes certain aspects of the physical world,
+        relevant to them. This leads to heterogeneity in terms of granularity, type
+        system or data representation. However, heterogeneity is inevitable in
+        large-scale systems that involve many agents. Building Automation (BA) systems,
+        built in large buildings like conference centers or offices, involve thousands
+        of automation devices and as many humans. Here are some of the features a BA
+        system implements:
+    </p>
+
+    <ul>
+        <li>ventilation and humidity control</li>
+        <li>heating and temperature regulation</li>
+        <li>lighting control</li>
+        <li>energy management</li>
+    </ul>
+
+    <p>
+        If agents are actual software agents, then their domain model typically
+        expresses that of the engineers that designed them. Take the point of
+        view of a BA engineer and think of the features of the room you are currently
+        in (most likely a conference room) that need to be exchanged and processed by
+        IoT agents. You will model these features as a _data schema_ in the form of
+        class and property definitions, very much like in an object-oriented
+        programmation framework. <a href="http://facebook.github.io/graphql/June2018/">GraphQL</a>
+        offers a convenient way to define such a schema in a language-agnostic fashion.
+        Here are the GraphQL types we will use:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Keyword</th>
+                <th>Name</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>interface</code></td>
+                <td>(Java-like) Interface</td>
+                <td><code>interface I { p: String ... }</code></td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>Object type</td>
+                <td><code>type T implements I { p: Tp ... }</code></td>
+            </tr>
+            <tr>
+                <td><code>union</code></td>
+                <td>Union type</td>
+                <td><code>union T = T1 | T2</code></td>
+            </tr>
+            <tr>
+                <td><code>scalar</code></td>
+                <td>Scalar type</td>
+                <td><code>scalar T</code></td>
+            </tr>
+            <tr>
+                <td><code>enum</code></td>
+                <td>Enumeration type</td>
+                <td><code>enum E { E1 E2 ... }</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Take five minutes to have a look at the GraphQL syntax (e.g.
+        <a href="https://graphql.org/graphql-js/object-types/">on graphql.org</a> or
+        <a href="https://github.com/sogko/graphql-schema-language-cheat-sheet">on Github</a>
+        and define a GraphQL schema for all features you consider relevant for BA
+        engineering. The schema you design here will later be published on the Web, for
+        the time of the tutorial:
+    </p>
+
+    <p>
+        <!-- See misc/bas-schema.txt for an example -->
+        <div id="graphql-text" style="height: 500px;"></div>
+    </p>
+
+    <h2>Publishing Schemas on the Web</h2>
+    <p>GraphQL schemas are meant to be published by a Web server and consumed by
+        clients to validate queries and data updates (called “mutations”). However, as
+        we will see later, the GraphQL specification offers quite limited features for
+        semantic alignment and integration between different schemas. In the following,
+        we will extend your GraphQL schema with elements of the <a href="http://docs.rdf4j.org/rdf-tutorial/">Resource
+            Description Framework (RDF)</a>, a major
+        technology for semantic interoperability on the Web.</p>
+
+    <p>Schema.org itself relies on RDF. It is a collection of class and property
+        definitions, each referenced by a URI and accessible on the Web. Have a
+        look e.g. at the class definition
+        <a href="http://schema.org/Place">http://schema.org/Place</a> or the property
+        definition <a href="http://schema.org/location">http://schema.org/location</a>. You can
+        browse the schema.org vocabulary by following links. You will probably notice
+        that the structure of schema.org looks very much like GraphQL: classes have
+        properties (classes are the <em>domain</em> of these properties) and each property has
+        an expected type (the <em>range</em> of the property).</p>
+
+    <p>We implemented a straightforward transformation from GraphQL to schema.org (and
+        RDF) so that your GraphQL schema can be published as RDF.</p>
+
+    <p>
+        <div style="width:100%">
+            <div style="width:33%;display:inline-block;">
+                <span id="transform-button" style="display:block;" class="button">TRANSFORM</span>
+            </div>
+            <div style="width:65%;display:inline-block;">
+                <span id="transform-msg" style="display:block;" class="message"></span>
+            </div>
+        </div>
+        <small>
+            See the transformation script <a href="js/graphql2rdf.js">graphql2rdf.js</a>
+            for more details.
+        </small>
+    </p>
+
+    <pre style="max-height:200px;"><code id="transform-out">...</code></pre>
+
+    <p>The output of this transformation is an RDF vocabulary, encoded in a JSON
+        format for RDF (<a href="http://www.w3.org/TR/json-ld/">JSON-LD</a>). The standard
+        procedure is to publish it on the Web and provide a human-readable
+        documentation for it. We wrote a
+        <a href="https://github.com/vcharpenay/schemaorg-clj">small Web server</a> that
+        automatically generates documentation in the same style as schema.org.
+        Publish your vocabulary on this server and have a look at the generated
+        documentation:</p>
+
+    <p>
+        <div style="width:100%">
+            <div style="width:33%;display:inline-block;">
+                <span id="publish-button" style="display:block;" class="button">PUBLISH</span>
+            </div>
+            <div style="width:65%;display:inline-block;">
+                <span id="publish-msg" style="display:block;" class="message"></span>
+            </div>
+        </div>
+    </p>
+
+    <p>If you know the namespace under which other participants published their own
+        model, you can start browsing their vocabulary the same way and identify
+        commonalities. By doing so, you might notice that some of the terms others have
+        come up with are not self-explanatory. For this reason, it is a good practice
+        to document every term with a textual description, very much like documenting
+        source code. GraphQL also provides means to textually describe classes and
+        properties. If you have time, add text wherever is appropriate and re-publish
+        your vocabulary.</p>
+
+    <p>In the following, we will define equivalences between your schema and
+        what other participants produced. To that purpose, we will use the following
+        two formalisms, rooted in RDF, which are meant for semantic modeling:</p>
+    <ul>
+        <li>the <a href="http://www.w3.org/TR/rdf-schema/">RDF Schema (RDFS) language</a></li>
+        <li>the <a href="https://www.w3.org/TR/owl2-overview/">Web Ontology Language (OWL)</a>,
+            which is a superset of RDFS</li>
+    </ul>
+
+    <p>The process of finding equivalences is usually called semantic <em>alignment</em>.</p>
+
+    <h2 id="semantic-alignment">Semantic Alignment</h2>
+
+    <p>RDFS and OWL provide four terms to align type and property definitions
+        (names should be self-explanatory):</p>
+    <ul>
+        <li><code class="highlighter-rouge">subClassOf</code></li>
+        <li><code class="highlighter-rouge">subPropertyOf</code></li>
+        <li><code class="highlighter-rouge">equivalentClass</code></li>
+        <li><code class="highlighter-rouge">equivalentProperty</code></li>
+    </ul>
+
+    <p>On this basis, given the types <code class="highlighter-rouge">T</code>, <code
+            class="highlighter-rouge">Tp</code> and the properties <code class="highlighter-rouge">p</code>, <code
+            class="highlighter-rouge">pp</code>,
+        the following alignments can be defined (we use the same syntax as above,
+        JSON-LD).</p>
+
+    <ol>
+        <li><code class="highlighter-rouge">T</code> has the same properties as <code
+                class="highlighter-rouge">Tp</code> and more:
+            <div class="highlighter-rouge">
+                <div class="highlight">
+<pre class="highlight"><code>{
+    "@id": "T",
+    "subClassOf": "Tp"
+}</code></pre>
+                </div>
+            </div>
+        </li>
+        <li><code class="highlighter-rouge">T</code> and <code class="highlighter-rouge">Tp</code> have exactly the same
+            properties:
+            <div class="highlighter-rouge">
+                <div class="highlight">
+<pre class="highlight"><code>{
+    "@id": "T",
+    "equivalentClass": "Tp"
+}</code></pre>
+                </div>
+            </div>
+        </li>
+        <li>A subset of the properties of <code class="highlighter-rouge">T</code> and <code
+                class="highlighter-rouge">Tp</code> are common but not all:
+            <div class="highlighter-rouge">
+                <div class="highlight">
+<pre class="highlight"><code>[{
+    "@id": "T",
+    "subClassOf": "Ts"
+}, {
+    "@id": "Tp",
+    "subClassOf": "Ts"
+}]</code></pre>
+                </div>
+            </div>
+        </li>
+        <li><code class="highlighter-rouge">p</code> is used for the same classes as <code
+                class="highlighter-rouge">pp</code> and more:
+            <div class="highlighter-rouge">
+                <div class="highlight">
+<pre class="highlight"><code>{
+    "@id": "p",
+    "subPropertyOf": "pp"
+}</code></pre>
+                </div>
+            </div>
+        </li>
+        <li><code class="highlighter-rouge">p</code> is used for exactly the same classes as <code
+                class="highlighter-rouge">pp</code>:
+            <div class="highlighter-rouge">
+                <div class="highlight">
+<pre class="highlight"><code>{
+    "@id": "p",
+    "equivalentProperty": "pp"
+}</code></pre>
+                </div>
+            </div>
+        </li>
+        <li>the domain and range of <code class="highlighter-rouge">p</code> and <code
+                class="highlighter-rouge">pp</code> overlap but only partially:
+            <div class="highlighter-rouge">
+                <div class="highlight">
+<pre class="highlight"><code>[{
+    "@id": "p",
+    "subPropertyOf": "ps"
+}, {
+    "@id": "pp",
+    "subPropertyOf": "ps"
+}]</code></pre>
+                </div>
+            </div>
+        </li>
+    </ol>
+
+    <p>You can see that we introduced <code class="highlighter-rouge">Ts</code> and <code
+            class="highlighter-rouge">ps</code>. Feel free to add as many
+        intermediate definitions as needed. Try to formulate alignments for your schema
+        and add them to your published vocabulary:</p>
+
+    <p>
+        <!-- See /misc/bas-alignment.jsonld for examples -->
+        <div id="jsonld-text" style="height: 200px;"></div>
+    </p>
+
+    <p>
+        <div style="width:100%">
+            <div style="width:33%;display:inline-block;">
+                <span id="align-button" style="display:block;" class="button">ADD</span>
+            </div>
+            <div style="width:65%;display:inline-block;">
+                <span id="align-msg" style="display:block;" class="message"></span>
+            </div>
+        </div>
+    </p>
+
+    <p>In real-world scenarii, when semantic interoperability is not considered in the
+        development of a software application, more complex approaches must be found to
+        express equivalences between differing domain models. We experimented with the
+        models of three IoT standards:</p>
+    <ul>
+        <li><a href="http://openmobilealliance.hs-sites.com/lightweight-m2m-specification-from-oma">OMA Lightweight M2M
+                (LWM2M) by the Open Mobile Alliance</a></li>
+        <li><a href="https://openconnectivity.org/">specifications by the Open Connectiviy Foundation (OCF)</a></li>
+        <li><a href="http://www.onem2m.org/">oneM2M</a></li>
+    </ul>
+
+    <p>We developed
+        <a href="https://vcharpenay.github.io/publications/2018-iot.pdf">an approach based on SPARQL inference
+            rules</a>,
+        generated semi-automatically. Another (simpler) approach is to provide
+        alignments with a reference model, such as
+        <a href="https://iot.schema.org/">iot.schema.org</a>. This requires, however, to integrate
+        it into the software development process of IoT applications, which most do
+        not. Other relevant vocabularies include the
+        <a href="https://www.w3.org/TR/vocab-ssn/">Sensor, Observation, Sample and Actuator (SOSA) vocabulary</a>
+        and, for the modeling of rooms and BA systems,
+        the <a href="">Smart Appliance Reference (SAREF) ontology</a>,
+        the <a href="http://openbimstandards.org/standards/ifcowl/">Industry Foundation Class (IFC) ontology</a>,
+        vocabularies from the W3C Linked Building Data group like the
+        <a href="https://w3c-lbd-cg.github.io/bot/">Building Topology Ontology (BOT)</a>, as well
+        as the <a href="http://brickschema.org/">Brick schema</a>.</p>
+
+    <p>RDFS and OWL provide different levels of expressiveness. Think for instance of
+        the following cases:</p>
+    <ol>
+        <li>rooms are ‘part of’ floors and floors are ‘part of’ buildings</li>
+        <li>if any entity <math>x</math> is ‘part of’ another entity <math>y</math>,
+            then <math>y</math> ‘is composed of’ <math>x</math></li>
+        <li>in some countries, counting floors starts at 0, in other it starts at 1</li>
+        <li>adjacent rooms must be on the same floor</li>
+    </ol>
+
+    <p>In RDFS, a property is a first-class citizen, its defintion can be reused for
+        different type definitions (case 1). OWL properties can be defined as the
+        <em>inverse properties</em> of some other property (case 2). Restrictions on literal
+        types like strings or number are also supported by OWL (case 3), as well as
+        logical restrictions on type instances (case 4).</p>
+
+    <p>And then, what? Computing equivalence relations between domain models can be
+        performed transparently by means of automated reasoning. To understand how
+        reasoning works, we will need to give a few details on the theoretical
+        foundations of semantics.</p>
+
+    <h2 id="introduction-to-model-theoretical-semantics">Introduction to Model Theoretical Semantics</h2>
+
+    <p><em>Warning: theoretical discussion ahead.</em></p>
+
+    <p>Every programming or modeling language defines a <em>syntax</em> and a <em>semantics</em>.
+        The syntax of a language defines how to formulate valid sentences. For
+        instance, the sentence “A conference room is a spatial entity.” is a valid
+        English sentence but “Spatial a conference is” is not. A syntax is often
+        provided by means of a grammar. In contrast, the semantics of a language
+        defines the meaning of all possible sentences allowed in the language. In
+        natural language, semantics is simply what makes all of us understand each
+        other. The meaning of a sentence is not necessarily unique across languages:
+        the GraphQL statement <code class="highlighter-rouge">type ConferenceRoom implements SpatialEntity</code> has
+        roughly the same meaning as the English sentence above. For formal languages
+        (like GraphQL or RDF), there exist several ways to define semantics.
+        However, all of them rely on the notion of <em>inference</em>.</p>
+
+    <p>Inference is a reasoning procedure that establishes whether a given sentence
+        is the logical consequence of other sentences. For instance, one can infer
+        that a conference room has a surface from the sentence “A conference
+        room is a spatial entity.” and “Every spatial entity has a surface”.
+        Let <math>a, b</math> be the latter two sentences and <math>c</math> the
+        inferred statement, inference is usually denoted <math>{a,b}⊨ c</math>.
+        Classical logic formalisms define semantics in terms of
+        rules but model theoretical semantics has a slightly different, rationale
+        somewhat more intuitive. <em>Model theory</em> relies on the assumption that every
+        agent capable of reasoning builds an internal <em>model</em> of a sentence, i.e. a
+        combination of arbitrary symbols, unique for every agent. This process is
+        called <em>interpretation</em> and the set of symbols an agent uses is called <em>domain
+            of interpretation</em>. When the inference <math>{a,b} ⊨ c</math> occurs, it means
+        that every model of <math>a</math> and <math>b</math> includes the model
+        of <math>c</math>, <em>regardless</em> of the agent’s domain of interpretation.</p>
+
+    <p>The semantics of a language are then given as constraints on models. Here is an
+        example of (model theoretical) semantics for GraphQL types:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sentence</th>
+                <th>Semantics</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code class="highlighter-rouge">type T</code></td>
+                <td>set of symbols <math>
+                        <msub>
+                            <mi>S</mi>
+                            <mn>T</mn>
+                        </msub>
+                    </math></td>
+            </tr>
+            <tr>
+                <td><code class="highlighter-rouge">type T { p: Tp }</code></td>
+                <td><math>∀ x ⋲ <msub>
+                            <mi>S</mi>
+                            <mn>T</mn>
+                        </msub>, p(x) ⋲ <msub>
+                            <mi>S</mi>
+                            <mn>T'</mn>
+                        </msub></math></td>
+            </tr>
+            <tr>
+                <td><code class="highlighter-rouge">type T implements I'</code></td>
+                <td><math>
+                        <msub>
+                            <mi>S</mi>
+                            <mn>I</mn>
+                        </msub> ⊆ <msub>
+                            <mi>S</mi>
+                            <mn>T</mn>
+                        </msub>
+                    </math></td>
+            </tr>
+            <tr>
+                <td><code class="highlighter-rouge">union T = Tp | Ts</code></td>
+                <td><math>
+                        <msub>
+                            <mi>S</mi>
+                            <mn>T</mn>
+                        </msub> = <msub>
+                            <mi>S</mi>
+                            <mn>T'</mn>
+                        </msub> ⋃ <msub>
+                            <mi>S</mi>
+                            <mn>T''</mn>
+                        </msub>
+                    </math></td>
+            </tr>
+            <tr>
+                <td><code class="highlighter-rouge">enum E { E1, E2 }</code></td>
+                <td><math>
+                        <msub>
+                            <mi>S</mi>
+                            <mn>E</mn>
+                        </msub> = { <msub>
+                            <mi>x</mi>
+                            <mn>1</mn>
+                        </msub>, <msub>
+                            <mi>x</mi>
+                            <mn>2</mn>
+                        </msub> }
+                    </math></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>In this setting, inference essentially boils down to set operations (you can
+        also note that class properties are defined as functions, which is inspired
+        by the reference semantics of object-oriented programming language called
+        <em>F-logic</em>).</p>
+
+    <p>In practice, there is not much one can infer from a GraphQL schema, which is
+        why its main developers did not bother to define formal semantics for it.
+        However, the notion of semantics is paramount to achieve interoperability in
+        the IoT. Indeed, it is only at the semantic level that two domain models have
+        equivalences. Think of domain model <math>A</math> that defines
+        <code class="highlighter-rouge">type ConferenceRoom</code> and model <math>B</math> that includes
+        <code class="highlighter-rouge">type MeetingRoom implements Room, ConferenceEquipped</code>: there should exist
+        some
+        equivalences <math>Eq</math> such that <math>A ⋃ B ⋃ Eq ⊨ </math>
+        <code class="highlighter-rouge">type ConferenceRoom</code> ≡ <code
+            class="highlighter-rouge">type MeetingRoom</code>, so that both models can be used
+        interchangeably.</p>
+
+    <p>We mentioned cross-language equivalences between English and GraphQL but most
+        semantic equivalences are defined within the same language: “A conference room
+        has a location in space” is yet another formulation for the same statement as
+        above. Semantic processing across languages requires translations, a possibly
+        complex procedure (think of natural language translation). It is best to have a
+        reference modeling language in the IoT to reduce the problem of
+        interoperability to the computation of equivalences in a given language.
+        GraphQL cannot express equivalences but RDF was designed for that purpose, it
+        has well studied model theoretical semantics. More precisely, RDFS and OWL
+        provide a wide range of expressiveness with various inference engine
+        implementations.</p>
+
+    <p>
+        <i>
+            This tutorial was first presented during the
+            <a href="http://www.iot-conference.org/">8th International
+            Conference on the Internet of Things (IoT 2018)</a>.
+        </i>
+    </p>
+
+    <!-- see js/graphql2rdf.js for the original source file -->
+    <script type="text/javascript" src="js/graphql2rdf.bundle.js"></script>
+
+    <script type="text/javascript" src="js/ace.js"></script>
+    <script type="text/javascript" src="js/ace-mode-graphqlschema.js"></script>
+    <script type="text/javascript" src="js/ace-mode-json.js"></script>
+    <script type="text/javascript" src="js/ace-theme-tomorrow.js"></script>
+
+    <script type="text/javascript">
+        const graphql2rdf = require('graphql2rdf');
+
+        const si = document.getElementById('sparql-input'),
+            tb = document.getElementById('transform-button'),
+            tm = document.getElementById('transform-msg'),
+            to = document.getElementById('transform-out'),
+            pb = document.getElementById('publish-button'),
+            pm = document.getElementById('publish-msg'),
+            ab = document.getElementById('align-button'),
+            am = document.getElementById('align-msg'),
+            gt = ace.edit('graphql-text'),
+            jt = ace.edit('jsonld-text');
+
+        // TODO store to session storage to be persistant over refresh
+        let session = null;
+        let endpoint = null;
+        let vocab = null;
+
+        /**
+         * Builds a graph URI constructed from a SPARQL endpoint URI
+         * and a session number.
+         */
+        const graph = function (ep, s) {
+            let base = ep.match(/https?:\/\/[^:/]*/);
+            // TODO add graph port to configurable parameters
+            let p = 8080;
+            return base + ':' + p + '/ns' + s + '/';
+        };
+
+        /**
+         * Displays feedback message 'msg' in HTML element 'e'
+         */
+        const feedback = function (e, msg) {
+            e.classList.remove('ok', 'error');
+
+            if (msg instanceof Error) {
+                e.textContent = msg.message;
+                e.classList.add('error');
+            } else if (msg) {
+                e.innerHTML = msg;
+                e.classList.add('ok');
+            } else {
+                e.textContent = '';
+            }
+        }
+
+        /**
+         * Sets up interaction for the SPARQL endpoint configuration
+         * ('Overview' section).
+         */
+        if (si.value) endpoint = si.value;
+        si.oninput = function (ev) {
+            endpoint = si.value;
+        };
+
+        /**
+         * Sets up interaction for the transformation action
+         * ('Publishing Schemas on the Web' section).
+         */
+        tb.onclick = function (ev) {
+            try {
+                if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
+                let base = graph(endpoint, session);
+                vocab = graphql2rdf.rdfVocabulary(gt.getValue(), base);
+                feedback(tm, 'Success.');
+                to.textContent = JSON.stringify({
+                    '@graph': vocab['@graph']
+                }, null, 2); // 2-spaces indentation
+                console.log('Transformed GraphQL schema with base: ' + base);
+            } catch (e) {
+                console.error(e);
+                feedback(tm, e);
+            }
+        };
+
+        /**
+         * Sets up interaction for the publication action
+         * ('Publishing Schemas on the Web' section).
+         */
+        pb.onclick = function (ev) {
+            try {
+                if (endpoint == null) throw new Error('SPARQL endpoint not set (see above).');
+                if (vocab == null) throw new Error('Vocabulary not available (perform transformation first).');
+
+                let g = graph(endpoint, session);
+                let uri = endpoint + '?graph=' + g;
+                let req = new Request(uri, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/ld+json' },
+                    body: JSON.stringify(vocab)
+                });
+
+                fetch(req)
+                    .then(function (resp) {
+                        if (resp.ok) {
+                            let n = vocab['@graph'][0];
+                            let a = '<a href="' + g + n['@id'] + '">for class ' + n['label'] + '</a>';
+                            feedback(pm, 'Success (see online documentation, e.g. ' + a + ').');
+                            console.log('Published schema, entry point: ' + n['@id']);
+                        } else {
+                            console.error(resp);
+                            feedback(pm, new Error('HTTP error: received ' + resp.status + '.'));
+                        }
+                    })
+                    .catch(function (e) {
+                        console.error(e);
+                        feedback(pm, e);
+                    });
+
+                // re-init feedback message
+                feedback(pm);
+            } catch (e) {
+                console.error(e);
+                feedback(pm, e);
+            }
+        };
+
+        /**
+         * Sets up interaction for the alignment action
+         * ('Semantic Alignment' section).
+         */
+        ab.onclick = function (ev) {
+            try {
+                let base = graph(endpoint, session);
+                let j = JSON.parse(jt.getValue());
+                if (j instanceof Array) j = { '@graph': j };
+                j['@context'] = {
+                    'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                    'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+                    'owl': 'http://www.w3.org/2002/07/owl#',
+                    '@base': base,
+                    'subClassOf': {
+                        '@id': 'rdfs:subClassOf',
+                        '@type': '@vocab'
+                    },
+                    'subPropertyOf': {
+                        '@id': 'rdfs:subPropertyOf',
+                        '@type': '@vocab'
+                    },
+                    'equivalentClass': {
+                        '@id': 'owl:equivalentClass',
+                        '@type': '@vocab'
+                    },
+                    'equivalentProperty': {
+                        '@id': 'owl:equivalentProperty',
+                        '@type': '@vocab'
+                    }
+                };
+
+                let uri = endpoint + '?default';
+                let req = new Request(uri, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/ld+json' },
+                    body: JSON.stringify(j)
+                });
+
+                fetch(req)
+                    .then(function (resp) {
+                        if (resp.ok) {
+                            feedback(am, 'Success.');
+                            console.log('Added alignments with base: ' + base);
+                        } else {
+                            console.error(resp);
+                            feedback(am, new Error('HTTP error: received ' + resp.status + '.'));
+                        }
+                    })
+                    .catch(function (e) {
+                        console.error(e);
+                        feedback(am, e);
+                    });
+
+                // re-init feedback message
+                feedback(am);
+            } catch (e) {
+                console.error(e);
+                feedback(am, e);
+            }
+        };
+
+        /**
+         * Sets up interaction for the editing of a BA schema
+         * ('A Data Schema for Building Automation' section).
+         */
+        gt.setTheme('ace/theme/tomorrow');
+        gt.session.setMode('ace/mode/graphqlschema');
+
+        /**
+         * Sets up interaction for the editing of alignments
+         * ('Semantic Alignment' section).
+         */
+        jt.setTheme('ace/theme/tomorrow');
+        jt.session.setMode('ace/mode/json');
+
+        /**
+         * Generates a session ID.
+         */
+        session = Math.round(Math.random() * 65536);
+    </script>
+</body>
+
+</html>
