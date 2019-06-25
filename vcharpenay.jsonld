@@ -1,7 +1,7 @@
 {
 	"@context": {
 		"@vocab": "http://schema.org/",
-		"@base": "https://vcharpenay.github.io/",
+		"@base": "https://www.vcharpenay.link/",
 		"wdt": "http://www.wikidata.org/prop/direct/",
 		"mainEntityOfPage": {
 			"@type": "@id"

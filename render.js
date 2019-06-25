@@ -12,7 +12,7 @@ const opts = { format: 'application/ld+json' };
 
 const me = {
     type: 'uri',
-    'value': 'https://vcharpenay.github.io/#me'
+    'value': 'https://www.vcharpenay.link/#me'
 };
 
 fs.readFileSync('templates.sparql', 'utf-8')
@@ -30,5 +30,5 @@ sttl.connect(q => {
 
 urdf.load(vcharpenay, opts)
 .then(() => urdf.load(bib, opts))
-.then(() => sttl.callTemplate('https://vcharpenay.github.io/#index', me))
+.then(() => sttl.callTemplate('https://www.vcharpenay.link/#index', me))
 .then(html => fs.writeFileSync('index.html', html));
