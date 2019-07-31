@@ -52,7 +52,7 @@
 					"@type": "Course",
 					"name": "Hands-On Introduction to Semantic Interoperability",
 					"mainEntityOfPage": {
-						"@id": "iot-semantics.html"
+						"@id": "talks/iot-semantics.html"
 					}
 				},
 				{
