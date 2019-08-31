@@ -56,6 +56,13 @@
 					}
 				},
 				{
+					"@type": "Course",
+					"name": "On Atwood's Law and Industrial Control Systems",
+					"mainEntityOfPage": {
+						"@id": "talks/urdf-wot.html"
+					}
+				},
+				{
 					"@type": "SoftwareSourceCode",
 					"codeRepository": "https://github.com/thingweb/thingweb-directory/",
 					"name": "Thingweb Directory"

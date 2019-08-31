@@ -6,6 +6,11 @@ body {
     border-top: 5px solid lightsteelblue;
 }
 
+.info {
+    color: slategray;
+    font-style: italic;
+}
+
 img.inline {
     max-width: 1em;
 }
