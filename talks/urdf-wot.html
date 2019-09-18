@@ -3,17 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <title>What is Model Theory Good For? | Victor Charpenay</title>
+    <title>On Atwood's Law and Control Systems | Victor Charpenay</title>
     <link rel="stylesheet" href="../css/basic.css">
 </head>
 
 <body>
-    <h1>On Atwood's Law and Industrial Control Systems</h1>
+    <h1>On Atwood's Law and Control Systems</h1>
 
     <p class="info">
         Example usage of <a href="https://github.com/vcharpenay/uRDF.js">µRDF.js</a>
         in a building automation application.
     </p>
+
+    <h2>System Components</h2>
 
     <p>
         Servients (system components):
@@ -32,7 +34,269 @@
     </p>
 
     <p>
-        TODO: Thing Descriptions and general knowledge about 'things'.
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:thermostat",
+    "title": "Radiator thermostat",
+    "properties": {
+        "setpoint": {
+            "type": "number",
+            "forms": [
+                {
+                    "href": "https://thermostat.local/setpoint",
+                    "op": [ "readproperty", "writeproperty" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:temp-sensor",
+    "title": "Temperature sensor",
+    "properties": {
+        "val": {
+            "type": "number",
+            "forms": [
+                {
+                    "href": "https://temp-sensor.local/val",
+                    "op": [ "readproperty" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:contact-sensor",
+    "title": "Contact sensor (window)",
+    "events": {
+        "change": {
+            "data": {
+                "type": "boolean"
+            },
+            "forms": [
+                {
+                    "href": "https://contact-sensor.local/change",
+                    "op": [ "subscribeevent" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:humidity-sensor",
+    "title": "Humidity sensor",
+    "properties": {
+        "val": {
+            "type": "number",
+            "forms": [
+                {
+                    "href": "https://humidity-sensor.local/val",
+                    "op": [ "readproperty" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:light-sensor",
+    "title": "Brightness sensor",
+    "properties": {
+        "val": {
+            "type": "number",
+            "forms": [
+                {
+                    "href": "https://light-sensor.local/val",
+                    "op": [ "readproperty" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:blinds",
+    "title": "Window blinds",
+    "actions": {
+        "open": {
+            "input": {
+                "type": "boolean"
+            },
+            "forms": [
+                {
+                    "href": "https://blinds.local/open",
+                    "op": [ "invokeaction" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:light-bulb",
+    "title": "Light bulb",
+    "actions": {
+        "turnOn": {
+            "input": {
+                "type": "boolean"
+            },
+            "forms": [
+                {
+                    "href": "https://light-bulb.local/turnOn",
+                    "op": [ "invokeaction" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:energy-meter",
+    "title": "Energy meter",
+    "properties": {
+        "reading": {
+            "type": "number",
+            "forms": [
+                {
+                    "href": "https://energy-meter.local/reading",
+                    "op": [ "readproperty" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "tag:tv",
+    "title": "Television",
+    "properties": {
+        "status": {
+            "type": "boolean",
+            "forms": [
+                {
+                    "href": "https://television.local/status",
+                    "op": [ "readproperty" ]
+                }
+            ]
+        },
+        "contrast": {
+            "type": "number",
+            "forms": [
+                {
+                    "href": "https://television.local/contrast",
+                    "op": [ "readproperty", "writeproperty" ]
+                }
+            ]
+        }
+    }
+}
+            </code>
+        </pre>
+    </p>
+
+    <h2>Semantic Relations</h2>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@d": "tag:conference-room",
+    "bot:hasElement": [
+      "tag:temp-sensor",
+      "tag:contact-sensor"
+    ]
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@d": "tag:conference-room",
+    "bot:hasElement": [
+      "tag:temp-sensor",
+      "tag:thermostat"
+    ]
+}
+            </code>
+        </pre>
+    </p>
+
+    <p>
+        <pre>
+            <code>
+{
+    "@d": "tag:conference-room",
+    "bot:hasElement": [
+      "tag:thermostat",
+      "tag:contact-sensor"
+    ]
+}
+            </code>
+        </pre>
     </p>
 
     <p class="info">
