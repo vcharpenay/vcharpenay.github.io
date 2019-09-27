@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Braitenberg vehicle simulation | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+    <script src="../js/raphael.min.js"></script>
+
+    <style>
+        #simulation svg {
+            border: 1px solid;
+            margin: auto;
+            display:block;
+        }
+
+        #controls {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Braitenberg Vehicle Simulation</h1>
+
+    <p class="info">
+        September 2019
+    </p>
+
+    <p>
+        Do Braitenberg vehicles form the base of some algebraic structure
+        that could generate all possible agent behaviors, given sensing and
+        actuation capabilities?
+    </p>
+
+    <div id="simulation">
+    </div>
+
+    <div id="controls">
+        <input id="start-btn" type="button" value="Start">
+        <input id="stop-btn" type="button" value="Stop">
+    </div>
+
+    <script type="text/javascript">
+        const canvas = {
+            width: 500,
+            height: 500
+        };
+
+        const source = {
+            location: {
+                x: Math.round(Math.random() * canvas.width),
+                y: Math.round(Math.random() * canvas.height)
+            },
+            dissipationFactor: 1
+        };
+
+        const vehicle = {
+            width: 10,
+            length: 20,
+            location: {
+                x: Math.round(Math.random() * canvas.width),
+                y: Math.round(Math.random() * canvas.height)
+            },
+            orientation: Math.random() * 2 * Math.PI,
+            leftSensor: {},
+            rightSensor: {},
+            leftWheel: {},
+            rightWheel: {},
+            transmissionFactor: 1000
+        };
+
+        function product(k, a) {
+            return {
+                x: k * a.x,
+                y: k * a.y
+            };
+        }
+
+        function rot(theta, a) {
+            return {
+                x: (Math.cos(theta) * a.x) + (Math.sin(theta) * a.y),
+                y: -(Math.sin(theta) * a.x) + (Math.cos(theta) * a.y)
+            };
+        }
+
+        function ortho(a) {
+            return rot(Math.PI / 2, a);
+        }
+
+        function sum(a, b) {
+            return {
+                x: a.x + b.x,
+                y: a.y + b.y
+            };
+        }
+
+        function distance(a, b) {
+            return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
+        }
+
+        function norm(a) {
+            return distance({ x: 0, y: 0 }, a);
+        }
+
+        function sense() {
+            let l = { x: vehicle.length / 2, y: -vehicle.width / 2 };
+            let r = { x: vehicle.length / 2, y: vehicle.width / 2 };
+
+            vehicle.leftSensor.location = sum(vehicle.location, rot(vehicle.orientation, l));
+            vehicle.rightSensor.location = sum(vehicle.location, rot(vehicle.orientation, r));
+
+            vehicle.leftSensor.measurement = source.dissipationFactor / distance(vehicle.leftSensor.location, source.location);
+            vehicle.rightSensor.measurement = source.dissipationFactor / distance(vehicle.rightSensor.location, source.location);
+        }
+
+        function move() {
+            // TODO rotational speed instead (speed control = wheel radius)
+            // TODO parameterize neuron connection
+            vehicle.leftWheel.speed = vehicle.transmissionFactor * vehicle.rightSensor.measurement;
+            vehicle.rightWheel.speed = vehicle.transmissionFactor * vehicle.leftSensor.measurement;
+            
+            let diff = vehicle.leftWheel.speed - vehicle.rightWheel.speed;
+
+            let beta = Math.atan(diff / vehicle.width);
+            vehicle.orientation = vehicle.orientation - beta;
+
+            // note: delta_t assumed to be 1
+            let s = { x: Math.min(vehicle.rightWheel.speed, vehicle.leftWheel.speed), y: 0 };
+            vehicle.location = sum(vehicle.location, rot(vehicle.orientation, s));
+
+            // TODO rotation + translation is an approximate. Compute exact movement?
+        }
+    </script>
+
+    <script type="text/javascript">
+        const paper = Raphael('simulation', canvas.width, canvas.height);
+
+        const sourceView = paper.circle(source.location.x, source.location.y, 5);
+
+        const vehicleView = paper
+            .rect(vehicle.location.x, vehicle.location.y, vehicle.length, vehicle.width)
+            .rotate(deg(-vehicle.orientation));
+
+        const trace = paper
+            .path(`M${vehicle.location.x} ${vehicle.location.y}`)
+            .attr({ stroke: 'lightsteelblue' });
+
+        function render() {
+            vehicleView.attr({
+                x: vehicle.location.x,
+                y: vehicle.location.y,
+                transform: `r${deg(-vehicle.orientation)}`
+            });
+
+            trace.attr({
+                path: trace.attr('path') + `L${vehicle.location.x} ${vehicle.location.y}`
+            });
+        }
+
+        function deg(radians) {
+            return Math.round(radians / Math.PI * 180);
+        }
+    </script>
+
+    <script>
+        let loop = null;
+
+        document.getElementById('start-btn').onclick = () => {
+            if (loop) return;
+
+            loop = setInterval(() => {
+                render();
+                sense();
+                move();
+            }, 200);
+        };
+
+        document.getElementById('stop-btn').onclick = () => {
+            if (loop) clearInterval(loop);
+
+            loop = null;
+        };
+    </script>
+<body>
+
+</html>
