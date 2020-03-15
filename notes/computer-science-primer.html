@@ -1,0 +1,95 @@
+<DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>A Computer Science Primer | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+</head>
+
+<body>
+	<h1>A Computer Science Primer</h1>
+
+    <p class="info">
+        September 2019
+	</p>
+	
+	<p>
+		If I had to introduce computer science to someone, I would probably do it
+		the following way, as a closed shot that progressively reveals the big
+		machinery behind what one trivially calls a computer:
+	</p>
+
+	<ol>
+		<li>
+			At the beginning is the <u><b>bit</b></u>. With a sequence of bits, one can encode
+			numbers, words and sets. Set theory actually tells us that the former two are only
+			special cases of the latter. A (cardinal) number is the size of some set, what purists
+			see as the set of all sets of the same size. A word is an ordered sequence of (Unicode)
+			numbers, i.e. the set of all subsets of increasing size that include these numbers.
+			Simply put, bits encode arbitrary symbols that we use to denote things.
+		</li>
+		<li>
+			Then appears the <u><b>table</b></u>. A table is the most elementary way to organize
+			symbols. Symbols like '1' and '2' relate to each other in a certain way while 'Alice'
+			and 'Bob' relate to each other in another way. To specify relations, we use other symbols
+			(table names) like 'lowerThan' or 'person' and declare e.g. lowerThan(1, 2) or person(Bob)
+			and person(Alice). The lowerThan relation is infinite and we usually not declare it
+			explicitely but the person relation is something one typically finds in real-world
+			databases and Alice and Bob must be declared as actual persons at some point (e.g. when
+			registering an online account). The art of managing such information has occupied computer
+			scientists for decades. It resulted in relational algebra and SQL, the query language every
+			programmer should know.
+		</li>
+		<li>
+			Whenever there is a table, there is a conditional <u><b>rule</b></u> not far away. Relations
+			are generally interdependent. If '1' is lower than '2' and '2' is lower than '3', then '1'
+			is also lower than '3'. If Alice is a person, then she must have an e-mail address in the
+			'contact' relation (to confirm her registration): contact(Alice, alice@wonderland.org).
+			These <i>if/then</i> rules are in fact hiding other logical operators (and, or, not) with 
+			which relations can be combined to build already advanced programs for e.g. reasoning (logical
+			rules), language understanding (production rules) and robotics and control (condition-action rules).
+			At the core of all these programs is one theoretical problem known as SAT, the
+			<em>Boolean satisfiability problem</em>.
+		</li>
+		<li>
+			If there is an 'if', then there can also be a 'for': the <u><b>loop</b></u>. A loop occurs when
+			some relation in the <i>if</i> part of a rule also appears in the <i>then</i> part, that is, when
+			the rule displays some <em>recursion</em>. Recursion is fundamental in the design of algorithms. It
+			is what makes it possible to compute whether '2357795223545' is lower than '453602595940' (it is
+			not) given only the rules of arithmetics. Bit it is also what makes it very hard to predict
+			whether an algorithm will terminate or not. It was proven a century ago (by K. Goedel) that there
+			is no general algorithm to decide in finite time whether some other algorithm terminates, which
+			leaves no alternative to scientists than to manually prove termination is guaranteed in some
+			cases they consider of interest.
+		</li>
+		<li>
+			As loops get assembled like mechanical gears, there finally comes the <u><b>message</b></u>.
+			Most real-world system are too complex to be captured in a single algorithm (and despite that, there
+			are still many researchers trying to find "the" algorithm that would artificially reproduce
+			intelligence...). Complexity, however, is more easily understood as the result of
+			<em>interactions</em> between simpler logical procedures that run autonomously, the latter
+			often being referred to as <em>agents</em>. Multi-agent systems are a convenient modeling for
+			many real-world phenomena, even though it is hard to control such systems. Computer bugs, for
+			instance, often result from conflicts between concurrent processes on the same machine and yet the
+			process abstraction is a satisfactory way of managing computing resources.
+		</li>
+	</ol>
+
+	<p>
+		This compositional view on computer science is of course somewhat arbitrary.
+		In the end, all components get happily mixed up in the most creative theories.
+		Among them is machine learning. Machine learning is really about trading a
+		lot of 'for' loops for a few 'if' statements...
+	</p>
+
+	<p>
+		Other ways of introducing computer science include: seeing everything as a
+		graph that one navigates (knowledge, program executions, state machines and
+		all that); seeing everything as an object (that is, something that is created
+		and managed by subjects); seeing everything as a signal that one turns into
+		information (starting from probability theory).
+	</p>
+</body>
+
+</html>

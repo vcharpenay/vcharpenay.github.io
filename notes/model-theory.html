@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>What Is Model Theory Good For? | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+</head>
+
+<body>
+    <h1>What Is Model Theory Good for?</h1>
+
+    <p class="info">
+        June 2019
+    </p>
+
+    <p>
+        Model theory, which is one of the most important mathematical tools in the study
+        of language semantics, makes certain things simple: when no assumption is made
+        on the concrete representation of some knowledge (a.k.a. its <em>domain of
+        interpretation</em>), it is possible to manipulate all possible interpretations
+        of a logical statement at once.
+    </p>
+
+    <p>
+        In pure logic, the only relevant interpretations are those that make a statement
+        false (or not <em>satisfied</em> by the interpretation). Inference can then be
+        "computed" by iteratively constructing such interpretations.
+    </p>
+
+    <p>
+        Model theory is often criticized for not being intuitive enough when it comes
+        to writing algorithms, despite a clean formulation of logical truth in terms
+        of unsatisfiability. However, all the interpretations that are generally
+        ignored by logicians may be appealing to computer scientists, who generally like
+        data structures, beyond inference. Here is a couple of examples of what model
+        theory may be good for.
+    </p>
+
+    <h2>Numeric Interpretations of Natural Language</h2>
+
+    <p>
+        The craze around Web-scale language models, like
+        <a href="https://code.google.com/archive/p/word2vec/">word2vec</a>,
+        <a href="https://nlp.stanford.edu/projects/glove/">GloVE</a>,
+        <a href="https://github.com/google-research/bert">BERT</a> and friends, redirects
+        the attention of researchers on large numeric vector representations of words and
+        meanings. While the general approach looks elegant (i.e. simple to conceive) and
+        versatile enough to work well on various tasks like machine translation and question
+        answering, it is difficult to construct any sort of explanation to a neural network's
+        behavior when interacting with humans in natural language.
+    </p>
+
+    <p>
+        In contrast, procedures that are based on model theory to check the consistency of formal
+        statements naturally provide "counter examples" to what one thought was correct statements,
+        which greatly helps debug a system specification (a set of statement).
+    </p>
+
+    <p>
+        One way of taking the best of both is to consider vector representations as actual
+        interpretations of natural language, which suggests that one could then derive another
+        (formal) language that are also satisfied by that vector representation. The benefit of
+        this translation is that machines then have a language to express themselves that has
+        two fundamental properties:
+    </p>
+
+    <ol>
+        <li>
+            it is not based on numbers but on words or symbols (these words may actually be the
+            same as those included in the language model's training set) and
+        </li>
+        <li>
+            it includes a notion of causality (and thus of explainability) via logical necessity.
+        </li>
+    </ol>
+
+    <h2>Conflicts of Interpretations in Social Networks</h2>
+
+    <p>
+        It does not seem to far-fetched to imagine that arguments on social media originate
+        from contradictory interpretations of statements shared online. If we take this
+        analysis literally, one way of analyzing the dynamics of information spreading within
+        social networks is to develop agent models that do not store their beliefs, which are
+        usually understood as Datalog-like propositions, but some internal interpretation that
+        results from reading the statements being shared.
+    </p>
+
+    <p>
+        If we introduce the principle that that a domain of interpretation may be extended but
+        never updated. That model-theoretic approach should account for the emergence of
+        ideological communities within social networks characterized by "compatible"
+        interpretations among agents belonging to the same community. The size and nature of
+        a community is then determined by social interactions, i.e. the sharing of statements
+        on social media. It is even possible to check how agents respond to biases if those are
+        modeled as inference rules that do not hold universally: an agent is subject to a bias if
+        its local interpretation satisfies the corresponding rule.
+    </p>
+
+    <p>
+        Agent models of this kind to simulate interactions on social media are particularly
+        important these days, as it would be possible to study how fake news spread and what 
+        policies reduces their impact without limiting agents' actions.
+    </p>
+</body>
+<html>
