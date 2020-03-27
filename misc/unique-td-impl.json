@@ -1,0 +1,1953 @@
+{
+  "@context": {
+    "td": "https://www.w3.org/2019/wot/td#",
+    "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+    "wotsec": "https://www.w3.org/2019/wot/security#",
+    "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+    "schema": "http://schema.org/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dct": "http://purl.org/dc/terms/",
+    "htv": "http://www.w3.org/2011/http#",
+    "iot": "http://iotschema.org/",
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "ssn": "http://www.w3.org/ns/ssn/",
+    "saref": "https://saref.etsi.org/saref#",
+    "s4bldg": "https://saref.etsi.org/saref4bldg#",
+    "time": "http://www.w3.org/2006/time#",
+    "id": "@id",
+    "properties": {
+      "@id": "td:hasPropertyAffordance",
+      "@type": "@id",
+      "@container": "@index",
+      "@context": {
+        "td": "https://www.w3.org/2019/wot/td#",
+        "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+        "wotsec": "https://www.w3.org/2019/wot/security#",
+        "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "DataSchema": {
+          "@id": "jsonschema:DataSchema"
+        },
+        "readOnly": {
+          "@id": "jsonschema:readOnly",
+          "@type": "xsd:boolean"
+        },
+        "writeOnly": {
+          "@id": "jsonschema:writeOnly",
+          "@type": "xsd:boolean"
+        },
+        "maximum": {
+          "@id": "jsonschema:maximum"
+        },
+        "minimum": {
+          "@id": "jsonschema:minimum"
+        },
+        "maxItems": {
+          "@id": "jsonschema:maxItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "minItems": {
+          "@id": "jsonschema:minItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "items": {
+          "@id": "jsonschema:items",
+          "@type": "@id"
+        },
+        "required": {
+          "@id": "jsonschema:required",
+          "@type": "xsd:string",
+          "@container": "@set"
+        },
+        "enum": {
+          "@id": "jsonschema:enum",
+          "@container": "@set"
+        },
+        "const": {
+          "@id": "jsonschema:const"
+        },
+        "oneOf": {
+          "@id": "jsonschema:oneOf",
+          "@container": "@set"
+        },
+        "allOf": {
+          "@id": "jsonschema:allOf",
+          "@container": "@set"
+        },
+        "anyOf": {
+          "@id": "jsonschema:anyOf",
+          "@container": "@set"
+        },
+        "type": {
+          "@id": "rdf:type",
+          "@type": "@vocab"
+        },
+        "object": "jsonschema:ObjectSchema",
+        "array": "jsonschema:ArraySchema",
+        "boolean": "jsonschema:BooleanSchema",
+        "string": "jsonschema:StringSchema",
+        "number": "jsonschema:NumberSchema",
+        "integer": "jsonschema:IntegerSchema",
+        "null": "jsonschema:NullSchema",
+        "properties": {
+          "@id": "jsonschema:properties",
+          "@type": "@id",
+          "@container": "@index"
+        }
+      }
+    },
+    "actions": {
+      "@id": "td:hasActionAffordance",
+      "@type": "@id",
+      "@container": "@index"
+    },
+    "events": {
+      "@id": "td:hasEventAffordance",
+      "@type": "@id",
+      "@container": "@index"
+    },
+    "Thing": {
+      "@id": "td:Thing"
+    },
+    "EventAffordance": {
+      "@id": "td:EventAffordance"
+    },
+    "name": {
+      "@id": "td:name"
+    },
+    "observable": {
+      "@id": "td:isObservable",
+      "@type": "xsd:boolean"
+    },
+    "PropertyAffordance": {
+      "@id": "td:PropertyAffordance"
+    },
+    "forms": {
+      "@id": "td:hasForm",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "links": {
+      "@id": "td:hasLink",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "uriVariables": {
+      "@id": "td:hasUriTemplateSchema",
+      "@container": "@index"
+    },
+    "safe": {
+      "@id": "td:isSafe"
+    },
+    "idempotent": {
+      "@id": "td:isIdempotent"
+    },
+    "instance": {
+      "@id": "td:instance"
+    },
+    "InteractionAffordance": {
+      "@id": "td:InteractionAffordance"
+    },
+    "ActionAffordance": {
+      "@id": "td:ActionAffordance"
+    },
+    "input": {
+      "@id": "td:hasInputSchema",
+      "@type": "@id",
+      "@context": {
+        "td": "https://www.w3.org/2019/wot/td#",
+        "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+        "wotsec": "https://www.w3.org/2019/wot/security#",
+        "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "DataSchema": {
+          "@id": "jsonschema:DataSchema"
+        },
+        "readOnly": {
+          "@id": "jsonschema:readOnly",
+          "@type": "xsd:boolean"
+        },
+        "writeOnly": {
+          "@id": "jsonschema:writeOnly",
+          "@type": "xsd:boolean"
+        },
+        "maximum": {
+          "@id": "jsonschema:maximum"
+        },
+        "minimum": {
+          "@id": "jsonschema:minimum"
+        },
+        "maxItems": {
+          "@id": "jsonschema:maxItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "minItems": {
+          "@id": "jsonschema:minItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "items": {
+          "@id": "jsonschema:items",
+          "@type": "@id"
+        },
+        "required": {
+          "@id": "jsonschema:required",
+          "@type": "xsd:string",
+          "@container": "@set"
+        },
+        "enum": {
+          "@id": "jsonschema:enum",
+          "@container": "@set"
+        },
+        "const": {
+          "@id": "jsonschema:const"
+        },
+        "oneOf": {
+          "@id": "jsonschema:oneOf",
+          "@container": "@set"
+        },
+        "allOf": {
+          "@id": "jsonschema:allOf",
+          "@container": "@set"
+        },
+        "anyOf": {
+          "@id": "jsonschema:anyOf",
+          "@container": "@set"
+        },
+        "type": {
+          "@id": "rdf:type",
+          "@type": "@vocab"
+        },
+        "object": "jsonschema:ObjectSchema",
+        "array": "jsonschema:ArraySchema",
+        "boolean": "jsonschema:BooleanSchema",
+        "string": "jsonschema:StringSchema",
+        "number": "jsonschema:NumberSchema",
+        "integer": "jsonschema:IntegerSchema",
+        "null": "jsonschema:NullSchema",
+        "properties": {
+          "@id": "jsonschema:properties",
+          "@type": "@id",
+          "@container": "@index"
+        }
+      }
+    },
+    "output": {
+      "@id": "td:hasOutputSchema",
+      "@type": "@id",
+      "@context": {
+        "td": "https://www.w3.org/2019/wot/td#",
+        "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+        "wotsec": "https://www.w3.org/2019/wot/security#",
+        "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "DataSchema": {
+          "@id": "jsonschema:DataSchema"
+        },
+        "readOnly": {
+          "@id": "jsonschema:readOnly",
+          "@type": "xsd:boolean"
+        },
+        "writeOnly": {
+          "@id": "jsonschema:writeOnly",
+          "@type": "xsd:boolean"
+        },
+        "maximum": {
+          "@id": "jsonschema:maximum"
+        },
+        "minimum": {
+          "@id": "jsonschema:minimum"
+        },
+        "maxItems": {
+          "@id": "jsonschema:maxItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "minItems": {
+          "@id": "jsonschema:minItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "items": {
+          "@id": "jsonschema:items",
+          "@type": "@id"
+        },
+        "required": {
+          "@id": "jsonschema:required",
+          "@type": "xsd:string",
+          "@container": "@set"
+        },
+        "enum": {
+          "@id": "jsonschema:enum",
+          "@container": "@set"
+        },
+        "const": {
+          "@id": "jsonschema:const"
+        },
+        "oneOf": {
+          "@id": "jsonschema:oneOf",
+          "@container": "@set"
+        },
+        "allOf": {
+          "@id": "jsonschema:allOf",
+          "@container": "@set"
+        },
+        "anyOf": {
+          "@id": "jsonschema:anyOf",
+          "@container": "@set"
+        },
+        "type": {
+          "@id": "rdf:type",
+          "@type": "@vocab"
+        },
+        "object": "jsonschema:ObjectSchema",
+        "array": "jsonschema:ArraySchema",
+        "boolean": "jsonschema:BooleanSchema",
+        "string": "jsonschema:StringSchema",
+        "number": "jsonschema:NumberSchema",
+        "integer": "jsonschema:IntegerSchema",
+        "null": "jsonschema:NullSchema",
+        "properties": {
+          "@id": "jsonschema:properties",
+          "@type": "@id",
+          "@container": "@index"
+        }
+      }
+    },
+    "subscription": {
+      "@id": "td:hasSubscriptionSchema",
+      "@type": "@id",
+      "@context": {
+        "td": "https://www.w3.org/2019/wot/td#",
+        "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+        "wotsec": "https://www.w3.org/2019/wot/security#",
+        "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "DataSchema": {
+          "@id": "jsonschema:DataSchema"
+        },
+        "readOnly": {
+          "@id": "jsonschema:readOnly",
+          "@type": "xsd:boolean"
+        },
+        "writeOnly": {
+          "@id": "jsonschema:writeOnly",
+          "@type": "xsd:boolean"
+        },
+        "maximum": {
+          "@id": "jsonschema:maximum"
+        },
+        "minimum": {
+          "@id": "jsonschema:minimum"
+        },
+        "maxItems": {
+          "@id": "jsonschema:maxItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "minItems": {
+          "@id": "jsonschema:minItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "items": {
+          "@id": "jsonschema:items",
+          "@type": "@id"
+        },
+        "required": {
+          "@id": "jsonschema:required",
+          "@type": "xsd:string",
+          "@container": "@set"
+        },
+        "enum": {
+          "@id": "jsonschema:enum",
+          "@container": "@set"
+        },
+        "const": {
+          "@id": "jsonschema:const"
+        },
+        "oneOf": {
+          "@id": "jsonschema:oneOf",
+          "@container": "@set"
+        },
+        "allOf": {
+          "@id": "jsonschema:allOf",
+          "@container": "@set"
+        },
+        "anyOf": {
+          "@id": "jsonschema:anyOf",
+          "@container": "@set"
+        },
+        "type": {
+          "@id": "rdf:type",
+          "@type": "@vocab"
+        },
+        "object": "jsonschema:ObjectSchema",
+        "array": "jsonschema:ArraySchema",
+        "boolean": "jsonschema:BooleanSchema",
+        "string": "jsonschema:StringSchema",
+        "number": "jsonschema:NumberSchema",
+        "integer": "jsonschema:IntegerSchema",
+        "null": "jsonschema:NullSchema",
+        "properties": {
+          "@id": "jsonschema:properties",
+          "@type": "@id",
+          "@container": "@index"
+        }
+      }
+    },
+    "data": {
+      "@id": "td:hasNotificationSchema",
+      "@type": "@id",
+      "@context": {
+        "td": "https://www.w3.org/2019/wot/td#",
+        "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+        "wotsec": "https://www.w3.org/2019/wot/security#",
+        "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "DataSchema": {
+          "@id": "jsonschema:DataSchema"
+        },
+        "readOnly": {
+          "@id": "jsonschema:readOnly",
+          "@type": "xsd:boolean"
+        },
+        "writeOnly": {
+          "@id": "jsonschema:writeOnly",
+          "@type": "xsd:boolean"
+        },
+        "maximum": {
+          "@id": "jsonschema:maximum"
+        },
+        "minimum": {
+          "@id": "jsonschema:minimum"
+        },
+        "maxItems": {
+          "@id": "jsonschema:maxItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "minItems": {
+          "@id": "jsonschema:minItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "items": {
+          "@id": "jsonschema:items",
+          "@type": "@id"
+        },
+        "required": {
+          "@id": "jsonschema:required",
+          "@type": "xsd:string",
+          "@container": "@set"
+        },
+        "enum": {
+          "@id": "jsonschema:enum",
+          "@container": "@set"
+        },
+        "const": {
+          "@id": "jsonschema:const"
+        },
+        "oneOf": {
+          "@id": "jsonschema:oneOf",
+          "@container": "@set"
+        },
+        "allOf": {
+          "@id": "jsonschema:allOf",
+          "@container": "@set"
+        },
+        "anyOf": {
+          "@id": "jsonschema:anyOf",
+          "@container": "@set"
+        },
+        "type": {
+          "@id": "rdf:type",
+          "@type": "@vocab"
+        },
+        "object": "jsonschema:ObjectSchema",
+        "array": "jsonschema:ArraySchema",
+        "boolean": "jsonschema:BooleanSchema",
+        "string": "jsonschema:StringSchema",
+        "number": "jsonschema:NumberSchema",
+        "integer": "jsonschema:IntegerSchema",
+        "null": "jsonschema:NullSchema",
+        "properties": {
+          "@id": "jsonschema:properties",
+          "@type": "@id",
+          "@container": "@index"
+        }
+      }
+    },
+    "cancellation": {
+      "@id": "td:hasCancellationSchema",
+      "@type": "@id",
+      "@context": {
+        "td": "https://www.w3.org/2019/wot/td#",
+        "jsonschema": "https://www.w3.org/2019/wot/json-schema#",
+        "wotsec": "https://www.w3.org/2019/wot/security#",
+        "hctl": "https://www.w3.org/2019/wot/hypermedia#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "DataSchema": {
+          "@id": "jsonschema:DataSchema"
+        },
+        "readOnly": {
+          "@id": "jsonschema:readOnly",
+          "@type": "xsd:boolean"
+        },
+        "writeOnly": {
+          "@id": "jsonschema:writeOnly",
+          "@type": "xsd:boolean"
+        },
+        "maximum": {
+          "@id": "jsonschema:maximum"
+        },
+        "minimum": {
+          "@id": "jsonschema:minimum"
+        },
+        "maxItems": {
+          "@id": "jsonschema:maxItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "minItems": {
+          "@id": "jsonschema:minItems",
+          "@type": "xsd:unsignedInt"
+        },
+        "items": {
+          "@id": "jsonschema:items",
+          "@type": "@id"
+        },
+        "required": {
+          "@id": "jsonschema:required",
+          "@type": "xsd:string",
+          "@container": "@set"
+        },
+        "enum": {
+          "@id": "jsonschema:enum",
+          "@container": "@set"
+        },
+        "const": {
+          "@id": "jsonschema:const"
+        },
+        "oneOf": {
+          "@id": "jsonschema:oneOf",
+          "@container": "@set"
+        },
+        "allOf": {
+          "@id": "jsonschema:allOf",
+          "@container": "@set"
+        },
+        "anyOf": {
+          "@id": "jsonschema:anyOf",
+          "@container": "@set"
+        },
+        "type": {
+          "@id": "rdf:type",
+          "@type": "@vocab"
+        },
+        "object": "jsonschema:ObjectSchema",
+        "array": "jsonschema:ArraySchema",
+        "boolean": "jsonschema:BooleanSchema",
+        "string": "jsonschema:StringSchema",
+        "number": "jsonschema:NumberSchema",
+        "integer": "jsonschema:IntegerSchema",
+        "null": "jsonschema:NullSchema",
+        "properties": {
+          "@id": "jsonschema:properties",
+          "@type": "@id",
+          "@container": "@index"
+        }
+      }
+    },
+    "description": {
+      "@id": "dct:description"
+    },
+    "descriptions": {
+      "@id": "dct:description",
+      "@container": "@language"
+    },
+    "title": {
+      "@id": "dct:title"
+    },
+    "titles": {
+      "@id": "dct:title",
+      "@container": "@language"
+    },
+    "support": {
+      "@id": "td:supportContact"
+    },
+    "source": {
+      "@id": "dct:source"
+    },
+    "unit": {
+      "@id": "schema:unitCode",
+      "@type": "@vocab"
+    },
+    "@version": 1.1
+  },
+  "@graph": [
+    {
+      "id": "urn:com:fujitsu:iot:AgriDevice-c4:a7:df:cf:3e:90",
+      "source": "../inputs/Fujitsu/Fujitsu-AgriDevice.json",
+      "properties": [
+        {
+          "name": "UV"
+        },
+        {
+          "name": "Temperature"
+        },
+        {
+          "name": "rssi"
+        },
+        {
+          "name": "BatteryIllumination"
+        },
+        {
+          "name": "Category"
+        },
+        {
+          "name": "Humidity"
+        },
+        {
+          "name": "Battery"
+        },
+        {
+          "name": "CO2"
+        },
+        {
+          "name": "Model"
+        },
+        {
+          "name": "Illumination"
+        },
+        {
+          "name": "BatteryState"
+        },
+        {
+          "name": "Pressure"
+        },
+        {
+          "name": "OUICode"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:iot:iwt120ctl001",
+      "source": "../inputs/Fujitsu/Fujitsu-Buzzer.json",
+      "properties": [
+        {
+          "name": "rotate"
+        },
+        {
+          "name": "off"
+        },
+        {
+          "name": "flash"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:iot:rotarybeaconlight",
+      "source": "../inputs/Fujitsu/Fujitsu-Rotarybeaconlight.json",
+      "properties": [
+        {
+          "name": "OperationStatus"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:iot:CHLOG-e0:d4:2b:33:82:10",
+      "source": "../inputs/Fujitsu/Fujitsu-CHLOG.json",
+      "properties": [
+        {
+          "name": "AccelerationX"
+        },
+        {
+          "name": "AccelerationY"
+        },
+        {
+          "name": "Temperature"
+        },
+        {
+          "name": "AccelerationZ"
+        },
+        {
+          "name": "rssi"
+        },
+        {
+          "name": "MagneticZ"
+        },
+        {
+          "name": "MagneticY"
+        },
+        {
+          "name": "Humidity"
+        },
+        {
+          "name": "MagneticX"
+        },
+        {
+          "name": "Battery"
+        },
+        {
+          "name": "Illumination"
+        },
+        {
+          "name": "Pressure"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:iot:WiFi-Sensor:agent448D07C40A24",
+      "source": "../inputs/Fujitsu/Fujitsu-WiFiSensor.json",
+      "properties": [
+        {
+          "name": "Temperature"
+        },
+        {
+          "name": "Dust"
+        },
+        {
+          "name": "Humidity"
+        },
+        {
+          "name": "AirPressure"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:example.org/ecg",
+      "source": "../inputs/ERCIM/arena/ecg.json",
+      "properties": [
+        {
+          "name": "chan1"
+        },
+        {
+          "name": "chan2"
+        },
+        {
+          "name": "chan3"
+        },
+        {
+          "name": "chan4"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:9b1a5896-75bf-481d-b29f-4e35c68196d5",
+      "source": "../inputs/SmartThings/st-td-huelight.json",
+      "properties": [
+        {
+          "name": "state"
+        },
+        {
+          "name": "onoff"
+        },
+        {
+          "name": "brightness"
+        }
+      ],
+      "actions": [
+        {
+          "name": "turnon"
+        },
+        {
+          "name": "turnoff"
+        },
+        {
+          "name": "setlevel"
+        },
+        {
+          "name": "steplevel"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:fb60aafa-2e8a-4c51-a104-8639af043569",
+      "source": "../inputs/SmartThings/st-td-tradfri-light.json",
+      "properties": [
+        {
+          "name": "state"
+        },
+        {
+          "name": "onoff"
+        },
+        {
+          "name": "brightness"
+        }
+      ],
+      "actions": [
+        {
+          "name": "turnon"
+        },
+        {
+          "name": "turnoff"
+        },
+        {
+          "name": "setlevel"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:example.org/light",
+      "source": "../inputs/ERCIM/arena/light.json",
+      "properties": [
+        {
+          "name": "brightness"
+        }
+      ],
+      "actions": [
+        {
+          "name": "transition"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:example.org/tank",
+      "source": "../inputs/ERCIM/arena/tank.json",
+      "properties": [
+        {
+          "name": "upper"
+        },
+        {
+          "name": "lower"
+        },
+        {
+          "name": "inlet"
+        },
+        {
+          "name": "outlet"
+        },
+        {
+          "name": "level"
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "name": "high"
+        },
+        {
+          "name": "low"
+        }
+      ]
+    },
+    {
+      "id": "urn:uuid:6f3775aa-9790-5b5d-99bb-fb354a63dc0f",
+      "source": "../inputs/Intel/intel-speak.json",
+      "properties": [],
+      "actions": [
+        {
+          "name": "say"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:6f6d4d0b-3d8b-58a1-a90b-7d05680553d7",
+      "source": "../inputs/Intel/intel-inference.json",
+      "properties": [],
+      "actions": [
+        {
+          "name": "objid"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:ed0392cc-3109-48d0-bfd2-3818e2528c78",
+      "source": "../inputs/Panasonic/panasonic-server-real/airConditioner_p1.jsonld",
+      "properties": [
+        {
+          "name": "operationStatus"
+        },
+        {
+          "name": "operationMode"
+        },
+        {
+          "name": "desiredTemp"
+        },
+        {
+          "name": "windVolumeLevel"
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "name": "change"
+        }
+      ]
+    },
+    {
+      "id": "urn:uuid:6f6d4d0b-3d8b-58a1-a90b-7d05680553d6",
+      "source": "../inputs/Intel/intel-camera.json",
+      "properties": [
+        {
+          "name": "brightness"
+        },
+        {
+          "name": "contrast"
+        },
+        {
+          "name": "gamma"
+        },
+        {
+          "name": "saturation"
+        },
+        {
+          "name": "hue"
+        },
+        {
+          "name": "white_balance"
+        },
+        {
+          "name": "white_balance_auto"
+        },
+        {
+          "name": "exposure"
+        },
+        {
+          "name": "exposure_auto"
+        },
+        {
+          "name": "exposure_auto_priority"
+        },
+        {
+          "name": "backlight_compensation"
+        },
+        {
+          "name": "sharpness"
+        },
+        {
+          "name": "frame"
+        }
+      ],
+      "actions": [
+        {
+          "name": "crop"
+        },
+        {
+          "name": "region"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:4a94e5ab-1f58-4ef5-b770-6dcb48e5595c",
+      "source": "../inputs/Panasonic/panasonic-server-real/cleaner_p1.jsonld",
+      "properties": [],
+      "actions": [
+        {
+          "name": "operationPower"
+        },
+        {
+          "name": "turnRight"
+        },
+        {
+          "name": "turnLeft"
+        },
+        {
+          "name": "goStraight"
+        },
+        {
+          "name": "goHome"
+        },
+        {
+          "name": "specifyArea"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:com:blue:pump:data",
+      "source": "../inputs/Oracle/Blue_Pump_Oauth2.jsonld",
+      "properties": [
+        {
+          "name": "Cycle_Maximum_Inlet_Pressure"
+        },
+        {
+          "name": "Cycle_Return_Pressure_Min"
+        },
+        {
+          "name": "Cycle_Return_Pressure_Max"
+        },
+        {
+          "name": "Cycle_Cases_Pressure_Min"
+        },
+        {
+          "name": "Cycle_Cases_Pressure_Max"
+        },
+        {
+          "name": "Cycle_Peak_Operation_Percent_Of_Minute"
+        }
+      ],
+      "actions": [
+        {
+          "name": "power"
+        },
+        {
+          "name": "diagnose"
+        },
+        {
+          "name": "resetFilter"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:9be7d1a0-75f4-4f69-89f9-8bedf9f382bf",
+      "source": "../inputs/Panasonic/panasonic-server-real/electricBulletinBoard_p2.jsonld",
+      "properties": [
+        {
+          "name": "operationStatus"
+        },
+        {
+          "name": "desiredTemp"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:78002262-fdb1-4396-9b0b-b2f71003846c",
+      "source": "../inputs/Panasonic/panasonic-server-real/electricBulletinBoard_p3.jsonld",
+      "properties": [
+        {
+          "name": "operationStatus"
+        },
+        {
+          "name": "displayNumber"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:477bfc4a-4c7e-4c55-9125-061b5206decb",
+      "source": "../inputs/Panasonic/panasonic-server-real/huegroup_p1.jsonld",
+      "properties": [
+        {
+          "name": "operationStatus"
+        },
+        {
+          "name": "rgbValue"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:echonet-lite:e8e0b75165ff013001",
+      "source": "../inputs/Fujitsu/fujitsu-ECHONET-Lite-devices/Fujitsu-Airconditioner.json",
+      "properties": [
+        {
+          "name": "VentilatingStatus"
+        },
+        {
+          "name": "OffTimerStatus"
+        },
+        {
+          "name": "SetList"
+        },
+        {
+          "name": "ManufactureDate"
+        },
+        {
+          "name": "SelfCleanMode"
+        },
+        {
+          "name": "SpecVersionInfoCode"
+        },
+        {
+          "name": "GetList"
+        },
+        {
+          "name": "OffTimerRelativeTime"
+        },
+        {
+          "name": "OperationModeStatus"
+        },
+        {
+          "name": "MakerCode"
+        },
+        {
+          "name": "DeviceRunningStatus"
+        },
+        {
+          "name": "OperationStatus"
+        },
+        {
+          "name": "ManufacturerErrorCode"
+        },
+        {
+          "name": "PowerLimit"
+        },
+        {
+          "name": "CumulatedRunTime"
+        },
+        {
+          "name": "ProductCode"
+        },
+        {
+          "name": "MountedAirCleaningMethod"
+        },
+        {
+          "name": "RoomMeasuredTemp"
+        },
+        {
+          "name": "CheckIPStatus"
+        },
+        {
+          "name": "WindVolumeLevel"
+        },
+        {
+          "name": "DeviceConnectStatus"
+        },
+        {
+          "name": "RoomRelativeHumid"
+        },
+        {
+          "name": "OutdoorMeasuredTemp"
+        },
+        {
+          "name": "OnTimerRelativeTime"
+        },
+        {
+          "name": "FaultStatus"
+        },
+        {
+          "name": "DesiredTemp"
+        },
+        {
+          "name": "FaultContent"
+        },
+        {
+          "name": "MeasuredCurrent"
+        },
+        {
+          "name": "AirFlowSwingStatus"
+        },
+        {
+          "name": "OnTimerStatus"
+        },
+        {
+          "name": "NotifyList"
+        },
+        {
+          "name": "AirPurifierMode"
+        },
+        {
+          "name": "PlaceOfBusinessCode"
+        },
+        {
+          "name": "DehumidModeRelativeHumid"
+        },
+        {
+          "name": "DB"
+        },
+        {
+          "name": "FE"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:echonet-lite:000e7bfe7b1005fd02",
+      "source": "../inputs/Fujitsu/fujitsu-ECHONET-Lite-devices/Fujitsu-BlindClose.json",
+      "properties": [
+        {
+          "name": "FF"
+        },
+        {
+          "name": "SetList"
+        },
+        {
+          "name": "ProductCode"
+        },
+        {
+          "name": "ManufactureDate"
+        },
+        {
+          "name": "F1"
+        },
+        {
+          "name": "F2"
+        },
+        {
+          "name": "F3"
+        },
+        {
+          "name": "SpecVersionInfoCode"
+        },
+        {
+          "name": "CheckIPStatus"
+        },
+        {
+          "name": "GetList"
+        },
+        {
+          "name": "DeviceConnectStatus"
+        },
+        {
+          "name": "MakerCode"
+        },
+        {
+          "name": "FaultStatus"
+        },
+        {
+          "name": "DeviceRunningStatus"
+        },
+        {
+          "name": "FaultContent"
+        },
+        {
+          "name": "OperationStatus"
+        },
+        {
+          "name": "NotifyList"
+        },
+        {
+          "name": "ManufacturerErrorCode"
+        },
+        {
+          "name": "PlaceOfBusinessCode"
+        },
+        {
+          "name": "ConnectionDevice"
+        },
+        {
+          "name": "FE"
+        },
+        {
+          "name": "PowerLimit"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:9f7b75ae-7833-4eaf-8b3a-804288773121",
+      "source": "../inputs/SmartThings/st-impl-node-red/td-illuminance.json",
+      "properties": [
+        {
+          "name": "Illuminance"
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "name": "IlluminanceChangeEvent"
+        }
+      ]
+    },
+    {
+      "id": "urn:com:fujitsu:echonet-lite:000e7bfe7b1005fd01",
+      "source": "../inputs/Fujitsu/fujitsu-ECHONET-Lite-devices/Fujitsu-BlindOpen.json",
+      "properties": [
+        {
+          "name": "FF"
+        },
+        {
+          "name": "SetList"
+        },
+        {
+          "name": "ProductCode"
+        },
+        {
+          "name": "ManufactureDate"
+        },
+        {
+          "name": "F1"
+        },
+        {
+          "name": "F2"
+        },
+        {
+          "name": "F3"
+        },
+        {
+          "name": "SpecVersionInfoCode"
+        },
+        {
+          "name": "CheckIPStatus"
+        },
+        {
+          "name": "GetList"
+        },
+        {
+          "name": "DeviceConnectStatus"
+        },
+        {
+          "name": "MakerCode"
+        },
+        {
+          "name": "FaultStatus"
+        },
+        {
+          "name": "FaultContent"
+        },
+        {
+          "name": "DeviceRunningStatus"
+        },
+        {
+          "name": "OperationStatus"
+        },
+        {
+          "name": "NotifyList"
+        },
+        {
+          "name": "ManufacturerErrorCode"
+        },
+        {
+          "name": "PlaceOfBusinessCode"
+        },
+        {
+          "name": "ConnectionDevice"
+        },
+        {
+          "name": "FE"
+        },
+        {
+          "name": "PowerLimit"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:fujitsu:echonet-lite:000e7b137c10029001",
+      "source": "../inputs/Fujitsu/fujitsu-ECHONET-Lite-devices/Fujitsu-LEDLight.json",
+      "properties": [
+        {
+          "name": "FF"
+        },
+        {
+          "name": "SetList"
+        },
+        {
+          "name": "ProductCode"
+        },
+        {
+          "name": "ManufactureDate"
+        },
+        {
+          "name": "IlluminancePercentage"
+        },
+        {
+          "name": "CheckIPStatus"
+        },
+        {
+          "name": "SpecVersionInfoCode"
+        },
+        {
+          "name": "GetList"
+        },
+        {
+          "name": "DeviceConnectStatus"
+        },
+        {
+          "name": "MakerCode"
+        },
+        {
+          "name": "FaultStatus"
+        },
+        {
+          "name": "DeviceRunningStatus"
+        },
+        {
+          "name": "OperationStatus"
+        },
+        {
+          "name": "NotifyList"
+        },
+        {
+          "name": "PlaceOfBusinessCode"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:c3068abb-7781-4ab4-9c0b-012408e9e758",
+      "source": "../inputs/SmartThings/st-impl-node-red/td-motion-event.json",
+      "properties": [
+        {
+          "name": "MotionState"
+        }
+      ],
+      "actions": [],
+      "events": [
+        {
+          "name": "MotionEvent"
+        }
+      ]
+    },
+    {
+      "id": "urn:com:fujitsu:echonet-lite:000e7bdd7510028801",
+      "source": "../inputs/Fujitsu/fujitsu-ECHONET-Lite-devices/Fujitsu-PowerMeter.json",
+      "properties": [
+        {
+          "name": "FF"
+        },
+        {
+          "name": "SetList"
+        },
+        {
+          "name": "ManufactureDate"
+        },
+        {
+          "name": "PresentDate"
+        },
+        {
+          "name": "SpecVersionInfoCode"
+        },
+        {
+          "name": "GetList"
+        },
+        {
+          "name": "SmartElectricEnergyMeterD3"
+        },
+        {
+          "name": "SmartElectricEnergyMeterD4"
+        },
+        {
+          "name": "MakerCode"
+        },
+        {
+          "name": "SmartElectricEnergyMeterD5"
+        },
+        {
+          "name": "DeviceRunningStatus"
+        },
+        {
+          "name": "SmartElectricEnergyMeterD6"
+        },
+        {
+          "name": "SplitPhase"
+        },
+        {
+          "name": "SmartElectricEnergyMeterD7"
+        },
+        {
+          "name": "OperationStatus"
+        },
+        {
+          "name": "ManufacturerErrorCode"
+        },
+        {
+          "name": "PresentTime"
+        },
+        {
+          "name": "PowerClassification"
+        },
+        {
+          "name": "ProductCode"
+        },
+        {
+          "name": "F0"
+        },
+        {
+          "name": "CheckIPStatus"
+        },
+        {
+          "name": "OurClassification"
+        },
+        {
+          "name": "DeviceConnectStatus"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE2"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE3"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE4"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE5"
+        },
+        {
+          "name": "FaultStatus"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE8"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE9"
+        },
+        {
+          "name": "NotifyList"
+        },
+        {
+          "name": "PlaceOfBusinessCode"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE0"
+        },
+        {
+          "name": "SmartElectricEnergyMeterE1"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:dev:ops:32473-meta-1",
+      "source": "../inputs/Huawei/huawei-meta-interactions/huawei-meta-interactions-proxy.jsontd",
+      "properties": [
+        {
+          "name": "one"
+        },
+        {
+          "name": "other"
+        },
+        {
+          "name": "unsecure"
+        },
+        {
+          "name": "secure"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:dev:ops:32473-HueSwitch-1234",
+      "source": "../inputs/TUM/tum-PhilipsHUE/tum-dimmerSwitchTD.json",
+      "properties": [
+        {
+          "name": "switchInformation"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:dev:ops:32473-HueDaylight-1234",
+      "source": "../inputs/TUM/tum-PhilipsHUE/tum-daylightSensorTD.json",
+      "properties": [
+        {
+          "name": "sensorInformation"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "light:sensor:192.168.188.8",
+      "source": "../inputs/TUM/tum-microPythonBare/tum-light_sensor.json",
+      "properties": [
+        {
+          "name": "intensity"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:dev:ops:32473-HueLight-1",
+      "source": "../inputs/TUM/tum-PhilipsHUE/tum-lightTD.json",
+      "properties": [
+        {
+          "name": "lightInformation"
+        }
+      ],
+      "actions": [
+        {
+          "name": "rename"
+        },
+        {
+          "name": "set_state"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "de:tum:ei:esi:dotstar:TUMEIESI-DotStar.local:8080",
+      "source": "../inputs/TUM/tum-pythonFlask/tum-DotStar.json",
+      "properties": [
+        {
+          "name": "brightness"
+        },
+        {
+          "name": "stats"
+        }
+      ],
+      "actions": [
+        {
+          "name": "dot"
+        },
+        {
+          "name": "fill_upper"
+        },
+        {
+          "name": "fill_lower"
+        },
+        {
+          "name": "shutdown"
+        },
+        {
+          "name": "random"
+        },
+        {
+          "name": "fill_middle"
+        },
+        {
+          "name": "fill"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "esi:picamera:TUMEIESI-Rpi-Camera-IR.local",
+      "source": "../inputs/TUM/tum-pythonFlask/tum-piCamera.json",
+      "properties": [
+        {
+          "name": "configuration"
+        },
+        {
+          "name": "frame"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:3932ae08-31b4-4882-b299-5d488ec8775c",
+      "source": "../inputs/Intel/intel-ocf/Intel-OCF-button1touch.jsonld",
+      "properties": [
+        {
+          "name": "status"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:c75fe336-28d3-4b02-b52c-9a4daa9577f6",
+      "source": "../inputs/Intel/intel-ocf/Intel-OCF-illuminance2.jsonld",
+      "properties": [
+        {
+          "name": "illuminance"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:397a9167-88bc-4b52-844a-dade5b772c30",
+      "source": "../inputs/Intel/intel-ocf/Intel-OCF-led0blue.jsonld",
+      "properties": [
+        {
+          "name": "status"
+        }
+      ],
+      "actions": [
+        {
+          "name": "on"
+        },
+        {
+          "name": "off"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:0800f07a-178d-48ec-9ddf-d8a941071298",
+      "source": "../inputs/Intel/intel-ocf/Intel-OCF-motion0.jsonld",
+      "properties": [
+        {
+          "name": "motion"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:ae9b3aa5-1476-4fcb-9908-dd96a293572d",
+      "source": "../inputs/Intel/intel-ocf/Intel-OCF-rgbled1.jsonld",
+      "properties": [
+        {
+          "name": "colour"
+        }
+      ],
+      "actions": [
+        {
+          "name": "on"
+        },
+        {
+          "name": "off"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:uuid:086d490d-90c6-4785-a677-c911bd2af919",
+      "source": "../inputs/Intel/intel-ocf/Intel-OCF-temperature1.jsonld",
+      "properties": [
+        {
+          "name": "temperature"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:oracle:iot:connected-car",
+      "source": "../inputs/Oracle/oracle-simulators/Connected_Car_Shared.jsonld",
+      "properties": [
+        {
+          "name": "ASCD"
+        },
+        {
+          "name": "ActiveParkAssist"
+        },
+        {
+          "name": "AdaptiveCruiseControl"
+        },
+        {
+          "name": "AutomaticBrakeActuator"
+        },
+        {
+          "name": "BlindSpotDetection"
+        },
+        {
+          "name": "CentralComputer"
+        },
+        {
+          "name": "CollisionSensor"
+        },
+        {
+          "name": "CrossTrafficAlert"
+        },
+        {
+          "name": "DrowsinessSensors"
+        },
+        {
+          "name": "FrontAirbagSensors"
+        },
+        {
+          "name": "FrontObjectCCDCameraURI"
+        },
+        {
+          "name": "FrontObjectLaserRadar"
+        },
+        {
+          "name": "LaneDepartureSystem"
+        },
+        {
+          "name": "NightVision"
+        },
+        {
+          "name": "NighttimePedestrianIRSensorURI"
+        },
+        {
+          "name": "NighttimePedestrianWarning"
+        },
+        {
+          "name": "RearCamera"
+        },
+        {
+          "name": "RearObjectLaserRadar"
+        },
+        {
+          "name": "RearObjectMonitorCCDCamera"
+        },
+        {
+          "name": "SideCurtainSensor"
+        },
+        {
+          "name": "SteeringAngleSensor"
+        },
+        {
+          "name": "TirePressureSensor"
+        },
+        {
+          "name": "WheelSpeedSensor"
+        },
+        {
+          "name": "ora_altitude"
+        },
+        {
+          "name": "ora_latitude"
+        },
+        {
+          "name": "ora_longitude"
+        },
+        {
+          "name": "ora_uncertainty"
+        }
+      ],
+      "actions": [
+        {
+          "name": "brake"
+        },
+        {
+          "name": "firmwareUpdate"
+        },
+        {
+          "name": "lockDoor"
+        },
+        {
+          "name": "unlockDoor"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:com:oracle:iot:device:hvac",
+      "source": "../inputs/Oracle/oracle-simulators/HVAC_Shared.jsonld",
+      "properties": [
+        {
+          "name": "motorAmperage"
+        },
+        {
+          "name": "oilViscosity"
+        },
+        {
+          "name": "outputTemp"
+        },
+        {
+          "name": "targetTemp"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "vibration"
+        }
+      ],
+      "actions": [
+        {
+          "name": "power"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:com:siemens:wot:festo",
+      "source": "../inputs/Oracle/oracle-simulators/Festo_Shared.jsonld",
+      "properties": [
+        {
+          "name": "PumpStatus"
+        },
+        {
+          "name": "Tank101MaximumLevelStatus"
+        },
+        {
+          "name": "Tank101MinimumLevelStatus"
+        },
+        {
+          "name": "Tank101OverflowStatus"
+        },
+        {
+          "name": "Tank102LevelValue"
+        },
+        {
+          "name": "Tank102OverflowStatus"
+        },
+        {
+          "name": "ValveStatus"
+        }
+      ],
+      "actions": [
+        {
+          "name": "OpenValve"
+        },
+        {
+          "name": "CloseValve"
+        },
+        {
+          "name": "StartPump"
+        },
+        {
+          "name": "StopPump"
+        }
+      ],
+      "events": []
+    },
+    {
+      "id": "urn:com:energyiotlab:iot:keti",
+      "source": "../inputs/Oracle/oracle-simulators/KETI_IoT_Sensor.jsonld",
+      "properties": [
+        {
+          "name": "co2"
+        },
+        {
+          "name": "humidity"
+        },
+        {
+          "name": "light"
+        },
+        {
+          "name": "microwave"
+        },
+        {
+          "name": "sound"
+        },
+        {
+          "name": "temperature"
+        },
+        {
+          "name": "voc"
+        }
+      ],
+      "actions": [],
+      "events": []
+    },
+    {
+      "id": "urn:com:oracle:iot:device:obd2",
+      "source": "../inputs/Oracle/oracle-simulators/Truck_Shared.jsonld",
+      "properties": [
+        {
+          "name": "ora_altitude"
+        },
+        {
+          "name": "ora_latitude"
+        },
+        {
+          "name": "ora_longitude"
+        },
+        {
+          "name": "ora_obd2_engine_coolant_temperature"
+        },
+        {
+          "name": "ora_obd2_engine_rpm"
+        },
+        {
+          "name": "ora_obd2_mass_air_flow"
+        },
+        {
+          "name": "ora_obd2_number_of_dtcs"
+        },
+        {
+          "name": "ora_obd2_runtime_since_engine_start"
+        },
+        {
+          "name": "ora_obd2_throttle_position"
+        },
+        {
+          "name": "ora_obd2_total_fuel_used"
+        },
+        {
+          "name": "ora_obd2_true_odometer"
+        },
+        {
+          "name": "ora_obd2_vehicle_speed"
+        }
+      ],
+      "actions": [],
+      "events": []
+    }
+  ]
+}
