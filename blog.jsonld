@@ -1,0 +1,66 @@
+{
+	"@context": {
+		"@vocab": "http://schema.org/",
+        "@base": "https://www.vcharpenay.link/"
+	},
+	"@graph": [
+        {
+            "author": [
+                {
+                    "@type": "BlogPosting",
+                    "datePublished": "2019-09",
+                    "sharedContent": {
+                        "@id": "notes/science-vs-engineering.html",
+                        "@type": "WebPage",
+                        "name": "On (Knowledge) Science vs. Engineering"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
+                    "datePublished": "2019-09",
+                    "sharedContent": {
+                        "@id": "notes/computer-science-primer.html",
+                        "@type": "WebPage",
+                        "name": "A Computer Science Primer"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
+                    "datePublished": "2019-09",
+                    "sharedContent": {
+                        "@id": "notes/braitenberg-vehicle.html",
+                        "@type": "WebPage",
+                        "name": "Braitenberg Vehicle Simulation"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
+                    "datePublished": "2019-08",
+                    "sharedContent": {
+                        "@id": "notes/logical-truth.html",
+                        "@type": "WebPage",
+                        "name": "My Take on 'Truth'"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
+                    "datePublished": "2019-06",
+                    "sharedContent": {
+                        "@id": "notes/model-theory.html",
+                        "@type": "WebPage",
+                        "name": "What Is Model Theory Good for?"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
+                    "datePublished": "2019-05",
+                    "sharedContent": {
+                        "@id": "notes/computer-science-puzzles.html",
+                        "@type": "WebPage",
+                        "name": "Some Important Computer Science Puzzles"
+                    }
+                }
+            ]
+        }
+	]
+}

@@ -20,6 +20,7 @@ template <#index>(?person) {
             st:call-template(<#publications>, ?person)
             st:call-template(<#talks>, ?person)
             st:call-template(<#software>, ?person)
+            st:call-template(<#working-notes>, ?person)
         "</body>"
     "</html>"
 } where {}
@@ -207,3 +208,26 @@ template <#software-item>(?person) {
           s:codeRepository ?repo ;
           s:name ?name .
 }
+
+template <#working-notes>(?person) {
+    "<h2>Working Notes</h2>"
+    "<ul>"
+        st:call-template(<#working-note>, ?person)
+    "</ul>"
+} where {
+    ?person a s:Person .
+}
+
+template <#working-note>(?person) {
+    "<li>"
+        st:call-template(<#anchor>, ?note, ?name)
+    "</li>"
+} where {
+    # ?person a s:Person ;
+    #         s:author ?post .
+    # FIXME vcharpenay/uRDF.js#17
+    ?post a s:BlogPosting ;
+            s:datePublished ?date ;
+            s:sharedContent ?note .
+    ?note s:name ?name .
+} order by desc(?date) ?name
