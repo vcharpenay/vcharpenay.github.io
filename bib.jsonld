@@ -13,6 +13,10 @@
         },
         "issued": {
             "@id": "dct:issued"
+        },
+        "publisher": {
+            "@id": "dct:publisher",
+            "@type": "@id"
         }
     },
     "@graph": [
@@ -30,6 +34,34 @@
             "@id": "#darko",
             "s:givenName": "Darko",
             "s:familyName": "Anicic"
+        },
+        {
+            "@id": "#2020-eswc",
+            "@type": "Document",
+            "title": "On Modeling the Physical World as a Collection of Things: the W3C Web of Things Ontology",
+            "authorList": [
+                "#me",
+                "#seb"
+            ],
+            "presentedAt": {
+                "@type": "Conference",
+                "s:name": "17th Extended Semantic Web Conference",
+                "s:alternateName": "ESWC 2020",
+                "s:mainEntityOfPage": "https://2020.eswc-conferences.org/"
+            },
+            "issued": "2020",
+            "s:mainEntityOfPage": "publications/2020-eswc.pdf"
+        },
+        {
+            "@id": "#thesis",
+            "@type": ["Document", "Thesis"],
+            "title": "Semantics for the Web of Things: Modeling the Physical World as a Collection of Things and Reasoning with their Descriptions",
+            "authorList": [
+                "#me"
+            ],
+            "publisher": "#uni-passau",
+            "issued": "2019",
+            "s:mainEntityOfPage": "publications/thesis.pdf"
         },
         {
             "@id": "#2018-ssn",

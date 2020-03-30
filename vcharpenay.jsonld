@@ -14,7 +14,7 @@
 			"mainEntityOfPage": "",
 			"givenName": "Victor",
 			"familyName": "Charpenay",
-			"description": "I am a Computer & Web Science researcher, currently based in Nuremberg. I hold a double-degree in Computer Science from the engineering school INSA Lyon and the University of Passau. My research topics include semantics for the Web of Things, knowledge management and exchange in embedded environments. I am a contributor to the W3C Web of Things standards.",
+			"description": "I am a Computer & Web Science researcher, currently based in Nuremberg. I hold a PhD in Computer Science from the University of Passau and a German-French Master's degree from the University of Passau and the engineering school INSA Lyon. My research topics include semantics for the Web of Things, knowledge management and exchange in embedded environments. I am a contributor to the W3C Web of Things standards.",
 			"email": "victor.charpenay@fau.de",
 			"affiliation": {
 				"@type": "CollegeOrUniversity",
@@ -27,6 +27,7 @@
 			},
 			"alumniOf": [
 				{
+					"@id": "#uni-passau",
 					"@type": "CollegeOrUniversity",
 					"name": [{
 						"@value": "Universität Passau",
@@ -60,6 +61,13 @@
 					"name": "On Atwood's Law and Industrial Control Systems",
 					"mainEntityOfPage": {
 						"@id": "talks/urdf-wot.html"
+					}
+				},
+				{
+					"@type": "Course",
+					"name": "A Thing Description Dataset",
+					"mainEntityOfPage": {
+						"@id": "talks/td-sem-interop.html"
 					}
 				},
 				{

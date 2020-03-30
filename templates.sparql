@@ -1,4 +1,8 @@
 prefix s: <http://schema.org/>
+prefix bib: <http://purl.org/ontology/bibo/>
+prefix dct: <http://purl.org/dc/terms/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix wdt: <http://www.wikidata.org/prop/direct/>
 prefix st: <http://ns.inria.fr/sparql-template/>
 base <https://www.vcharpenay.link/>
 template <#index>(?person) {
@@ -20,11 +24,6 @@ template <#index>(?person) {
     "</html>"
 } where {}
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#name>(?person) {
     format { "%s %s" ?fname ?lname }
 } where {
@@ -33,11 +32,6 @@ template <#name>(?person) {
             s:familyName ?lname .
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#intro>(?person) {
     "<h1>"
         st:call-template(<#name>, ?person)
@@ -53,11 +47,6 @@ template <#intro>(?person) {
             s:description ?desc .
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#with-entity-linking>(?text) {
     format {
         "%s"
@@ -67,12 +56,6 @@ template <#with-entity-linking>(?text) {
     # TODO recursive call to replace name with anchored text
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix wdt: <http://www.wikidata.org/prop/direct/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#id-list>(?person) {
     format { "<img class=\"inline\" src=\"%s\">" ?logo } " "
     st:call-template( <#anchor>, ?fullid, ?id) ; separator = " / "
@@ -86,18 +69,10 @@ template <#id-list>(?person) {
     bind (replace(?uri, "\\$1", ?id) as ?fullid)
 }
 
----
-
-base <https://www.vcharpenay.link/>
 template <#anchor>(?href ?label) {
     format { "<a href=\"%s\">%s</a>" ?href ?label }
 } where {}
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#publications>(?person) {
     "<h2>Publications</h2>"
     "<ul>"
@@ -107,16 +82,10 @@ template <#publications>(?person) {
     ?person a s:Person .
 }
 
----
-
-prefix bib: <http://purl.org/ontology/bibo/>
-prefix dct: <http://purl.org/dc/terms/>
-prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#publication>(?person) {
     "<li>"
-        if(?isConferencePaper, st:call-template(<#conference-paper>, ?title), "")
+        if(?type = "conf", st:call-template(<#conference-paper>, ?title),
+        if(?type = "thesis", st:call-template(<#thesis>, ?title), ""))
     "</li>"
 } where {
     ?pub a bib:Document ;
@@ -125,19 +94,16 @@ template <#publication>(?person) {
          dct:issued ?date .
     {
         ?pub bib:presentedAt ?event .
-        bind (true as ?isConferencePaper)
+        bind ("conf" as ?type)
     }
-    # union journal paper...
+    # TODO union journal paper...
+    union
+    {
+        ?pub a bib:Thesis .
+        bind ("thesis" as ?type)
+    }
 } order by desc(?date)
 
----
-
-prefix s: <http://schema.org/>
-prefix bib: <http://purl.org/ontology/bibo/>
-prefix dct: <http://purl.org/dc/terms/>
-prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#conference-paper>(?title) {
     st:call-template(<#author-list>, ?title, 0)
     ", "
@@ -161,14 +127,25 @@ template <#conference-paper>(?title) {
     #?l rdf:first ?person .
 }
 
----
+template <#thesis>(?title) {
+    st:call-template(<#author-list>, ?title, 0)
+    ", "
+    format {
+        "\"%s,\" PhD thesis, %s, %s."
+        st:call-template(<#anchor>, ?url, ?title)
+        ?name
+        ?date
+    }
+} where {
+    ?pub a bib:Thesis ;
+         dct:title ?title ;
+         dct:publisher ?uni ;
+         dct:issued ?date ;
+         s:mainEntityOfPage ?url .
+    ?uni s:name ?name .
+    filter (lang(?name) = "en")
+}
 
-prefix s: <http://schema.org/>
-prefix bib: <http://purl.org/ontology/bibo/>
-prefix dct: <http://purl.org/dc/terms/>
-prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#author-list>(?title ?idx) {
     format {
         "%s%s%s. %s"
@@ -189,11 +166,6 @@ template <#author-list>(?title ?idx) {
             s:familyName ?fname .
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#talks>(?person) {
     "<h2>Talks &amp; Tutorials</h2>"
     "<ul>"
@@ -203,11 +175,6 @@ template <#talks>(?person) {
     ?person a s:Person .
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#talk>(?person) {
     "<li>"
         st:call-template(<#anchor>, ?url, ?name)
@@ -220,11 +187,6 @@ template <#talk>(?person) {
           s:mainEntityOfPage ?url .
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#software>(?person) {
     "<h2>Software</h2>"
     "<ul>"
@@ -234,11 +196,6 @@ template <#software>(?person) {
     ?person a s:Person .
 }
 
----
-
-prefix s: <http://schema.org/>
-prefix st: <http://ns.inria.fr/sparql-template/>
-base <https://www.vcharpenay.link/>
 template <#software-item>(?person) {
     "<li>"
         st:call-template(<#anchor>, ?repo, ?name)

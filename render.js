@@ -15,9 +15,8 @@ const me = {
     'value': 'https://www.vcharpenay.link/#me'
 };
 
-fs.readFileSync('templates.sparql', 'utf-8')
-.split('---')
-.forEach(tpl => sttl.register(tpl));
+const tpl = fs.readFileSync('templates.sparql', 'utf-8');
+sttl.register(tpl);
 
 sttl.connect(q => {
     return urdf.query(q)
