@@ -1,0 +1,217 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix td: <https://www.w3.org/2019/wot/td#> .
+@prefix hctl: <https://www.w3.org/2019/wot/hypermedia#> .
+@prefix jsonschema: <https://www.w3.org/2019/wot/json-schema#> .
+@prefix saref: <https://w3id.org/saref#> .
+@prefix bot: <https://w3id.org/bot#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix : <https://www.vcharpenay.link/misc/td-ssn-rules.ttl#> .
+
+# SSN/SAREF alignment
+
+saref:Motion rdfs:subClassOf sosa:ObservableProperty .
+
+saref:OnOffState rdfs:subClassOf sosa:ObservableProperty, sosa:ActuatableProperty .
+
+saref:Light rdfs:subClassOf sosa:ObservableProperty .
+
+saref:LightingDevice rdfs:subClassOf sosa:Actuator .
+
+# Preliminary definitions on SAREF
+    
+:isLight a owl:ObjectProperty .
+
+saref:Light rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isLight ;
+        owl:hasSelf true
+    ] .
+
+:isOnOffState a owl:ObjectProperty .
+
+saref:OnOffState rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isOnOffState ;
+        owl:hasSelf true
+    ] .
+
+:isOnOffCommand a owl:ObjectProperty .
+
+saref:OnOffCommand rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isOnOffCommand ;
+        owl:hasSelf true
+    ] .
+
+# Preliminary definitions on TD
+
+td:hasPropertyAffordance a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        td:hasPropertyAffordance
+        jsonschema:properties
+    ) .
+
+td:hasPropertyAffordance a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        td:hasPropertyAffordance
+        jsonschema:items
+    ) .
+
+:SelfAffordance a owl:Class ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ssn:forProperty ;
+        owl:hasSelf true
+    ], [
+        a owl:Class ;
+        owl:unionOf (
+            td:PropertyAffordance
+            ssn:Property
+        )
+    ] .
+
+# if a Thing exposes an on/off command and an on/off state,
+# the command relates to the on/off state itself.
+#
+# forProperty(Cmd, Prop) :-
+#   hasActionAffordance(Thing, Cmd), OnOffCommand(Cmd),
+#   hasPropertyAffordance(Thing, Aff), forProperty(Aff, Prop),
+#   OnOffState(Prop) .
+
+:hasOnOffCommandAffordance a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        td:hasActionAffordance
+        :isOnOffCommand
+    ) .
+
+ssn:forProperty owl:propertyChainAxiom (
+        [ owl:inverseOf td:hasOnOffCommandAffordance ]
+        :hasAffordanceForOnOffState
+    ) .
+
+# every Thing (in the test set) is in the same room.
+#
+# hasElement(room, Thing) :- thing(Thing) .
+
+:room a bot:Space, sosa:FeatureOfInterest .
+
+td:Thing rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty [ owl:inverseOf bot:hasElement ] ;
+        owl:hasValue :room .
+    ] .
+
+# if a Thing is a feature of interest with an on/off state and
+# if it exposes an affordance to an on/off state, then it is
+# also its own state.
+#
+# hasProperty(Thing, OtherState) :-
+#   hasProperty(Thing, Prop), onOffState(Prop),
+#   hasInteractionAffordance(Thing, Aff), forProperty(Aff, OtherProp),
+#   onOffState(OtherProp) .
+
+:hasOnOffState a owl:ObjectProperty, owl:FunctionalProperty ;
+    owl:propertyChainAxiom (
+        ssn:hasProperty
+        :isOnOffState
+    ) .
+    
+:isHavingOnOffState a owl:ObjectProperty .
+
+:HavingOnOffState a owl:Class ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :hasOnOffState ;
+        owl:someValuesFrom owl:Thing
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isHavingOnOffState ;
+        owl:hasSelf true
+    ] .
+
+:hasAffordanceForOnOffState a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        td:hasInteractionAffordance
+        :isOnOffState
+    ) .
+
+ssn:hasProperty owl:propertyChainAxiom (
+        :isHavingOnOffState
+        :hasAffordanceForOnOffState
+    ) .
+
+# if a Thing observes an illuminance property and
+# if it exposes an affordance for an illuminance property,
+# then it observes that property.
+#
+# observes(Thing, Prop) :-
+#   observes(Thing, Prop), light(Prop),
+#   hasInteractionAffordance(Thing, Aff), forProperty(Aff, OtherProp),
+#   light(OtherProp) .
+    
+:observesLight a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        ssn:observes
+        :isLight
+    ) .
+    
+:isObservingLight a owl:ObjectProperty .
+
+:ObservingLight a owl:Class ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :observesLight ;
+        owl:someValuesFrom owl:Thing
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isObservingLight ;
+        owl:hasSelf true
+    ] .
+
+:hasAffordanceForLight a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        td:hasInteractionAffordance
+        :isLight
+    ) .
+    
+sosa:observes owl:propertyChainAxiom (
+        :isObservingLight
+        :hasAffordanceForLight
+    ) .
+
+# if a Thing is an actuator and it exposes an affordance for an on/off state,
+# then it acts on that state.
+#
+# observes(Thing, Prop) :-
+#   actuator(Thing),
+#   hasInteractionAffordance(Thing, Aff), forProperty(Aff, Prop),
+#   onOffState(Prop) .
+    
+:actsOnOnOffState a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        sosa:actsOn
+        :isOnOffState
+    ) .
+    
+:isActingOnOnOffState a owl:ObjectProperty .
+
+:ActingOnOnOffState a owl:Class ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :actsOnOnOffState ;
+        owl:someValuesFrom owl:Thing
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isActingOnOnOffState ;
+        owl:hasSelf true
+    ] .
+    
+sosa:actsOn owl:propertyChainAxiom (
+        :isActingOnOnOffState
+        :hasAffordanceForOnOffState
+    ) .
