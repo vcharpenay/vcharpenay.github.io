@@ -186,7 +186,7 @@ sosa:observes owl:propertyChainAxiom (
 # if a Thing is an actuator and it exposes an affordance for an on/off state,
 # then it acts on that state.
 #
-# observes(Thing, Prop) :-
+# actsOnProperty(Thing, Prop) :-
 #   actuator(Thing),
 #   hasInteractionAffordance(Thing, Aff), forProperty(Aff, Prop),
 #   onOffState(Prop) .
