@@ -27,11 +27,77 @@
 
     <ul>
         <li><a href="../misc/all-td-impl.json">All original TD documents</a></li>
-        <li><a href="../misc/unique-td-impl.json">TD documents with a unique set of affordances</a></li>
-        <li><a href="../misc/annotated-td-impl.json">TD documents annotated with SSN &amp; SAREF</a></li>
+        <li><a href="../misc/unique-td-impl.jsonld">TD documents with a unique set of affordances</a></li>
+        <li><a href="../misc/annotated-td-impl.jsonld">TD documents annotated with SSN &amp; SAREF</a></li>
         <li><a href="../misc/td-ssn-rules.ttl">Domain rules (OWL axioms) combining TD, SSN &amp; SAREF terms to apply on the annotated TD documents</a></li>
     </ul>
     
+    <p>
+        Example queries:
+    </p>
+
+    <ul>
+        <li>
+            <span style="font-style: italic;">list all Things</span>
+            <pre>
+                <code>
+PREFIX td: &lt;https://www.w3.org/2019/wot/td#&gt;
+
+SELECT DISTINCT ?thing WHERE {
+    { ?thing td:hasPropertyAffordance ?aff }
+    UNION
+    { ?thing td:hasActionAffordance ?aff }
+    UNION
+    { ?thing td:hasEventAffordance ?aff }
+} ORDER BY ?thing
+                </code>
+            </pre>
+        </li>
+        <li>
+            <span style="font-style: italic;">list all Things and their affordances</span>
+            <pre>
+                <code>
+PREFIX td: &lt;https://www.w3.org/2019/wot/td#&gt;
+
+SELECT ?thing ?type ?name WHERE {
+    { ?thing td:hasPropertyAffordance ?aff . bind ("property" as ?type) }
+    UNION
+    { ?thing td:hasActionAffordance ?aff . bind ("action" as ?type) }
+    UNION
+    { ?thing td:hasEventAffordance ?aff . bind ("event" as ?type) }
+    ?aff td:name ?name
+} ORDER BY ?thing
+                </code>
+            </pre>
+        </li>
+        <li>
+            <span style="font-style: italic;">list all Things with their semantic tags</span>
+            <pre>
+                <code>
+PREFIX td: &lt;https://www.w3.org/2019/wot/td#&gt;
+
+SELECT ?thing ?type ?name WHERE {
+    { ?uri1 td:hasPropertyAffordance ?uri2 . bind ("property" as ?type) }
+    UNION
+    { ?uri1 td:hasActionAffordance ?uri2 . bind ("action" as ?type) }
+    UNION
+    { ?uri1 td:hasEventAffordance ?uri2 . bind ("event" as ?type) }
+
+    optional {
+        ?uri1 a ?class1
+        bind (strafter(str(?class1), "#") as ?thing)
+    }
+
+    optional {
+        ?uri2 a ?class2
+        bind (strafter(str(?class2), "#") as ?name)
+    }
+} ORDER BY ?uri1
+                </code>
+            </pre>
+        </li>
+    </ul>
+
     <!-- <p>
         Example:
     </p> -->
