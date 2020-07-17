@@ -100,7 +100,7 @@ ssn:forProperty owl:propertyChainAxiom (
 td:Thing rdfs:subClassOf [
         a owl:Restriction ;
         owl:onProperty [ owl:inverseOf bot:hasElement ] ;
-        owl:hasValue :room .
+        owl:hasValue :room
     ] .
 
 # if a Thing is a feature of interest with an on/off state and
