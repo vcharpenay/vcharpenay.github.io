@@ -13,6 +13,7 @@ template <#index>(?person) {
             "<title>"
                 st:call-template(<#name>, ?person)
             "</title>"
+            "<link rel=\"alternate\" type=\"application/ld+json\" href=\"vcharpenay.jsonld\">"
             "<link rel=\"stylesheet\" href=\"css/basic.css\">"
         "</head>"
         "<body>"
