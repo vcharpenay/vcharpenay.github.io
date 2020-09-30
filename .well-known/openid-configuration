@@ -1,0 +1,6 @@
+{
+    "issuer": "https://inrupt.net",
+    "authorization_endpoint": "https://inrupt.net/authorize",
+    "token_endpoint": "https://inrupt.net/token",
+    "userinfo_endpoint": "https://inrupt.net/userinfo"
+}
