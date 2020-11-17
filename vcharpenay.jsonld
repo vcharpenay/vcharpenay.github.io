@@ -21,16 +21,16 @@
 			"givenName": "Victor",
 			"familyName": "Charpenay",
 			"foaf:name": "Victor Charpenay",
-			"description": "I am a Computer & Web Science researcher, currently based in Nuremberg. I hold a PhD in Computer Science from the University of Passau and a German-French Master's degree from the University of Passau and the engineering school INSA Lyon. My research topics include semantics for the Web of Things, knowledge management and exchange in embedded environments. I am a contributor to the W3C Web of Things standards.",
-			"email": "victor.charpenay@fau.de",
+			"description": "I am a Computer Science researcher and Maître de conférences (associate professor) at Mines Saint-Étienne. I hold a PhD in Computer Science from the University of Passau and a German-French Master's degree from the University of Passau and the engineering school INSA Lyon. My research topics include semantics for the Web of Things, knowledge management and exchange in embedded environments. I am a contributor to the W3C Web of Things standards.",
+			"email": "victor.charpenay@emse.fr",
 			"affiliation": {
 				"@type": "CollegeOrUniversity",
 				"name": {
-					"@value": "Friedrich-Alexander-Universität (FAU) Erlangen-Nürnberg",
-					"@language": "de"
+					"@value": "École des Mines de Saint-Étienne (EMSE)",
+					"@language": "fr"
 				},
-				"alternateName": "FAU",
-				"mainEntityOfPage": "https://www.fau.de/"
+				"alternateName": "EMSE",
+				"mainEntityOfPage": "https://www.emse.fr/"
 			},
 			"alumniOf": [
 				{
