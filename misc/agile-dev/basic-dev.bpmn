@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1ecwrnb" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="8.0.0">
+  <bpmn:process id="Process_0c4a0jo">
+    <bpmn:task id="Activity_13fb05m" name="think of something">
+      <bpmn:incoming>Flow_1damgqn</bpmn:incoming>
+      <bpmn:outgoing>Flow_02sfdmb</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="Event_1v796p4">
+      <bpmn:outgoing>Flow_1damgqn</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_0tagp8f" name="draft a first design">
+      <bpmn:incoming>Flow_02sfdmb</bpmn:incoming>
+      <bpmn:outgoing>Flow_05wcok1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_1rncevw" name="implement a prototype">
+      <bpmn:incoming>Flow_05wcok1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m3n4oa</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_0wkl8hk" name="evaluate the prototype">
+      <bpmn:incoming>Flow_0m3n4oa</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ks8f05</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_02sfdmb" sourceRef="Activity_13fb05m" targetRef="Activity_0tagp8f" />
+    <bpmn:sequenceFlow id="Flow_05wcok1" sourceRef="Activity_0tagp8f" targetRef="Activity_1rncevw" />
+    <bpmn:sequenceFlow id="Flow_0m3n4oa" sourceRef="Activity_1rncevw" targetRef="Activity_0wkl8hk" />
+    <bpmn:sequenceFlow id="Flow_1damgqn" sourceRef="Event_1v796p4" targetRef="Activity_13fb05m" />
+    <bpmn:endEvent id="Event_0vobufq">
+      <bpmn:incoming>Flow_0ks8f05</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ks8f05" sourceRef="Activity_0wkl8hk" targetRef="Event_0vobufq" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0c4a0jo">
+      <bpmndi:BPMNEdge id="Flow_02sfdmb_di" bpmnElement="Flow_02sfdmb">
+        <di:waypoint x="360" y="120" />
+        <di:waypoint x="450" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05wcok1_di" bpmnElement="Flow_05wcok1">
+        <di:waypoint x="550" y="120" />
+        <di:waypoint x="630" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m3n4oa_di" bpmnElement="Flow_0m3n4oa">
+        <di:waypoint x="730" y="120" />
+        <di:waypoint x="820" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1damgqn_di" bpmnElement="Flow_1damgqn">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="260" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ks8f05_di" bpmnElement="Flow_0ks8f05">
+        <di:waypoint x="920" y="120" />
+        <di:waypoint x="1002" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_13fb05m_di" bpmnElement="Activity_13fb05m">
+        <dc:Bounds x="260" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tagp8f_di" bpmnElement="Activity_0tagp8f">
+        <dc:Bounds x="450" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rncevw_di" bpmnElement="Activity_1rncevw">
+        <dc:Bounds x="630" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wkl8hk_di" bpmnElement="Activity_0wkl8hk">
+        <dc:Bounds x="820" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1v796p4_di" bpmnElement="Event_1v796p4">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0vobufq_di" bpmnElement="Event_0vobufq">
+        <dc:Bounds x="1002" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

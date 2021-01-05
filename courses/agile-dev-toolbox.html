@@ -10,6 +10,17 @@
 		<link rel="stylesheet" href="../css/slides.css">
 		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
 
+		<style>
+			figcaption {
+				color: gray;
+				font-size: 50%;
+			}
+
+			figure img {
+				height: 30%; /* FIXME not calculated as 30% of total height */
+			}
+		</style>
+
 		<!-- Theme used for syntax highlighted code -->
 		<!-- <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme"> -->
 	</head>
@@ -23,34 +34,78 @@
 				<section>
 					<section>
 						<h4>Preliminaries</h4>
-						<ul>
-							<li>Project  = Set of activities</li>
-							<li>Activity = Agents + Entities (artifacts)</li>
-							<li>Project Management = (efficient) planning and execution of the project</li>
-						</ul>
+						<table>
+							<tbody>
+								<tr>
+									<td>Project</td><td>set of Activities</td>
+								</tr>
+								<tr>
+									<td>Activity</td><td>Agents + Artifacts</td>
+								</tr>
+							</tbody>
+						</table>
+						<figure>
+							<img src="../misc/agile-dev/basic-dev.svg">
+							<img src="../misc/agile-dev/basic-dev-with-artifacts.svg">
+							<figcaption>BPMN diagram of a basic development process</figcaption>
+						</figure>
 					</section>
 					<section>
 						<h4>Preliminaries</h4>
+						<p>Project Management</td><td>(efficient) planning and execution of the project</p>
 						<p>Scope of the course: tools for agile development.</p>
 					</section>
 					<section>
-						<h4>Preliminaries</h4>
+						<h4>Agile Development Is <u>Iterative</u></h4>
+						<p>Many iterations imply many artifacts. Version control.</p>
+						<figure>
+							<img src="../misc/agile-dev/iterative-dev.svg">
+							<figcaption>BPMN diagram of an iterative development process</figcaption>
+						</figure>
+					</section>
+					<section>
+						<h4>Agile Development Is <u>Decentralized</u></h4>
+						<p>An agile team has (theoretically) no upper management. It is self-organized.</p>
+						<figure>
+							<img src="../misc/agile-dev/decentralized-dev.svg">
+							<figcaption>BPMN diagram of a multiparty development process (with swimlanes)</figcaption>
+						</figure>
+					</section>
+					<section>International ~ Decentralized</section>
+					<section>
 						<p>
-							Not limited to software artifacts or source code. Any (textual) entity can be produced this way.
-							Specifics of the method: decentralization.
+							Not limited to software artifacts or source code. Any (textual) entity can be produced in an agile fashion.
+							Condition for success: no exchange of goods, only an exchange of information.
 						</p>
 					</section>
 				</section>
 				<section>
-					<section>International ~ Decentralized</section>
-					<section>Comparison with Wikipedia</section>
-					<section>Synchronization problem (or conflict management). Stigmergy as a solution.</section>
-					<section>Traces left: Issues</section>
+					<section>
+						<p>Typical project management toolbox: artifact repository + issue tracker + wiki/doc</p>
+						<p>What theoretical foundations? In brief...</p>
+					</section>
+					<section>
+						<p>What can make a(n) (iterative and decentralized) project go wrong?</p>
+						<p>Synchronization problem (or conflict management).</p>
+						<p>no solution: n2 communication channels for n project stakeholders</p>
+						<p>bad solution: central planning. High level of exchange (because of agility) increases delays and potential misunderstanding.</p>
+						<p>other solution: stigmergy.</p>
+					</section>
+					<section>
+						<p>Stigmergy in biology. Termites, ant food foraging.</p>
+						<p>Stigmergy in social sciences. Wikipedia/Linux.</p>
+						<img alt="Diagram with direct communication">
+						<img alt="Diagram with stigermic interaction">
+					</section>
+					<section>Traces left: "requests for action" (issues), close to the related artifacts. Same for doc (hence, Javadoc, README)</section>
 				</section>
 				<section>
 					<section>history: Kanban at Toyota</section>
 					<section>Kanban boards (Trello)</section>
-					<section>importance of hierarchies/coordination</section>
+					<section>
+						<p>Gitlab (and now, Github) merges the project management stack into one platform</p>
+						<p>other project management platforms: Atlassian suite, Redmine (with various integrations to CVS)</p>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -67,11 +122,24 @@
 					<section>
 						<h4>Gitlab Basics</h4>
 						<ul>
-							<li>label</li>
-							<li>board</li>
+							<li>label (feature, fix, wontfix) (todo, in progress, done, deferred)</li>
+							<li>board (backlog: list of issues, other lists)</li>
 							<li>release</li>
 							<li>(pipelines)</li>
 						</ul>
+					</section>
+					<section>
+						<p>Mapping from Scrum principles to Gitlab jargon</p>
+						<table>
+							<tbody>
+								<tr>
+									<td>Sprint</td><td>Milestone</td>
+								</tr>
+								<tr>
+									<td>Backlog</td><td>List</td>
+								</tr>
+							</tbody>
+						</table>
 					</section>
 				</section>
 			</div>
