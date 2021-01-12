@@ -81,27 +81,74 @@
 				</section>
 				<section>
 					<section>
-						<p>Typical project management toolbox: artifact repository + issue tracker + wiki/doc</p>
-						<p>What theoretical foundations? In brief...</p>
+						<h4>Standard Toolbox</h4>
+						<!-- what scope: (agile) software dev, any IT project, any project? -->
+						<ul>
+							<li class="fragment fade-up">Artifact repository (for versioning)</li>
+							<li class="fragment fade-up">Issue tracker (for task management)</li>
+							<li class="fragment fade-up">Documentation platform, wiki (for all the rest)</li>
+						</ul>
+						<p class="fragment">What theoretical foundations? In brief...</p>
 					</section>
 					<section>
-						<p>What can make a(n) (iterative and decentralized) project go wrong?</p>
-						<p>Synchronization problem (or conflict management).</p>
-						<p>no solution: n2 communication channels for n project stakeholders</p>
-						<p>bad solution: central planning. High level of exchange (because of agility) increases delays and potential misunderstanding.</p>
-						<p>other solution: stigmergy.</p>
+						<p>What can make a<span class="fragment">n iterative and decentralized</span> project go wrong?</p>
+						<p>Many artifacts, many (potential) dependencies</p>
+						<p>many artifacts: single place/1-to-n communication, many dependencies: 1-to-1 communication</p>
+						<p>1-to-1: n2 communication channels for n project stakeholders</p>
+						<p>1-to-n: central planning. High level of exchange (because of agility) increases delays and potential misunderstanding.</p>
+						<p>other solution: stigmergy. "0-to-0" communication</p>
 					</section>
 					<section>
-						<p>Stigmergy in biology. Termites, ant food foraging.</p>
-						<p>Stigmergy in social sciences. Wikipedia/Linux.</p>
-						<img alt="Diagram with direct communication">
-						<img alt="Diagram with stigermic interaction">
+						<h4>Stigmergy</h4>
+						<p>Stigmergy is an indirect form of communication in which an agent leaves traces in the environment that other agents can perceive.</p>
 					</section>
-					<section>Traces left: "requests for action" (issues), close to the related artifacts. Same for doc (hence, Javadoc, README)</section>
-				</section>
-				<section>
-					<section>history: Kanban at Toyota</section>
-					<section>Kanban boards (Trello)</section>
+					<section>
+						<h4>Stigmergy</h4>
+						<div style="display: flex;">
+							<figure>
+								<img src="../misc/agile-dev/direct-communication.svg">
+								<figcaption>BPMN diagram of a direct communication scheme</figcaption>
+							</figure>
+							<figure>
+								<img src="../misc/agile-dev/stigmergic-communication.svg">
+								<figcaption>BPMN diagram of a stigmergic communication scheme</figcaption>
+							</figure>
+						</div>
+					</section>
+					<section>
+						<h4>Stigmergy</h4>
+						<p>Stigmergy in life sciences: social insects.</p>
+						<figure>
+							<img src="../misc/agile-dev/termites.gif">
+							<figcaption>Agent-based model of termites building nests (NetLogo)</figcaption>
+							<!-- http://ccl.northwestern.edu/netlogo/models/Termites -->
+						</figure>
+						<figure>
+							<img src="../misc/agile-dev/ants.gif">
+							<figcaption>Agent-based model of ants foraging for food (NetLogo)</figcaption>
+							<!-- http://ccl.northwestern.edu/netlogo/models/Ants -->
+						</figure>
+					</section>
+					<section>
+						<h4>Stigmergy</h4>
+						<p>Stigmergy in social sciences: Wikipedia.</p>
+					</section>
+					<section>
+						<h4>Stigmergy</h4>
+						<p>Stigmergy in engineering: Linux.</p>
+						<!-- traces in Linux workflow: contributed submissions (patches, drivers) -->
+						<!-- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process -->
+					</section>
+					<section>
+						<p>
+							Single shared environment (code base) with version control.
+						</p>
+						<p>
+							Traces left: "requests for action" (issues), close to the related artifacts. Same for doc (hence, Javadoc, README)
+						</p>
+						<p>The concept of stigmergy underlies most agile methods, such as Scrum (traces = backlog) or Kanban (know Trello?)</p>
+						<p>Combination of both to adapt to scale change: Scrumban.</p>
+					</section>
 					<section>
 						<p>Gitlab (and now, Github) merges the project management stack into one platform</p>
 						<p>other project management platforms: Atlassian suite, Redmine (with various integrations to CVS)</p>
@@ -111,12 +158,54 @@
 					<section>
 						<h4>Git Basics</h4>
 						<ul>
+							<li>clone</li>
 							<li>commit</li>
 							<li>push and remotes</li>
 							<li>branching and merging</li>
 							<li>conflicts</li>
 						</ul>
 					</section>
+					<section>
+						<h4>Branching</h4>
+						<a href="https://guides.github.com/introduction/flow/">Github Flow</a>
+						<a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a>
+						<figure>
+							<img src="https://nvie.com/img/git-model@2x.png">
+							<figcaption>Example of branching (source: <a href="https://nvie.com/posts/a-successful-git-branching-model/">nvie.com</a>)</figcaption>
+						</figure>
+					</section>
+				</section>
+				<section>
+					<!-- parenthesis on Kanban (Scrumban), as a preliminary to Gitlab -->
+					<section>
+						history: Kanban at Toyota
+
+						Ono:
+						<figure>
+							<img src="../misc/agile-dev/kanban.png">
+							<figcaption>Example of Kanban (source: Taiichi Ōno (2012), <i>Toyota production system: beyond large-scale production</i>)</figcaption>
+						</figure>
+						<!-- p. 27 -->
+					</section>
+					<section>
+						Monden:
+						(p. 10) simplified Kanban process
+						<figure>
+							<img src="../misc/agile-dev/kanban-process.png">
+							<figcaption>Supplier Kanban process (source: Yasuhiro Monden (1988), <i>Toyota Production System: an integrated approach to Just-In-Time</i>)</figcaption>
+						</figure>
+						<!-- p. 62 -->
+					</section>
+					<!-- from material flows to immaterial "work" flows --> 
+					<section>
+						Kanban boards
+						<!-- see also "Agile Project Management with Kanban", Eric Brechner at Xbox -->
+						<figure>
+							<img src="../misc/agile-dev/kanboard-brechner2015.png">
+							<figcaption>Example Kanban board with <a href="https://kanboard.org/">Kanboard</a></figcaption>
+						</figure>
+					</section>
+					<section>Important aspects: reactive nature of the method. Pull, not push (always start from requirements).</section>
 				</section>
 				<section>
 					<section>
@@ -125,13 +214,39 @@
 							<li>label (feature, fix, wontfix) (todo, in progress, done, deferred)</li>
 							<li>board (backlog: list of issues, other lists)</li>
 							<li>release</li>
+							<li>milestones</li>
 							<li>(pipelines)</li>
 						</ul>
+						<p>Example of <a href="https://gitlab.gnome.org/">GNOME</a>, whose community adopted Gitlab for project management</p>
 					</section>
 					<section>
-						<p>Mapping from Scrum principles to Gitlab jargon</p>
+						<p>Long-term vision (multiple releases ahead)</p>
+						<figure>
+							<img src="../misc/agile-dev/gnome-board.png">
+							<figcaption>GNOME project board</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>Short-term vision (single release)</p>
+						<figure>
+							<img src="../misc/agile-dev/gnome-milestones.png">
+							<figcaption>GNOME project milestones</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>Operations (individual issue)</p>
+						<figure>
+							<img src="../misc/agile-dev/gimp-milestone.png">
+							<figcaption>Example of an open GIMP project milestone</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>Mapping from Scrum/Kanban concepts to Gitlab jargon</p>
 						<table>
 							<tbody>
+								<tr>
+									<td>Kanban</td><td>Issue</td>
+								</tr>
 								<tr>
 									<td>Sprint</td><td>Milestone</td>
 								</tr>
@@ -140,6 +255,36 @@
 								</tr>
 							</tbody>
 						</table>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Further Reading (Git)</h4>
+						<ul>
+							<li>
+								<a href="https://twitwi.github.io/Presentation-2016-09-01-git-gitlab-hcurien/">Introduction to Version Control using Git and Gitlab</a>:
+								a more detailed lecture on Git by Rémi Emonet (Université Jean Monnet)
+							</li>
+							<li>
+								<a href="https://git-scm.com/">The official Git website</a>:
+								a well-documented reference for all questions about Git commands
+							</li>
+							<li>
+								<a href="http://ndpsoftware.com/git-cheatsheet.html">One of the many Git cheatsheets</a>
+							</li>
+							<!-- <li>
+								<a href="https://agilemanifesto.org/">Manifesto for Agile Software Development</a>:
+								where it all started
+							</li> -->
+						</ul>
+					</section>
+					<section>
+						<h4>Further Reading (Gitlab)</h4>
+						<ul>
+							<li>
+								<a href="https://about.gitlab.com/stages-devops-lifecycle/issueboard/">Introduction to Gitlab's issue boards</a>
+							</li>
+						</ul>
 					</section>
 				</section>
 			</div>
