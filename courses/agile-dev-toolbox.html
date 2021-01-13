@@ -213,8 +213,78 @@
 					</section>
 				</section>
 				<section>
+					<h4>Stigmergy</h4>
 					<section>
-						<h4>Git Basics</h4>
+						<p>The fundamental concept that most agile development tools adopt for collaboration is <u>stigmergy</u>.</p>
+						<br>
+						<p class="fragment">Stigmergy is an indirect form of communication in which agents leaves <u>traces</u> in a <u>shared environment</u>.</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/agile-dev/direct-communication.svg">
+							<figcaption>BPMN diagram of a direct communication scheme</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/agile-dev/stigmergic-communication.svg">
+							<figcaption>BPMN diagram of a stigmergic communication scheme</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>Stigmergy in life sciences: termites.</p>
+						<br>
+						<!-- TODO better image proportions -->
+						<div style="display: flex;">
+							<figure>
+								<img src="../misc/agile-dev/termites.gif">
+								<figcaption>Agent-based model of termites building nests (NetLogo)</figcaption>
+								<!-- http://ccl.northwestern.edu/netlogo/models/Termites -->
+							</figure>
+							<figure>
+								<img src="https://upload.wikimedia.org/wikipedia/commons/0/09/RayNorris_termite_cathedral_mounds.jpg">
+								<figcaption>"Cathedral mounds," i.e. nests built by termites (source: Wikipedia)</figcaption>
+							</figure>
+						</div>
+					</section>
+					<section>
+						<p>Stigmergy in life sciences: ant colonies.</p>
+						<br>
+						<figure>
+							<img src="../misc/agile-dev/ants.gif">
+							<figcaption>Agent-based model of ants foraging for food (NetLogo)</figcaption>
+							<!-- http://ccl.northwestern.edu/netlogo/models/Ants -->
+						</figure>
+					</section>
+					<section>
+						<p>Stigmergy in social sciences: Wikipedia.</p>
+						<figure>
+							<img src="../misc/agile-dev/wikipedia-template-message.png">
+							<figcaption>Screeshot of a Wikipedia note</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>Stigmergy in engineering: Linux.</p>
+						<figure>
+							<img src="../misc/agile-dev/linux-code-tree.png">
+							<figcaption>Screenshot of the Linux code tree (all code changes leave a trace in the tree)</figcaption>
+							<!-- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process -->
+						</figure>
+						<!-- traces in Linux workflow: contributed submissions (patches, drivers) -->
+						<!-- see also https://www.evolutionofcomputing.org/Multicellular/InternetStigmergyStructures.html -->
+					</section>
+					<section>
+						<p>Rules of stigmergy in agile projects:</p>
+						<ol>
+							<li class="fragment">Project artifacts are visible to all project members (shared environment)</li>
+							<li class="fragment">Artifacts to consume are associated with "requests for actions" (traces)</li>
+							<li class="fragment">Artifacts to produce are associated with "change logs" (traces)</li>
+						</ol>
+					</section>
+				</section>
+				<section>
+					<h4>Git Basics</h4>
+					<section>
 						<ul>
 							<li>clone</li>
 							<li>commit</li>
@@ -237,71 +307,11 @@
 					</section>
 				</section>
 				<section>
+					<!-- parenthesis on Kanban (Scrumban), as a preliminary to Gitlab -->
 					<section>
-						<h4>Standard Toolbox</h4>
-						<!-- what scope: (agile) software dev, any IT project, any project? -->
-						<ul>
-							<li class="fragment fade-up">Artifact repository (for versioning)</li>
-							<li class="fragment fade-up">Issue tracker (for task management)</li>
-							<li class="fragment fade-up">Documentation platform, wiki (for all the rest)</li>
-							<li class="fragment fade-up">Production pipeline, CI/CD (for in-between)</li>
-						</ul>
-						<p class="fragment">What theoretical foundations? In brief...</p>
-					</section>
-					<section>
-						<h4>Stigmergy</h4>
-						<p>Stigmergy is an indirect form of communication in which an agent leaves traces in the environment that other agents can perceive.</p>
-					</section>
-					<section>
-						<h4>Stigmergy</h4>
-						<div style="display: flex;">
-							<figure>
-								<img src="../misc/agile-dev/direct-communication.svg">
-								<figcaption>BPMN diagram of a direct communication scheme</figcaption>
-							</figure>
-							<figure>
-								<img src="../misc/agile-dev/stigmergic-communication.svg">
-								<figcaption>BPMN diagram of a stigmergic communication scheme</figcaption>
-							</figure>
-						</div>
-					</section>
-					<section>
-						<h4>Stigmergy</h4>
-						<p>Stigmergy in life sciences: social insects.</p>
-						<figure>
-							<img src="../misc/agile-dev/termites.gif">
-							<figcaption>Agent-based model of termites building nests (NetLogo)</figcaption>
-							<!-- http://ccl.northwestern.edu/netlogo/models/Termites -->
-						</figure>
-						<figure>
-							<img src="../misc/agile-dev/ants.gif">
-							<figcaption>Agent-based model of ants foraging for food (NetLogo)</figcaption>
-							<!-- http://ccl.northwestern.edu/netlogo/models/Ants -->
-						</figure>
-					</section>
-					<section>
-						<h4>Stigmergy</h4>
-						<p>Stigmergy in social sciences: Wikipedia.</p>
-					</section>
-					<section>
-						<h4>Stigmergy</h4>
-						<p>Stigmergy in engineering: Linux.</p>
-						<!-- traces in Linux workflow: contributed submissions (patches, drivers) -->
-						<!-- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process -->
-					</section>
-					<section>
-						<p>
-							Single shared environment (code base) with version control.
-						</p>
-						<p>
-							Traces left: "requests for action" (issues), close to the related artifacts. Same for doc (hence, Javadoc, README)
-						</p>
-						<p>The concept of stigmergy underlies most agile methods, such as Scrum (traces = backlog) or Kanban (know Trello?)</p>
+						<p>Main agile methods: Scrum (traces = backlog), Kanban (know Trello?)</p>
 						<p>Combination of both to adapt to scale change: Scrumban.</p>
 					</section>
-				</section>
-				<section>
-					<!-- parenthesis on Kanban (Scrumban), as a preliminary to Gitlab -->
 					<section>
 						history: Kanban at Toyota
 
