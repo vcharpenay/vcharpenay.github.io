@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="../css/slides-reset.css">
 		<link rel="stylesheet" href="../css/slides.css">
 		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
 
 		<style>
 			.reveal .slides section section {
@@ -39,9 +40,6 @@
 				height: 30%; /* FIXME not calculated as 30% of total height */
 			}
 		</style>
-
-		<!-- Theme used for syntax highlighted code -->
-		<!-- <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme"> -->
 	</head>
 	<body>
 		<div class="reveal">
@@ -208,7 +206,7 @@
 						</table>
 						<br>
 						<div class="fragment note">
-							<p>In the context of the lecture, we will use an instance of <span class="highlight">Gitlab</span> hosted at Mines Saint-Étienne.</p>
+							<p>In this lecture, we will use an instance of <span class="highlight">Gitlab</span> hosted at Mines Saint-Étienne.</p>
 						</div>
 					</section>
 				</section>
@@ -285,25 +283,88 @@
 				<section>
 					<h4>Git Basics</h4>
 					<section>
-						<ul>
-							<li>clone</li>
-							<li>commit</li>
-							<li>push and remotes</li>
-							<li>branching and merging</li>
-							<li>conflicts</li>
-						</ul>
+						<p>First, get a <u>local copy</u> of the code base of a project.</p>
+						<br>
+						<pre><code>git clone https://gitlab.emse.fr/&lt;username&gt;/&lt;project&gt;.git</code></pre>
 					</section>
 					<section>
-						<h4>Branching</h4>
-						<a href="https://guides.github.com/introduction/flow/">Github Flow</a>
-						<a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a>
+						<p>Create a new <u>branch</u> of the code base. Each feature or bug fix is associated with a branch.</p>
+						<br>
+						<pre><code>git checkout -b new-feature</code></pre>
+					</section>
+					<section>
+						<p>Perform changes to the code and <u>commit</u> them, as in a database transaction.</p>
+						<br>
+						<pre><code>git add &lt;file1&gt; &lt;file2&gt;...</code></pre>
+						<pre><code>git commit -m "summary of the changes performed"</code></pre>
+					</section>
+					<section>
+						<p>
+							When the feature is implemented or the bug fixed (after several commits),
+							return to the <u>master</u> branch and <u>fetch</u> (or pull) the latest remote copy of the code base.
+						</p>
+						<br>
+						<pre><code>git checkout master</code></pre>
+						<pre><code>git pull</code></pre>
+					</section>
+					<section>
+						<p>
+							Then, <u>merge</u> the created branch back to the master branch and
+							<u>push</u> the merged code base to the remote location.
+						</p>
+						<br>
+						<pre><code>git merge new-feature</code></pre>
+						<pre><code>git push</code></pre>
+					</section>
+					<section>
+						<p>
+							The <a href="https://guides.github.com/introduction/flow/">Github Flow</a> introduces a slightly more elaborate usage of Git.
+						</p>
+						<!-- <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"> -->
+					</section>
+					<section>
+						<p>
+							The <a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a> encourages an even more elaborate usage of Git.
+						</p>
+						<!-- <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/GitLab_Logo.svg"> -->
+					</section>
+					<section>
+						<p>Large-scale projects may have even more complex workflows with Git, with multiple branches for development/production.</p>
 						<figure>
 							<img src="https://nvie.com/img/git-model@2x.png">
 							<figcaption>Example of branching (source: <a href="https://nvie.com/posts/a-successful-git-branching-model/">nvie.com</a>)</figcaption>
 						</figure>
 					</section>
 					<section>
-						Semantic versioning
+						<p>Code releases are generally numbered according to the <a href="https://semver.org/">semantic versioning</a> guidelines.</p>
+						<br>
+						<p>
+							v<span style="color: lightseagreen;">2</span>.<span style="color: lightsalmon;">4</span>.<span style="color: lightcoral;">20</span><br>
+						</p>
+						<table>
+							<tbody>
+								<tr style="background: lightseagreen;">
+									<td>Major version</td>
+									<td>Is backward incompatible with previous versions</td>
+								</tr>
+								<tr style="background: lightsalmon;">
+									<td>Minor version</td>
+									<td>Includes new functionalities</td>
+								</tr>
+								<tr style="background: lightcoral;">
+									<td>Patch version</td>
+									<td>Includes bug fixes</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<section>
+						<div class="note">
+							<p>
+								A release process is generally automated through a production pipeline.
+								Such pipelines are outside the scope of this lecture.
+							</p>
+						</div>
 					</section>
 				</section>
 				<section>
@@ -426,8 +487,12 @@
 		</div>
 
 		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
 		<script>
-			Reveal.initialize({ hash: true });
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
 		</script>
 	</body>
 </html>
