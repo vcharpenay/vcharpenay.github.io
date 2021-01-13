@@ -11,6 +11,20 @@
 		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
 
 		<style>
+			.slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.slides .note {
+				padding: 1em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.slides .note .highlight {
+				color: brown;
+			}
+
 			figcaption {
 				color: gray;
 				font-size: 50%;
@@ -32,51 +46,80 @@
 					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
 				</section>
 				<section>
+					<h4>Preliminaries</h4>
 					<section>
-						<h4>Preliminaries</h4>
-						<table>
-							<tbody>
-								<tr>
-									<td>Project</td><td>set of Activities</td>
-								</tr>
-								<tr>
-									<td>Activity</td><td>Agents + Artifacts</td>
-								</tr>
-							</tbody>
-						</table>
+						<p><b>Activity</b>: period of time during which agents consume and produce artifacts</p>
+						<br>
+						<p><b>Project</b>: (partially ordered) set of activitie</p>
+					</section>
+					<!-- TODO show swimlane to materialize agent -->
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/basic-dev.svg">
-							<img src="../misc/agile-dev/basic-dev-with-artifacts.svg">
-							<figcaption>BPMN diagram of a basic development process</figcaption>
+							<figcaption>BPMN diagram of a basic software development project</figcaption>
 						</figure>
 					</section>
 					<section>
-						<h4>Preliminaries</h4>
-						<p>Project Management</td><td>(efficient) planning and execution of the project</p>
-						<p>Scope of the course: tools for agile development.</p>
+						<figure>
+							<img src="../misc/agile-dev/basic-dev-with-artifacts.svg">
+							<figcaption>BPMN diagram of a basic software development project (with artifacts)</figcaption>
+						</figure>
 					</section>
 					<section>
-						<h4>Agile Development Is <u>Iterative</u></h4>
-						<p>Many iterations imply many artifacts. Version control.</p>
+						<p><b>Project Management</b>: (efficient) planning and execution of the project</p>
+						<br>
+						<div class="fragment note">
+							<p>The scope of this course are tools for <span class="highlight">agile</span> project management.</p>
+						</div>
+					</section>
+					<section>
+						<p>Agile development is <u>iterative</u>. Many iterations implies many (versioned) artifacts.</p>
 						<figure>
 							<img src="../misc/agile-dev/iterative-dev.svg">
-							<figcaption>BPMN diagram of an iterative development process</figcaption>
+							<figcaption>BPMN diagram of an iterative software development project</figcaption>
 						</figure>
 					</section>
 					<section>
-						<h4>Agile Development Is <u>Decentralized</u></h4>
-						<p>An agile team has (theoretically) no upper management. It is self-organized.</p>
+						<p>Agile development is <u>decentralized</u>. An agile team is self-organized.</p>
 						<figure>
 							<img src="../misc/agile-dev/decentralized-dev.svg">
-							<figcaption>BPMN diagram of a multiparty development process (with swimlanes)</figcaption>
+							<figcaption>BPMN diagram of a multiparty software development project (with swimlanes)</figcaption>
 						</figure>
 					</section>
-					<section>International ~ Decentralized</section>
+					<section>
+						<div class="note">
+							<p>
+								<span class="highlight">International</span> project management is a particular case of decentralized project management.
+							</p>
+						</div>
+						<div class="fragment note" style="margin-top: 0.2em;">
+							<p>
+								<span class="highlight">Pandemic-time</span> management is another.
+							</p>
+						</div>
+					</section>
 					<section>
 						<p>
-							Not limited to software artifacts or source code. Any (textual) entity can be produced in an agile fashion.
-							Condition for success: no exchange of goods, only an exchange of information.
+							Agile project development is not limited to software artifacts or source code.
 						</p>
+						<br>
+						<p class="fragment">
+							Any (textual) artifact can be produced in an agile fashion.
+						</p>
+					</section>
+					<section>
+						<p>Other examples:</p>
+						<ul>
+							<li class="fragment">Construction work (design phase)</li>
+							<li class="fragment">Industrial products (simulation)</li>
+							<li class="fragment">Technical standards, e.g. by IEC, W3C</li>
+						</ul>
+						<!-- <br>
+						<div class="fragment note">
+							<p>
+								Condition for success: no exchange of goods, only an exchange of information.
+							</p>
+						</div> -->
 					</section>
 				</section>
 				<section>
