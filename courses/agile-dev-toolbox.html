@@ -368,24 +368,25 @@
 					</section>
 				</section>
 				<section>
+					<h4>Kanban</h4>
 					<!-- parenthesis on Kanban (Scrumban), as a preliminary to Gitlab -->
 					<section>
-						<p>Main agile methods: Scrum (traces = backlog), Kanban (know Trello?)</p>
-						<p>Combination of both to adapt to scale change: Scrumban.</p>
+						<p>The two main agile methods are <u>Scrum</u> and <u>Kanban</u>.</p>
+						<br>
+						<p>Gitlab integrates functionalities to mix both methods in a single project (what is also called Scrumban).</p>
 					</section>
 					<section>
-						history: Kanban at Toyota
+						<p>Kanban emerged as a methodology to manage inventories at Toyota.</p>
 
-						Ono:
 						<figure>
 							<img src="../misc/agile-dev/kanban.png">
-							<figcaption>Example of Kanban (source: Taiichi Ōno (2012), <i>Toyota production system: beyond large-scale production</i>)</figcaption>
+							<figcaption>Example of "Kanban" (source: Taiichi Ōno (2012), <i>Toyota production system: beyond large-scale production</i>)</figcaption>
 						</figure>
 						<!-- p. 27 -->
 					</section>
 					<section>
-						Monden:
-						(p. 10) simplified Kanban process
+						<p>A Kanban is a piece of paper that helps visualize the material flow along a supply chain.</p>
+
 						<figure>
 							<img src="../misc/agile-dev/kanban-process.png">
 							<figcaption>Supplier Kanban process (source: Yasuhiro Monden (1988), <i>Toyota Production System: an integrated approach to Just-In-Time</i>)</figcaption>
@@ -394,49 +395,47 @@
 					</section>
 					<!-- from material flows to immaterial "work" flows --> 
 					<section>
-						Kanban boards
+						<p>The Kanban methodology was then adapted to immaterial "work" flows, through <u>Kanban boards</u>.</p>
 						<!-- see also "Agile Project Management with Kanban", Eric Brechner at Xbox -->
 						<figure>
 							<img src="../misc/agile-dev/kanboard-brechner2015.png">
 							<figcaption>Example Kanban board with <a href="https://kanboard.org/">Kanboard</a></figcaption>
 						</figure>
 					</section>
-					<section>Important aspects: reactive nature of the method. Pull, not push (always start from requirements).</section>
+					<!-- <section>Important aspects: reactive nature of the method. Pull, not push (always start from requirements).</section> -->
 				</section>
 				<section>
+					<h4>Gitlab Basics</h4>
 					<section>
-						<h4>Gitlab Basics</h4>
-						<ul>
-							<li>label (feature, fix, wontfix) (todo, in progress, done, deferred)</li>
-							<li>board (backlog: list of issues, other lists)</li>
-							<li>release</li>
-							<li>milestones</li>
-							<li>(pipelines)</li>
-						</ul>
-						<p>Example of <a href="https://gitlab.gnome.org/">GNOME</a>, whose community adopted Gitlab for project management</p>
+						<p>A product backlog materializes on Gitlab as a list of <u>issues</u>.</p>
+						<br>
+						<p>Issues can be organized as Kanban boards through <u>labels</u> and assigned to specific <u>milestones</u> (i.e. sprints).</p>
 					</section>
 					<section>
-						<p>Long-term vision (multiple releases ahead)</p>
+						<p>The free and open-source <a href="https://gitlab.gnome.org/">GNOME</a> project is managed entirely with Gitlab.</p>
+					</section>
+					<section>
+						<p>The long-term vision of GNOME (multiple releases ahead) is managed as a Kanban board.</p>
 						<figure>
 							<img src="../misc/agile-dev/gnome-board.png">
 							<figcaption>GNOME project board</figcaption>
 						</figure>
 					</section>
 					<section>
-						<p>Short-term vision (single release)</p>
+						<p>Its short-term vision (single release) is managed via Scrum.</p>
 						<figure>
 							<img src="../misc/agile-dev/gnome-milestones.png">
 							<figcaption>GNOME project milestones</figcaption>
 						</figure>
 					</section>
 					<section>
-						<p>Operations (individual issue)</p>
+						<p>Concrete implementation work (individual issue) is again managed with Kanban boards.</p>
 						<figure>
 							<img src="../misc/agile-dev/gimp-milestone.png">
 							<figcaption>Example of an open GIMP project milestone</figcaption>
 						</figure>
 					</section>
-					<section>
+					<!-- <section>
 						<p>Mapping from Scrum/Kanban concepts to Gitlab jargon</p>
 						<table>
 							<tbody>
@@ -451,7 +450,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</section>
+					</section> -->
 				</section>
 				<section>
 					<section>
