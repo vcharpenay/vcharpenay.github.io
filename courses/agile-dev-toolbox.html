@@ -11,26 +11,31 @@
 		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
 
 		<style>
-			.slides section section {
+			.reveal .slides section section {
 				margin-top: 1.5em; /* margin for upper section title */
 			}
 
-			.slides .note {
-				padding: 1em;
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
 				color: peru;
 				background-color: wheat;
 			}
 
-			.slides .note .highlight {
+			.reveal .slides .note .highlight {
 				color: brown;
 			}
-
-			figcaption {
-				color: gray;
-				font-size: 50%;
+			
+			.reveal .slides table {
+				font-size: 0.5em;
 			}
 
-			figure img {
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
 				height: 30%; /* FIXME not calculated as 30% of total height */
 			}
 		</style>
@@ -123,6 +128,115 @@
 					</section>
 				</section>
 				<section>
+					<h4>The Standard Toolbox</h4>
+					<section data-auto-animate>
+						<p data-id="q">
+							What is needed to manage an<br>
+							<span>agile</span><br>
+							project?
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p data-id="q">
+							What is needed to manage an<br>
+							<span>iterative and decentralized</span><br>
+							project?
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p data-id="q">
+							What is needed to manage an<br>
+							<span>iterative and decentralized</span><br>
+							project?
+						</p>
+						<br>
+						<p>
+							<u style="text-decoration-color: lightseagreen;">Version control</u>
+							and
+							<u style="text-decoration-color: lightsalmon;">Communication</u>
+						</p>
+						<!-- is communication the right keyword? -->
+					</section>
+					<section>
+						<p>Individual tools can cover either aspect of project management.</p>
+						<br>
+						<table>
+							<thead>
+								<tr>
+									<th>Tool Category</th>
+									<th>Examples</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr style="background-color: lightseagreen;">
+									<td>Version control system</td>
+									<td>git, mercurial, svn</td>
+								</tr>
+								<tr style="background-color: lightseagreen;">
+									<td>Production pipeline</td>
+									<td>Travis, Jenkins</td>
+								</tr>
+								<tr style="background-color: lightsalmon;">
+									<td>Issue tracker</td>
+									<td>Redmine, Jira</td>
+								</tr>
+								<tr style="background-color: lightsalmon;">
+									<td>Wiki</td>
+									<td>MediaWiki, Confluence</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<section data-auto-animate>
+						<p>Some platforms provide integrated solutions.</p>
+						<br>
+						<table>
+							<thead>
+								<tr>
+									<th>Examples</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr style="background: linear-gradient(lightseagreen, lightsalmon)">
+									<td>
+										Atlassian suite (Bitbucket/Jira/Confluence),<br>
+										Github,<br>
+										Gitlab
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<div class="fragment note">
+							<p>In the context of the lecture, we will use an instance of <span class="highlight">Gitlab</span> hosted at Mines Saint-Étienne.</p>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Git Basics</h4>
+						<ul>
+							<li>clone</li>
+							<li>commit</li>
+							<li>push and remotes</li>
+							<li>branching and merging</li>
+							<li>conflicts</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Branching</h4>
+						<a href="https://guides.github.com/introduction/flow/">Github Flow</a>
+						<a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a>
+						<figure>
+							<img src="https://nvie.com/img/git-model@2x.png">
+							<figcaption>Example of branching (source: <a href="https://nvie.com/posts/a-successful-git-branching-model/">nvie.com</a>)</figcaption>
+						</figure>
+					</section>
+					<section>
+						Semantic versioning
+					</section>
+				</section>
+				<section>
 					<section>
 						<h4>Standard Toolbox</h4>
 						<!-- what scope: (agile) software dev, any IT project, any project? -->
@@ -130,16 +244,9 @@
 							<li class="fragment fade-up">Artifact repository (for versioning)</li>
 							<li class="fragment fade-up">Issue tracker (for task management)</li>
 							<li class="fragment fade-up">Documentation platform, wiki (for all the rest)</li>
+							<li class="fragment fade-up">Production pipeline, CI/CD (for in-between)</li>
 						</ul>
 						<p class="fragment">What theoretical foundations? In brief...</p>
-					</section>
-					<section>
-						<p>What can make a<span class="fragment">n iterative and decentralized</span> project go wrong?</p>
-						<p>Many artifacts, many (potential) dependencies</p>
-						<p>many artifacts: single place/1-to-n communication, many dependencies: 1-to-1 communication</p>
-						<p>1-to-1: n2 communication channels for n project stakeholders</p>
-						<p>1-to-n: central planning. High level of exchange (because of agility) increases delays and potential misunderstanding.</p>
-						<p>other solution: stigmergy. "0-to-0" communication</p>
 					</section>
 					<section>
 						<h4>Stigmergy</h4>
@@ -191,31 +298,6 @@
 						</p>
 						<p>The concept of stigmergy underlies most agile methods, such as Scrum (traces = backlog) or Kanban (know Trello?)</p>
 						<p>Combination of both to adapt to scale change: Scrumban.</p>
-					</section>
-					<section>
-						<p>Gitlab (and now, Github) merges the project management stack into one platform</p>
-						<p>other project management platforms: Atlassian suite, Redmine (with various integrations to CVS)</p>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h4>Git Basics</h4>
-						<ul>
-							<li>clone</li>
-							<li>commit</li>
-							<li>push and remotes</li>
-							<li>branching and merging</li>
-							<li>conflicts</li>
-						</ul>
-					</section>
-					<section>
-						<h4>Branching</h4>
-						<a href="https://guides.github.com/introduction/flow/">Github Flow</a>
-						<a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a>
-						<figure>
-							<img src="https://nvie.com/img/git-model@2x.png">
-							<figcaption>Example of branching (source: <a href="https://nvie.com/posts/a-successful-git-branching-model/">nvie.com</a>)</figcaption>
-						</figure>
 					</section>
 				</section>
 				<section>
