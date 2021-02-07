@@ -87,7 +87,8 @@ template <#publications>(?person) {
 template <#publication>(?person) {
     "<li>"
         if(?type = "conf", st:call-template(<#conference-paper>, ?title),
-        if(?type = "thesis", st:call-template(<#thesis>, ?title), ""))
+        if(?type = "jnl", st:call-template(<#journal-paper>, ?title),
+        if(?type = "thesis", st:call-template(<#thesis>, ?title), "")))
     "</li>"
 } where {
     ?pub a bib:Document ;
@@ -98,7 +99,11 @@ template <#publication>(?person) {
         ?pub bib:presentedAt ?event .
         bind ("conf" as ?type)
     }
-    # TODO union journal paper...
+    union
+    {
+        ?pub dct:isPartOf ?journal .
+        bind ("jnl" as ?type)
+    }
     union
     {
         ?pub a bib:Thesis .
@@ -125,8 +130,27 @@ template <#conference-paper>(?title) {
     }
     ?event s:name ?name
     bind (bound(?url) as ?a)
-    # TODO support lists in uRDF.js
-    #?l rdf:first ?person .
+}
+
+template <#journal-paper>(?title) {
+    st:call-template(<#author-list>, ?title, 0)
+    ", "
+    format {
+        "\"%s,\" %s, %s."
+        if(?a, st:call-template(<#anchor>, ?url, ?title), ?title)
+        ?name
+        ?date
+    }
+} where {
+    ?pub a bib:Document ;
+         dct:title ?title ;
+         dct:isPartOf ?journal ;
+         dct:issued ?date .
+    optional {
+        ?pub s:mainEntityOfPage ?url
+    }
+    ?journal s:name ?name
+    bind (bound(?url) as ?a)
 }
 
 template <#thesis>(?title) {

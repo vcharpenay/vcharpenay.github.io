@@ -11,6 +11,9 @@
         "title": {
             "@id": "dct:title"
         },
+        "isPartOf": {
+            "@id": "dct:isPartOf"
+        },
         "issued": {
             "@id": "dct:issued"
         },
@@ -34,6 +37,67 @@
             "@id": "#darko",
             "s:givenName": "Darko",
             "s:familyName": "Anicic"
+        },
+        {
+            "@id": "#daniel",
+            "s:givenName": "Daniel",
+            "s:familyName": "Schraudner"
+        },
+        {
+            "@id": "#thomas",
+            "s:givenName": "Thomas",
+            "s:familyName": "Seidelmann"
+        },
+        {
+            "@id": "#jens",
+            "s:givenName": "Jens",
+            "s:familyName": "Weise"
+        },
+        {
+            "@id": "#torsten",
+            "s:givenName": "Torsten",
+            "s:familyName": "Spieldenner"
+        },
+        {
+            "@id": "#rené",
+            "s:givenName": "René",
+            "s:familyName": "Schubotz"
+        },
+        {
+            "@id": "#sanaz",
+            "s:givenName": "Sanaz",
+            "s:familyName": "Mostaghim"
+        },
+        {
+            "@id": "#andreas",
+            "s:givenName": "Andreas",
+            "s:familyName": "Harth"
+        },
+        {
+            "@id": "#2021-ieee-pc",
+            "@type": "Document",
+            "title": "MOSAIK: A Formal Model for Self-Organizing Manufacturing Systems",
+            "authorList": [
+                "#me",
+                "#daniel",
+                "#thomas",
+                "#jens",
+                "#torsten",
+                "#rené",
+                "#sanaz",
+                "#andreas"
+            ],
+            "isPartOf": {
+                "@type": "Journal",
+                "s:name": "IEEE Pervasive Computing",
+                "s:alternateName": "IEEE PC",
+                "s:mainEntityOfPage": "https://www.computer.org/csdl/magazine/pc"
+            },
+            "volume": "",
+            "issue": "",
+            "doi": "10.1109/MPRV.2020.3035837",
+            "issued": "2021",
+            "s:mainEntityOfPage": "publications/2021-ieee-pc.pdf"
         },
         {
             "@id": "#2020-eswc",
