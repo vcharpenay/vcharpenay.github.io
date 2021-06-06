@@ -79,8 +79,8 @@
 				},
 				{
 					"@type": "SoftwareSourceCode",
-					"codeRepository": "https://github.com/thingweb/thingweb-directory/",
-					"name": "Thingweb Directory"
+					"codeRepository": "https://github.com/bold-benchmark/bold-server/",
+					"name": "BOLD Server"
 				},
 				{
 					"@type": "SoftwareSourceCode",

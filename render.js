@@ -33,3 +33,5 @@ urdf.load(vcharpenay, opts)
 .then(() => urdf.load(blog, opts))
 .then(() => sttl.callTemplate('https://www.vcharpenay.link/#index', me))
 .then(html => fs.writeFileSync('index.html', html));
+
+// TODO replace with STTL.js CLI
