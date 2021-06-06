@@ -8,6 +8,15 @@
             "author": [
                 {
                     "@type": "BlogPosting",
+                    "datePublished": "2019-11",
+                    "sharedContent": {
+                        "@id": "notes/impressionistic-deep-learning.html",
+                        "@type": "WebPage",
+                        "name": "Impressionistic Deep Learning"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
                     "datePublished": "2019-09",
                     "sharedContent": {
                         "@id": "notes/science-vs-engineering.html",

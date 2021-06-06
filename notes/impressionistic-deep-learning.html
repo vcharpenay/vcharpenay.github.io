@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Impressionistic Deep Learning | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+</head>
+
+<body>
+    <h1>Impressionistic Deep Learning</h1>
+
+    <p class="info">
+        November 2019
+    </p>
+
+    <p>
+        Yann LeCun has a great metaphore about how we might be using our neurons to learn things:
+        to him, learning is a (piece of) cake. More precisely, a Génoise cake where
+    </p>
+
+    <ol>
+        <li><em>self-supervised learning</em> is the Génoise itself,</li>
+        <li><em>supervised learning</em> is the crusty, chocolaty part (icing) and</li>
+        <li><em>reinforcement learning</em> is really just the cherry on top.</li>
+    </ol>
+
+    <p>
+        This cake metaphore shall highlight the amount of input data a system must "eat" to learn new
+        things. What it takes to sustain a gluton mind is not just one cherry but the many layers of
+        basic sponge cake, with lots of cream. Similarly, LeCun argues, intelligence emerges mostly
+        from trying to predict the past/present/future of what happens in the outside world, without
+        human supervision<a href="#note-1"><sup>1</sup></a>. A typical task self-supervised learning
+        task is to intentionally remove parts of a message and trying to reconstruct the whole message
+        from what is left, a bit like when a pupil is trying to learn a poem by heart.
+    </p>
+
+    <p>
+        Not long after LeCun exposes his theory
+        (<a href="https://www.youtube.com/watch?v=zikdDOzOpxY">in an ACM talk</a>, around 46'), he
+        draws our attention to the fact that, while self-supervised learning works well with text (as
+        the BERT Web-scale experiment showed), there is quite some room for improvement with images
+        and videos. His take on why it is so is that text is discrete and easy to model in a
+        probabilistic way while images and video are inherently continuous. Their projection onto
+        high-dimensional vector spaces can only be imperfectly represented as probabilities.
+    </p>
+
+    <p>
+        In the specific task of predicting future frames in a video, convolutional neural networks
+        tend to produce an "average of all possible futures" while one would suffice. LeCun's answer
+        to that problem are the infamous Generative Adversiarial Networks (GANs), those
+        generator/discriminator architectures that can create deep fakes.
+    </p>
+
+    <p>
+        The success of GANs is surprising and in fact, LeCun's observation that images and videos
+        are continuous rather than discrete doesn't help explain why GANs are more suited than
+        other architectures for generation.
+    </p>
+
+    <p>
+        There is another big difference between text and visual content: one comes from a language
+        expressed by cognitive agents, the other is a passive recording of the physical world. Agents
+        can speak a language but they cannot record the world as a camera would. They can only
+        interpret it (and use arbitrary discrete symbols to convey their interpretation of it).
+    </p>
+
+    <p>
+        Human languages betray a notion of abstraction (some words are more generic than others)
+        that recordings don't have. In that perspective, neural networks should learn to
+        <em>describe</em> possible futures rather than to depict them, with all the useful
+        simplifications one can make wherever there is uncertainty. Besides, humans are pretty
+        bad at producing graphical depictions of the physical world, let alone photorealistic
+        ones.
+    </p>
+
+    <p>
+        Why are GANs so good at producing deep fakes, then? Their basic language seems to be too
+        primitive to deal with uncertainties: it can generate <em>any</em> image as a 2D array of
+        pixels. Yet, the language they are offered through training sets are much more restricted.
+        The training set used in <a href="https://arxiv.org/abs/1710.10196">deep fake experiments on
+        faces</a> are all cropped in a consistent fashion, so that no other detail is salient
+        (backgrounds are blurry, image size is standard). Color and shape distibutions are much
+        more restricted than the HSV space of arbitrary images. Similarly, the GAN that first
+        imitated famous painters
+        (<a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Zhu_Unpaired_Image-To-Image_Translation_ICCV_2017_paper.pdf">CycleGAN</a>)
+        learn only higher-level features, given that most pixels remain in place in the target
+        picture. In other words, the network does not learn to paint (<i>à la</i> Monet). It
+        learns impressionism, provided backgroun knowledge on fine arts.
+    </p>
+
+    <p>
+        Explaining the success of GANs through the lens of language also explains why/how other
+        forms of generative networks work good. In his talk, LeCun moves on to variational
+        autoencoders with an example of highway cameras monitoring traffic and explaing the
+        behavior of individual cars that enter the camera's frame. The
+        <a href="https://arxiv.org/abs/1901.02705">presented network</a> already has a model of
+        the world at hand: cars are rectangle having straight trajectories, they can brake,
+        they can accelerate and they can turn left or right, one line at a time. This is pretty
+        simple language<a href="#note-2"><sup>2</sup></a>.
+    </p>
+
+    <p>
+        To conclude: to make generic neural networks good at predicting the future, it might
+        be more interesting to make them speak. Which means they would also have to learn
+        from textual descriptions of images. For instance, look at that 
+        <a href="https://www.youtube.com/watch?v=nsjDnYxJ0bo">other piece of work</a> on "real"
+        neural networks (humans) that tries to reconstruct images from MRIs: did the patient
+        record the whole image? Probably not. However they surely are able to talk about it
+        after they watched it. An alternative experiment could be to produce textual descriptions
+        from the same MRIs (or description using some abstract scenic language).
+    </p>
+
+    <p>
+        See also <i>Ce dont on ne peut parler, il faut l'écrire</i> by Gilles Dowek,
+        a book on computer languages.
+    </p>
+
+    <p id="note-1" class="info">
+        (1) That brings us back to the <a href="from-a-to-b.html">discussion</a> on learning
+        causation (an interpretation) from experience (observations of truth values).
+    </p>
+
+    <p id="note-2" class="info">
+        (2) It is even possible to describe driving policies with psychological terms,
+        see <a href="braitenberg-vehicle.html">Braitenberg vehicles</a>.
+    </p>
+</body>
+<html>
