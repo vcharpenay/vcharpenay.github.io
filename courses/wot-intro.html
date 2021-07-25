@@ -1,0 +1,536 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Introduction to the Web of Things</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Introduction to the Web of Things</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Outline</h4>
+					<ol>
+						<li class="fragment">Sensors and Actuators (on the Web)</li>
+						<li class="fragment">The Idea of a Web of <em>Thing</em></li>
+						<li class="fragment">Representational State Transfer</li>
+						<li class="fragment">The W3C Thing Description Model</li>
+						<li class="fragment">Affordance Selection and Planning</li>
+					</ol>
+				</section>
+				<section>
+					<h4>Sensors and Actuators (on the Web)</h4>
+					<section>
+						<p>
+							The Web of Things is the latest emergence of a long-lasting field of research.
+						</p>
+					</section>
+					<section>
+						<ul style="list-style-type: none;">
+							<li><b>1948</b> Cybernetics</li>
+							<li><b>1993</b> Ubiquitous Computing</li>
+							<li><b>1998</b> Ambient Intelligence</li>
+							<li><b>2000</b> Wireless Sensor Networks</li>
+							<li><b>2000</b> Internet of Things</li>
+							<li><b>2001</b> Pervasive Computing</li>
+							<li><b>2007</b> Cyber-Physical Systems</li>
+							<li><b>2009</b> <u>Web of Things</u></li>
+						</ul>
+					</section>
+					<section>
+						<!-- 2 systems (control, SuC) -->
+						<p>
+							<b>Cybernetics</b>:
+							Science related to the automatic control of systems in a broad sense,
+							from industrial systems to living organisms.
+						</p>
+					</section>
+					<section>
+						<!-- "wireless" perception -->
+						<p>
+							<b>Ubiquitous &amp; Pervasive Computing, Ambient intelligence</b>:
+							Methods of computation that aim at making computing transparent to users
+							as well as aware of the user's environment through autonomous perception.
+						</p>
+						<p class="note fragment">
+							Mobile applications using GPS traces inherit from that field of research.
+						</p>
+					</section>
+					<section>
+						<!-- many more systems, self-organization -->
+						<p>
+							<b>Wireless Sensor Networks, Internet of Things</b>:
+							Forms of networking that take advantage of the availability of
+							cheaper and smaller computational devices.
+						</p>
+						<p class="note fragment">
+							See e.g. <a href="https://github.com/tinyos/">TinyOS</a> and <a href="http://www.contiki-os.org/">Contiki</a>.
+						</p>
+					</section>
+					<section>
+						<!-- recursive system modeling -->
+						<p>
+							<b>Cyber-Physical (Production) Systems</b>:
+							Systems of arbitrary size combining control components and physical equipment.
+						</p>
+						<p class="note fragment">
+							A CPS can be defined at the level of an entire supply chain.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/cps-soa.png">
+							<figcaption>
+								Projection of the ISA-95 automation pyramid onto a Service-Oriented Architecture (SOA);
+								source: cited by <a href="https://doi.org/10.1016/j.procir.2014.03.115">(Monostori, 2014)</a>
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/cps-5c.png">
+							<figcaption>
+								The 5C model for CPSs; source: <a href="http://doi.org/10.1016/j.mfglet.2014.12.001">(Lee et al., 2015)</a>
+							</figcaption>
+						</figure>
+					</section>
+					<!-- Venn diagram with Sensor Web, Embedded Web, Semantic Web, ... -->
+					<section>
+						<p>
+							The Web of Things addresses the main technical problem that comes with
+							increasing numbers of sensing and actuation devices: <b>interoperability</b>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/wot-timeline.png">
+							<figcaption>
+								The Web of Things' past;
+								source: <a href="https://gitlab.emse.fr/ai4industry/hackathon/-/blob/ai4industry2020/slides/wot-keynote.pdf">(Matthias Kovatsch, 2020)</a>
+							</figcaption>
+						</figure>
+					</section>
+				</section>
+				<section>
+					<h4>The Idea of a Web of <em>Things</em></h4>
+					<section>
+						<p>
+							The Open Geospatial Consortium (OGC) first used the Web to publish sensor measurements in a unified manner.
+						</p>
+						<figure>
+							<img src="../misc/wot-intro/swe-concept.png">
+							<figcaption>source: <a href="https://docs.opengeospatial.org/wp/07-165r1/">(Botts et al., 2013)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements in a standard XML format
+							(O&amp;M).
+						</p>
+						<p class="fragment">
+							SOS, O&amp;M and other OGC standards are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
+						</p>
+					</section>
+					<section>
+						<p>
+							SWE then combined with Semantic Web technologies has become the <b>Semantic Sensor Web</b>.
+						</p>
+						<p class="note fragment">
+							The Semantic Sensor Web has led to the standardization of the <a></a>Semantic Sensor Network (SSN) ontology. 
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/ssw-model.png">
+							<figcaption>O&amp;M instances extended with other semantic models; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/ssw-arch.png">
+							<figcaption>SOS is enriched with semantic annotations; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							On the Semantic Sensor Web, the inference rules that are used to enrich sensor observations may be simple.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<p>
+								<code>
+<pre>
+	Observation(?obs) &
+	described(?obs, ?weather) &
+	FreezingCondition(?weather) &
+	HighWindCondition(?weather) &
+	SnowCondition(?weather) & 
+		=> BlizzardCondition(?weather)
+</pre>
+								</code>
+							</p>
+							<figcaption>Example of inference rule for weather monitoring; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Key is not the <b>complexity</b> of inference but the <b>completeness</b> of the knowledge.
+						</p>
+						<p class="note fragment">
+							Hence, the idea of <em>ubiquitous</em> computing.
+						</p>
+					</section>
+					<section>
+						<p>
+							Now, what about an "<span><em>Actuator</em></span> Web Enablement"?
+						</p>
+						<p class="fragment">
+							Now, what about a "<span><em>Thing</em></span> Web Enablement"?
+						</p>
+					</section>
+					<section>
+						<p>
+							"<em>Every kind of thing can have its own kind of reason for being a thing.</em>"
+							— Patrick Hayes <a href="https://philpapers.org/rec/HAYTSN-2">(Hayes, 1983)</a>
+						</p>
+						<!-- wooclap -->
+						<!-- sensor, AC, MRI machine, human, a location -->
+						<!-- command, temperature, event -->
+						<!-- TODO use DUL entities? Wikidata subclasses of Entity? -->
+					</section>
+					<section>
+						<p>
+							<em>Things</em> can be combined in different ways to build applications.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/wot-rest-wilde.png">
+							<figcaption>First proposal for a Web of Things; source <a href="https://escholarship.org/uc/item/1786t1dm">(Wilde, 2007)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Application "mash-ups" can be automated based on semantic descriptions of Things.
+						</p>
+					</section>
+					<section>
+						<p>
+							Smart home scenario (air conditioner):
+						</p>
+						<ul>
+							<li>power on/off</li>
+							<li>set temperature</li>
+							<li>set intensity</li>
+							<li>set mode</li>
+							<li>(external) unit conversion</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/semantic-ide.png">
+							<figcaption>source: <a href="http://doi.org/10.1109/IOT.2015.7356548">(Kovatsch et al., 2015)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Manufacturing scenario:
+						</p>
+						<ul>
+							<li>Robotic arms with different reach</li>
+							<li>production cells (heater, fan)</li>
+							<li>human workers</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/ubermanufacturing.png">
+							<figcaption>source: <a href="http://doi.org/10.1145/2991561.2991569">(Mayer et al., 2016)</a></figcaption>
+						</figure>
+					</section>
+					<!-- <section>
+						<p>
+							Guinard, Trifa. Building the Web of Things.
+							<img src="../misc/wot-intro/wot-book-cover.png">
+						</p>
+					</section> -->
+					<section>
+						<p>
+							A prerequisite to application mash-ups is a standard API to all <em>Web Things</em>.
+						</p>
+					</section>
+					<section>
+						<p>
+							<a href="https://www.w3.org/Submission/wot-model/"></a>
+						</p>
+						<figure>
+							<p>
+								<code>
+<pre>
+	{wt}
+	{wt}/model
+	{wt}/properties
+	{wt}/properties/{id}
+	{wt}/actions
+	{wt}/actions/{id}
+	{wt}/actions/{id}/{actionId}
+	{wt}/things
+	{wt}/things/{id}
+	{wt}/subscriptions
+</pre>
+								</code>
+							</p>
+							<figcaption>source: <a href="https://www.w3.org/Submission/wot-model/">(Trifa et al., 2015)</a></figcaption>
+						</figure>
+					</section>
+					<!-- <section>
+						OpenAPI and RESTful Web services.
+						Ex: Github API, https://apis.guru/
+
+						I4.0 AAS in REST:
+						<a href="https://app.swaggerhub.com/apis/Plattform_i40/AssetAdministrationShell-REST-API/Review1"></a>
+					</section> -->
+					<section>
+						<p>
+							How to manage changing data and physical effects of Web services?
+						</p>
+					</section>
+					<section>
+						<figure>
+							<p style="font-size: 0.75em;">
+								Some time in a not so distant future, you are having trouble with
+								your new household robot. You say "Willie, bring me a beer."
+								The robot replies "OK, boss."
+								<span class="fragment">
+									Twenty minutes later, you screech "Willie, why didn't you bring
+									that beer?" It answers "Well, I intended to get you the beer, but I
+									decided to do something else.
+								</span>
+							</p>
+							<figcaption>source: <a href="">(Cohen and Levesque, 1990)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						Key idea: Willie, as a Web server, exposes its current action as a Web resource. 
+					</section>
+				</section>
+				<section>
+					<h4>Representational State Transfer</h4>
+					<section>
+						<p>
+							Representational State Transfer (REST) is a set of architectural constraints
+							<a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">(Fielding, 2000)</a>.
+						</p>
+					</section>
+					<section data-auto-animate>
+						<ol>
+							<li>client-server architecture</li>
+							<li>stateless communication</li>
+							<li>cache</li>
+							<li>uniform interface</li>
+							<li>layered system</li>
+							<li>code-on-demand</li>
+						</ol>
+					</section>
+					<section data-auto-animate>
+						<ol>
+							<li>client-server architecture</li>
+							<li>stateless communication</li>
+							<li>cache</li>
+							<li><b>uniform interface</b></li>
+							<li>layered system</li>
+							<li>code-on-demand</li>
+						</ol>
+					</section>
+					<!-- <section>
+						<p>
+							Important constraint: resource representations.
+							==> RDF
+						</p>
+					</section>
+					<section>
+						REST and Hypermedia. HATEOAS.
+
+						Example of (WoT) authentication.
+						Dispatch server (load balancing). E.g. with BBB.
+					</section>
+					<section>
+						(Web Navigation Window)
+						Integrated EMSE services.
+						(vs. Gafam dead-ends)
+					</section>
+					<section>
+						<p>
+							Pub-Sub: decoupling in space and time.
+							<a href="http://doi.org/10.1145/857076.857078"></a>
+						</p>
+						<p>
+							REST vs. pub-sub (MQTT).
+							Pub-sub with REST: WebSub.
+							REST with pub-sub: MQTT response topics.
+						</p>
+					</section> -->
+				</section>
+				<section>
+					<h4>The W3C Thing Description Model</h4>
+					<section>
+						<p>
+							REST is (theoretically) independent of the communication protocol.
+							A WoT standard should also target IoT and industrial protocols.
+						</p>
+					</section>
+					<section>
+						<ul>
+							<li>CoAP <span style="font-size: 0.5em;">(is used e.g. by <a href="https://onem2m.org/">oneM2M</a> and <a href="http://www.openmobilealliance.org/wp/Overviews/lightweightm2m_overview.html">OMA LWM2M</a>)</span></li>
+							<li>MQTT <span style="font-size: 0.5em;">(is the <i>de facto</i> IoT protocol)</span></li>
+							<li>Modbus <span style="font-size: 0.5em;">(is important in industry automation)</span></li>
+							<li>BACnet <span style="font-size: 0.5em;">(is important in building automation)</span></li>
+							<li>...</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/censys-screenshot.png">
+							<figcaption>publicly available Modbus and BACnet devices; source: <a href="https://search.censys.io/">censys.io</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Two more examples:
+						</p>
+						<ul>
+							<li class="fragment">The <a href="https://itm-factory.fr/">IT'm factory</a> in Saint-Étienne has a (TCP) <b>OPC-UA</b> interface only.</li>
+							<li class="fragment">The Espace Fauriel building in Saint-Étienne has an automation system (from 1991) with a <b>KNX</b> interface only.</li>
+						</ul>
+						<!-- but a gateway is necessary, anyway? -->
+						<!-- if single requests, then OK. But what about KNX alarms? Stateful server. -->
+					</section>
+					<!-- <section>
+						<p>
+							DIY with ARM Cortex M1-4, ESP8266, and Raspberry
+							vs.
+							industrial systems (consumption example)
+						</p>
+						<table>
+Device type | Consumption | Clock Rate | RAM
+Raspberry Pi Zero | 0.5 W | 1 GHz | 512 MB
+ESP32 | 0.25 mW | 160 MHz | 520 kB
+						</table>
+					</section> -->
+					<section>
+						<p>
+							The W3C Web of Things working group has thus decided to:
+						</p>
+						<ol>
+							<li class="fragment">capture abstract REST principles in the <b>Thing Description</b> model</li>
+							<li class="fragment">provide a mechanism for providing various <b>protocol bindings</b></li>
+						</ol>
+					</section>
+					<section>
+						<p>
+							<a href="https://www.w3.org/TR/wot-architecture/">https://www.w3.org/TR/wot-architecture/</a>
+						</p>
+					</section>
+					<section>
+						<p>
+							<a href="https://www.w3.org/TR/wot-thing-description/">https://www.w3.org/TR/wot-thing-description/</a>
+						</p>
+					</section>
+					<!-- <section>
+						<p>
+							Thing, Property, Action, Events
+							Operations
+						</p>
+					</section>
+					<section>
+						<p>
+							WoT API (JS, Java), Node-RED. (Jason?)
+						</p>
+					</section>
+					<section>
+						<p>
+							Affordances ==> MAS (agent-oriented interface)
+						</p>
+					</section> -->
+				</section>
+				<section>
+					<h4>Affordance Selection and Planning</h4>
+					<section>
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/cbSu2PXOTOc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</section>
+					<!-- <section>
+						<p>
+							selection: N affordances, which one(s) to follow? 
+						</p>
+					</section>
+					<section>
+						<p>
+							controllability: select an affordance so that the target state is still reachable.
+							Req: planning.
+						</p>
+					</section>
+					<section>
+						Simple affordances but...
+						<table>
+							Owner | Location | ‘Things’
+Electronics Works | Siemens | Amberg | 38 workshops
+Building 3 | IBM | Dublin | 278 lighting systems
+						</table>
+
+						Industrial systems generally involve many potentially complex ‘things’. Agents controlling these ‘things’ must be equally complex.
+					</section> -->
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
