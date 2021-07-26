@@ -383,24 +383,49 @@
 							<li>code-on-demand</li>
 						</ol>
 					</section>
-					<!-- <section>
+					<section>
 						<p>
-							Important constraint: resource representations.
-							==> RDF
+							The uniform interface constraint consist of 4 sub-constraints.
 						</p>
 					</section>
 					<section>
-						REST and Hypermedia. HATEOAS.
-
-						Example of (WoT) authentication.
-						Dispatch server (load balancing). E.g. with BBB.
+						<ol>
+							<li>identification of resources</li>
+							<li class="fragment">manipulation of resources through representations</li>
+							<li class="fragment">self-descriptive messages</li>
+							<li class="fragment">hypermedia as the engine of application state (HATEOAS)</li>
+						</ol>
+						<p class="note fragment">
+							<span class="highlight">Linked Data</span> interfaces are RESTful by construction.
+						</p>
 					</section>
 					<section>
-						(Web Navigation Window)
-						Integrated EMSE services.
-						(vs. Gafam dead-ends)
+						<p>Two examples of HATEOAS:</p>
+						<ul>
+							<li>Redirection to an OAuth2 authentication sever</li>
+							<!-- example of Shibboleth -->
+							<li>Reverse proxy (on server side) performing load balancing</li>
+							<!-- example of BBB on emse.fr -->
+						</ul>
 					</section>
 					<section>
+						<figure>
+							<img src="../misc/wot-intro/hypermedia.png">
+							<figcaption>Navigation graph built from browsing history</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/emse-hypermedia.png">
+							<figcaption>Part of navigation graph for an integrated hypermedia ecosystem (emse.fr)</figcaption>
+						</figure>
+						<p class="note fragment">
+							You can render your own navigation graph with the <span class="highlight">Web Navigation Window</span>
+							browser extension (available <a href="https://chrome.google.com/webstore/detail/web-navigation-window/odhefgodhimcfacbdilbohcekkgbnhmh">for Chrome</a> and
+							<a href="https://addons.mozilla.org/en-US/firefox/addon/web-nav-window/">for Firefox</a>). 
+						</p>
+					</section>
+					<!-- <section>
 						<p>
 							Pub-Sub: decoupling in space and time.
 							<a href="http://doi.org/10.1145/857076.857078"></a>
