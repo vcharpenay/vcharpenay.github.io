@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Introduction à NoSQL</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.65em;
+			}
+			
+			.reveal .slides table.t {
+				font-size: 0.75em;
+			}
+			
+			.reveal .slides table.t th {
+				background-color: moccasin;
+			}
+			
+			.reveal .slides table.t td {
+				background-color: linen;
+			}
+
+            .reveal .slides .var {
+                color: darkmagenta;
+                font-weight: bold;
+            }
+
+            .reveal .slides .comment {
+                color: lightblue;
+            }
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+		</style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Introduction à <span style="text-shadow: lightgrey 5px 5px;">No</span>SQL</h1>
+                    <p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+                </section>
+                <section data-background-image="../misc/nosql-intro/dr-no.png" data-background-opacity="0.25">
+                    <!-- background source: https://www.youtube.com/watch?v=-bpvvOBV-q0 -->
+                    <p>Que veut dire NoSQL ?</p>
+                    <ol>
+                        <li class="fragment">No structure QL</li>
+                        <li class="fragment">Not SQL</li>
+                        <li class="fragment">Not only SQL</li>
+                        <li class="fragment">New SQL<span style="font-size: 0.5em;"> (en danois)</span></li>
+                    </ol>
+                    <!-- QCM : no structure QL, not SQL, not only SQL, new SQL (en néerlandais) -->
+                </section>
+                <section>
+                    <h4>SQL (Rappel)</h4>
+                    <section>
+                        <p class="fragment">SQL signifie<br><b>Structured Query Language</b></p>
+                        <p class="fragment">SQL est un langage <b>déclaratif</b> de manipulation de données <b>relationnelles</b>.</p>
+                    </section>
+                    <section>
+                        <p style="text-align: left;">
+                            CREATE TABLE <span style="color: lightgrey;">table</span>(<span style="color: lightgrey;">attribut(s)</span>) ;<br><br>
+                            INSERT INTO <span style="color: lightgrey;">table</span> VALUES <span style="color: lightgrey;">tuple</span> ;
+                        </p>
+                    </section>
+                    <section>
+                        <table class="t" style="float: left;">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Nom</th>
+                                    <th>Taille</th>
+                                    <th>Poids</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Bulbizarre</td>
+                                    <td>0.7m</td>
+                                    <td>6.9kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#004</td>
+                                    <td>Salamèche</td>
+                                    <td>0.6m</td>
+                                    <td>8.5kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#007</td>
+                                    <td>Carapuce</td>
+                                    <td>0.5m</td>
+                                    <td>9.0kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#025</td>
+                                    <td>Pikachu</td>
+                                    <td>0.4m</td>
+                                    <td>6.0kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#052</td>
+                                    <td>Miaouss</td>
+                                    <td>0.4m</td>
+                                    <td>4.2kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="t">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Plante</td>
+                                </tr>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Poison</td>
+                                </tr>
+                                <tr>
+                                    <td>#004</td>
+                                    <td>Feu</td>
+                                </tr>
+                                <tr>
+                                    <td>#007</td>
+                                    <td>Eau</td>
+                                </tr>
+                                <tr>
+                                    <td>#025</td>
+                                    <td>Électrik</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                        <p style="text-align: left;">
+                            SELECT <span style="color: lightgrey;">attribut(s)</span><br>
+                            FROM <span style="color: lightgrey;">table(s)</span><br>
+                            WHERE <span style="color: lightgrey;">condition(s)</span> ;
+                        </p>
+                    </section>
+                    <section>
+                        <p>(Q<sub>1</sub>) Quel est le nom des Pokémon de type feu ?</p>
+                        <p class="fragment" style="text-align: left;">
+                            SELECT <span class="var">Nom</span><br>
+                            FROM <span class="var">Pokémon</span> AS <span class="var">P</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">Pokémon Type</span> AS <span class="var">PT</span><br>
+                            WHERE <span class="var">P</span>.<span class="var">Rang</span> = <span class="var">PT</span>.<span class="var">Rang</span> AND<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">Type</span> = Feu ;
+                        </p>
+                    </section>
+                    <section>
+                        <p>Un schéma de base de données peut être soumis à des <b>dépendance fonctionnelle</b>.</p>
+                        <p class="fragment">Un schéma <b>normalisé</b> garantit l'absence d'incohérences dans les données.</p>
+                        <!-- redondance : plusieurs types par Pokémon (pas de clé étrangère) -->
+                        <!-- noms différents pour un même rang / dépendance fonctionnelle (Rang) -> (Nom) -->
+                    </section>
+                    <section>
+                        <table class="t">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Nom</th>
+                                    <th>Taille</th>
+                                    <th>Poids</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Bulbizarre</td>
+                                    <td>0.7m</td>
+                                    <td>6.9kg</td>
+                                    <td>Plante</td>
+                                </tr>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Bulbizarre</td>
+                                    <td>0.7m</td>
+                                    <td>6.8kg</td>
+                                    <td>Poison</td>
+                                </tr>
+                                <tr>
+                                    <td>#004</td>
+                                    <td>Salamèche</td>
+                                    <td>0.6m</td>
+                                    <td>8.5kg</td>
+                                    <td>Feu</td>
+                                </tr>
+                                <tr>
+                                    <td>#007</td>
+                                    <td>Carapuce</td>
+                                    <td>0.5m</td>
+                                    <td>9.0kg</td>
+                                    <td>Eau</td>
+                                </tr>
+                                <tr>
+                                    <td>#025</td>
+                                    <td>Pikachu</td>
+                                    <td>0.4m</td>
+                                    <td>6.0kg</td>
+                                    <td>Électrik</td>
+                                </tr>
+                                <tr>
+                                    <td>#052</td>
+                                    <td>Miaouss</td>
+                                    <td>0.4m</td>
+                                    <td>4.2kg</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                        <p>Avec un schéma <b>dénormalisé</b>, la table ci-dessus ne respecte pas la dépendance fonctionnelle</p>
+                        <p><b>Rang</b> → <b>Poids</b></p>
+                    </section>
+                    <section>
+                        <p>Le fondement théorique d'SQL est l'<b>algèbre relationnelle</b>.</p>
+                        <p class="fragment">table  ≡ relation</p>
+                    </section>
+                    <section>
+                        <p>Les (principaux) opérateurs algébriques autorisés sur des relations sont:</p>
+                        <ul>
+                            <li class="fragment">sélection (σ)</li>
+                            <li class="fragment">projection (π)</li>
+                            <li class="fragment">jointure (⋈)</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>Une requête SQL correspond à une opération algébrique sur une ou plusieurs relations.</p>
+                        <p class="fragment">
+                            Q<sub>1</sub> ≡ π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
+                        </p>
+                    </section>
+                    <section>
+                        <p>Une requête peut être optimisée grâce aux identités algébriques des opérateurs.</p>
+                        <p class="fragment">
+                            π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
+                            <br>↓<br>
+                            π<sub><span class="var">Nom</span></sub> ( <span class="var">P</span> ⋈ σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">PT</span> ) )
+                        </p>
+                    </section>
+                    <section>
+                        <p>Une requête peut aussi être optimisée grâce à des <b>index</b> sur les tables :</p>
+                        <table class="fragment">
+                            <tr>
+                                <th>Type d'index</th>
+                                <th>Complexité</th>
+                            </tr>
+                            <tr>
+                                <td>table de hachage</td>
+                                <td>recherche d'élément en O(1)</td>
+                            </tr>
+                            <tr>
+                                <td>B-arbre</td>
+                                <td>recherche d'élément en O(log<sub>2</sub>(n))</td>
+                            </tr>
+                        </table>
+                    </section>
+                </section>
+                <section>
+                    <h4>Pourquoi NoSQL ?</h4>
+                    <section>
+                        <p>SQL est de loin le langage de requête le plus utilisé dans les SI.</p>
+                        <p>Le modèle relationnel est de loin le plus établi en informatique théorique.</p>
+                        <p>Mais...</p>
+                    </section>
+                    <section>
+                        <p><i>One size doesn't fit all.</i></p>
+                    </section>
+                    <section>
+                        <p>Dénormalisation : compromis à trouver entre intégrité des données (Consistency), accès rapide (Accessibility) et durable (Persistence) : théorème CAP</p>
+                    </section>
+                    <section>
+                        <p>Bases de données pour le Big Data :</p>
+                        <ul>
+                            <li>base de paires clés-valeurs</li>
+                            <li>base de documents</li>
+                            <li>base de données orientée colonnes</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>Bases de données "spécialisées" :</p>
+                        <ul>
+                            <li>base de données en graphe</li>
+                            <li>bases de données RDF</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <h4>Clés-valeurs</h4>
+                    <section>
+                        <p>DynamoDB, Tokyo/Kyoto Cabinet</p>
+                        <p>Schéma extrêmement simple</p>
+                        <p>(key, value)</p>
+                        <p>primary key: (key, value)</p>
+                        <p>index on (key)</p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Documents</h4>
+                    <section>
+                        <p>MongoDB, CouchDB</p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Colonnes</h4>
+                    <section>
+                        <p>Bigtable, HBase</p>
+                        <p>(key, column, timestamp)</p>
+                        <p>primary key: (key, column, timestamp)</p>
+                        <p>index on (key)</p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Graphes</h4>
+                    <section>
+                        <p>Neo4J, Amazon Neptune</p>
+                        <p>node(id, label, property_id), edge(id, label, property_id), connection(src_id, edge_id, target_id)</p>
+                        <p>index on node(id), edge(id)</p>
+                    </section>
+                </section>
+                <section>
+                    <h4>RDF</h4>
+                    <section>
+                        <p>Virtuoso, AllegroGraph, Stardog, GraphDB, Jena (Fuseki), Amazon Neptune</p>
+                        <p>(subject, predicate, object)</p>
+                        <p>primary key: (s, p, o)</p>
+                        <p>index on...</p>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+    </body>
+</html>
