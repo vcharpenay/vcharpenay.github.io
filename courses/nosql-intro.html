@@ -20,7 +20,7 @@
 				padding: 0.5em;
 				font-size: 0.5em;
 				color: peru;
-				background-color: wheat;
+				background-color: moccasin;
 			}
 
 			.reveal .slides .note .highlight {
@@ -60,6 +60,10 @@
 			.reveal .slides figure img {
 				max-height: 8em; /* FIXME should be a percent of total height */
 			}
+
+            .reveal .slides mark {
+                background-color: moccasin;
+            }
 		</style>
     </head>
     <body>
@@ -83,8 +87,8 @@
                 <section>
                     <h4>SQL (Rappel)</h4>
                     <section>
-                        <p class="fragment">SQL signifie<br><b>Structured Query Language</b></p>
-                        <p class="fragment">SQL est un langage <b>déclaratif</b> de manipulation de données <b>relationnelles</b>.</p>
+                        <p class="fragment">SQL signifie<br><mark>Structured Query Language</mark></p>
+                        <p class="fragment">SQL est un langage <mark>déclaratif</mark> de manipulation de données <mark>relationnelles</mark>.</p>
                     </section>
                     <section>
                         <p style="text-align: left;">
@@ -185,10 +189,15 @@
                         </p>
                     </section>
                     <section>
-                        <p>Un schéma de base de données peut être soumis à des <b>dépendance fonctionnelle</b>.</p>
-                        <p class="fragment">Un schéma <b>normalisé</b> garantit l'absence d'incohérences dans les données.</p>
-                        <!-- redondance : plusieurs types par Pokémon (pas de clé étrangère) -->
-                        <!-- noms différents pour un même rang / dépendance fonctionnelle (Rang) -> (Nom) -->
+                        <p>Un schéma de base de données peut être soumis à des <mark>dépendance fonctionnelle</mark>.</p>
+                        <p class="fragment">Une <mark>clé primaire</mark> est un atribut duquel dépend fonctionnellement tous les attributs d'une table.</p>
+                    </section>
+                    <section>
+                        <p>Le rang d'un Pokémon détermine son nom, sa taille et son poids.</p>
+                        <p class="fragment"><span class="var">Rang</span> → (<span class="var">Nom</span>, <span class="var">Taille</span>, <span class="var">Poids</span>)</p>
+                    </section>
+                    <section>
+                        <p>Un schéma <mark>normalisé</mark> garantit l'absence d'incohérences dans les données.</p>
                     </section>
                     <section>
                         <table class="t">
@@ -248,11 +257,11 @@
                         </table>
                     </section>
                     <section>
-                        <p>Avec un schéma <b>dénormalisé</b>, la table ci-dessus ne respecte pas la dépendance fonctionnelle</p>
-                        <p><b>Rang</b> → <b>Poids</b></p>
+                        <p>Avec un schéma <mark>dénormalisé</mark>, la table ci-dessus ne respecte pas la dépendance fonctionnelle</p>
+                        <p><span class="var">Rang</span> → <span class="var">Poids</span></p>
                     </section>
                     <section>
-                        <p>Le fondement théorique d'SQL est l'<b>algèbre relationnelle</b>.</p>
+                        <p>Le fondement théorique d'SQL est l'<mark>algèbre relationnelle</mark>.</p>
                         <p class="fragment">table  ≡ relation</p>
                     </section>
                     <section>
@@ -278,7 +287,7 @@
                         </p>
                     </section>
                     <section>
-                        <p>Une requête peut aussi être optimisée grâce à des <b>index</b> sur les tables :</p>
+                        <p>Une requête peut aussi être optimisée grâce à des <mark>index</mark> sur les tables.</p>
                         <table class="fragment">
                             <tr>
                                 <th>Type d'index</th>
@@ -316,31 +325,146 @@
                     </section>
                     <section>
                         <p>Mais...</p>
-                        <p class="fragment"><i>One size doesn't fit all.</i></p>
                     </section>
                     <section>
-                        <p>Dénormalisation : compromis à trouver entre intégrité des données (Consistency), accès rapide (Accessibility) et durable (Persistence) : théorème CAP</p>
+                        <figure>
+                            <svg style="width: 75%;" version="1.1" viewBox="0 0 1024 683">
+                                <image href="../misc/nosql-intro/nosql-debrief-2009.jpg"/>
+                                <text class="fragment" style="fill: white; stroke: black; text-align: center; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 80px;">
+                                    <tspan x="20" y="120" textLength="800">RELATIONAL DATABASES</tspan>
+                                    <tspan x="20" y="200" textLength="800">GIVE YOU TOO MUCH</tspan>
+                                </text>
+                                <g class="fragment">
+                                    <g>
+                                        <rect style="fill:white; fill-opacity:0.75;" width="300" height="100" x="30" y="400" />
+                                        <image href="../misc/nosql-intro/logo-hbase.png" width="300" height="100" x="30" y="400" />
+                                    </g>
+                                    <g>
+                                        <rect style="fill:white; fill-opacity:0.75;" width="300" height="100" x="360" y="400" />
+                                        <image href="../misc/nosql-intro/logo-dynamodb.png" width="300" height="100" x="360" y="400" />
+                                    </g>
+                                    <g>
+                                        <rect style="fill:white; fill-opacity:0.75;" width="300" height="100" x="690" y="400" />
+                                        <image href="../misc/nosql-intro/logo-google-cloud.png" width="300" height="100" x="690" y="400" />
+                                    </g>
+                                    <g>
+                                        <rect style="fill:white; fill-opacity:0.75;" width="300" height="100" x="30" y="520" />
+                                        <image href="../misc/nosql-intro/logo-couchdb.png" width="300" height="100" x="30" y="520" />
+                                    </g>
+                                    <g>
+                                        <rect style="fill:white; fill-opacity:0.75;" width="300" height="100" x="360" y="520" />
+                                        <image href="../misc/nosql-intro/logo-mongodb.png" width="300" height="100" x="360" y="520" />
+                                    </g>
+                                    <g>
+                                        <rect style="fill:white; fill-opacity:0.75;" width="300" height="100" x="690" y="520" />
+                                        <image href="../misc/nosql-intro/logo-cassandra.png" width="300" height="100" x="690" y="520" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <figcaption><a href="https://web.archive.org/web/20090927183845/http://blog.oskarsson.nu/2009/06/nosql-debrief.html">NoSQL community meeting</a>, San Francisco, 2009</figcaption>
+                        </figure>
                     </section>
                     <section>
-                        <p>Bases de données pour le Big Data :</p>
+                        <q>
+                            Relational databases force you to <mark>twist your object data</mark> to fit a RDBMS [relational database management system].
+                        </q>
+                    </section>
+                    <section>
+                        <q>
+                            Web 2.0 companies can take chances and they need <mark>scalability</mark>.
+                        </q>
+                    </section>
+                    <section>
+                        <q>
+                            Oracle would tell you that with the right degree of hardware and the right configuration, you can achieve the same scalability. But <mark>at what cost</mark>?
+                        </q>
+                    </section>
+                    <section>
+                        <p>
+                            Les premières bases de données NoSQL ont été conçues pour être :
+                        </p>
                         <ul>
-                            <li>base de paires clés-valeurs</li>
-                            <li>base de documents</li>
-                            <li>base de données orientée colonnes</li>
+                            <li class="fragment">massivement distribuées</li>
+                            <li class="fragment">sur des serveurs abordables</li>
+                            <li class="fragment">et accessibles à distance</li>
                         </ul>
                     </section>
                     <section>
-                        <p>Bases de données "spécialisées" :</p>
-                        <ul>
-                            <li>base de données en graphe</li>
-                            <li>bases de données RDF</li>
-                        </ul>
+                        <p>SQL garantit la cohérence des données (si leur schéma est normalisé).</p>
+                        <p class="fragment">
+                            Or, toute base de données <mark>distribuée</mark> ne peut être en même temps<br>
+                            <mark>cohérente</mark> et <mark>accessible</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            C'est le théorème <b><a href="https://dl.acm.org/doi/abs/10.1145/564585.564601"> CAP</a>.</b>
+                        </p>
+                        <table class="fragment">
+                            <tr>
+                                <th>Cohérence</th>
+                                <td>les données requêtées sur une partition ne sont jamais obsolètes.</td>
+                            </tr>
+                            <tr>
+                                <th>Accessibilité</th>
+                                <td>une requête sur une partition retourne toujours un résultat.</td>
+                            </tr>
+                            <tr>
+                                <th>Partitionnement tolérant aux fautes</th>
+                                <td>une requête sur une partition retourne parfois une erreur.</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section>
+                        <p>
+                            Les bases de données NoSQL utilisent des <mark>schémas dénormalisés</mark> pour garantir un accès rapide et à distance aux données.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Par extension, d'autres bases de données ont été labelisées « NoSQL ».
+                        </p>
+                        <p class="fragment">
+                            Ces bases de données offrent des <mark>langages de requête alternatifs</mark> à SQL.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Plusieurs modèles de données NoSQL (co)existent.
+                        </p>
+                        <table class="fragment">
+                            <thead>
+                                <tr>
+                                    <th>Déf. de NoSQL</th>
+                                    <th>Modèle de données</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="3">stricte</td>
+                                    <td>paire clé-valeur</td>
+                                </tr>
+                                <tr>
+                                    <td>document</td>
+                                </tr>
+                                <tr>
+                                    <td>à colonne extensible (ou « large »)</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">étendue</td>
+                                    <td>en graphe</td>
+                                </tr>
+                                <tr>
+                                    <td>RDF <span style="font-size: 0.5em;">(Resource Description Framework)</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </section>
                 </section>
                 <section>
                     <h4>Clés-valeurs</h4>
                     <section>
-                        <p>DynamoDB, Tokyo/Kyoto Cabinet</p>
+                        <p>DynamoDB, Tokyo/Kyoto Cabinet, Redis</p>
                         <p>Schéma extrêmement simple</p>
                         <p>(key, value)</p>
                         <p>primary key: (key, value)</p>
@@ -356,7 +480,7 @@
                 <section>
                     <h4>Colonnes</h4>
                     <section>
-                        <p>Bigtable, HBase</p>
+                        <p>Bigtable, HBase, Cassandra</p>
                         <p>(key, column, timestamp)</p>
                         <p>primary key: (key, column, timestamp)</p>
                         <p>index on (key)</p>
@@ -380,10 +504,24 @@
                     </section>
                 </section>
                 <section>
+                    <h4>Résumé</h4>
+                    <section>
+                        <p>
+                            NoSQL en X points :
+                        </p>
+                        <ul>
+                            <li>une base de données NoSQL utilise un schéma dénormalisé.</li>
+                            <li>il existe cinq modèles de données principaux.</li>
+                            <li>...</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
                     <h4>Pour aller plus loin...</h4>
                     <section>
                         <ul>
-                            <li>? (2011), <a>NoSQL Databases</a></li>
+                            <li>Eric Lai (2009), <a href="https://www.computerworld.com/article/2526317/no-to-sql--anti-database-movement-gains-steam.html">"No to SQL? Anti-database movement gains steam,"</a> Computerworld, IDG Commmunications.</li>
+                            <li>Christof Strauch (2011), <a>NoSQL Databases</a>, Hochschule der Medien Stuttgart.</li>
                             <li>John F. Sowa (2007), <a href="https://ieeexplore.ieee.org/document/4136864">Fads and Fallacies about Logic</a>, IEEE Intelligent Systems.</li>
                             <!-- discute SQL comme langage... universel. NoSQL intéressant théoriquement ? -->
                         </ul>
