@@ -43,6 +43,30 @@
 				background-color: linen;
 			}
 
+            .reveal .slides table.plain {
+                border: 0px;
+				font-size: 1em;
+            }
+
+            .reveal .slides table.plain th {
+                text-align: center;
+                border: 0px;
+            }
+
+            .reveal .slides table.plain td {
+                text-align: center;
+                border: 0px;
+            }
+
+            .reveal .slides table.plain img.thumbnail {
+                margin: 20px;
+                max-height: 100px;
+            }
+			
+			.reveal .slides .sql {
+				text-align: left;
+			}
+
             .reveal .slides .var {
                 color: darkmagenta;
                 font-weight: bold;
@@ -50,6 +74,10 @@
 
             .reveal .slides .comment {
                 color: lightblue;
+            }
+
+            .reveal .slides .param {
+                color: lightgray;
             }
 
 			.reveal .slides figcaption {
@@ -60,6 +88,11 @@
 			.reveal .slides figure img {
 				max-height: 8em; /* FIXME should be a percent of total height */
 			}
+
+            .reveal .slides caption {
+                color: gray;
+                font-size: 0.5em;
+            }
 
             .reveal .slides mark {
                 background-color: moccasin;
@@ -91,9 +124,9 @@
                         <p class="fragment">SQL est un langage <mark>déclaratif</mark> de manipulation de données <mark>relationnelles</mark>.</p>
                     </section>
                     <section>
-                        <p style="text-align: left;">
-                            CREATE TABLE <span style="color: lightgrey;">table</span>(<span style="color: lightgrey;">attribut(s)</span>) ;<br><br>
-                            INSERT INTO <span style="color: lightgrey;">table</span> VALUES <span style="color: lightgrey;">tuple</span> ;
+                        <p class="sql">
+                            CREATE TABLE <span class="param">table</span>(<span class="param">attribut(s)</span>) ;<br><br>
+                            INSERT INTO <span class="param">table</span> VALUES <span class="param">tuple</span> ;
                         </p>
                     </section>
                     <section>
@@ -172,15 +205,15 @@
                         </table>
                     </section>
                     <section>
-                        <p style="text-align: left;">
-                            SELECT <span style="color: lightgrey;">attribut(s)</span><br>
-                            FROM <span style="color: lightgrey;">table(s)</span><br>
-                            WHERE <span style="color: lightgrey;">condition(s)</span> ;
+                        <p class="sql">
+                            SELECT <span class="param">attribut(s)</span><br>
+                            FROM <span class="param">table(s)</span><br>
+                            WHERE <span class="param">condition(s)</span> ;
                         </p>
                     </section>
                     <section>
                         <p>(Q<sub>1</sub>) Quel est le nom des Pokémon de type feu ?</p>
-                        <p class="fragment" style="text-align: left;">
+                        <p class="fragment sql">
                             SELECT <span class="var">Nom</span><br>
                             FROM <span class="var">Pokémon</span> AS <span class="var">P</span>,<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">Pokémon Type</span> AS <span class="var">PT</span><br>
@@ -267,19 +300,19 @@
                     <section>
                         <p>Les (principaux) opérateurs algébriques autorisés sur des relations sont:</p>
                         <ul>
-                            <li class="fragment">sélection (σ)</li>
-                            <li class="fragment">projection (π)</li>
-                            <li class="fragment">jointure (⋈)</li>
+                            <li class="fragment"><mark>sélection</mark> (σ)</li>
+                            <li class="fragment"><mark>projection</mark> (π)</li>
+                            <li class="fragment"><mark>jointure</mark> (⋈)</li>
                         </ul>
                     </section>
                     <section>
-                        <p>Une requête SQL correspond à une opération algébrique sur une ou plusieurs relations.</p>
+                        <p>Une requête SQL correspond à une <mark>opération algébrique</mark> sur une ou plusieurs relations.</p>
                         <p class="fragment">
                             Q<sub>1</sub> ≡ π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
                         </p>
                     </section>
                     <section>
-                        <p>Une requête peut être optimisée grâce aux identités algébriques des opérateurs.</p>
+                        <p>Une requête peut être optimisée grâce aux <mark>identités algébriques</mark> des opérateurs.</p>
                         <p class="fragment">
                             π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
                             <br>↓<br>
@@ -384,9 +417,9 @@
                             Les premières bases de données NoSQL ont été conçues pour être :
                         </p>
                         <ul>
-                            <li class="fragment">massivement distribuées</li>
-                            <li class="fragment">sur des serveurs abordables</li>
-                            <li class="fragment">et accessibles à distance</li>
+                            <li class="fragment">massivement <mark>distribuées</mark></li>
+                            <li class="fragment">sur des serveurs <mark>abordables</mark></li>
+                            <li class="fragment">et <mark>accessibles à distance</mark></li>
                         </ul>
                     </section>
                     <section>
@@ -460,25 +493,170 @@
                             </tbody>
                         </table>
                     </section>
-                </section>
-                <section>
-                    <h4>Clés-valeurs</h4>
                     <section>
-                        <p>DynamoDB, Tokyo/Kyoto Cabinet, Redis</p>
-                        <p>Schéma extrêmement simple</p>
-                        <p>(key, value)</p>
-                        <p>primary key: (key, value)</p>
-                        <p>index on (key)</p>
+                        <p>
+                            Ces modèles permettent chacun des <mark>optimisations</mark> algorithmiques <mark>spécifiques</mark> dans les systèmes de gestion (DBMS) associés.
+                        </p>
+                        <p class="fragment">
+                            Ils peuvent cependant être décrits selon les termes de l'<mark>algèbre relationnelle</mark> d'un point de vue <mark>théorique</mark>.
+                        </p>
                     </section>
                 </section>
                 <section>
-                    <h4>Documents</h4>
+                    <h4>Le modèle « paire clé-valeur »</h4>
                     <section>
-                        <p>MongoDB, CouchDB</p>
+                        <table class="plain">
+                            <thead>
+                                <tr>
+                                    <!-- <th rowspan="2"></th> -->
+                                    <th>
+                                        <a href="http://aws.amazon.com/dynamodb/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-dynamodb.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="https://redis.io/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-redis.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="https://dbmx.net/tkrzw/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-tkrzw.png">
+                                        </a>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>DynamoDB</th>
+                                    <th>Redis</th>
+                                    <th>Tkrzw</th>
+                                    <!-- Memcached -->
+                                </tr>
+                            </thead>
+                            <!-- <tbdoy>
+                                <tr>
+                                    <th>Propriétaire</th>
+                                    <td>Amazon Web Services</td>
+                                    <td>Redis Ltd.</td>
+                                    <td>M. Hirabayashi <span style="font-size: 0.5em;">(Google)</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Licence</th>
+                                    <td>-</td>
+                                    <td>BSD</td>
+                                    <td>Apache</td>
+                                </tr>
+                            </tbdoy> -->
+                            <caption>Exemples de DBMS pour le modèle « paire clé-valeur »</caption>
+                        </table>
+                    </section>
+                    <section>
+                        <!-- <p>Le schéma du modèle clé-valeur est le plus simple possible.</p> -->
+                        <p class="sql">
+                            CREATE TABLE <span class="var">KV</span>(<br>
+                            &nbsp;&nbsp;<span class="var">Key</span> BINARY(<span class="param">n</span>),<br>
+                            &nbsp;&nbsp;<span class="var">Value</span> BINARY(<span class="param">m</span>),<br>
+                            &nbsp;&nbsp;PRIMARY KEY <span class="var">KEY</span><br>
+                            ) ;
+                        </p>
+                        <!-- include versions? -->
+                        <!-- key/value is necessarily unique? -->
+                    </section>
+                    <section>
+                        <p>Les seules opérations possibles sur la base de données sont l'écriture et la lecture de valeurs <mark>par clé</mark>.</p>
+                    </section>
+                    <section>
+                        <p class="sql">
+                            <span class="comment">-- if first-time insert</span><br>
+                            INSERT INTO <span class="var">KV</span> VALUES (<span class="param">key</span>, <span class="param">value</span>) ;
+                        </p>
+                        <p class="sql">
+                            <span class="comment">-- otherwise</span><br>
+                            UPDATE <span class="var">KV</span><br>
+                            SET <span class="var">Value</span> = <span class="param">value</span> WHERE <span class="var">Value</span> = <span class="param">key</span> ;<br>
+                        </p>
+                    </section>
+                    <section>
+                        <p class="sql">
+                            SELECT <span class="var">Value</span><br>
+                            FROM <span class="var">KV</span><br>
+                            WHERE <span class="var">Key</span> = <span class="param">key</span> ;
+                        </p>
+                        <p class="fragment note">
+                            Certains DBMS autorisent aussi des requêtes par intervalle :<br><br>
+                            <span class="var">Key</span> &gt; <span style="color: gray;">lower_key</span> AND
+                            <span class="var">Key</span> &lt; <span style="color: gray;">upper_key</span>
+                        </p>
+                    </section>
+                    <section>
+                        <p>L'attribut <span class="var">Key</span> est souvent indexé par une <mark>table de hachage</mark>.</p>
+                        <p class="fragment">La table <span class="var">KV</span> peut facilement être partionnée <mark>horizontalement</mark> (par ligne).</p>
+                    </section>
+                    <section>
+                        <p>Le modèle  « paire clé-valeur » permet une <mark>grande vitesse</mark> de lecture/écriture.</p>
+                        <p class=" fragment note">
+                            Redis peut par exemple effectuer ~500k lectures/écritures par seconde sur un serveur classique (voir <a href="https://redis.io/topics/benchmarks#benchmark-results-on-different-virtualized-and-bare-metal-servers">benchmark</a>).
+                        </p>
                     </section>
                 </section>
                 <section>
-                    <h4>Colonnes</h4>
+                    <h4>Le modèle « document »</h4>
+                    <section>
+                        <table class="plain">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <a href="http://mongodb.com/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-mongodb.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="https://couchdb.apache.org/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-couchdb.png">
+                                        </a>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>MongoDB</th>
+                                    <th>CouchDB</th>
+                                </tr>
+                            </thead>
+                            <caption>Exemples de DBMS pour le modèle « document »</caption>
+                        </table>
+                    </section>
+                    <section>
+                        <p>
+                            Un document est un ensemble identifié de paires clé-valeurs (<mark>champs</mark>), chaque clé du document étant unique.
+                        </p>
+                        <p class="fragment">
+                            Les valeurs des champs sont <mark>typées</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Dans une paire clé/valeur, la valeur est <mark>opaque</mark> (non-interprétée par le DBMS).
+                        </p>
+                        <p class="fragment">
+                            Un document peut être requêté selon les valeurs de ses champs.
+                        </p>
+                    </section>
+                    <section>
+                        <p class="sql">
+                            CREATE TABLE <span class="var">Document</span>(<br>
+                                &nbsp;&nbsp;<span class="var">Id</span> BIGINT,<br>
+                                &nbsp;&nbsp;<span class="var">Name</span> VARCHAR(<span class="param">n</span>),<br>
+                                &nbsp;&nbsp;<span class="var">Type</span> INTEGER,<br>
+                                &nbsp;&nbsp;<span class="var">Value</span> BINARY(<span class="param">m</span>),<br>
+                                &nbsp;&nbsp;PRIMARY KEY (<span class="var">Id</span>, <span class="var">Name</span>)<br>
+                            ) ;
+                        </p>
+                    </section>
+                    <section>
+                        <!-- operations: read/write document, search by field name -->
+                        <!-- JSON model: each document stored in binary JSON -->
+                    </section>
+                </section>
+                <section>
+                    <h4>Le modèle « à colonne extensible »</h4>
                     <section>
                         <p>Bigtable, HBase, Cassandra</p>
                         <p>(key, column, timestamp)</p>
@@ -487,7 +665,7 @@
                     </section>
                 </section>
                 <section>
-                    <h4>Graphes</h4>
+                    <h4>Le modèle « en graphe »</h4>
                     <section>
                         <p>Neo4J, Amazon Neptune</p>
                         <p>node(id, label, property_id), edge(id, label, property_id), connection(src_id, edge_id, target_id)</p>
@@ -495,7 +673,7 @@
                     </section>
                 </section>
                 <section>
-                    <h4>RDF</h4>
+                    <h4>Le modèle « RDF »</h4>
                     <section>
                         <p>Virtuoso, AllegroGraph, Stardog, GraphDB, Jena (Fuseki), Amazon Neptune</p>
                         <p>(subject, predicate, object)</p>
@@ -503,6 +681,7 @@
                         <p>index on...</p>
                     </section>
                 </section>
+                <!-- mélange de tous les modèles de données : OrientDB -->
                 <section>
                     <h4>Résumé</h4>
                     <section>
@@ -521,6 +700,7 @@
                     <section>
                         <ul>
                             <li>Eric Lai (2009), <a href="https://www.computerworld.com/article/2526317/no-to-sql--anti-database-movement-gains-steam.html">"No to SQL? Anti-database movement gains steam,"</a> Computerworld, IDG Commmunications.</li>
+                            <li>Ben Scofield (2010), <a href="https://www.slideshare.net/bscofield/nosql-codemash-2010/">"NoSQL: Death to Relational Databases(?),"</a> <i>presenté à</i> CodeMash 2010.</li>
                             <li>Christof Strauch (2011), <a>NoSQL Databases</a>, Hochschule der Medien Stuttgart.</li>
                             <li>John F. Sowa (2007), <a href="https://ieeexplore.ieee.org/document/4136864">Fads and Fallacies about Logic</a>, IEEE Intelligent Systems.</li>
                             <!-- discute SQL comme langage... universel. NoSQL intéressant théoriquement ? -->
