@@ -88,6 +88,9 @@
                 color: peru;
             }
 
+            .reveal .slides .nb {
+                color: skyblue;
+            }
 
 			.reveal .slides figcaption {
 				color: gray;
@@ -464,7 +467,7 @@
                     </section>
                     <section>
                         <p>
-                            Par extension, d'autres bases de données ont été labelisées « NoSQL ».
+                            Par extension, d'autres bases de données ont été labelisées «&nbsp;NoSQL&nbsp;».
                         </p>
                         <p class="fragment">
                             Ces bases de données offrent des <mark>langages de requête alternatifs</mark> à SQL.
@@ -490,7 +493,7 @@
                                     <td>document</td>
                                 </tr>
                                 <tr>
-                                    <td>à colonne extensible (ou « large »)</td>
+                                    <td>à colonne extensible (ou «&nbsp;large&nbsp;»)</td>
                                 </tr>
                                 <tr>
                                     <td rowspan="2">étendue</td>
@@ -512,7 +515,7 @@
                     </section>
                 </section>
                 <section>
-                    <h4>Le modèle « paire clé-valeur »</h4>
+                    <h4>Le modèle «&nbsp;paire clé-valeur&nbsp;»</h4>
                     <section>
                         <table class="plain">
                             <thead>
@@ -555,7 +558,7 @@
                                     <td>Apache</td>
                                 </tr>
                             </tbdoy> -->
-                            <caption>Exemples de DBMS pour le modèle « paire clé-valeur »</caption>
+                            <caption>Ex. de DBMS pour le modèle «&nbsp;paire clé-valeur&nbsp;»</caption>
                         </table>
                     </section>
                     <section>
@@ -601,14 +604,14 @@
                         <p class="fragment">La table <span class="var">KV</span> peut facilement être partionnée <mark>horizontalement</mark> (par ligne).</p>
                     </section>
                     <section>
-                        <p>Le modèle  « paire clé-valeur » permet une <mark>grande vitesse</mark> de lecture/écriture.</p>
+                        <p>Le modèle  «&nbsp;paire clé-valeur&nbsp;» permet une <mark>grande vitesse</mark> de lecture/écriture.</p>
                         <p class=" fragment note">
                             Redis peut par exemple effectuer ~500k lectures/écritures par seconde sur un serveur classique (voir <a href="https://redis.io/topics/benchmarks#benchmark-results-on-different-virtualized-and-bare-metal-servers">benchmark</a>).
                         </p>
                     </section>
                 </section>
                 <section>
-                    <h4>Le modèle « document »</h4>
+                    <h4>Le modèle «&nbsp;document&nbsp;»</h4>
                     <section>
                         <table class="plain">
                             <thead>
@@ -629,7 +632,7 @@
                                     <th>CouchDB</th>
                                 </tr>
                             </thead>
-                            <caption>Exemples de DBMS pour le modèle « document »</caption>
+                            <caption>Ex. de DBMS pour le modèle «&nbsp;document&nbsp;»</caption>
                         </table>
                     </section>
                     <section>
@@ -694,10 +697,10 @@
                     <section>
                         <p class="json">
                             bulbizarre#001 = {<br>
-                            &nbsp;&nbsp;<span class="string">"rank"</span>: 1,<br>
+                            &nbsp;&nbsp;<span class="string">"rank"</span>: <span class="nb">1</span>,<br>
                             &nbsp;&nbsp;<span class="string">"name"</span>: <span class="string">"Bulbizarre"</span>,<br>
-                            &nbsp;&nbsp;<span class="string">"height"</span>: 0.7,<br>
-                            &nbsp;&nbsp;<span class="string">"weight"</span>: 6.9,<br>
+                            &nbsp;&nbsp;<span class="string">"height"</span>: <span class="nb">0.7</span>,<br>
+                            &nbsp;&nbsp;<span class="string">"weight"</span>: <span class="nb">6.9</span>,<br>
                             &nbsp;&nbsp;<span class="string">"type"</span>: [ <span class="string">"plant"</span>, <span class="string">"poison"</span> ]<br>
                             }
                         </p>
@@ -713,10 +716,10 @@
                     <section data-auto-animate>
                         <p class="json" data-id="obj">
                             bulbizarre#001 = {<br>
-                            &nbsp;&nbsp;<span class="string">"rank"</span>: 1,<br>
+                            &nbsp;&nbsp;<span class="string">"rank"</span>: <span class="nb">1</span>,<br>
                             &nbsp;&nbsp;<span class="string">"name"</span>: <span class="string">"Bulbizarre"</span>,<br>
-                            &nbsp;&nbsp;<span class="string">"height"</span>: 0.7,<br>
-                            &nbsp;&nbsp;<span class="string">"weight"</span>: 6.9,<br>
+                            &nbsp;&nbsp;<span class="string">"height"</span>: <span class="nb">0.7</span>,<br>
+                            &nbsp;&nbsp;<span class="string">"weight"</span>: <span class="nb">6.9</span>,<br>
                             &nbsp;&nbsp;<span class="string">"type"</span>: [ <span class="string">"plant"</span>, <span class="string">"poison"</span> ]<br>
                             }
                         </p>
@@ -724,27 +727,105 @@
                     <section data-auto-animate>
                         <p class="json" data-id="obj">
                             bulbizarre#001 = {<br>
-                            &nbsp;&nbsp;<span class="string">"rank"</span>: 1,<br>
+                            &nbsp;&nbsp;<span class="string">"rank"</span>: <span class="nb">1</span>,<br>
                             &nbsp;&nbsp;<span class="string">"name"</span>: <span class="string">"Bulbizarre"</span>,<br>
-                            &nbsp;&nbsp;<span class="string">"height"</span>: 0.7,<br>
-                            &nbsp;&nbsp;<span class="string">"weight"</span>: 6.9,<br>
-                            &nbsp;&nbsp;<span class="string">"type"</span>: [ <span class="string">"plant"</span>, <span class="string">"poison"</span> ]<br>
-                            <span style="font-weight: bold;">&nbsp;&nbsp;<span class="string">"chromatic"</span>: true</span><br>
+                            &nbsp;&nbsp;<span class="string">"height"</span>: <span class="nb">0.7</span>,<br>
+                            &nbsp;&nbsp;<span class="string">"weight"</span>: <span class="nb">6.9</span>,<br>
+                            &nbsp;&nbsp;<span class="string">"type"</span>: [ <span class="string">"plant"</span>, <span class="string">"poison"</span> ],<br>
+                            &nbsp;&nbsp;<span style="font-weight: bold;"><span class="string">"chromatic"</span>: true</span><br>
                             }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Le modèle «&nbsp;document&nbsp;» est un <mark>compromis</mark> entre le modèle relationnel (granularité des requêtes) et le modèle «&nbsp;paire clé-valeur&nbsp;» (rapidité de lecture/écriture).
+                        </p>
+                        <p>
+                            Il est conçu pour un accès à distance des documents, via une <mark>interface Web</mark>.
                         </p>
                     </section>
                 </section>
                 <section>
-                    <h4>Le modèle « à colonne extensible »</h4>
+                    <h4>Le modèle «&nbsp;à colonne extensible&nbsp;»</h4>
                     <section>
-                        <p>Bigtable, HBase, Cassandra</p>
-                        <p>(key, column, timestamp)</p>
-                        <p>primary key: (key, column, timestamp)</p>
-                        <p>index on (key)</p>
+                        <table class="plain">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <a href="https://cloud.google.com/bigtable/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-google-cloud.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="https://hbase.apache.org/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-hbase.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="http://cassandra.apache.org/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-cassandra.png">
+                                        </a>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Bigtable</th>
+                                    <th>HBase</th>
+                                    <th>Cassandra</th>
+                                </tr>
+                            </thead>
+                            <caption>Ex. de DBMS pour le modèle «&nbsp;à colonne extensible&nbsp;»</caption>
+                        </table>
+                    </section>
+                    <section>
+                        <p>
+                            Le modèle «&nbsp;document&nbsp;» permet d'accéder efficacement des données structurées <mark>en arbre</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p class="json">
+                            bulbizarre#001 = {<br>
+                            &nbsp;&nbsp;<span class="string">"rank"</span>: <span class="nb">1</span>,
+                                        <span class="string">"name"</span>: <span class="string">"Bulbizarre"</span>,<br>
+                            &nbsp;&nbsp;<span class="string">"evolution"</span>: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"rank"</span>: <span class="nb">2</span>,
+                                                    <span class="string">"name"</span>: <span class="string">Herbizarre</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"evolution"</span>: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"rank"</span>: <span class="nb">3</span>,
+                                                                <span class="string">"name"</span>: <span class="string">Florizarre</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"evolution"</span>: null<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;}<br>
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Le modèle «&nbsp;à colonne extensible&nbsp;» conserve la structure de <mark>table</mark>, avec <mark>lignes</mark> et <mark>colonnes</mark>.
+                        </p>
+                        <p class="fragment">
+                            À la différence du modèle relationnel, une ligne peut avoir un <mark>nombre variable de colonnes</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p class="sql">
+                            CREATE TABLE <span class="var">Values</span>(<br>
+                            &nbsp;&nbsp;<span class="var">RowId</span> BIGINT,<br>
+                            &nbsp;&nbsp;<span class="var">ColumnId</span> VARCHAR(<span class="param">n</span>),<br>
+                            &nbsp;&nbsp;<span class="var">Value</span> BINARY(<span class="param">m</span>)<br>
+                            &nbsp;&nbsp;PRIMARY KEY (<span class="var">RowId</span>, <span class="var">ColumnId</span>)<br>
+                            ) ;<br>
+                            <br>
+                            CREATE INDEX <span class="var">RowIdx</span> ON <span class="var">RowId</span> ;
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            L'accès aux valeurs se fait d'abord <mark>par ligne</mark>, puis par colonne.
+                        </p>
                     </section>
                 </section>
                 <section>
-                    <h4>Le modèle « en graphe »</h4>
+                    <h4>Le modèle «&nbsp;en graphe&nbsp;»</h4>
                     <section>
                         <p>Neo4J, Amazon Neptune</p>
                         <p>node(id, label, property_id), edge(id, label, property_id), connection(src_id, edge_id, target_id)</p>
@@ -752,7 +833,7 @@
                     </section>
                 </section>
                 <section>
-                    <h4>Le modèle « RDF »</h4>
+                    <h4>Le modèle «&nbsp;RDF&nbsp;»</h4>
                     <section>
                         <p>Virtuoso, AllegroGraph, Stardog, GraphDB, Jena (Fuseki), Amazon Neptune</p>
                         <p>(subject, predicate, object)</p>
