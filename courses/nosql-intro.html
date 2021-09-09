@@ -74,6 +74,10 @@
 			.reveal .slides .cypher {
 				text-align: left;
 			}
+			
+			.reveal .slides .sparql {
+				text-align: left;
+			}
 
             .reveal .slides .var {
                 color: darkmagenta;
@@ -1048,14 +1052,99 @@
                 <section>
                     <h4>Le modèle «&nbsp;RDF&nbsp;»</h4>
                     <section>
-                        <p>Virtuoso, AllegroGraph, Stardog, GraphDB, Jena (Fuseki), Amazon Neptune</p>
-                        <p>(subject, predicate, object)</p>
-                        <p>primary key: (s, p, o)</p>
-                        <p>index on...</p>
+                        <table class="plain">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <a href="https://jena.apache.org/documentation/fuseki2/index.html/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-jena.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="https://graphdb.ontotext.com/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-graphdb.png">
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="https://www.stardog.com/">
+                                            <img class="thumbnail" src="../misc/nosql-intro/logo-thumbnail-stardog.png">
+                                        </a>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Fuseki</th>
+                                    <th>GraphDB</th>
+                                    <th>Stardog</th>
+                                </tr>
+                            </thead>
+                            <caption>Ex. de DBMS pour le modèle «&nbsp;RDF&nbsp;»</caption>
+                        </table>
+                    </section>
+                    <section>
+                        <p>
+                            Les arêtes d'un graphe sont parfois interdépendantes et/ou implicites.
+                        </p>
+                        <p class="fragment">
+                            Par exemple, la relation géo-spatiale <span style="font-weight: bold; font-style: italic;">within</span> est <mark>transitive</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Le modèle «&nbsp;RDF&nbsp;» est conçu pour intégrer une couche <mark>sémantique</mark> aux bases de données en graphe.
+                        </p>
+                        <p class="fragment">
+                            RDF, acronyme pour <em>Resource Description Framework</em> permet surtout de décrire la sémantique de <mark>ressources web</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p class="sql" style="width: 120%;">
+                            CREATE TABLE <span class="var">Triple</span>(<br>
+                            &nbsp;&nbsp;<span class="var">Subject</span> VARCHAR(<span class="param">n</span>),<br>
+                            &nbsp;&nbsp;<span class="var">Predicate</span> VARCHAR(<span class="param">n</span>),<br>
+                            &nbsp;&nbsp;<span class="var">Object</span> VARCHAR(<span class="param">n</span>),<br>
+                            &nbsp;&nbsp;PRIMARY KEY (<span class="var">Subject</span>, <span class="var">Predicate</span>, <span class="var">Object</span>)<br>
+                            ) ;
+                        </p>
+                        <!-- TODO prendre en compte les node types et datatype/lang -->
+                    </section>
+                    <section>
+                        <p class="sql">
+                            INSERT INTO <span class="var">Triple</span> VALUES (<span class="param">s</span>, <span class="param">p</span>, <span class="param">o</span>) ;
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Les requêtes sur une base de données RDF s'expriment avec le langage <mark>SPARQL</mark>.
+                        </p>
+                        <p class="fragment">
+                            SPARQL est un <mark>langage déclaratif</mark>, plus <mark>générique</mark> que SQL.
+                        </p>
+                        <p class="fragment note">
+                            Toute requête SQL peut s'exprimer en SPARQL mais SPARQL supporte aussi des expressions régulières. 
+                        </p>
+                    </section>
+                    <section>
+                        <p class="sparql">
+                            SELECT ?var WHERE {
+
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Exemples de jeux de données RDF :
+                        </p>
+                        <ul>
+                            <li class="fragment">le <em>Linked Open Data Cloud</em></li>
+                            <li class="fragment">les bibliothèques numériques</li>
+                            <li class="fragment">les graphes de connaissances</li>
+                        </ul>
                     </section>
                 </section>
                 <!-- mélange de tous les modèles de données : OrientDB, TinkerPop sur HBase et autres (http://tinkerpop.apache.org/) -->
                 <!-- Neptune : graphes et RDF -->
+                <!-- AllegroGraph : RDF et document store -->
+                <!-- Virtuoso et d'autres font du RDF sur un RDBMS -->
                 <!-- beaucoup de DBMS ajoutent une version à leurs unités de données (kv/, document ou cellule) -->
                 <section>
                     <h4>Résumé</h4>
