@@ -465,6 +465,7 @@
                             Les bases de données NoSQL utilisent des <mark>schémas dénormalisés</mark> pour garantir un accès rapide et à distance aux données.
                         </p>
                     </section>
+                    <!-- TODO ACID vs. BASE -->
                     <section>
                         <p>
                             Par extension, d'autres bases de données ont été labelisées «&nbsp;NoSQL&nbsp;».
@@ -661,7 +662,7 @@
                     </section>
                     <section>
                         <p class="sql">
-                            DELETE FROM <span class="var">Document</span> WHERE <span class="var">Id</span> = id ;<br>
+                            DELETE FROM <span class="var">Document</span> WHERE <span class="var">Id</span> = <span class="param">id</span> ;<br>
                             INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
                             INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
                             INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
@@ -740,7 +741,7 @@
                         <p>
                             Le modèle «&nbsp;document&nbsp;» est un <mark>compromis</mark> entre le modèle relationnel (granularité des requêtes) et le modèle «&nbsp;paire clé-valeur&nbsp;» (rapidité de lecture/écriture).
                         </p>
-                        <p>
+                        <p class="fragment">
                             Il est conçu pour un accès à distance des documents, via une <mark>interface Web</mark>.
                         </p>
                     </section>
@@ -822,6 +823,36 @@
                         <p>
                             L'accès aux valeurs se fait d'abord <mark>par ligne</mark>, puis par colonne.
                         </p>
+                        <p class="fragment">
+                            Écrire dans une base de données à colonne extensible se fait aussi <mark>par ligne</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p style="width: 120%;" class="sql">
+                            DELETE FROM <span class="var">Values</span> WHERE <span class="var">RowId</span> = <span class="param">id</span> ;<br>
+                            INSERT INTO <span class="var">Values</span> VALUES (<span class="param">id</span>, <span class="param">c1</span>, <span class="param">v1</span>) ;<br>
+                            INSERT INTO <span class="var">Values</span> VALUES (<span class="param">id</span>, <span class="param">c2</span>, <span class="param">v2</span>) ;<br>
+                            INSERT INTO <span class="var">Values</span> VALUES (<span class="param">id</span>, <span class="param">c3</span>, <span class="param">v3</span>) ;<br>
+                            <span class="comment">-- etc.</span>
+                        </p>
+                        <!-- correspond à Cassandra -->
+                        <!-- sur Bigtable, en fait : une écriture se fait par ligne/colonne ; écritures sur une même ligne isolées dans une transaction -->
+                    </section>
+                    <section>
+                        <p>
+                            L'accès à plusieurs colonnes sur une même ligne est limité aux <mark>familles de colonnes</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Les deux exemples emblématiques du modèle «&nbsp;à colonnes extensibles&nbsp;» sont:
+                        </p>
+                        <ul>
+                            <li class="fragment"><em>(Google)</em> la gestion des hyperliens HTML de pages web</li>
+                            <!-- column families: content, anchors -->
+                            <li class="fragment"><em>(Facebook)</em> la recherche de messages dans un historique de conversations</li>
+                            <!-- column families: term (for search), interactions -->
+                        </ul>
                     </section>
                 </section>
                 <section>
