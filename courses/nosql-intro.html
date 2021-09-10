@@ -551,6 +551,7 @@
                                     <th>Redis</th>
                                     <th>Tkrzw</th>
                                     <!-- Memcached -->
+                                    <!-- Oracle BerkeleyDB: https://www.oracle.com/database/technologies/related/berkeleydb.html -->
                                 </tr>
                             </thead>
                             <!-- <tbdoy>
@@ -616,6 +617,11 @@
                         <p>Le modèle  «&nbsp;paire clé-valeur&nbsp;» permet une <mark>grande vitesse</mark> de lecture/écriture.</p>
                         <p class=" fragment note">
                             Redis peut par exemple effectuer ~500k lectures/écritures par seconde sur un serveur classique (voir <a href="https://redis.io/topics/benchmarks#benchmark-results-on-different-virtualized-and-bare-metal-servers">benchmark</a>).
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Donnez des exemples d'usages de bases de données clé-valeur.
                         </p>
                     </section>
                     <section>
@@ -767,6 +773,11 @@
                             Il est conçu pour un accès à distance des documents, via une <mark>interface Web</mark>.
                         </p>
                     </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Donnez des exemples de documents difficiles à stocker dans une base de données relationnelle.
+                        </p>
+                    </section>
                     <section>
                         <p>
                             Exemples d'utilisation d'une base de documents :
@@ -890,6 +901,11 @@
                             <!-- column families: term (for search), interactions -->
                         </ul>
                     </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Proposez un schéma à colonnes extensibles pour les deux exemples précédents.
+                        </p>
+                    </section>
                     <!-- TODO SQL pour requêter avec le modèle wide column ? -->
                 </section>
                 <section>
@@ -911,7 +927,7 @@
                                 </tr>
                                 <tr>
                                     <th>Neo4j</th>
-                                    <th>TinkerPop<sup>*</sup></th>
+                                    <th>TinkerPop<sup><a href="#/hybrid-dbms/0">*</a></sup></th>
                                 </tr>
                             </thead>
                             <caption>Ex. de DBMS pour le modèle «&nbsp;en graphe&nbsp;»</caption>
@@ -1141,22 +1157,111 @@
                         </ul>
                     </section>
                 </section>
-                <!-- mélange de tous les modèles de données : OrientDB, TinkerPop sur HBase et autres (http://tinkerpop.apache.org/) -->
-                <!-- Neptune : graphes et RDF -->
-                <!-- AllegroGraph : RDF et document store -->
-                <!-- Virtuoso et d'autres font du RDF sur un RDBMS -->
-                <!-- beaucoup de DBMS ajoutent une version à leurs unités de données (kv/, document ou cellule) -->
                 <section>
-                    <h4>Résumé</h4>
+                    <h4>Extensions des modèles NoSQL</h4>
                     <section>
                         <p>
-                            NoSQL en X points :
+                            Les modèles de données NoSQL sont performants mais <mark>spécialisés</mark>.
                         </p>
-                        <ul>
-                            <li>une base de données NoSQL utilise un schéma dénormalisé.</li>
-                            <li>il existe cinq modèles de données principaux.</li>
-                            <li>...</li>
-                        </ul>
+                        <p class="fragment">
+                            Certains DBMS recherchent la <mark>généricité</mark> du modèle relationnel en adoptant des <mark>modèles hybrides</mark>.
+                        </p>
+                    </section>
+                    <section id="hybrid-dbms">
+                        <table style="font-size: 0.5em;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Modèle de données</th>
+                                    <th colspan="5">DBMS</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://orientdb.org/">OrientDB</a></td>
+                                    <td><a href="https://tinkerpop.apache.org/">TinkerPop</a></td>
+                                    <td><a href="https://allegrograph.com/">AllegroGraph</a></td>
+                                    <td><a href="https://aws.amazon.com/fr/neptune/">Neptune</a></td>
+                                    <td><a href="https://virtuoso.openlinksw.com/">Virtuoso</a></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>paire clé-valeur</td>
+                                    <td>✓</td>
+                                    <td>✓</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>document</td>
+                                    <td>✓</td>
+                                    <td>(✓)</td>
+                                    <td>✓</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>à colonne ext.</td>
+                                    <td></td>
+                                    <td>✓</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>en graphe</td>
+                                    <td>✓</td>
+                                    <td>✓</td>
+                                    <td></td>
+                                    <td>✓</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>RDF</td>
+                                    <td></td>
+                                    <td>✓</td>
+                                    <td>✓</td>
+                                    <td>✓</td>
+                                    <td>✓</td>
+                                </tr>
+                                <tr>
+                                    <td>relationnel</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>✓</td>
+                                </tr>
+                            </tbody>
+                            <caption style="font-size: 1em;">Ex. de DBMS avec modèle de données hybrides</caption>
+                        </table>
+                        <p class="note fragment">
+                            TinkerPop n'est pas un pur DBMS. C'est un <em>midldleware</em> faisant le lien entre un langage de requête (Gremlin) et un DBMS (voir <a href="https://tinkerpop.apache.org/#graph-systems">liste</a>).
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Une partie des DBMS incluent aussi un <mark>modèle temporel</mark>.
+                        </p>
+                        <p class="fragment">
+                            Une unité de données (paire clé-valeur, document, cellule) peut être associée à un <mark>numéro de version</mark>.
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Résumé</h4>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Définissez NoSQL en 5 points.
+                        </p>
+                    </section>
+                    <section>
+                        <ol style="font-size: 0.75em;">
+                            <li class="fragment">une base de données NoSQL utilise souvent un schéma dénormalisé.</li>
+                            <li class="fragment">la définition stricte de NoSQL s'appuie sur 3 points: parallélisme, faible coût matériel, accès distant.</li>
+                            <li class="fragment">les 3 principaux modèles NoSQL sont: clé-valeur, document, colonne extensible.</li>
+                            <li class="fragment">la définition s'étend aussi aux bases de données en graphe et RDF.</li>
+                            <li class="fragment">les modèles NoSQL peuvent se combiner.</li>
+                        </ol>
                     </section>
                 </section>
                 <section>
