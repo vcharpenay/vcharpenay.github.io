@@ -75,6 +75,10 @@
 				text-align: left;
 			}
 			
+			.reveal .slides .gremlin {
+				text-align: left;
+			}
+			
 			.reveal .slides .sparql {
 				text-align: left;
 			}
@@ -780,14 +784,14 @@
                     </section>
                     <section>
                         <p>
-                            Exemples d'utilisation d'une base de documents :
+                            Exemples de documents&nbsp;:
                         </p>
                         <ul>
-                            <li class="fragment">le stockage de contenu web multimédia (tweets avec aperçu, vidéos, infographies, ...)</li>
+                            <li class="fragment">contenu web multimédia (tweets avec aperçu, vidéos, infographies, etc.)</li>
                             <!-- https://www.mongodb.com/use-cases/content-management -->
-                            <li class="fragment">la persistence de documents d'entreprise (profils clients, factures, fiches produits, ...)</li>
+                            <li class="fragment">documents d'entreprise (profils clients, factures, fiches produits, etc.)</li>
                             <!-- https://www.mongodb.com/use-cases/single-view -->
-                            <li class="fragment">le stockage de données d'objets connectés hétérogènes</li>
+                            <li class="fragment">données d'objets connectés hétérogènes</li>
                             <!-- https://www.mongodb.com/use-cases/internet-of-things -->
                             <!-- https://www.mongodb.com/blog/post/video-toyota-industry-40-creating-smart-factory-moving-from-monolithic-code-base-microservices-mongodb-atlas-microsoft-azure -->
                         </ul>
@@ -895,7 +899,7 @@
                             Les deux exemples emblématiques du modèle «&nbsp;à colonnes extensibles&nbsp;» sont:
                         </p>
                         <ul>
-                            <li class="fragment"><em>(Google)</em> la gestion des hyperliens HTML de pages web</li>
+                            <li class="fragment"><em>(Google)</em> la gestion des hyperliens de pages HTML</li>
                             <!-- column families: content, anchors -->
                             <li class="fragment"><em>(Facebook)</em> la recherche de messages dans un historique de conversations</li>
                             <!-- column families: term (for search), interactions -->
@@ -905,6 +909,14 @@
                         <p>
                             Proposez un schéma à colonnes extensibles pour les deux exemples précédents.
                         </p>
+                    </section>
+                    <section>
+                        <p>Schémas choisis par Google et Facebook&nbsp;:</p>
+                        <ul>
+                            <li><em>(Google)</em> deux familles de colonnes : contenu textuel, <em>anchor</em></li>
+                            <li><em>(Facebook)</em> deux familles de colonnes : terme, destinataires</li>
+                            <!-- https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf -->
+                        </ul>
                     </section>
                     <!-- TODO SQL pour requêter avec le modèle wide column ? -->
                 </section>
@@ -1017,7 +1029,7 @@
                                 <tr>
                                     <td>Gremlin</td>
                                     <td>TinkerPop</td>
-                                    <td>procédural, déclaratif</td>
+                                    <td>procédural(, déclaratif)</td>
                                 </tr>
                             </tbody>
                             <caption>Langages principaux de requêtes sur des données en graphe</caption>
@@ -1040,7 +1052,9 @@
                     <section style="width: 120%;">
                         <p class="cypher">
                             MATCH<br>
-                            (<span class="param">source</span>)-[:<span class="param">label</span>*1..3]->(<span class="param">cible</span>) ;
+                            (gymLeader:<span class="var">GymLeader</span>)<br>
+                            &nbsp;&nbsp;-[:<span class="var">leads</span>]->()<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;-[:<span class="var">locatedIn</span>*]->({id: <span class="string">"kanto"</span>}) ;
                         </p>
                         <!-- TODO exemple Pokémon ? Localisation des Pokémon sur la carte pour un calcul de distance ? -->
                     </section>
@@ -1050,8 +1064,12 @@
                         </p>
                     </section>
                     <section>
-                        <p>
-                            g.V().repeat(__.hasLabel("label").out().emit())
+                        <p class="gremlin">
+                            g.V().has(<span class="string">"type"</span>, "GymLeader")<br>
+                            &nbsp;&nbsp;.out(<span class="string">"leads"</span>)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;.repeat(__.out(<span class="string">"locatedIn"</span>))<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;.has(<span class="string">"id"</span>, <span class="string">"kanto"</span>)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;.emit()
                         </p>
                     </section>
                     <section>
@@ -1101,7 +1119,10 @@
                             Les arêtes d'un graphe sont parfois interdépendantes et/ou implicites.
                         </p>
                         <p class="fragment">
-                            Par exemple, la relation géo-spatiale <span style="font-weight: bold; font-style: italic;">within</span> est <mark>transitive</mark>.
+                            Par exemple, la relation géo-spatiale <span style="font-weight: bold; font-style: italic;">containsPlace</span> est <mark>transitive</mark>.
+                        </p>
+                        <p class="fragment">
+                            C'est aussi l'<mark>inverse</mark> de la relation <span style="font-weight: bold; font-style: italic;">locatedIn</span>.
                         </p>
                     </section>
                     <section>
@@ -1141,8 +1162,10 @@
                     </section>
                     <section>
                         <p class="sparql">
-                            SELECT ?var WHERE {
-
+                            SELECT ?gymLeader<span class="var"></span> WHERE {<br>
+                            &nbsp;&nbsp;?gymLeader <span class="string">a</span> <span class="var">:Trainer</span> .<br>
+                            &nbsp;&nbsp;?gymLeader <span class="var">:leads</span> ?gym .<br>
+                            &nbsp;&nbsp;?gym <span class="var">:locatedIn</span> &lt;kanto&gt; .<br>
                             }
                         </p>
                     </section>
