@@ -329,7 +329,7 @@
                     </section>
                     <section>
                         <p>Le fondement théorique d'SQL est l'<mark>algèbre relationnelle</mark>.</p>
-                        <p class="fragment">table  ≡ relation</p>
+                        <p class="fragment">Une table (SQL) équivaut à une <mark>relation</mark> en algèbre relationnelle.</p>
                     </section>
                     <section>
                         <p>Les (principaux) opérateurs algébriques autorisés sur des relations sont:</p>
@@ -356,18 +356,23 @@
                     <section>
                         <p>Une requête peut aussi être optimisée grâce à des <mark>index</mark> sur les tables.</p>
                         <table class="fragment">
-                            <tr>
-                                <th>Type d'index</th>
-                                <th>Complexité</th>
-                            </tr>
-                            <tr>
-                                <td>table de hachage</td>
-                                <td>recherche d'élément en O(1)</td>
-                            </tr>
-                            <tr>
-                                <td>B-arbre</td>
-                                <td>recherche d'élément en O(log<sub>2</sub>(n))</td>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th>Type d'index</th>
+                                    <th>Complexité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>table de hachage</td>
+                                    <td>recherche d'élément en O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>B-arbre</td>
+                                    <td>recherche d'élément en O(log<sub>2</sub>(n))</td>
+                                </tr>
+                            </tbody>
+                            <caption>Structures d'index et complexité pour la recherche d'élément</caption>
                         </table>
                     </section>
                 </section>
@@ -480,6 +485,7 @@
                                 <th>Partitionnement tolérant aux fautes</th>
                                 <td>une requête sur une partition retourne parfois une erreur.</td>
                             </tr>
+                            <caption>Propriétés d'une base de données distribuée</caption>
                         </table>
                     </section>
                     <section>
@@ -526,6 +532,7 @@
                                     <td>RDF <span style="font-size: 0.5em;">(Resource Description Framework)</span></td>
                                 </tr>
                             </tbody>
+                            <caption>Modèles de données NoSQL (définition stricte et étendue)</caption>
                         </table>
                     </section>
                     <section>
@@ -846,7 +853,7 @@
                     </section>
                     <section>
                         <p>
-                            Le modèle «&nbsp;document&nbsp;» permet d'accéder efficacement des données structurées <mark>en arbre</mark>.
+                            Le modèle «&nbsp;document&nbsp;» permet d'accéder efficacement à des données structurées <mark>en arbre</mark>.
                         </p>
                     </section>
                     <section>
@@ -977,7 +984,7 @@
                             Par exemple, SQL ne peut pas exprimer une <mark>recherche de chemin</mark> entre un point A et un point B.
                         </p>
                         <p class="fragment note">
-                            Exemple donné par Serge Abiteboul dans sa <a href="https://www.college-de-france.fr/site/serge-abiteboul/inaugural-lecture-2012-03-08-18h00.htm">leçon inaugurale</a> de 2011 au Collège de France (21').
+                            L'exemple est donné par Serge Abiteboul dans sa <a href="https://www.college-de-france.fr/site/serge-abiteboul/inaugural-lecture-2012-03-08-18h00.htm">leçon inaugurale</a> de 2011 au Collège de France (21').
                         </p>
                     </section>
                     <section>
@@ -1041,12 +1048,12 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Cypher</td>
+                                    <td><a href="https://neo4j.com/docs/cypher-refcard/current/">Cypher</a></td>
                                     <td>Neo4j</td>
                                     <td>déclaratif</td>
                                 </tr>
                                 <tr>
-                                    <td>Gremlin</td>
+                                    <td><a href="http://tinkerpop.apache.org/gremlin.html">Gremlin</a></td>
                                     <td>TinkerPop</td>
                                     <td>procédural(, déclaratif)</td>
                                 </tr>
