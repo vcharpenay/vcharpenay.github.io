@@ -257,7 +257,7 @@
                     </section>
                     <section>
                         <p>Un schéma de base de données peut être soumis à des <mark>dépendance fonctionnelle</mark>.</p>
-                        <p class="fragment">Une <mark>clé primaire</mark> est un atribut duquel dépend fonctionnellement tous les attributs d'une table.</p>
+                        <p class="fragment">Une <mark>clé primaire</mark> est un attribut duquel dépend fonctionnellement tous les attributs d'une table.</p>
                     </section>
                     <section>
                         <p>Le rang d'un Pokémon détermine son nom, sa taille et son poids.</p>
@@ -615,7 +615,7 @@
                         <p class="sql">
                             <span class="comment">-- otherwise</span><br>
                             UPDATE <span class="var">KV</span><br>
-                            SET <span class="var">Value</span> = <span class="param">value</span> WHERE <span class="var">Value</span> = <span class="param">key</span> ;<br>
+                            SET <span class="var">Value</span> = <span class="param">value</span> WHERE <span class="var">Key</span> = <span class="param">key</span> ;<br>
                         </p>
                     </section>
                     <section>
@@ -1145,10 +1145,10 @@
                             Les arêtes d'un graphe sont parfois interdépendantes et/ou implicites.
                         </p>
                         <p class="fragment">
-                            Par exemple, la relation géo-spatiale <span style="font-weight: bold; font-style: italic;">containsPlace</span> est <mark>transitive</mark>.
+                            Par exemple, la relation géo-spatiale <span style="font-weight: bold; font-style: italic;">locatedIn</span> est <mark>transitive</mark>.
                         </p>
                         <p class="fragment">
-                            C'est aussi l'<mark>inverse</mark> de la relation <span style="font-weight: bold; font-style: italic;">locatedIn</span>.
+                            C'est aussi l'<mark>inverse</mark> de la relation <span style="font-weight: bold; font-style: italic;">containsPlace</span>.
                         </p>
                     </section>
                     <section>
@@ -1200,7 +1200,7 @@
                             Exemples de jeux de données RDF :
                         </p>
                         <ul>
-                            <li class="fragment">le <em>Linked Open Data Cloud</em></li>
+                            <li class="fragment">le <a href="https://www.lod-cloud.net/"><em>Linked Open Data Cloud</em></a></li>
                             <li class="fragment">les bibliothèques numériques</li>
                             <li class="fragment">les graphes de connaissances</li>
                         </ul>
