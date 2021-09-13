@@ -1075,8 +1075,9 @@
                             (<span class="param">source</span>)-[<span class="param">rel</span>]->(<span class="param">cible</span>) ;
                         </p>
                     </section>
-                    <section style="width: 120%;">
-                        <p class="cypher">
+                    <section>
+                        <p>(Q<sub>2</sub>) Quels sont les champions Pokémon de la région de Kanto ?</p>
+                        <p class="fragment cypher">
                             MATCH<br>
                             (gymLeader:<span class="var">GymLeader</span>)<br>
                             &nbsp;&nbsp;-[:<span class="var">leads</span>]->()<br>
@@ -1090,7 +1091,8 @@
                         </p>
                     </section>
                     <section>
-                        <p class="gremlin">
+                        <p>(Q<sub>2</sub>)</p>
+                        <p class=" fragment gremlin">
                             g.V().has(<span class="string">"type"</span>, "GymLeader")<br>
                             &nbsp;&nbsp;.out(<span class="string">"leads"</span>)<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;.repeat(__.out(<span class="string">"locatedIn"</span>))<br>
@@ -1187,7 +1189,8 @@
                         </p>
                     </section>
                     <section>
-                        <p class="sparql">
+                        <p>(Q<sub>2</sub>)</p>
+                        <p class="fragment sparql">
                             SELECT ?gymLeader<span class="var"></span> WHERE {<br>
                             &nbsp;&nbsp;?gymLeader <span class="string">a</span> <span class="var">:Trainer</span> .<br>
                             &nbsp;&nbsp;?gymLeader <span class="var">:leads</span> ?gym .<br>
