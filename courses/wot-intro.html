@@ -39,6 +39,10 @@
 			.reveal .slides figure img {
 				max-height: 8em; /* FIXME should be a percent of total height */
 			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
 		</style>
 	</head>
 	<body>
@@ -51,7 +55,8 @@
 				<section>
 					<h4>Outline</h4>
 					<ol>
-						<li class="fragment">Sensors and Actuators (on the Web)</li>
+						<li class="fragment">Sensors and Actuators</li>
+						<li class="fragment">The (Semantic) Sensor Web</li>
 						<li class="fragment">The Idea of a Web of <em>Thing</em></li>
 						<li class="fragment">Representational State Transfer</li>
 						<li class="fragment">The W3C Thing Description Model</li>
@@ -59,7 +64,7 @@
 					</ol>
 				</section>
 				<section>
-					<h4>Sensors and Actuators (on the Web)</h4>
+					<h4>Sensors and Actuators</h4>
 					<section>
 						<p>
 							The Web of Things is the latest emergence of a long-lasting field of research.
@@ -81,7 +86,7 @@
 						<!-- 2 systems (control, SuC) -->
 						<p>
 							<b>Cybernetics</b>:
-							Science related to the automatic control of systems in a broad sense,
+							Science related to the <mark>automatic control</mark> of systems in a broad sense,
 							from industrial systems to living organisms.
 						</p>
 					</section>
@@ -90,7 +95,8 @@
 						<p>
 							<b>Ubiquitous &amp; Pervasive Computing, Ambient intelligence</b>:
 							Methods of computation that aim at making computing transparent to users
-							as well as aware of the user's environment through autonomous perception.
+							as well as aware of the user's environment through <mark>autonomous
+							perception</mark>.
 						</p>
 						<p class="note fragment">
 							Mobile applications using GPS traces inherit from that field of research.
@@ -101,7 +107,7 @@
 						<p>
 							<b>Wireless Sensor Networks, Internet of Things</b>:
 							Forms of networking that take advantage of the availability of
-							cheaper and smaller computational devices.
+							<mark>cheaper and smaller computational devices</mark>.
 						</p>
 						<p class="note fragment">
 							See e.g. <a href="https://github.com/tinyos/">TinyOS</a> and <a href="http://www.contiki-os.org/">Contiki</a>.
@@ -111,7 +117,8 @@
 						<!-- recursive system modeling -->
 						<p>
 							<b>Cyber-Physical (Production) Systems</b>:
-							Systems of arbitrary size combining control components and physical equipment.
+							Systems of arbitrary size combining <mark>control components</mark>
+							and <mark>physical equipment</mark>.
 						</p>
 						<p class="note fragment">
 							A CPS can be defined at the level of an entire supply chain.
@@ -137,7 +144,7 @@
 					<!-- Venn diagram with Sensor Web, Embedded Web, Semantic Web, ... -->
 					<section>
 						<p>
-							The Web of Things addresses the main technical problem that comes with
+							The <mark>Web of Things</mark> addresses the main technical problem that comes with
 							increasing numbers of sensing and actuation devices: <b>interoperability</b>.
 						</p>
 					</section>
@@ -152,10 +159,11 @@
 					</section>
 				</section>
 				<section>
-					<h4>The Idea of a Web of <em>Things</em></h4>
+					<h4>The (Semantic) Sensor Web</h4>
 					<section>
 						<p>
-							The Open Geospatial Consortium (OGC) first used the Web to publish sensor measurements in a unified manner.
+							The Open Geospatial Consortium (OGC) first used the Web to
+							<mark>publish sensor measurements</mark> in a unified manner.
 						</p>
 						<figure>
 							<img src="../misc/wot-intro/swe-concept.png">
@@ -164,16 +172,36 @@
 					</section>
 					<section>
 						<p>
-							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements in a standard XML format
-							(O&amp;M).
+							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements
+							in a <mark>standard XML format</mark> (O&amp;M).
 						</p>
-						<p class="fragment">
-							SOS, O&amp;M and other OGC standards are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
-						</p>
+						<figure>
+							<p>
+								<code>
+<pre>
+&lt;om:OM_Observation gml:id="obsTest1"&gt;
+  &lt;om:phenomemonTime&gt;
+    &lt;gml:TimeInstant&gt;
+      &lt;gml:timePosition&gt;2010-03-08T16:22:25.00&lt;/gml:timePosition&gt;
+    &lt;/gml:TimeInstant&gt;
+  &lt;/om:phenomemonTime&gt;
+  &lt;om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/hydroSurface.owl#WaterHeight"/&gt;
+  &lt;om:result uom="cm"&gt;28&lt;/om:result&gt;
+&lt;/om:OM_Observation&gt;
+</pre>
+								</code>
+							</p>
+							<figcaption>Example of an O&amp;M observation in XML; source: <a href="http://schemas.opengis.net/om/2.0/examples/spatial_observation1.xml">opengis.net</a></figcaption>
+						</figure>
 					</section>
 					<section>
 						<p>
-							SWE then combined with Semantic Web technologies has become the <b>Semantic Sensor Web</b>.
+							<mark>SOS</mark>, <mark>O&amp;M</mark> and <mark>other OGC standards</mark>
+							are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
+						</p>
+						<p class="fragment">
+							<mark>SWE</mark> then combined with <mark>Semantic Web</mark> technologies has become
+							the <b>Semantic Sensor Web</b>.
 						</p>
 						<p class="note fragment">
 							The Semantic Sensor Web has led to the standardization of the <a></a>Semantic Sensor Network (SSN) ontology. 
@@ -193,7 +221,10 @@
 					</section>
 					<section>
 						<p>
-							On the Semantic Sensor Web, the inference rules that are used to enrich sensor observations may be simple.
+							On the Semantic Sensor Web, <mark>inference rules</mark> are used to enrich sensor observations may.
+						</p>
+						<p class="fragment">
+							Such inference rules may be relatively <mark>simple</mark>.
 						</p>
 					</section>
 					<section>
@@ -215,20 +246,27 @@
 					</section>
 					<section>
 						<p>
-							Key is not the <b>complexity</b> of inference but the <b>completeness</b> of the knowledge.
+							Key is not the <mark>complexity</mark> of inference but the <mark>completeness</mark> of the knowledge.
 						</p>
 						<p class="note fragment">
 							Hence, the idea of <em>ubiquitous</em> computing.
 						</p>
 					</section>
-					<section>
-						<p>
-							Now, what about an "<span><em>Actuator</em></span> Web Enablement"?
-						</p>
-						<p class="fragment">
-							Now, what about a "<span><em>Thing</em></span> Web Enablement"?
+					<section data-auto-animate>
+						<p data-id="q">
+							Now, what about<br>
+							an "<span><mark>Actuator</mark></span> Web Enablement"?
 						</p>
 					</section>
+					<section data-auto-animate>
+						<p data-id="q">
+							Now, what about<br>
+							a "<span><mark>Thing</mark></span> Web Enablement"?
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>The Idea of a Web of <em>Things</em></h4>
 					<section>
 						<p>
 							"<em>Every kind of thing can have its own kind of reason for being a thing.</em>"
@@ -288,6 +326,9 @@
 							<img src="../misc/wot-intro/ubermanufacturing.png">
 							<figcaption>source: <a href="http://doi.org/10.1145/2991561.2991569">(Mayer et al., 2016)</a></figcaption>
 						</figure>
+						<p class="fragment note">
+							See a similar process <a href="https://www.youtube.com/watch?v=CpgU1JWLy6w">in action (YouTube link)</a>.
+						</p>
 					</section>
 					<!-- <section>
 						<p>
@@ -308,16 +349,16 @@
 							<p>
 								<code>
 <pre>
-	{wt}
-	{wt}/model
-	{wt}/properties
-	{wt}/properties/{id}
-	{wt}/actions
-	{wt}/actions/{id}
-	{wt}/actions/{id}/{actionId}
-	{wt}/things
-	{wt}/things/{id}
-	{wt}/subscriptions
+{wt}
+{wt}/model
+{wt}/properties
+{wt}/properties/{id}
+{wt}/actions
+{wt}/actions/{id}
+{wt}/actions/{id}/{actionId}
+{wt}/things
+{wt}/things/{id}
+{wt}/subscriptions
 </pre>
 								</code>
 							</p>
