@@ -31,6 +31,10 @@
 				font-size: 0.5em;
 			}
 
+			.reveal .slides caption {
+				color: gray;
+			}
+
 			.reveal .slides figcaption {
 				color: gray;
 				font-size: 0.5em;
@@ -279,7 +283,7 @@
 					</section>
 					<section>
 						<p>
-							<em>Things</em> can be combined in different ways to build applications.
+							A single Web client can combine heterogeneous <em>Things</em> to build application <mark>mashups</mark>.
 						</p>
 					</section>
 					<section>
@@ -289,37 +293,25 @@
 						</figure>
 					</section>
 					<section>
-						<p>
-							Application "mash-ups" can be automated based on semantic descriptions of Things.
-						</p>
-					</section>
-					<section>
-						<p>
-							Smart home scenario (air conditioner):
-						</p>
-						<ul>
-							<li>power on/off</li>
-							<li>set temperature</li>
-							<li>set intensity</li>
-							<li>set mode</li>
-							<li>(external) unit conversion</li>
-						</ul>
+						<figure>
+							<img src="../misc/wot-intro/ac-process.svg">
+							<figcaption>Example of application mashup on an air conditioner; source: <a href="http://doi.org/10.1109/IOT.2015.7356548">(Kovatsch et al., 2015)</a></figcaption>
+						</figure>
 					</section>
 					<section>
 						<figure>
 							<img src="../misc/wot-intro/semantic-ide.png">
 							<figcaption>source: <a href="http://doi.org/10.1109/IOT.2015.7356548">(Kovatsch et al., 2015)</a></figcaption>
 						</figure>
+						<p class="fragment note">
+							Build from <a href="https://github.com/mkovatsc/iot-semantics">source code</a> and try it out yourself.
+						</p>
 					</section>
 					<section>
-						<p>
-							Manufacturing scenario:
-						</p>
-						<ul>
-							<li>Robotic arms with different reach</li>
-							<li>production cells (heater, fan)</li>
-							<li>human workers</li>
-						</ul>
+						<figure>
+							<img src="../misc/wot-intro/manufacturing-process.svg">
+							<figcaption>Example of application mashup on a production line; source: <a href="http://doi.org/10.1145/2991561.2991569">(Mayer et al., 2016)</a></figcaption>
+						</figure>
 					</section>
 					<section>
 						<figure>
@@ -327,7 +319,7 @@
 							<figcaption>source: <a href="http://doi.org/10.1145/2991561.2991569">(Mayer et al., 2016)</a></figcaption>
 						</figure>
 						<p class="fragment note">
-							See a similar process <a href="https://www.youtube.com/watch?v=CpgU1JWLy6w">in action (YouTube link)</a>.
+							See a similar process with human-machine collaboration <a href="https://www.youtube.com/watch?v=CpgU1JWLy6w">in action</a>.
 						</p>
 					</section>
 					<!-- <section>
@@ -338,41 +330,161 @@
 					</section> -->
 					<section>
 						<p>
-							A prerequisite to application mash-ups is a standard API to all <em>Web Things</em>.
+							The Web client executes an application mashup as <mark>a series of HTTP operations</mark>.
 						</p>
 					</section>
 					<section>
-						<p>
-							<a href="https://www.w3.org/Submission/wot-model/"></a>
-						</p>
 						<figure>
 							<p>
 								<code>
 <pre>
-{wt}
-{wt}/model
-{wt}/properties
-{wt}/properties/{id}
-{wt}/actions
-{wt}/actions/{id}
-{wt}/actions/{id}/{actionId}
-{wt}/things
-{wt}/things/{id}
-{wt}/subscriptions
+PUT /pwr/switch HTTP/1.1
+Host: device.local
+ON
+
+PUT /ac/mode HTTP/1.1
+Host: device.local
+AUTO
+
+PUT /ac/vent HTTP/1.1
+Host: device.local
+12
+
+POST /fahrenheit2celsius
+Host: converter.com
+83
+
+PUT /ac/target
+Host: device.local
+25
 </pre>
 								</code>
 							</p>
-							<figcaption>source: <a href="https://www.w3.org/Submission/wot-model/">(Trifa et al., 2015)</a></figcaption>
+							<figcaption>HTTP operations for the air conditioner example</figcaption>
 						</figure>
 					</section>
-					<!-- <section>
-						OpenAPI and RESTful Web services.
-						Ex: Github API, https://apis.guru/
-
-						I4.0 AAS in REST:
-						<a href="https://app.swaggerhub.com/apis/Plattform_i40/AssetAdministrationShell-REST-API/Review1"></a>
-					</section> -->
 					<section>
+						<!-- POST http://ur5.local/pickAndPlace "from, to" -->
+						<!-- POST http://ws1.local/heatUp "duration" -->
+						<!-- POST http://ur5.local/pickAndPlace "from, to" -->
+						<!-- POST http://plcbot.local/pickAndPlace "from, to" -->
+						<!-- POST http://ws2.local/coolDown "duration" -->
+						<figure>
+							<p>
+								<code>
+<pre>
+POST /pick-and-place HTTP/1.1
+Host: ur5-robot.local
+Content-Type: application/json
+{ "from": [6, 5.4], "to": [2.4, 7] }
+
+POST /jobs HTTP/1.1
+Host: fan-heater.local
+Content-Type: application/json
+{ "duration": 10 }
+
+POST /pick-and-place HTTP/1.1
+Host: ur5-robot.local
+Content-Type: application/json
+{ "from": [2.4, 7], "to": [2.4, 2] }
+
+POST /move-from-to HTTP/1.1
+Host: plcbot.local
+Content-Type: application/json
+[ [2.4, 2], [5.1, 2] ]
+
+POST /turn-on HTTP/1.1
+Host: fan.local
+Content-Type: text/plain
+20
+</pre>
+								</code>
+							</p>
+							<figcaption>HTTP operations for the production line example</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Various organizations have <mark>their own Web APIs</mark> for Things:
+						</p>
+						<ul>
+							<li class="fragment">
+								<a href="https://petstore.swagger.io/?url=https://api.apis.guru/v2/specs/adafruit.com/2.0.0/swagger.json">Adafruit IO REST API</a>
+								for DIY microcontrollers
+							</li>
+							<li class="fragment">
+								<a href="https://petstore.swagger.io/?url=https://api.apis.guru/v2/specs/amazonaws.com/iot/2015-05-28/openapi.json">Amazon Web Services (AWS) API</a>
+								to connect IoT devices to AWS
+							</li>
+							<li class="fragment">
+								<a href="https://app.swaggerhub.com/apis/Plattform_i40/AssetAdministrationShell-REST-API/Review1">Asset Administration Shell (AAS) API</a>
+								for cyber-physical systems
+							</li>
+						</ul>
+						<p class="note fragment">
+							Find more Web APIs for the IoT in <a href="https://apis.guru/">one of the OpenAPI catalogs</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							A minimal <mark>Web Thing API</mark> was proposed in 2015, to update a Thing's properties,
+							invoke its actions and subscribe to its notifications.
+						</p>
+					</section>
+					<section>
+						<table>
+							<thead>
+							</thead>
+								<tr>
+									<th>HTTP Method</th>
+									<th>Resource</th>
+								</tr>
+							<tbody>
+								<tr>
+									<td>GET</td>
+									<td>{wt}</td>
+								</tr>
+								<tr>
+									<td>GET</td>
+									<td>{wt}/model</td>
+								</tr>
+								<tr>
+									<td>GET</td>
+									<td>{wt}/properties</td>
+								</tr>
+								<tr>
+									<td>GET, PUT</td>
+									<td>{wt}/properties/{id}</td>
+								</tr>
+								<tr>
+									<td>GET</td>
+									<td>{wt}/actions</td>
+								</tr>
+								<tr>
+									<td>GET, POST</td>
+									<td>{wt}/actions/{id}</td>
+								</tr>
+								<tr>
+									<td>GET, PUT, DELETE</td>
+									<td>{wt}/actions/{id}/{actionId}</td>
+								</tr>
+								<tr>
+									<td>GET, POST</td>
+									<td>{wt}/subscriptions</td>
+								</tr>
+							</tbody>
+							<caption>Web Thing API; source: <a href="https://www.w3.org/Submission/wot-model/">(Trifa et al., 2015)</a></caption>
+						</table>
+					</section>
+					<!-- question: how to map previously shown APIs with this one? -->
+					<!-- action:/things/{thingName}/jobs (AWS) and /submodel​/submodelElements​/{seIdShortPath}​/invokeSync (AAS) -->
+					<section>
+						<p>
+							Still, how to execute mashups on arbitrary Thing, <mark>without prior knowledge</mark> of their API?
+						</p>
+						<!-- ...via REST/hypermedia -->
+					</section>
+					<!-- <section>
 						<p>
 							How to manage changing data and physical effects of Web services?
 						</p>
@@ -394,7 +506,7 @@
 					</section>
 					<section>
 						Key idea: Willie, as a Web server, exposes its current action as a Web resource. 
-					</section>
+					</section> -->
 				</section>
 				<section>
 					<h4>Representational State Transfer</h4>
@@ -411,7 +523,7 @@
 							<li>cache</li>
 							<li>uniform interface</li>
 							<li>layered system</li>
-							<li>code-on-demand</li>
+							<li>(code-on-demand)</li>
 						</ol>
 					</section>
 					<section data-auto-animate>
@@ -480,6 +592,13 @@
 				</section>
 				<section>
 					<h4>The W3C Thing Description Model</h4>
+					<section>
+						<p>
+							The World Wide Web Consortium (W3C) has initiated a standardization effort
+							to <mark>facilitate automated mash-ups</mark> based on semantic descriptions of Things.
+						</p>
+						<!-- with dynamic discovery, online selection... -->
+					</section>
 					<section>
 						<p>
 							REST is (theoretically) independent of the communication protocol.
