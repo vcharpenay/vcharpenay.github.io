@@ -364,11 +364,6 @@ Host: device.local
 						</figure>
 					</section>
 					<section>
-						<!-- POST http://ur5.local/pickAndPlace "from, to" -->
-						<!-- POST http://ws1.local/heatUp "duration" -->
-						<!-- POST http://ur5.local/pickAndPlace "from, to" -->
-						<!-- POST http://plcbot.local/pickAndPlace "from, to" -->
-						<!-- POST http://ws2.local/coolDown "duration" -->
 						<figure>
 							<p>
 								<code>
@@ -480,7 +475,7 @@ Content-Type: text/plain
 					<!-- action:/things/{thingName}/jobs (AWS) and /submodel​/submodelElements​/{seIdShortPath}​/invokeSync (AAS) -->
 					<section>
 						<p>
-							Still, how to execute mashups on arbitrary Thing, <mark>without prior knowledge</mark> of their API?
+							Still, how to execute mashups on arbitrary Things, <mark>without prior knowledge</mark> of their API?
 						</p>
 						<!-- ...via REST/hypermedia -->
 					</section>
@@ -512,7 +507,8 @@ Content-Type: text/plain
 					<h4>Representational State Transfer</h4>
 					<section>
 						<p>
-							Representational State Transfer (REST) is a set of architectural constraints
+							Representational State Transfer (<mark>REST</mark>) is a set of architectural constraints
+							for "network-based software"
 							<a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">(Fielding, 2000)</a>.
 						</p>
 					</section>
@@ -526,19 +522,25 @@ Content-Type: text/plain
 							<li>(code-on-demand)</li>
 						</ol>
 					</section>
-					<section data-auto-animate>
-						<ol>
-							<li>client-server architecture</li>
-							<li>stateless communication</li>
-							<li>cache</li>
-							<li><b>uniform interface</b></li>
-							<li>layered system</li>
-							<li>code-on-demand</li>
-						</ol>
-					</section>
 					<section>
 						<p>
-							The uniform interface constraint consist of 4 sub-constraints.
+							The REST constraints have conditioned much of <mark>HTTP/1.1</mark>,
+							including:
+						</p>
+						<ul>
+							<li class="fragment">Cookies and session tokens</li>
+							<li class="fragment">Cache control</li>
+							<li class="fragment">Content negotiation</li>
+							<li class="fragment">Proxies and reverse proxies</li>
+						</ul>
+					</section>
+					<!-- question: which feature does map to which constraint? -->
+					<section>
+						<p>
+							The <mark>uniform interface</mark> constraint is specific to REST.
+						</p>
+						<p class="fragment">
+							It consists of <mark>4 sub-constraints</mark>.
 						</p>
 					</section>
 					<section>
@@ -546,7 +548,7 @@ Content-Type: text/plain
 							<li>identification of resources</li>
 							<li class="fragment">manipulation of resources through representations</li>
 							<li class="fragment">self-descriptive messages</li>
-							<li class="fragment">hypermedia as the engine of application state (HATEOAS)</li>
+							<li class="fragment">hypermedia as the engine of application state (<mark>HATEOAS</mark>)</li>
 						</ol>
 						<p class="note fragment">
 							<span class="highlight">Linked Data</span> interfaces are RESTful by construction.
@@ -555,9 +557,9 @@ Content-Type: text/plain
 					<section>
 						<p>Two examples of HATEOAS:</p>
 						<ul>
-							<li>Redirection to an OAuth2 authentication sever</li>
+							<li class="fragment">Redirection to an OAuth2 authentication sever</li>
 							<!-- example of Shibboleth -->
-							<li>Reverse proxy (on server side) performing load balancing</li>
+							<li class="fragment">Reverse proxy (on server side) performing load balancing</li>
 							<!-- example of BBB on emse.fr -->
 						</ul>
 					</section>
@@ -589,6 +591,76 @@ Content-Type: text/plain
 							REST with pub-sub: MQTT response topics.
 						</p>
 					</section> -->
+					<section>
+						<p>
+							Web clients can do <mark>hypermedia</mark> navigation by following <mark>links</mark> and submitting <mark>forms</mark>.
+						</p>
+						<p class="fragment">
+							Web clients can discover <mark>properties</mark> exposed by Thing as links.
+						</p>
+						<p class="fragment">
+							Web clients can discover <mark>actions</mark> exposed by Things as forms.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<p>
+								<code>
+<pre>
+GET / HTTP/1.1
+Host: device.local
+---
+HTTP/1.1 200 OK
+Content-Type: application/json
+[{ "@type": "Link", "href": "http://device.local/pwr", "rel": "ssn:hasSubSystem" },
+ { "@type": "Link", "href": "http://device.local/ac", "rel": "ssn:hasSubSystem"  }]
+
+GET /pwr HTTP/1.1
+Host: device.local
+---
+HTTP/1.1 200 OK
+Content-Type: application/json
+[{ "@type": "Link", "href": "http://device.local/pwr/switch", "rel": "ssn:hasProperty" }]
+
+GET /ac HTTP/1.1
+Host: device.local
+---
+HTTP/1.1 200 OK
+Content-Type: application/json
+[{ "@type": "Link", "href": "http://device.local/ac/mode", "rel": "ssn:hasProperty" },
+ { "@type": "Link", "href": "http://device.local/ac/vent", "rel": "ssn:hasProperty" },
+ { "@type": "Link", "href": "http://device.local/ac/target", "rel": "ssn:hasProperty" }]
+</pre>
+								</code>
+							</p>
+							<figcaption>Hypermedia-driven discovery of available properties for the air conditioner example</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<p>
+								<code>
+<pre>
+GET / HTTP/1.1
+Host: ur5-robot.local
+---
+HTTP/1.1 200 OK
+Content-Type: application/json
+[{ "@type": "Form", "href": "http://ur5-robot.local/pick-and-place", "op": "td:invokeAction" }]
+
+POST /pick-and-place HTTP/1.1
+Host: ur5-robot.local
+Content-Type: application/json
+{ "from": [6, 5.4], "to": [2.4, 7] }
+---
+HTTP/1.1 201 Created
+Location: http://ur5-robot.local/pick-and-place/invocation1
+</pre>
+								</code>
+							</p>
+							<figcaption>Hypermedia-driven discovery of available actions for the production line example</figcaption>
+						</figure>
+					</section>
 				</section>
 				<section>
 					<h4>The W3C Thing Description Model</h4>
