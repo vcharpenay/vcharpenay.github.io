@@ -335,66 +335,55 @@
 					</section>
 					<section>
 						<figure>
-							<p>
-								<code>
-<pre>
-PUT /pwr/switch HTTP/1.1
+							<div style="font-size: 0.8em;">
+<pre><code>PUT /pwr/switch HTTP/1.1
 Host: device.local
-ON
-
-PUT /ac/mode HTTP/1.1
+ON</code></pre>
+<pre><code>PUT /ac/mode HTTP/1.1
 Host: device.local
-AUTO
-
-PUT /ac/vent HTTP/1.1
+AUTO</code></pre>
+<pre><code>PUT /ac/vent HTTP/1.1
 Host: device.local
-12
-
-POST /fahrenheit2celsius
+12</code></pre>
+<pre><code>POST /fahrenheit2celsius HTTP/1.1
 Host: converter.com
-83
-
-PUT /ac/target
+83</code></pre>
+<pre><code>PUT /ac/target HTTP/1.1
 Host: device.local
-25
-</pre>
-								</code>
-							</p>
+25</code></pre>
+							</div>
 							<figcaption>HTTP operations for the air conditioner example</figcaption>
 						</figure>
 					</section>
 					<section>
 						<figure>
-							<p>
-								<code>
-<pre>
-POST /pick-and-place HTTP/1.1
+							<div style="font-size: 0.5em;">
+<pre><code>POST /pick-and-place HTTP/1.1
 Host: ur5-robot.local
 Content-Type: application/json
-{ "from": [6, 5.4], "to": [2.4, 7] }
 
-POST /jobs HTTP/1.1
+{ "from": [6, 5.4], "to": [2.4, 7] }</code></pre>
+<pre><code>POST /jobs HTTP/1.1
 Host: fan-heater.local
 Content-Type: application/json
-{ "duration": 10 }
 
-POST /pick-and-place HTTP/1.1
+{ "duration": 10 }</code></pre>
+<pre><code>POST /pick-and-place HTTP/1.1
 Host: ur5-robot.local
 Content-Type: application/json
-{ "from": [2.4, 7], "to": [2.4, 2] }
 
-POST /move-from-to HTTP/1.1
+{ "from": [2.4, 7], "to": [2.4, 2] }</code></pre>
+<pre><code>POST /move-from-to HTTP/1.1
 Host: plcbot.local
 Content-Type: application/json
-[ [2.4, 2], [5.1, 2] ]
 
-POST /turn-on HTTP/1.1
+[ [2.4, 2], [5.1, 2] ]</code></pre>
+<pre><code>POST /turn-on HTTP/1.1
 Host: fan.local
 Content-Type: text/plain
-20
-</pre>
-								</code>
-							</p>
+
+20</code></pre>
+							</div>
 							<figcaption>HTTP operations for the production line example</figcaption>
 						</figure>
 					</section>
@@ -604,60 +593,51 @@ Content-Type: text/plain
 					</section>
 					<section>
 						<figure>
-							<p>
-								<code>
-<pre>
-GET / HTTP/1.1
-Host: device.local
----
-HTTP/1.1 200 OK
+							<div style="font-size: 0.5em;">
+<pre><code>GET / HTTP/1.1
+Host: device.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
 Content-Type: application/json
+
 [{ "@type": "Link", "href": "http://device.local/pwr", "rel": "ssn:hasSubSystem" },
- { "@type": "Link", "href": "http://device.local/ac", "rel": "ssn:hasSubSystem"  }]
-
-GET /pwr HTTP/1.1
-Host: device.local
----
-HTTP/1.1 200 OK
+ { "@type": "Link", "href": "http://device.local/ac", "rel": "ssn:hasSubSystem"  }]</code></pre>
+<pre><code>GET /pwr HTTP/1.1
+Host: device.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
 Content-Type: application/json
-[{ "@type": "Link", "href": "http://device.local/pwr/switch", "rel": "ssn:hasProperty" }]
 
-GET /ac HTTP/1.1
-Host: device.local
----
-HTTP/1.1 200 OK
+[{ "@type": "Link", "href": "http://device.local/pwr/switch", "rel": "ssn:hasProperty" }]</code></pre>
+<pre><code>GET /ac HTTP/1.1
+Host: device.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
 Content-Type: application/json
+
 [{ "@type": "Link", "href": "http://device.local/ac/mode", "rel": "ssn:hasProperty" },
  { "@type": "Link", "href": "http://device.local/ac/vent", "rel": "ssn:hasProperty" },
- { "@type": "Link", "href": "http://device.local/ac/target", "rel": "ssn:hasProperty" }]
-</pre>
-								</code>
-							</p>
+ { "@type": "Link", "href": "http://device.local/ac/target", "rel": "ssn:hasProperty" }]</code></pre>				
+							</div>
 							<figcaption>Hypermedia-driven discovery of available properties for the air conditioner example</figcaption>
 						</figure>
 					</section>
 					<section>
 						<figure>
-							<p>
-								<code>
-<pre>
-GET / HTTP/1.1
-Host: ur5-robot.local
----
-HTTP/1.1 200 OK
+							<div style="font-size: 0.8em;">
+<pre><code>GET / HTTP/1.1
+Host: ur5-robot.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
 Content-Type: application/json
-[{ "@type": "Form", "href": "http://ur5-robot.local/pick-and-place", "op": "td:invokeAction" }]
 
-POST /pick-and-place HTTP/1.1
+[{ "@type": "Form", "href": "http://ur5-robot.local/pick-and-place", "op": "td:invokeAction" }]</code></pre>
+<pre><code>POST /pick-and-place HTTP/1.1
 Host: ur5-robot.local
 Content-Type: application/json
-{ "from": [6, 5.4], "to": [2.4, 7] }
----
-HTTP/1.1 201 Created
+
+{ "from": [6, 5.4], "to": [2.4, 7] }</code></pre>
+<pre><code>HTTP/1.1 201 Created
 Location: http://ur5-robot.local/pick-and-place/invocation1
-</pre>
-								</code>
-							</p>
+
+[no content]</code></pre>
+							</div>
 							<figcaption>Hypermedia-driven discovery of available actions for the production line example</figcaption>
 						</figure>
 					</section>
