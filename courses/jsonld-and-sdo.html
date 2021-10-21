@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>RDF for the (Non-Semantic) Web</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides caption {
+				color: gray;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>RDF for the (<span style="text-shadow: lightgray 5px 5px;">Non-Semantic</span>) Web</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Outline</h4>
+					<ol>
+						<li class="fragment">How Useful is RDF To Web Developers?</li>
+						<li class="fragment">JSON for Linked Data</li>
+						<li class="fragment">Schema.org</li>
+					</ol>
+				</section>
+				<section>
+					<h4>How Useful is RDF To Web Developers?</h4>
+					<section>
+						<p>
+							Despite its <a href="https://www.w3.org/TR/1999/REC-rdf-syntax-19990222/#grammar">original XML syntax</a>,
+							the RDF data model is not aligned with existing Web formats: <mark>HTML</mark> (XML), <mark>JSON</mark>.
+						</p>
+						<p class="fragment">
+							A <a href="https://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/">revision</a> of the RDF/XML syntax
+							was designed to <mark>appeal to Web developers</mark>.
+						</p>
+						<p class="fragment">
+							It didn't.
+						</p>
+					</section>
+					<section>
+						<p>
+							One possible reason for this lack of adoption is the lack of <mark>idiomatic representations</mark>
+							of RDF data in object-oriented programming languages.
+						</p>
+						<p class="fragment">
+							The gap between <mark>objects</mark> and <mark>triples</mark> is "too wide"...
+						</p>
+						<p class="note fragment">
+							...despite numerous object-triple mapping libraries
+							<a href="http://semantic-web-journal.net/system/files/swj2057.pdf">(Ledvinka, 2018)</a>
+						</p>
+					</section>
+					<section>
+						<p>
+							In addition, Web developers typically build <mark>"full-stack" applications</mark>,
+							including a front-end, a back-end and communication between the two.
+						</p>
+						<p class="fragment">
+							They don't particularly need to expose data in an <mark>interoperable</mark> way
+							(i.e. with URIs everywhere).
+						</p>
+					</section>
+					<section>
+						<p>
+							Note: full-stack Web applications are not the only kind of Web app.
+						</p>
+						<p class="fragment">
+							On the <a href="https://www.lod-cloud.net/">Linked Open Data (LOD)</a> cloud,
+							the effort is split:
+						</p>
+						<ul>
+							<li class="fragment">Web servers provide <mark>raw data</mark> (of quality)</li>
+							<li class="fragment">The Web brower renders <mark>facets of data</mark> (of interest to the user)</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/jsonld-and-sdo/raw-data-now.png">
+							<figcaption>"The next web", by Tim Berners-Lee (2009); source: <a href="https://www.ted.com/talks/tim_berners_lee_the_next_web">TED</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							RDF can help <mark>redestribute the effort</mark> between client and server applications on the Web.
+						</p>
+						<p class="fragment">
+							Two technologies (among others) tend towards that objective:
+						</p>
+						<ul>
+							<li class="fragment"><mark>JSON-LD</mark></li>
+							<li class="fragment"><mark>Schema.org</mark></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h4>JSON for Linked Data</h4>
+					<section>
+						<p>
+							<a href="https://www.json.org/">JSON</a>: JavaScript Object Notation
+						</p>
+					</section>
+					<section>
+						<p>
+							JSON values can be objects, arrays or simple values.
+						</p>
+						<table class="fragment">
+							<tr>
+								<th>Type</th>
+								<th>Example</th>
+							</tr>
+							<tr>
+								<td>Null</td>
+								<th><code>null</code></th>
+							</tr>
+							<tr>
+								<td>Boolean</td>
+								<th><code>true</code>, <code>false</code></th>
+							</tr>
+							<tr>
+								<td>Number</td>
+								<th><code>2.4</code></th>
+							</tr>
+							<tr>
+								<td>String</td>
+								<th><code>"abc"</code></th>
+							</tr>
+							<tr>
+								<td>Object</td>
+								<th><code>{ "a": 2.4, "b": "abc", ... }</code></th>
+							</tr>
+							<tr>
+								<td>Array</td>
+								<th><code>[ 2.4, "abc", ... ]</code></th>
+							</tr>
+							<caption>Six JSON types</caption>
+						</table>
+					</section>
+					<section>
+						<p style="font-style: italic;">
+							"That’s it. That is all of JSON."
+							— Douglas Crockford <a href="https://www.oreilly.com/library/view/javascript-the-good/9780596517748/">(Crockford, 2008)</a>
+						</p>
+						<!-- 
+							JSON’s design goals were to be minimal, portable, textual, and a subset of JavaScript.
+							The less we need to agree on in order to interoperate, the more easily we can interoperate.
+						-->
+					</section>
+					<section>
+						OTM: example of Java annotations.
+						https://github.com/mhgrove/Empire/blob/develop/examples/main/src/com/clarkparsia/empire/examples/
+						<!-- Empire used now at Stardog? -->
+					</section>
+					<section>
+						<p>
+							JSON-LD
+							https://www.w3.org/TR/2014/REC-json-ld-20140116/
+						</p>
+					</section>
+					<section>
+						<p>
+							Expanded form. Mapping to RDF.
+						</p>
+						<p>
+							Compacted form. Contextualization.
+						</p>
+					</section>
+					<section>
+						<p>
+							Advanced concepts:	
+						</p>
+						<ul>
+							<li>Default vocabulary</li>
+							<li>CURIEs</li>
+							<li>Typed values</li>
+							<li>Context composition (advanced context usage)</li>
+							<li>Sets and Lists</li>
+							<li>Reverse properties</li>
+							<li>Data indexing</li>
+						</ul>
+						<p>
+							More constructs in JSON-LD 1.1.
+						</p>
+					</section>
+					<section>
+						<ul>
+							<li>RDFa</li>
+							<li>Microformat</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h4>Schema.org</h4>
+					<section>
+						<p>
+							Google result with and without markup.
+						</p>
+						<p>
+							"Semantic" markup used on 60% of Web pages (?).
+						</p>
+					</section>
+					<section>
+						<iframe src="https//www.slideshare.net/slideshow/embed_code/key/moqHenY5iuvaA7" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https//www.slideshare.net/lanthaler/the-web-is-changing-from-strings-to-things" title="The Web Is Changing — From Strings to Things" target="_blank">The Web Is Changing — From Strings to Things</a> </strong> from <strong><a href="https://www.slideshare.net/lanthaler" target="_blank">Markus Lanthaler</a></strong> </div>
+					</section>
+					<section>
+						ld+json "script".
+					</section>
+					<section>
+						https://schema.org/
+
+						Design goal: 
+						<ul>
+							<li>On the Web (Internet): be conservative with what you send, be liberal in what you accept (Postel's law)</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							https://www.vcharpenay.link/vcharpenay.jsonld
+							(web page vs. person)
+						</p>
+					</section>
+					<section>
+						<p>
+							https://validator.schema.org/
+							https://search.google.com/test/rich-results
+							https://www.google.com/webmasters/markup-helper/
+						</p>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
