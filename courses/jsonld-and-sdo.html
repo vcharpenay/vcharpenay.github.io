@@ -188,46 +188,225 @@
 						-->
 					</section>
 					<section>
-						OTM: example of Java annotations.
-						https://github.com/mhgrove/Empire/blob/develop/examples/main/src/com/clarkparsia/empire/examples/
+						<p>
+							Objects (in Java, Python, C#, etc.)
+							can easily be <mark>(de)serialized</mark> in JSON.
+						</p>
+						<p class="fragment">
+							RDF-based applications often require a transformation from/to objects.
+						</p>
+						<p class="fragment">
+							<span style="color: lightgray;">↪</span> Can there be a standard JSON serialization of RDF?
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>@Namespaces({
+  "frbr", "http://vocab.org/frbr/core#",
+  "dc",   "http://purl.org/dc/terms/",
+  "foaf", "http://xmlns.com/foaf/0.1/"
+})
+@RdfsClass("frbr:Expression")
+@Entity
+public class Book implements SupportsRdfId {
+
+  @RdfProperty("dc:title")
+  private String mTitle;
+
+  @RdfProperty("dc:publisher")
+  private String mPublisher;
+
+  @RdfProperty("dc:issued")
+  private Date mIssued;
+
+  @RdfProperty("foaf:primarySubjectOf")
+  private URI mPrimarySubjectOf;
+
+  @OneToMany(fetch = FetchType.LAZY,
+             cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @RdfProperty("frbr:embodiment")
+  private Collection&lt;Manifestation&gt; mEmbodiments = new HashSet&lt;Manifestation&gt;();
+
+  // ...
+}
+</code></pre>
+							<figcaption>
+								Example of a Book class with object-triple mapping, from the Empire library (Java);
+								source: <a href="https://github.com/mhgrove/Empire/blob/develop/examples/main/src/com/clarkparsia/empire/examples/">Github.com</a>
+							</figcaption>
+						</figure>
 						<!-- Empire used now at Stardog? -->
 					</section>
 					<section>
+						<figure>
+<pre><code>{
+  "@context": {
+    "frbr": "http://vocab.org/frbr/core#",
+    "dc":   "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "mTitle": "dc:title",
+    "mPublisher": "dc:publisher",
+    "mIssued": {
+      "@id": "dc:issued",
+	  "@type": "http://www.w3.org/2001/XMLSchema#date"
+	}, "mPrimarySubjectOf": {
+      "@id": "foaf:primarySubjectOf",
+      "@type": "@id"
+	}, "mEmbodiments": {
+      "@id": "frbr:embodiment",
+      "@container": "@set"
+    }
+  },
+  "@id": "http://www.wikidata.org/entity/Q13912",
+  "@class": "frbr:Expression",
+  "mTitle": "Where the Wild Things Are",
+  "mPublisher": "Harper & Raw",
+  "mIssued": "1963-11-13",
+  "mPrimarySubjectOf": "https://en.wikipedia.org/wiki/Where_the_Wild_Things_Are",
+  "mEmbodiments": [
+    ...
+  ]
+}</code></pre>
+							<figcaption>
+								JSON-LD representation of a Book object.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
 						<p>
-							JSON-LD
-							https://www.w3.org/TR/2014/REC-json-ld-20140116/
+							<a href="https://www.w3.org/TR/2014/REC-json-ld-20140116/">JSON-LD</a>: JSON for Linked Data
 						</p>
 					</section>
 					<section>
 						<p>
-							Expanded form. Mapping to RDF.
-						</p>
-						<p>
-							Compacted form. Contextualization.
-						</p>
-					</section>
-					<section>
-						<p>
-							Advanced concepts:	
+							A JSON-LD document has (at least) two forms:
 						</p>
 						<ul>
-							<li>Default vocabulary</li>
-							<li>CURIEs</li>
-							<li>Typed values</li>
-							<li>Context composition (advanced context usage)</li>
-							<li>Sets and Lists</li>
-							<li>Reverse properties</li>
-							<li>Data indexing</li>
+							<li class="fragment">a <mark>compacted</mark> form</li>
+							<li class="fragment">an <mark>expanded</mark> form</li>
 						</ul>
-						<p>
-							More constructs in JSON-LD 1.1.
+						<p class="note fragment">
+							Try the <a href="https://json-ld.org/playground/">JSON-LD "playground"</a> to process all forms of JSON-LD.
 						</p>
 					</section>
 					<section>
+						<figure>
+<pre><code>[
+  {
+    "@id": "http://www.wikidata.org/entity/Q13912",
+    "http://purl.org/dc/terms/title": [
+      {
+        "@value": "Where the Wild Things Are"
+      }
+    ],
+    "http://purl.org/dc/terms/publisher": [
+      {
+        "@value": "Harper & Raw"
+      }
+    ],
+    "http://purl.org/dc/terms/issued": [
+      {
+        "@value": "1963-11-13",
+        "@type": "http://www.w3.org/2001/XMLSchema#date"
+      }
+    ],
+    "http://xmlns.com/foaf/0.1/primarySubjectOf": [
+      {
+        "@id": "https://en.wikipedia.org/wiki/Where_the_Wild_Things_Are"
+      }
+    ],
+    "http://vocab.org/frbr/core#embodiment": [ ... ],
+  }
+  ]</code></pre>
+							<figcaption>
+								JSON-LD <em>expanded</em> representation of a Book object.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							A JSON-LD object can be:
+						</p>
 						<ul>
-							<li>RDFa</li>
-							<li>Microformat</li>
+							<li>
+								a <mark>node object</mark> (with key <code>@id</code>)<br>
+								&nbsp;&nbsp;<span style="color: lightgray;">~ IRI resource or blank node</span>
+							</li>
+							<li>
+								a <mark>value object</mark> (with key <code>@value</code>)<br>
+								&nbsp;&nbsp;<span style="color: lightgray;">~ literal</span>
+							</li>
 						</ul>
+					</section>
+					<section>
+						<p>
+							In its compacted form, a JSON-LD document has a <mark>context</mark>
+							(with key <code>@context</code>).
+						</p>
+						<p class="fragment">
+							A JSON-LD context maps arbitrary JSON <mark>strings</mark> to <mark>IRIs</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							A JSON-LD context includes several kinds of definitions.
+						</p>
+						<p class="note fragment">
+							See <a href="https://www.w3.org/TR/2014/REC-json-ld-20140116/#advanced-concepts">section 6 "Advanced concepts"</a> of the JSON-LD W3C specification.
+						</p>
+					</section>
+					<section>
+						<p>
+							<b>Compact IRIs</b>: instead of full IRIs, JSON object keys can map to IRI compacted with a declared prefix.
+						</p>
+<pre><code>{
+  "@context": {
+    "dc":   "http://purl.org/dc/terms/",
+    "mTitle": "dc:title",
+    "mPublisher": "dc:publisher"
+  }
+}</code></pre>
+					</section>
+					<section>
+						<p>
+							<b>Typed Values</b>: a default datatype range can be given to JSON object keys.
+						</p>
+<pre><code>{
+  "@context": {
+    "dc": "http://purl.org/dc/terms/",
+    "mIssued": {
+      "@id": "dc:issued",
+      "@type": "http://www.w3.org/2001/XMLSchema#date"
+    }
+  }
+}</code></pre>
+					</section>
+					<section>
+						<p>
+							<b>Type Coercion</b>: a JSON string can map to a string literal or to an IRI.
+						</p>
+<pre><code>{
+  "@context": {
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "mPrimarySubjectOf": {
+      "@id": "foaf:primarySubjectOf",
+      "@type": "@id"
+    }
+  }
+}</code></pre>
+					</section>
+					<section>
+						<p>
+							<b>Sets and Lists</b>: JSON arrays can map to unordered sets of triples or to RDF lists.
+						</p>
+<pre><code>{
+  "@context": {
+    "frbr": "http://vocab.org/frbr/core#",
+    "mEmbodiments": {
+      "@id": "frbr:embodiment",
+      "@container": "@set"
+    }
+}</code></pre>
 					</section>
 				</section>
 				<section>
@@ -245,6 +424,12 @@
 					</section>
 					<section>
 						ld+json "script".
+					</section>
+					<section>
+						<ul>
+							<li>RDFa</li>
+							<li>Microformat</li>
+						</ul>
 					</section>
 					<section>
 						https://schema.org/
