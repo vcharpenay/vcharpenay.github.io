@@ -6,6 +6,20 @@
 
 		<title>RDF for the (Non-Semantic) Web</title>
 
+		<script type="application/ld+json">
+			{
+				"@context": "http://schema.org/",
+				"@type": "Course",
+				"mainEntityOfPage": "",
+				"name": "RDF for the (Non-Semantic) Web",
+				"author": { "@id": "https://vcharpenay.link/#me" },
+				"teaches": [
+				  { "@id": "http://www.wikidata.org/entity/Q6108942" },
+				  { "@id": "http://www.wikidata.org/entity/Q3475322" }
+				]
+			}
+		</script>
+
 		<link rel="stylesheet" href="../css/slides-reset.css">
 		<link rel="stylesheet" href="../css/slides.css">
 		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
@@ -417,7 +431,7 @@ public class Book implements SupportsRdfId {
 							to describe entities typically described in Web pages.
 						</p>
 						<p class="fragment">
-							Schema.org also provides a default JSON-LD context for Web developers to use.
+							Schema.org also provides a <mark>default JSON-LD context</mark> for Web developers to use.
 						</p>
 					</section>
 					<section>
@@ -427,39 +441,59 @@ public class Book implements SupportsRdfId {
 						</figure>
 					</section>
 					<section>
-						ld+json "script".
+						<p>
+							JSON-LD data can be embedded in <mark>any Web page</mark>...
+						</p>
+						<p class="fragment">
+							...including this one. To embed data:
+						</p>
+						<ol>
+							<li class="fragment"><a href="view-source:https://www.vcharpenay.link/courses/jsonld-and-sdo.html">open HTML source</a></li>
+							<li class="fragment">add a <code>&lt;script&gt;</code> element</li>
+							<li class="fragment">give attribute <code>"type"="application/ld+json"</code></li>
+						</ol>
 					</section>
-					<section>
-						<ul>
-							<li>RDFa</li>
-							<li>Microformat</li>
-						</ul>
-					</section>
-					<section>
+					<!-- <section>
 						<p>
 							"Semantic" markup used on 60% of Web pages (?).
 						</p>
-					</section>
-					<section>
+					</section> -->
+					<!-- <section>
 						https://schema.org/
 
 						Design goal: 
 						<ul>
 							<li>On the Web (Internet): be conservative with what you send, be liberal in what you accept (Postel's law)</li>
 						</ul>
-					</section>
+					</section> -->
 					<section>
 						<p>
-							https://www.vcharpenay.link/vcharpenay.jsonld
-							(web page vs. person)
+							Schema.org annotations are <mark>everywhere</mark> on the Web.
+						</p>
+						<p class="fragment">
+							E.g.  <a href="https://www.rottentomatoes.com/m/where_the_wild_things_are">on Rotten Tomatoes</a>.
+						</p>
+						<p class="note fragment">
+							But not on Google or Amazon websites.
 						</p>
 					</section>
 					<section>
 						<p>
-							https://validator.schema.org/
-							https://search.google.com/test/rich-results
-							https://www.google.com/webmasters/markup-helper/
+							Web developers have tools for <mark>testing their schema.org annotations</mark>:
 						</p>
+						<ul>
+							<li class="fragment">Schema.org's <a href="https://validator.schema.org/">validator</a></li>
+							<li class="fragment">Google's <a href=" https://search.google.com/test/rich-results">"enriched result" tester</a></li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Other Web annotations framework have got <mark>lesser attention</mark> but pursue the <mark>same goal</mark>:
+						</p>
+						<ul>
+							<li class="fragment"><a href="https://www.w3.org/TR/rdfa-primer/">RDFa</a></li>
+							<li class="fragment"><a href="https://microformats.org/">Microformats</a></li>
+						</ul>
 					</section>
 				</section>
 			</div>
