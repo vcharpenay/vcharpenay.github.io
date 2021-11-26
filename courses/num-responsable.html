@@ -1,0 +1,694 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Systèmes d'information et responsabilité sociétale</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides caption {
+				color: gray;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides .citation {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 7em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+
+			.reveal .slides mark.highlight0 {
+				background-color: #eee;
+				color: #ddd;
+			}
+
+			.reveal .slides mark.highlight1 {
+				background-color: lightcoral;
+			}
+
+			.reveal .slides mark.highlight2 {
+				background-color: lightsteelblue;
+			}
+
+			.reveal .slides mark.highlight2 {
+				background-color: lightseagreen;
+			}
+
+			.reveal .slides mark.bar {
+				display: inline-block;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Systèmes d'information et responsabilité sociétale</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Déroulé du cours</h4>
+					<ol>
+						<li>Responsabilité sociétale</li>
+						<li>Impact environnemental du numérique</li>
+						<li>Éco-conception d'un système d'information</li>
+						<li>Autres dimensions de l'éthique de l'ingénieur·e informatique</li>
+					</ol>
+				</section>
+				<section>
+					<h4>Responsabilité sociétale</h4>
+					<section>
+						<p>
+							Les entreprises sont des personnes comme les autres.
+						</p>
+						<p class="fragment">
+							Elles sont soumises à la loi et, par extension, se
+							doivent d'être des personnes <mark>morales</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Mais les entreprises ont aussi des valeurs et une identité.
+						</p>
+						<p class="fragment">
+							Elles développent ou adhèrent à une certaine <mark>éthique</mark>.
+						</p>
+						<p class="note fragment">
+							La morale donne un ensemble de normes.<br>
+							L'éthique donne un mode d'action conforme à ces normes.
+						</p>
+						<p class="note fragment">
+							La morale donne des réponses. L'éthique pose des questions.
+							<!-- TODO source -->
+						</p>
+					</section>
+					<section>
+						<p>
+							On regroupe sous l'expression
+						</p>
+						<p>
+							<mark>Responsabilité sociétale des entreprises</mark> (RSE)
+						</p>
+						<p>
+							un ensemble de critères environnementaux et sociaux pour évaluer
+							le comportement éthique d'une entreprise.
+						</p>
+						<p class="note fragment">
+							Quand l'« entreprise » produit des slogans comme <span style="font-style: italic;">Ethics pays</span>, le capitalisme est-il moral ?
+							<a href="https://www.albin-michel.fr/le-capitalisme-est-il-moral-9782226192912">(Comte-Sponville, 2009)</a>
+						</p>
+					</section>
+					<section>
+						<p>
+							La RSE se traduit souvent par des chartes (sans valeur juridique).
+						</p>
+						<p class="fragment">
+							La Société des ingénieur·es et scientifiques de France (IESF) propose par exemple
+							une <a href="https://www.iesf.fr/offres/doc_inline_src/752/150731_Charte_ethique.pdf">sa charte étique de l'ingénieur·e</a>.
+						</p>
+						<!-- voir aussi https://www.iesf.fr/offres/doc_inline_src/752/CHAPITRE_B3_Responsabilite_ethique.pdf -->
+					</section>
+					<section data-background-image="../misc/num-responsable/uncle-ben.jpg" data-background-opacity="0.25">
+						<blockquote style="font-size: 0.8em;">
+							Devenues de plus en plus puissantes les techniques apportent de <mark>grandes avancées</mark>
+							dans la vie quotidienne, dans le devenir de notre société et de son environnement ;
+							mais elles sont aussi porteuses du risque de <mark>fortes nuisances</mark>.
+						</blockquote>
+					</section>
+					<section>
+						<p>
+							Les techniques sont surtout porteuses de <mark>risques environnementaux</mark> grandissants au XXI<sup>ème</sup> siècle.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>Impact environnemental du numérique</h4>
+					<section data-auto-animate>
+						<p>
+							Regarder une vidéo d'1h sur Netflix équivaut à :
+						</p>
+						<ul>
+							<li>utiliser une fois une bouilloire électrique</li>
+							<li>parcourir 20km en voiture</li>
+							<li>prendre l'avion sur 400km</li>
+						</ul>
+						<!-- TODO sans prendre en compte la phase de production ? -->
+					</section>
+					<section data-auto-animate>
+						<p>
+							Regarder une vidéo d'1h sur Netflix équivaut à :
+						</p>
+						<ul>
+							<li style="text-decoration: underline;">utiliser une fois une bouilloire électrique</li>
+							<li>parcourir 20km en voiture</li>
+							<!-- 20km en voiture : estimation initiale du Shift project, avant correction de conversion bit/byte -->
+							<li>prendre l'avion sur 400km</li>
+						</ul>
+						<p class="citation">
+							Source :
+							<a href="https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines">(IEA, 2020)</a>,
+							voir <span style="font-style: italic;">"CO2 emissions associated with a half-hour show on Netflix, 2019"</span>
+						</p>
+					</section>
+					<section>
+						<p>
+							La dépense énergétique du numérique est <mark>perçue comme négligeable</mark> vis-à-vis de son importance au quotidien.
+						</p>
+					</section>
+					<section>
+						<p>
+							Mais le numérique émettait déjà en 2008 <mark>autant que l'aéronautique</mark> en CO2e.
+							<a href="https://wwfeu.awsassets.panda.org/downloads/summary_report_lowcarbon_and_205701.pdf">(Gartner, 2008)</a>
+							<!-- FIXME follow-up report from 2010 linked. Not the original. -->
+							<!-- cité dans La face cachée du numérique, p. 7-8 -->
+						</p>
+						<p class="fragment">
+							Et c'est l'un des secteurs qui progressent le plus vite : <mark>+60% en 20 ans</mark> en France
+							<a href="http://www.senat.fr/rap/r19-555/r19-5551.pdf">(Sénat, 2020)</a>.
+							<!-- p. 19 -->
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							On peut calculer un <mark>« quota carbone »</mark> par individu d'après les accords de Paris (1.7 tCO2e).
+						</p>
+						<div class="fragment">
+							<p>
+								Par individu, le numérique répresente aujourd'hui :
+							</p>
+							<ul>
+								<li>5% de ce quota carbone</li>
+								<li>20% de ce quota carbone</li>
+								<li>120% de ce quota carbone</li>
+							</ul>
+						</div>
+					</section>
+					<section data-auto-animate>
+						<p>
+							On peut calculer un <mark>« quota carbone »</mark> par individu d'après les accords de Paris (1.7 tCO2e).
+						</p>
+						<div>
+							<p>
+								Par individu, le numérique répresente aujourd'hui :
+							</p>
+							<ul>
+								<li>5% de ce quota carbone</li>
+								<li style="text-decoration: underline;">20% de ce quota carbone</li>
+								<li>120% de ce quota carbone</li>
+							</ul>
+							<p class="citation">
+								Source : <a href="https://www.greenit.fr/wp-content/uploads/2019/11/GREENIT_EENM_summary_EN.pdf">(GreenIT, 2019)</a>, p. 12
+							</p>
+						</div>
+						<!-- https://en.wikipedia.org/wiki/Carbon_budget (1.7 TCo2e, recalculé par ex. dans Nature, 2014) -->
+					</section>
+					<section>
+						<p>
+							L'activité la plus consommatrice dans nos usages numériques est le <mark>streaming</mark> : 60% du trafic Internet mondial
+							<a href="https://www.arcep.fr/uploads/tx_gspublication/rapport-pour-un-numerique-soutenable_dec2020.pdf">(Arcep, 2020)</a>.
+							<!-- p. 54 -->
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img style="border: 1px black solid;" src="../misc/num-responsable/carbonalyser.png">
+							<figcaption>Capture d'écran de l'extension de navigateur <a href="">Carbonalyser</a></figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p>
+							Les deux phases principales du cycle de vie d'un ordinateur sont
+							<mark class="highlight1">production</mark> et <mark class="highlight2">exploitation</mark>.
+						</p>
+						<div class="fragment">
+							<p>
+								Le poids relatif de chaque phase du cycle de vie d'un ordinateur est de :
+							</p>
+							<ul>
+								<li><mark class="highlight1 bar" style="width: 12em;">60%</mark><mark class="highlight2 bar" style="width: 8em;">40%</mark></li>
+								<li><mark class="highlight1 bar" style="width: 10em;">50%</mark><mark class="highlight2 bar" style="width: 10em;">50%</mark></li>
+								<li><mark class="highlight1 bar" style="width: 4em;">20%</mark><mark class="highlight2 bar" style="width: 16em;">80%</mark></li>
+								<!-- conversion : 10% => 2em -->
+							</ul>
+						</div>
+					</section>
+					<section data-auto-animate>
+						<p>
+							Les deux phases principales du cycle de vie d'un appareil électronique sont
+							<mark class="highlight1">production</mark> et <mark class="highlight2">exploitation</mark>.
+						</p>
+						<div>
+							<p>
+								Le poids relatif de chaque phase du cycle de vie d'un appareil électronique est de :
+							</p>
+							<ul>
+								<li><mark class="highlight1 bar" style="width: 12em;">60%</mark><mark class="highlight2 bar" style="width: 8em;">40%</mark></li>
+								<li><mark class="highlight0 bar" style="width: 10em;">50%</mark><mark class="highlight0 bar" style="width: 10em;">50%</mark></li>
+								<li><mark class="highlight0 bar" style="width: 4em;">20%</mark><mark class="highlight0 bar" style="width: 16em;">80%</mark></li>
+								<!-- conversion : 10% => 2em -->
+							</ul>
+							<p class="citation">
+								Source : <a href="https://www.greenit.fr/wp-content/uploads/2019/11/GREENIT_EENM_etude_EN_accessible.pdf">(GreenIT, 2019)</a>, p. 13
+							</p>
+
+							<!--  -->
+						</div>
+					</section>
+					<section>
+						<p>
+							En <mark>France</mark>, le poids de la production vis-à-vis de l'exploitation est encore plus important : <mark>86% des émissions</mark> de CO2e
+							<a href="http://www.senat.fr/rap/r19-555/r19-5551.pdf">(Sénat, 2020)</a>.
+							<!-- p. 33 -->
+						</p>
+						<p class="fragment">
+							Cette différence est due au mix énergétique « décarboné » de la France (phase d'exploitation).
+						</p>
+					</section>
+					<section>
+						<p>
+							Quelque soit le mix énergétique, cependant, la <mark>fabrication</mark> d'un appareil électronique
+							est toujours plus <mark>émettrice</mark> que l'exploitation.
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							Les 3 types d'équipement informatique sont
+							<mark class="highlight1">serveurs</mark>,
+							<mark class="highlight2">équipement réseau</mark> et
+							<mark class="highlight3">terminaux</mark>.
+						</p>
+						<div class="fragment">
+							<p>
+								Le poids relatif de chaque type d'équipements (en dépense d'énergie) dans la phase d'exploitation est de :
+							</p>
+							<ul>
+								<li><mark class="highlight1 bar" style="width: 4em;">20%</mark><mark class="highlight2 bar" style="width: 4em;">20%</mark><mark class="highlight3 bar" style="width: 12em;">60%</mark></li>
+								<li><mark class="highlight1 bar" style="width: 8em;">40%</mark><mark class="highlight2 bar" style="width: 6em;">30%</mark><mark class="highlight3 bar" style="width: 6em;">30%</mark></li>
+								<li><mark class="highlight1 bar" style="width: 12em;">60%</mark><mark class="highlight2 bar" style="width: 4em;">20%</mark><mark class="highlight3 bar" style="width: 4em;">20%</mark></li>
+								<!-- conversion : 10% => 2em -->
+							</ul>
+						</div>
+						<!-- https://www.e5.org/downloads/ICT/biofraunhofere5-study-ict4ee-final-report_en.pdf (p. 101, projection 2020) -->
+						<!-- 96 / 78.6 / 255  TWh (par an) -->
+						<!-- sans TV et imprimantes : 96 / 78.6 / 81.8 -->
+						<!-- aussi cité dans La face cachée du numérique (p. 22). Variation des estimations 34-75% selon le compte (p. 24) -->
+					</section>
+					<section data-auto-animate>
+						<p>
+							Les 3 types d'équipement informatique sont
+							<mark class="highlight1">serveurs</mark>,
+							<mark class="highlight2">équipement réseau</mark> et
+							<mark class="highlight3">terminaux</mark>.
+						</p>
+						<div>
+							<p>
+								Le poids relatif de chaque type d'équipements (en dépense d'énergie) dans la phase d'exploitation est de :
+							</p>
+							<ul>
+								<li><mark class="highlight1 bar" style="width: 4em;">20%</mark><mark class="highlight2 bar" style="width: 4em;">20%</mark><mark class="highlight3 bar" style="width: 12em;">60%</mark></li>
+								<li><mark class="highlight1 bar" style="width: 8em;">40%</mark><mark class="highlight2 bar" style="width: 6em;">30%</mark><mark class="highlight3 bar" style="width: 6em;">30%</mark></li>
+								<li><mark class="highlight0 bar" style="width: 12em;">60%</mark><mark class="highlight0 bar" style="width: 4em;">20%</mark><mark class="highlight0 bar" style="width: 4em;">20%</mark></li>
+								<!-- conversion : 10% => 2em -->
+							</ul>
+							<p class="citation">
+								Source : <a href="https://www.e5.org/downloads/ICT/biofraunhofere5-study-ict4ee-final-report_en.pdf">(EC, 2008)</a>, p. 101 "projection 2020"
+								<!-- 96 / 78.6 / 255  TWh (par an) -->
+								<!-- sans TV et imprimantes : 96 / 78.6 / 81.8 -->
+								<!-- aussi cité dans La face cachée du numérique (p. 22). Variation des estimations 34-75% selon le compte (p. 24) -->
+							</p>
+						</div>
+					</section>
+					<section>
+						<p>
+							Si l'on <mark>exclut les télévisions</mark> et photocopieurs du calcul (marginaux dans un système d'information),
+							l'équipement des centres de données devient proportionnellement plus important que les terminaux.
+						</p>
+					</section>
+					<section>
+						<p>
+							En France, les centres de données consomment 1% de l'électricité produite
+							<a href="https://www.lechappee.org/collections/pour-en-finir-avec/la-face-cachee-du-numerique">(Flipo, 2013)</a>.
+						</p>
+						<!-- https://assets.rte-france.com/prod/public/2021-03/Bilan%20electrique%202020_0.pdf (p. 3) -->
+						<!-- 477 TWh en 2019, 4.8 TWh pour les centres de données, 1/2 centrale -->
+						<p class="fragment">
+							C'est la <mark>moitié</mark> de ce que produit une <mark>centrale nucléaire</mark>.
+						</p>
+						<!-- power usage effectiveness (PUE) d'une centrale : 2.53 (pour refroidissement, éclairage, ...) -->
+					</section>
+					<section>
+						<p>
+							La juxtaposition des deux dimensions (cycle de vie, type d'équipement) donne
+							un bilan nuancé en termes d'émission de CO2e.
+						</p>
+					</section>
+					<section>
+						<table>
+							<tr>
+								<th></th>
+								<th>Production</th>
+								<th>Exploitation</th>
+								<th>Total</th>
+							</tr>
+							<tr>
+								<th>Serveurs</th>
+								<td>1%</td>
+								<td>14%</td>
+								<td>15%</td>
+							</tr>
+							<tr>
+								<th>Équipement réseau</th>
+								<td>3%</td>
+								<td>16%</td>
+								<td>19%</td>
+							</tr>
+							<tr>
+								<th>Terminaux</th>
+								<td>40%</td>
+								<td>26%</td>
+								<td>66%</td>
+							</tr>
+							<tr>
+								<th>Total</th>
+								<td>44%</td>
+								<td>56%</td>
+								<td></td>
+							</tr>
+							<caption>
+								Source : <a href="https://www.greenit.fr/wp-content/uploads/2019/11/GREENIT_EENM_etude_EN_accessible.pdf">(GreenIT, 2019)</a>, p. 13
+							</caption>
+						</table>
+					</section>
+					<section>
+						<p>
+							Le premier levier d'une éco-conception d'un SI est la <mark>limitation des terminaux</mark>.
+						</p>
+						<p class="fragment">
+							Mais la <mark>maîtrise de l'équipement amont</mark> (serveurs, réseau) aurait lui aussi un impact significatif.
+						</p>
+					</section>
+					<section>
+						<p>
+							L'impact du numérique doit aussi être mesuré selon d'autres critères environnementaux :
+						</p>
+						<ul>
+							<li class="fragment"><mark>eau</mark></li>
+							<li class="fragment"><mark>ressources abiotiques</mark>(terres rares, lithium, ...)</li>
+						</ul>
+					</section>
+					<!-- <section>
+						<p>
+							Parmi les appareils suivants, celui qui consomme le plus est :
+						</p>
+						<ul>
+							<li>un écran d'ordiphone LCD (résolution standard)</li>
+							<li>un écran de télévision OLED (haute résolution)</li>
+							<li>un casque de réalité virtuelle</li>
+						</ul>
+					</section> -->
+					<section data-auto-animate>
+						<p>
+							Le réseau de télécommunication qui consomme le plus d'électricité (pour 1Go transmis) est :
+						</p>
+						<ul>
+							<li>la 3G</li>
+							<li>la 4G</li>
+							<li>le WiFi (relié à un réseau fibré)</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<p>
+							Le réseau de télécommunication qui consomme le plus d'électricité (pour 1Go transmis) est :
+						</p>
+						<ul>
+							<li style="text-decoration: underline;">la 3G</li>
+							<li>la 4G</li>
+							<li>le WiFi (relié à un réseau fibré)</li>
+						</ul>
+						<p class="citation">
+							Source : <a href="https://www.arcep.fr/uploads/tx_gspublication/rapport-pour-un-numerique-soutenable_dec2020.pdf">(Arcep, 2020)</a>, p. 11
+						</p>
+					</section>
+					<section>
+						<p>
+							Une nouvelle génération de réseau est généralement plus efficace énergétiquement que la précédente.
+						</p>
+						<p class="fragment">
+							Mais elle permet aussi de nouveaux usages qui créent un <mark>effet rebond</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							En 2021, les 18-25 ans se connectent plus fréquemment sur un réseau mobile (4G) <mark>à domicile</mark> que sur WiFi
+							<a href="https://www.arcep.fr/uploads/tx_gspublication/rapport-barometre-numerique-edition-2021.pdf">(Arcep, 2021)</a>.
+							<!-- p. 74 -->
+						</p>
+						<p class="fragment">
+							Les deux modes de connexion se cumulent plus qu'ils ne se substituent l'un l'autre.
+						</p>
+					</section>
+					<section>
+						<p>
+							En 20 ans (1995-2015), le poids des pages web a été multiplié par 115, passant de 14Ko à 1 600Ko
+							<a href="https://www.lesechos.fr/idees-debats/leadership-management/lecoconception-des-services-numeriques-comme-filiere-dexcellence-1245108">(Les Echos, 2019)</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Quels sont les leviers possibles pour l'éco-conception d'un SI ?
+						</p>
+					</section>
+					<!-- <section>
+						<p>
+							Pour synthétiser :
+						</p>
+						<ol>
+							<li>
+								Le premier objectif pour des SI durables est de limiter l'équipement (terminaux) qu'ils nécessitent.
+							</li>
+							<li>
+								Les gains de performances sont souvent rattrapés par un effet rebond.
+								Les fonctionnalités offertes par l'Internet mobile ou le haut-débit sont-elles nécessaires ?
+							</li>
+							<li>
+								La frugalité de l'échange de données dans un SI a peu d'impact sur l'environnement.
+								Mais il conditionne tout amélioration possible. 
+							</li>
+						</ol>
+					</section> -->
+				</section>
+				<section>
+					<h4>Éco-conception d'un système d'information</h4>
+					<section>
+						<p>
+							Minimiser les ressources de calcul nécessaires.
+						</p>
+						<!-- exemple des puces Intel Core i3/5/7 et Intel XXX -->
+					</section>
+					<section>
+						<p>
+							Maximiser la compatibilité logiciel/matériel.
+						</p>
+						<!-- exemple de WhatsApp et les versions d'Android -->
+					</section>
+					<section>
+						<p>
+							Minimiser le temps d'utilisation des terminaux.
+						</p>
+						<!-- lecture papier vs. liseuse -->
+					</section>
+					<section>
+						<p>
+							Minimiser le volume de données échangées.
+						</p>
+						<!-- exemple du TP Pokédex : API HTTP vs. DB SQLite locale -->
+					</section>
+					<section>
+						<p>
+							Minimiser le volume de données stockées.
+						</p>
+						<!-- e.g. logs -->
+					</section>
+					<section>
+						<p>
+							Des outils existent pour l'éco-conception d'applications web, comme :
+						</p>
+						<ul>
+							<li class="fragment">
+								<a href="https://collectif.greenit.fr/ecoconception-web/">check-list de bonne pratiques</a>,
+								par GreenIT.fr et le Collectif conception numérique responsable
+							</li>
+							<li class="fragment">
+								<a href="https://ecoconception.arneogroup.com/">diagnostic de site web</a>,
+								par ArneoGroup
+							</li>
+						</ul>
+					</section>
+					<!-- <section>
+						<p>
+							Exemple d'éco-conception : Piqo, The good manager.
+							Diagramme de décision (Linux et valorisation)
+						</p>
+					</section>
+					<section>
+						<p>
+							Exemple d'outil pour l'éco-conception web : https://ecoconception.arneogroup.com/
+						</p>
+					</section>
+					<section>
+						<p>
+							Exemple de recommandations de l'Arcep (pour sélection de FAI, par exemple) :
+							généraliser la fibre, mettre en veille les routeurs et l'infrastructure réseau
+						</p>
+					</section>
+					<section>
+						<p>
+							Note sur l'apprentissage automatisé (et l'analyse de données massives) :
+							coût de GPT-3, anatomy of an AI system
+						</p>
+					</section> -->
+				</section>
+				<section>
+					<h4>Éthique de l'ingénieur·e informatique</h4>
+					<section>
+						<p>
+							D'autres bonnes pratiques de développement d'un SI entrent dans le champ de l'éthique.
+						</p>
+					</section>
+					<section>
+						<p>
+							Minimiser la dépendance technique à des tiers.
+						</p>
+					</section>
+					<section>
+						<p>
+							Maximiser l'appropriation technique par des tiers.
+						</p>
+					</section>
+					<section>
+						<p>
+							Maximiser l'accessibilité des interfaces.
+						</p>
+					</section>
+					<!-- <section>
+						<p>
+							Éthique du hacker ? En 6 points.
+							Exemple concret : Tao d'IETF.
+						</p>
+					</section>
+					<section>
+						<p>
+							Possibilité de « faire le mal ».
+						</p>
+					</section>
+					<section>
+						<p>
+							Citation Playboy.
+						</p>
+					</section>
+					<section>
+						<p>
+							Facebook et l'impact sur le développement de l'adolescent.
+						</p>
+					</section>
+					<section>
+						<p>
+							Plus modestement : prise en compte de l'illetrisme numérique,
+							du handicap, de l'inégalité d'accès à Internet.
+
+							Par exemple pour remplir sa déclaration d'impôts.
+						</p>
+					</section>
+					<section>
+						<p>
+							Éthique hacker sans être hacker : open-source (voire libre).
+							Open Food Facts.
+						</p>
+					</section>
+					<section>
+						<p>
+							Et... RGPD.
+							Le RGPD en 5 minutes ?
+						</p>
+					</section>
+					<section>
+						<p>
+							Ethical AI.
+						</p>
+					</section> -->
+					<section>
+						<p>
+							Certaines bonnes pratiques peuvent être contradictoire.
+						</p>
+						<p class="fragment">
+							Réduire sa dépendance à des tiers nécessite une décentralisation,<br>
+							↳ donc plus d'équipement informatique,<br>
+							↳ donc un impact environnemental plus fort en phase d'exploitation.
+						</p>
+					</section>
+				</section>
+				<!-- <section>
+					<p>
+						GreenIT ou IT4Green.
+						
+						Bio IS (https://www.e5.org/downloads/ICT/biofraunhofere5-study-ict4ee-final-report_en.pdf)
+						ou
+						GeSI (http://gesi.org/files/Reports/Smart%202020%20report%20in%20English.pdf)
+					</p>
+				</section>
+				<section>
+					<h4>Ressources</h4>
+					<ul>
+						<li>https://www.youtube.com/watch?v=GKyGD-lB2Is</li>
+					</ul>
+				</section> -->
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
