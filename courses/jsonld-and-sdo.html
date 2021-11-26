@@ -1,0 +1,511 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>RDF for the (Non-Semantic) Web</title>
+
+		<script type="application/ld+json">
+			{
+				"@context": "http://schema.org/",
+				"@type": "Course",
+				"mainEntityOfPage": "",
+				"name": "RDF for the (Non-Semantic) Web",
+				"author": { "@id": "https://vcharpenay.link/#me" },
+				"teaches": [
+				  { "@id": "http://www.wikidata.org/entity/Q6108942" },
+				  { "@id": "http://www.wikidata.org/entity/Q3475322" }
+				]
+			}
+		</script>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides caption {
+				color: gray;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>RDF for the (<span style="text-shadow: lightgray 5px 5px;">Non-Semantic</span>) Web</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Outline</h4>
+					<ol>
+						<li class="fragment">How Useful is RDF To Web Developers?</li>
+						<li class="fragment">JSON for Linked Data</li>
+						<li class="fragment">Schema.org</li>
+					</ol>
+				</section>
+				<section>
+					<h4>How Useful is RDF To Web Developers?</h4>
+					<section>
+						<p>
+							Despite its <a href="https://www.w3.org/TR/1999/REC-rdf-syntax-19990222/#grammar">original XML syntax</a>,
+							the RDF data model is not aligned with existing Web formats: <mark>HTML</mark> (XML), <mark>JSON</mark>.
+						</p>
+						<p class="fragment">
+							A <a href="https://www.w3.org/TR/2004/REC-rdf-syntax-grammar-20040210/">revision</a> of the RDF/XML syntax
+							was designed to <mark>appeal to Web developers</mark>.
+						</p>
+						<p class="fragment">
+							It didn't.
+						</p>
+					</section>
+					<section>
+						<p>
+							One possible reason for this lack of adoption is the lack of <mark>idiomatic representations</mark>
+							of RDF data in object-oriented programming languages.
+						</p>
+						<p class="fragment">
+							The gap between <mark>objects</mark> and <mark>triples</mark> is "too wide"...
+						</p>
+						<p class="note fragment">
+							...despite numerous object-triple mapping libraries
+							<a href="http://semantic-web-journal.net/system/files/swj2057.pdf">(Ledvinka, 2018)</a>
+						</p>
+					</section>
+					<section>
+						<p>
+							In addition, Web developers typically build <mark>"full-stack" applications</mark>,
+							including a front-end, a back-end and communication between the two.
+						</p>
+						<p class="fragment">
+							They don't particularly need to expose data in an <mark>interoperable</mark> way
+							(i.e. with URIs everywhere).
+						</p>
+					</section>
+					<section>
+						<p>
+							Note: full-stack Web applications are not the only kind of Web app.
+						</p>
+						<p class="fragment">
+							On the <a href="https://www.lod-cloud.net/">Linked Open Data (LOD)</a> cloud,
+							the effort is split:
+						</p>
+						<ul>
+							<li class="fragment">Web servers provide <mark>raw data</mark> (of quality)</li>
+							<li class="fragment">The Web brower renders <mark>facets of data</mark> (of interest to the user)</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/jsonld-and-sdo/raw-data-now.png">
+							<figcaption>"The next web", by Tim Berners-Lee (2009); source: <a href="https://www.ted.com/talks/tim_berners_lee_the_next_web">TED</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							RDF can help <mark>redestribute the effort</mark> between client and server applications on the Web.
+						</p>
+						<p class="fragment">
+							Two technologies (among others) tend towards that objective:
+						</p>
+						<ul>
+							<li class="fragment"><mark>JSON-LD</mark></li>
+							<li class="fragment"><mark>Schema.org</mark></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h4>JSON for Linked Data</h4>
+					<section>
+						<p>
+							<a href="https://www.json.org/">JSON</a>: JavaScript Object Notation
+						</p>
+					</section>
+					<section>
+						<p>
+							JSON values can be objects, arrays or simple values.
+						</p>
+						<table class="fragment">
+							<tr>
+								<th>Type</th>
+								<th>Example</th>
+							</tr>
+							<tr>
+								<td>Null</td>
+								<th><code>null</code></th>
+							</tr>
+							<tr>
+								<td>Boolean</td>
+								<th><code>true</code>, <code>false</code></th>
+							</tr>
+							<tr>
+								<td>Number</td>
+								<th><code>2.4</code></th>
+							</tr>
+							<tr>
+								<td>String</td>
+								<th><code>"abc"</code></th>
+							</tr>
+							<tr>
+								<td>Object</td>
+								<th><code>{ "a": 2.4, "b": "abc", ... }</code></th>
+							</tr>
+							<tr>
+								<td>Array</td>
+								<th><code>[ 2.4, "abc", ... ]</code></th>
+							</tr>
+							<caption>Six JSON types</caption>
+						</table>
+					</section>
+					<section>
+						<p style="font-style: italic;">
+							"That’s it. That is all of JSON."
+							— Douglas Crockford <a href="https://www.oreilly.com/library/view/javascript-the-good/9780596517748/">(Crockford, 2008)</a>
+						</p>
+						<!-- 
+							JSON’s design goals were to be minimal, portable, textual, and a subset of JavaScript.
+							The less we need to agree on in order to interoperate, the more easily we can interoperate.
+						-->
+					</section>
+					<section>
+						<p>
+							Objects (in Java, Python, C#, etc.)
+							can easily be <mark>(de)serialized</mark> in JSON.
+						</p>
+						<p class="fragment">
+							RDF-based applications often require a transformation from/to objects.
+						</p>
+						<p class="fragment">
+							<span style="color: lightgray;">↪</span> Can there be a standard JSON serialization of RDF?
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>@Namespaces({
+  "frbr", "http://vocab.org/frbr/core#",
+  "dc",   "http://purl.org/dc/terms/",
+  "foaf", "http://xmlns.com/foaf/0.1/"
+})
+@RdfsClass("frbr:Expression")
+@Entity
+public class Book implements SupportsRdfId {
+
+  @RdfProperty("dc:title")
+  private String mTitle;
+
+  @RdfProperty("dc:publisher")
+  private String mPublisher;
+
+  @RdfProperty("dc:issued")
+  private Date mIssued;
+
+  @RdfProperty("foaf:primarySubjectOf")
+  private URI mPrimarySubjectOf;
+
+  @OneToMany(fetch = FetchType.LAZY,
+             cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @RdfProperty("frbr:embodiment")
+  private Collection&lt;Manifestation&gt; mEmbodiments = new HashSet&lt;Manifestation&gt;();
+
+  // ...
+}
+</code></pre>
+							<figcaption>
+								Example of a Book class with object-triple mapping, from the Empire library (Java);
+								source: <a href="https://github.com/mhgrove/Empire/blob/develop/examples/main/src/com/clarkparsia/empire/examples/">Github.com</a>
+							</figcaption>
+						</figure>
+						<!-- Empire used now at Stardog? -->
+					</section>
+					<section>
+						<figure>
+<pre><code>{
+  "@context": {
+    "frbr": "http://vocab.org/frbr/core#",
+    "dc":   "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "mTitle": "dc:title",
+    "mPublisher": "dc:publisher",
+    "mIssued": {
+      "@id": "dc:issued",
+	  "@type": "http://www.w3.org/2001/XMLSchema#date"
+	}, "mPrimarySubjectOf": {
+      "@id": "foaf:primarySubjectOf",
+      "@type": "@id"
+	}, "mEmbodiments": {
+      "@id": "frbr:embodiment",
+      "@container": "@set"
+    }
+  },
+  "@id": "http://www.wikidata.org/entity/Q13912",
+  "@class": "frbr:Expression",
+  "mTitle": "Where the Wild Things Are",
+  "mPublisher": "Harper & Raw",
+  "mIssued": "1963-11-13",
+  "mPrimarySubjectOf": "https://en.wikipedia.org/wiki/Where_the_Wild_Things_Are",
+  "mEmbodiments": [
+    ...
+  ]
+}</code></pre>
+							<figcaption>
+								JSON-LD representation of a Book object.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							<a href="https://www.w3.org/TR/2014/REC-json-ld-20140116/">JSON-LD</a>: JSON for Linked Data
+						</p>
+					</section>
+					<section>
+						<p>
+							A JSON-LD document has (at least) two forms:
+						</p>
+						<ul>
+							<li class="fragment">a <mark>compacted</mark> form</li>
+							<li class="fragment">an <mark>expanded</mark> form</li>
+						</ul>
+						<p class="note fragment">
+							Try the <a href="https://json-ld.org/playground/">JSON-LD "playground"</a> to process all forms of JSON-LD.
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>[
+  {
+    "@id": "http://www.wikidata.org/entity/Q13912",
+    "http://purl.org/dc/terms/title": [
+      {
+        "@value": "Where the Wild Things Are"
+      }
+    ],
+    "http://purl.org/dc/terms/publisher": [
+      {
+        "@value": "Harper & Raw"
+      }
+    ],
+    "http://purl.org/dc/terms/issued": [
+      {
+        "@value": "1963-11-13",
+        "@type": "http://www.w3.org/2001/XMLSchema#date"
+      }
+    ],
+    "http://xmlns.com/foaf/0.1/primarySubjectOf": [
+      {
+        "@id": "https://en.wikipedia.org/wiki/Where_the_Wild_Things_Are"
+      }
+    ],
+    "http://vocab.org/frbr/core#embodiment": [ ... ],
+  }
+  ]</code></pre>
+							<figcaption>
+								JSON-LD <em>expanded</em> representation of a Book object.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							A JSON-LD object can be:
+						</p>
+						<ul>
+							<li>
+								a <mark>node object</mark> (with key <code>@id</code>)<br>
+								&nbsp;&nbsp;<span style="color: lightgray;">~ IRI resource or blank node</span>
+							</li>
+							<li>
+								a <mark>value object</mark> (with key <code>@value</code>)<br>
+								&nbsp;&nbsp;<span style="color: lightgray;">~ literal</span>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							In its compacted form, a JSON-LD document has a <mark>context</mark>
+							(with key <code>@context</code>).
+						</p>
+						<p class="fragment">
+							A JSON-LD context maps arbitrary JSON <mark>strings</mark> to <mark>IRIs</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							A JSON-LD context includes several kinds of definitions.
+						</p>
+						<p class="note fragment">
+							See <a href="https://www.w3.org/TR/2014/REC-json-ld-20140116/#advanced-concepts">section 6 "Advanced concepts"</a> of the JSON-LD W3C specification.
+						</p>
+					</section>
+					<section>
+						<p>
+							<b>Compact IRIs</b>: instead of full IRIs, JSON object keys can map to IRI compacted with a declared prefix.
+						</p>
+<pre><code>{
+  "@context": {
+    "dc":   "http://purl.org/dc/terms/",
+    "mTitle": "dc:title",
+    "mPublisher": "dc:publisher"
+  }
+}</code></pre>
+					</section>
+					<section>
+						<p>
+							<b>Typed Values</b>: a default datatype range can be given to JSON object keys.
+						</p>
+<pre><code>{
+  "@context": {
+    "dc": "http://purl.org/dc/terms/",
+    "mIssued": {
+      "@id": "dc:issued",
+      "@type": "http://www.w3.org/2001/XMLSchema#date"
+    }
+  }
+}</code></pre>
+					</section>
+					<section>
+						<p>
+							<b>Type Coercion</b>: a JSON string can map to a string literal or to an IRI.
+						</p>
+<pre><code>{
+  "@context": {
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "mPrimarySubjectOf": {
+      "@id": "foaf:primarySubjectOf",
+      "@type": "@id"
+    }
+  }
+}</code></pre>
+					</section>
+					<section>
+						<p>
+							<b>Sets and Lists</b>: JSON arrays can map to unordered sets of triples or to RDF lists.
+						</p>
+<pre><code>{
+  "@context": {
+    "frbr": "http://vocab.org/frbr/core#",
+    "mEmbodiments": {
+      "@id": "frbr:embodiment",
+      "@container": "@set"
+    }
+}</code></pre>
+					</section>
+				</section>
+				<section>
+					<h4>Schema.org</h4>
+					<section>
+						<p>
+							Schema.org is a collection of RDF <mark>classes</mark> and <mark>properties</mark>
+							to describe entities typically described in Web pages.
+						</p>
+						<p class="fragment">
+							Schema.org also provides a <mark>default JSON-LD context</mark> for Web developers to use.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<iframe src="https://www.slideshare.net/slideshow/embed_code/key/moqHenY5iuvaA7" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
+							<figcaption>"From String to Things", by Markus Lanthaler; source <a href="https://www.slideshare.net/lanthaler/the-web-is-changing-from-strings-to-things">Slideshare</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							JSON-LD data can be embedded in <mark>any Web page</mark>...
+						</p>
+						<p class="fragment">
+							...including this one. To embed data:
+						</p>
+						<ol>
+							<li class="fragment"><a href="view-source:https://www.vcharpenay.link/courses/jsonld-and-sdo.html">open HTML source</a></li>
+							<li class="fragment">add a <code>&lt;script&gt;</code> element</li>
+							<li class="fragment">give attribute <code>"type"="application/ld+json"</code></li>
+						</ol>
+					</section>
+					<!-- <section>
+						<p>
+							"Semantic" markup used on 60% of Web pages (?).
+						</p>
+					</section> -->
+					<!-- <section>
+						https://schema.org/
+
+						Design goal: 
+						<ul>
+							<li>On the Web (Internet): be conservative with what you send, be liberal in what you accept (Postel's law)</li>
+						</ul>
+					</section> -->
+					<section>
+						<p>
+							Schema.org annotations are <mark>everywhere</mark> on the Web.
+						</p>
+						<p class="fragment">
+							E.g.  <a href="https://www.rottentomatoes.com/m/where_the_wild_things_are">on Rotten Tomatoes</a>.
+						</p>
+						<p class="note fragment">
+							But not on Google or Amazon websites.
+						</p>
+					</section>
+					<section>
+						<p>
+							Web developers have tools for <mark>testing their schema.org annotations</mark>:
+						</p>
+						<ul>
+							<li class="fragment">Schema.org's <a href="https://validator.schema.org/">validator</a></li>
+							<li class="fragment">Google's <a href=" https://search.google.com/test/rich-results">"enriched result" tester</a></li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Other Web annotations framework have got <mark>lesser attention</mark> but pursue the <mark>same goal</mark>:
+						</p>
+						<ul>
+							<li class="fragment"><a href="https://www.w3.org/TR/rdfa-primer/">RDFa</a></li>
+							<li class="fragment"><a href="https://html.spec.whatwg.org/multipage/microdata.html">Microdata</a></li>
+						</ul>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>

@@ -31,6 +31,10 @@
 				font-size: 0.5em;
 			}
 
+			.reveal .slides caption {
+				color: gray;
+			}
+
 			.reveal .slides figcaption {
 				color: gray;
 				font-size: 0.5em;
@@ -38,6 +42,10 @@
 
 			.reveal .slides figure img {
 				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
 			}
 		</style>
 	</head>
@@ -51,7 +59,8 @@
 				<section>
 					<h4>Outline</h4>
 					<ol>
-						<li class="fragment">Sensors and Actuators (on the Web)</li>
+						<li class="fragment">Sensors and Actuators</li>
+						<li class="fragment">The (Semantic) Sensor Web</li>
 						<li class="fragment">The Idea of a Web of <em>Thing</em></li>
 						<li class="fragment">Representational State Transfer</li>
 						<li class="fragment">The W3C Thing Description Model</li>
@@ -59,7 +68,7 @@
 					</ol>
 				</section>
 				<section>
-					<h4>Sensors and Actuators (on the Web)</h4>
+					<h4>Sensors and Actuators</h4>
 					<section>
 						<p>
 							The Web of Things is the latest emergence of a long-lasting field of research.
@@ -81,7 +90,7 @@
 						<!-- 2 systems (control, SuC) -->
 						<p>
 							<b>Cybernetics</b>:
-							Science related to the automatic control of systems in a broad sense,
+							Science related to the <mark>automatic control</mark> of systems in a broad sense,
 							from industrial systems to living organisms.
 						</p>
 					</section>
@@ -90,7 +99,8 @@
 						<p>
 							<b>Ubiquitous &amp; Pervasive Computing, Ambient intelligence</b>:
 							Methods of computation that aim at making computing transparent to users
-							as well as aware of the user's environment through autonomous perception.
+							as well as aware of the user's environment through <mark>autonomous
+							perception</mark>.
 						</p>
 						<p class="note fragment">
 							Mobile applications using GPS traces inherit from that field of research.
@@ -101,7 +111,7 @@
 						<p>
 							<b>Wireless Sensor Networks, Internet of Things</b>:
 							Forms of networking that take advantage of the availability of
-							cheaper and smaller computational devices.
+							<mark>cheaper and smaller computational devices</mark>.
 						</p>
 						<p class="note fragment">
 							See e.g. <a href="https://github.com/tinyos/">TinyOS</a> and <a href="http://www.contiki-os.org/">Contiki</a>.
@@ -111,7 +121,8 @@
 						<!-- recursive system modeling -->
 						<p>
 							<b>Cyber-Physical (Production) Systems</b>:
-							Systems of arbitrary size combining control components and physical equipment.
+							Systems of arbitrary size combining <mark>control components</mark>
+							and <mark>physical equipment</mark>.
 						</p>
 						<p class="note fragment">
 							A CPS can be defined at the level of an entire supply chain.
@@ -137,7 +148,7 @@
 					<!-- Venn diagram with Sensor Web, Embedded Web, Semantic Web, ... -->
 					<section>
 						<p>
-							The Web of Things addresses the main technical problem that comes with
+							The <mark>Web of Things</mark> addresses the main technical problem that comes with
 							increasing numbers of sensing and actuation devices: <b>interoperability</b>.
 						</p>
 					</section>
@@ -152,10 +163,11 @@
 					</section>
 				</section>
 				<section>
-					<h4>The Idea of a Web of <em>Things</em></h4>
+					<h4>The (Semantic) Sensor Web</h4>
 					<section>
 						<p>
-							The Open Geospatial Consortium (OGC) first used the Web to publish sensor measurements in a unified manner.
+							The Open Geospatial Consortium (OGC) first used the Web to
+							<mark>publish sensor measurements</mark> in a unified manner.
 						</p>
 						<figure>
 							<img src="../misc/wot-intro/swe-concept.png">
@@ -164,16 +176,36 @@
 					</section>
 					<section>
 						<p>
-							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements in a standard XML format
-							(O&amp;M).
+							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements
+							in a <mark>standard XML format</mark> (O&amp;M).
 						</p>
-						<p class="fragment">
-							SOS, O&amp;M and other OGC standards are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
-						</p>
+						<figure>
+							<p>
+								<code>
+<pre>
+&lt;om:OM_Observation gml:id="obsTest1"&gt;
+  &lt;om:phenomemonTime&gt;
+    &lt;gml:TimeInstant&gt;
+      &lt;gml:timePosition&gt;2010-03-08T16:22:25.00&lt;/gml:timePosition&gt;
+    &lt;/gml:TimeInstant&gt;
+  &lt;/om:phenomemonTime&gt;
+  &lt;om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/hydroSurface.owl#WaterHeight"/&gt;
+  &lt;om:result uom="cm"&gt;28&lt;/om:result&gt;
+&lt;/om:OM_Observation&gt;
+</pre>
+								</code>
+							</p>
+							<figcaption>Example of an O&amp;M observation in XML; source: <a href="http://schemas.opengis.net/om/2.0/examples/spatial_observation1.xml">opengis.net</a></figcaption>
+						</figure>
 					</section>
 					<section>
 						<p>
-							SWE then combined with Semantic Web technologies has become the <b>Semantic Sensor Web</b>.
+							<mark>SOS</mark>, <mark>O&amp;M</mark> and <mark>other OGC standards</mark>
+							are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
+						</p>
+						<p class="fragment">
+							<mark>SWE</mark> then combined with <mark>Semantic Web</mark> technologies has become
+							the <b>Semantic Sensor Web</b>.
 						</p>
 						<p class="note fragment">
 							The Semantic Sensor Web has led to the standardization of the <a></a>Semantic Sensor Network (SSN) ontology. 
@@ -193,7 +225,10 @@
 					</section>
 					<section>
 						<p>
-							On the Semantic Sensor Web, the inference rules that are used to enrich sensor observations may be simple.
+							On the Semantic Sensor Web, <mark>inference rules</mark> are used to enrich sensor observations may.
+						</p>
+						<p class="fragment">
+							Such inference rules may be relatively <mark>simple</mark>.
 						</p>
 					</section>
 					<section>
@@ -215,20 +250,27 @@
 					</section>
 					<section>
 						<p>
-							Key is not the <b>complexity</b> of inference but the <b>completeness</b> of the knowledge.
+							Key is not the <mark>complexity</mark> of inference but the <mark>completeness</mark> of the knowledge.
 						</p>
 						<p class="note fragment">
 							Hence, the idea of <em>ubiquitous</em> computing.
 						</p>
 					</section>
-					<section>
-						<p>
-							Now, what about an "<span><em>Actuator</em></span> Web Enablement"?
-						</p>
-						<p class="fragment">
-							Now, what about a "<span><em>Thing</em></span> Web Enablement"?
+					<section data-auto-animate>
+						<p data-id="q">
+							Now, what about<br>
+							an "<span><mark>Actuator</mark></span> Web Enablement"?
 						</p>
 					</section>
+					<section data-auto-animate>
+						<p data-id="q">
+							Now, what about<br>
+							a "<span><mark>Thing</mark></span> Web Enablement"?
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>The Idea of a Web of <em>Things</em></h4>
 					<section>
 						<p>
 							"<em>Every kind of thing can have its own kind of reason for being a thing.</em>"
@@ -241,7 +283,7 @@
 					</section>
 					<section>
 						<p>
-							<em>Things</em> can be combined in different ways to build applications.
+							A single Web client can combine heterogeneous <em>Things</em> to build application <mark>mashups</mark>.
 						</p>
 					</section>
 					<section>
@@ -251,43 +293,34 @@
 						</figure>
 					</section>
 					<section>
-						<p>
-							Application "mash-ups" can be automated based on semantic descriptions of Things.
-						</p>
-					</section>
-					<section>
-						<p>
-							Smart home scenario (air conditioner):
-						</p>
-						<ul>
-							<li>power on/off</li>
-							<li>set temperature</li>
-							<li>set intensity</li>
-							<li>set mode</li>
-							<li>(external) unit conversion</li>
-						</ul>
+						<figure>
+							<img src="../misc/wot-intro/ac-process.svg">
+							<figcaption>Example of application mashup on an air conditioner; source: <a href="http://doi.org/10.1109/IOT.2015.7356548">(Kovatsch et al., 2015)</a></figcaption>
+						</figure>
 					</section>
 					<section>
 						<figure>
 							<img src="../misc/wot-intro/semantic-ide.png">
 							<figcaption>source: <a href="http://doi.org/10.1109/IOT.2015.7356548">(Kovatsch et al., 2015)</a></figcaption>
 						</figure>
+						<p class="fragment note">
+							Build from <a href="https://github.com/mkovatsc/iot-semantics">source code</a> and try it out yourself.
+						</p>
 					</section>
 					<section>
-						<p>
-							Manufacturing scenario:
-						</p>
-						<ul>
-							<li>Robotic arms with different reach</li>
-							<li>production cells (heater, fan)</li>
-							<li>human workers</li>
-						</ul>
+						<figure>
+							<img src="../misc/wot-intro/manufacturing-process.svg">
+							<figcaption>Example of application mashup on a production line; source: <a href="http://doi.org/10.1145/2991561.2991569">(Mayer et al., 2016)</a></figcaption>
+						</figure>
 					</section>
 					<section>
 						<figure>
 							<img src="../misc/wot-intro/ubermanufacturing.png">
 							<figcaption>source: <a href="http://doi.org/10.1145/2991561.2991569">(Mayer et al., 2016)</a></figcaption>
 						</figure>
+						<p class="fragment note">
+							See a similar process with human-machine collaboration <a href="https://www.youtube.com/watch?v=CpgU1JWLy6w">in action</a>.
+						</p>
 					</section>
 					<!-- <section>
 						<p>
@@ -297,41 +330,145 @@
 					</section> -->
 					<section>
 						<p>
-							A prerequisite to application mash-ups is a standard API to all <em>Web Things</em>.
+							The Web client executes an application mashup as <mark>a series of HTTP operations</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<div style="font-size: 0.8em;">
+<pre><code>PUT /pwr/switch HTTP/1.1
+Host: device.local
+ON</code></pre>
+<pre><code>PUT /ac/mode HTTP/1.1
+Host: device.local
+AUTO</code></pre>
+<pre><code>PUT /ac/vent HTTP/1.1
+Host: device.local
+12</code></pre>
+<pre><code>POST /fahrenheit2celsius HTTP/1.1
+Host: converter.com
+83</code></pre>
+<pre><code>PUT /ac/target HTTP/1.1
+Host: device.local
+25</code></pre>
+							</div>
+							<figcaption>HTTP operations for the air conditioner example</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<div style="font-size: 0.5em;">
+<pre><code>POST /pick-and-place HTTP/1.1
+Host: ur5-robot.local
+Content-Type: application/json
+
+{ "from": [6, 5.4], "to": [2.4, 7] }</code></pre>
+<pre><code>POST /jobs HTTP/1.1
+Host: fan-heater.local
+Content-Type: application/json
+
+{ "duration": 10 }</code></pre>
+<pre><code>POST /pick-and-place HTTP/1.1
+Host: ur5-robot.local
+Content-Type: application/json
+
+{ "from": [2.4, 7], "to": [2.4, 2] }</code></pre>
+<pre><code>POST /move-from-to HTTP/1.1
+Host: plcbot.local
+Content-Type: application/json
+
+[ [2.4, 2], [5.1, 2] ]</code></pre>
+<pre><code>POST /turn-on HTTP/1.1
+Host: fan.local
+Content-Type: text/plain
+
+20</code></pre>
+							</div>
+							<figcaption>HTTP operations for the production line example</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Various organizations have <mark>their own Web APIs</mark> for Things:
+						</p>
+						<ul>
+							<li class="fragment">
+								<a href="https://petstore.swagger.io/?url=https://api.apis.guru/v2/specs/adafruit.com/2.0.0/swagger.json">Adafruit IO REST API</a>
+								for DIY microcontrollers
+							</li>
+							<li class="fragment">
+								<a href="https://petstore.swagger.io/?url=https://api.apis.guru/v2/specs/amazonaws.com/iot/2015-05-28/openapi.json">Amazon Web Services (AWS) API</a>
+								to connect IoT devices to AWS
+							</li>
+							<li class="fragment">
+								<a href="https://app.swaggerhub.com/apis/Plattform_i40/AssetAdministrationShell-REST-API/Review1">Asset Administration Shell (AAS) API</a>
+								for cyber-physical systems
+							</li>
+						</ul>
+						<p class="note fragment">
+							Find more Web APIs for the IoT in <a href="https://apis.guru/">one of the OpenAPI catalogs</a>.
 						</p>
 					</section>
 					<section>
 						<p>
-							<a href="https://www.w3.org/Submission/wot-model/"></a>
+							A minimal <mark>Web Thing API</mark> was proposed in 2015, to update a Thing's properties,
+							invoke its actions and subscribe to its notifications.
 						</p>
-						<figure>
-							<p>
-								<code>
-<pre>
-	{wt}
-	{wt}/model
-	{wt}/properties
-	{wt}/properties/{id}
-	{wt}/actions
-	{wt}/actions/{id}
-	{wt}/actions/{id}/{actionId}
-	{wt}/things
-	{wt}/things/{id}
-	{wt}/subscriptions
-</pre>
-								</code>
-							</p>
-							<figcaption>source: <a href="https://www.w3.org/Submission/wot-model/">(Trifa et al., 2015)</a></figcaption>
-						</figure>
+					</section>
+					<section>
+						<table>
+							<thead>
+							</thead>
+								<tr>
+									<th>HTTP Method</th>
+									<th>Resource</th>
+								</tr>
+							<tbody>
+								<tr>
+									<td>GET</td>
+									<td>{wt}</td>
+								</tr>
+								<tr>
+									<td>GET</td>
+									<td>{wt}/model</td>
+								</tr>
+								<tr>
+									<td>GET</td>
+									<td>{wt}/properties</td>
+								</tr>
+								<tr>
+									<td>GET, PUT</td>
+									<td>{wt}/properties/{id}</td>
+								</tr>
+								<tr>
+									<td>GET</td>
+									<td>{wt}/actions</td>
+								</tr>
+								<tr>
+									<td>GET, POST</td>
+									<td>{wt}/actions/{id}</td>
+								</tr>
+								<tr>
+									<td>GET, PUT, DELETE</td>
+									<td>{wt}/actions/{id}/{actionId}</td>
+								</tr>
+								<tr>
+									<td>GET, POST</td>
+									<td>{wt}/subscriptions</td>
+								</tr>
+							</tbody>
+							<caption>Web Thing API; source: <a href="https://www.w3.org/Submission/wot-model/">(Trifa et al., 2015)</a></caption>
+						</table>
+					</section>
+					<!-- question: how to map previously shown APIs with this one? -->
+					<!-- action:/things/{thingName}/jobs (AWS) and /submodel​/submodelElements​/{seIdShortPath}​/invokeSync (AAS) -->
+					<section>
+						<p>
+							Still, how to execute mashups on arbitrary Things, <mark>without prior knowledge</mark> of their API?
+						</p>
+						<!-- ...via REST/hypermedia -->
 					</section>
 					<!-- <section>
-						OpenAPI and RESTful Web services.
-						Ex: Github API, https://apis.guru/
-
-						I4.0 AAS in REST:
-						<a href="https://app.swaggerhub.com/apis/Plattform_i40/AssetAdministrationShell-REST-API/Review1"></a>
-					</section> -->
-					<section>
 						<p>
 							How to manage changing data and physical effects of Web services?
 						</p>
@@ -353,13 +490,14 @@
 					</section>
 					<section>
 						Key idea: Willie, as a Web server, exposes its current action as a Web resource. 
-					</section>
+					</section> -->
 				</section>
 				<section>
 					<h4>Representational State Transfer</h4>
 					<section>
 						<p>
-							Representational State Transfer (REST) is a set of architectural constraints
+							Representational State Transfer (<mark>REST</mark>) is a set of architectural constraints
+							for "network-based software"
 							<a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">(Fielding, 2000)</a>.
 						</p>
 					</section>
@@ -370,22 +508,28 @@
 							<li>cache</li>
 							<li>uniform interface</li>
 							<li>layered system</li>
-							<li>code-on-demand</li>
-						</ol>
-					</section>
-					<section data-auto-animate>
-						<ol>
-							<li>client-server architecture</li>
-							<li>stateless communication</li>
-							<li>cache</li>
-							<li><b>uniform interface</b></li>
-							<li>layered system</li>
-							<li>code-on-demand</li>
+							<li>(code-on-demand)</li>
 						</ol>
 					</section>
 					<section>
 						<p>
-							The uniform interface constraint consist of 4 sub-constraints.
+							The REST constraints have conditioned much of <mark>HTTP/1.1</mark>,
+							including:
+						</p>
+						<ul>
+							<li class="fragment">Cookies and session tokens</li>
+							<li class="fragment">Cache control</li>
+							<li class="fragment">Content negotiation</li>
+							<li class="fragment">Proxies and reverse proxies</li>
+						</ul>
+					</section>
+					<!-- question: which feature does map to which constraint? -->
+					<section>
+						<p>
+							The <mark>uniform interface</mark> constraint is specific to REST.
+						</p>
+						<p class="fragment">
+							It consists of <mark>4 sub-constraints</mark>.
 						</p>
 					</section>
 					<section>
@@ -393,7 +537,7 @@
 							<li>identification of resources</li>
 							<li class="fragment">manipulation of resources through representations</li>
 							<li class="fragment">self-descriptive messages</li>
-							<li class="fragment">hypermedia as the engine of application state (HATEOAS)</li>
+							<li class="fragment">hypermedia as the engine of application state (<mark>HATEOAS</mark>)</li>
 						</ol>
 						<p class="note fragment">
 							<span class="highlight">Linked Data</span> interfaces are RESTful by construction.
@@ -402,9 +546,9 @@
 					<section>
 						<p>Two examples of HATEOAS:</p>
 						<ul>
-							<li>Redirection to an OAuth2 authentication sever</li>
+							<li class="fragment">Redirection to an OAuth2 authentication sever</li>
 							<!-- example of Shibboleth -->
-							<li>Reverse proxy (on server side) performing load balancing</li>
+							<li class="fragment">Reverse proxy (on server side) performing load balancing</li>
 							<!-- example of BBB on emse.fr -->
 						</ul>
 					</section>
@@ -436,9 +580,77 @@
 							REST with pub-sub: MQTT response topics.
 						</p>
 					</section> -->
+					<section>
+						<p>
+							Web clients can do <mark>hypermedia</mark> navigation by following <mark>links</mark> and submitting <mark>forms</mark>.
+						</p>
+						<p class="fragment">
+							Web clients can discover <mark>properties</mark> exposed by Thing as links.
+						</p>
+						<p class="fragment">
+							Web clients can discover <mark>actions</mark> exposed by Things as forms.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<div style="font-size: 0.5em;">
+<pre><code>GET / HTTP/1.1
+Host: device.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[{ "@type": "Link", "href": "http://device.local/pwr", "rel": "ssn:hasSubSystem" },
+ { "@type": "Link", "href": "http://device.local/ac", "rel": "ssn:hasSubSystem"  }]</code></pre>
+<pre><code>GET /pwr HTTP/1.1
+Host: device.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[{ "@type": "Link", "href": "http://device.local/pwr/switch", "rel": "ssn:hasProperty" }]</code></pre>
+<pre><code>GET /ac HTTP/1.1
+Host: device.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[{ "@type": "Link", "href": "http://device.local/ac/mode", "rel": "ssn:hasProperty" },
+ { "@type": "Link", "href": "http://device.local/ac/vent", "rel": "ssn:hasProperty" },
+ { "@type": "Link", "href": "http://device.local/ac/target", "rel": "ssn:hasProperty" }]</code></pre>				
+							</div>
+							<figcaption>Hypermedia-driven discovery of available properties for the air conditioner example</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<div style="font-size: 0.8em;">
+<pre><code>GET / HTTP/1.1
+Host: ur5-robot.local</code></pre>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[{ "@type": "Form", "href": "http://ur5-robot.local/pick-and-place", "op": "td:invokeAction" }]</code></pre>
+<pre><code>POST /pick-and-place HTTP/1.1
+Host: ur5-robot.local
+Content-Type: application/json
+
+{ "from": [6, 5.4], "to": [2.4, 7] }</code></pre>
+<pre><code>HTTP/1.1 201 Created
+Location: http://ur5-robot.local/pick-and-place/invocation1
+
+[no content]</code></pre>
+							</div>
+							<figcaption>Hypermedia-driven discovery of available actions for the production line example</figcaption>
+						</figure>
+					</section>
 				</section>
 				<section>
 					<h4>The W3C Thing Description Model</h4>
+					<section>
+						<p>
+							The World Wide Web Consortium (W3C) has initiated a standardization effort
+							to <mark>facilitate automated mash-ups</mark> based on semantic descriptions of Things.
+						</p>
+						<!-- with dynamic discovery, online selection... -->
+					</section>
 					<section>
 						<p>
 							REST is (theoretically) independent of the communication protocol.
