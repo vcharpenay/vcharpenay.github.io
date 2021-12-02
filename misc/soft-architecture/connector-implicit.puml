@@ -1,0 +1,21 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Component (1)] as c1
+[Component (2)] as c2
+
+c1 .left.> c2
+
+@enduml

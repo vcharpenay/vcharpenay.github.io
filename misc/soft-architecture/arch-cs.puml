@@ -1,0 +1,38 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Client (1)] as c1
+[Client (2)] as c2
+[Client (3)] as c3
+
+[Server (1)] as s1
+[Server (2)] as s2
+
+() "C/S connector (1)" as cs1
+() "C/S connector (2)" as cs2
+
+
+
+s2 -up- cs2
+s1 -up- cs1
+
+c1 --( cs1
+c1 --( cs2
+c2 --( cs1
+c2 --( cs2
+c3 --( cs1
+c3 --( cs2
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Pipeline Orchestrator] as o
+
+[Filter (1)] as f1
+[Filter (2)] as f2
+[Filter (3)] as f3
+
+() "Connector" as c1
+() "Connector" as c2
+() "Connector" as c3
+
+f1 -up- c1
+f2 -up- c2
+f3 -up- c3
+
+o --( c1
+o --( c2
+o --( c3
+
+@enduml

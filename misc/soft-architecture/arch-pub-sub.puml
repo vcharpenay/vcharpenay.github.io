@@ -1,0 +1,33 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Broker] as b
+
+[Publisher] as p
+[Subscriber] as s
+
+() "Publish connector" as pc
+() "Subscribe connector" as sc
+() "Notify connector" as nc
+
+b -down- pc
+b -down- sc
+s -up- nc
+
+p -up-( pc
+s -up-( sc
+b -down-( nc
+
+@enduml

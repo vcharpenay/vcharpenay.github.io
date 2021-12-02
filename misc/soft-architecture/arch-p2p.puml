@@ -1,0 +1,35 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Peer (1)] as p1
+[Peer (2)] as p2
+[Peer (3)] as p3
+
+() "Connector" as c1
+() "Connector" as c2
+() "Connector" as c3
+
+p1 -- c1
+p2 -- c2
+p3 -- c3
+
+p1 --( c2
+p1 --( c3
+p2 --( c1
+p2 --( c3
+p3 --( c1
+p3 --( c2
+
+@enduml
