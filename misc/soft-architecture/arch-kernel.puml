@@ -1,0 +1,30 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Kernel] as k
+
+[Extension (1)] as e1
+[Extension (2)] as e2
+[Extension (3)] as e3
+
+() "connector" as c
+
+k -up- c
+
+e1 --( c
+e2 --( c
+e3 --( c
+
+@enduml

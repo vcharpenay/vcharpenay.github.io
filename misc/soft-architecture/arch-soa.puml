@@ -1,0 +1,42 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Client] as c
+[Service Directory] as sd
+[Server (1)] as s1
+[Server (2)] as s2
+[Server (3)] as s3
+
+() "Register connector" as rc
+() "Discover connector" as dc
+() "Service connector (1)" as sc1
+() "Service connector (2)" as sc2
+() "Service connector (3)" as sc3
+
+sd -down- rc
+sd -left- dc
+s1 -up- sc1
+s2 -up- sc2
+s3 -up- sc3
+
+s1 --( rc
+s2 --( rc
+s3 --( rc
+c --( dc
+c --( sc1
+c --( sc2
+c --( sc3
+
+@enduml

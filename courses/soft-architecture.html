@@ -1,0 +1,511 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Theoretical Principles of Software Architecture</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+
+			.reveal .slides .aside {
+				color: gray;
+				font-size: 0.8em;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 7em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+
+			.reveal .slides .def {
+				padding: 1em;
+				background-color: whitesmoke;
+				border: 1px black solid;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Theoretical Principles of Software Architecture</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Outline</h4>
+					<section>
+						<ol>
+							<li>Introduction</li>
+							<li>The Language of Architects</li>
+							<li>Styles and Patterns</li>
+							<li>The Example of REST</li>
+							<li>Formal Analysis</li>
+						</ol>
+					</section>
+				</section>
+				<section>
+					<h4>Introduction</h4>
+					<section>
+						<p>
+							A public work analogy:
+						</p>
+						<p class="fragment">
+							building a <mark>bridge</mark>
+						</p>
+					</section>
+					<section>
+						<p>
+							What is the <mark>commonality</mark> between the following <mark>three bridges</mark>?
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img style="height: 5em;" src="../misc/soft-architecture/pont-cance.jpg">
+							<img style="height: 5em;" src="../misc/soft-architecture/passerelle-seguin.jpg">
+							<img style="height: 5em;" src="../misc/soft-architecture/akashi-bridge.jpg">
+							<figcaption>
+								A bridge in the <a href="https://fr.wikipedia.org/wiki/Cance_(rivi%C3%A8re)">Cance</a> valley;
+								<a href="https://fr.wikipedia.org/wiki/Passerelle_Marc-Seguin"><span style="font-style: italic;">Passerelle Marc-Seguin</span></a>;
+								<a href="https://en.wikipedia.org/wiki/Akashi_Kaikyo_Bridge">Akashi Kaikyo Bridge</a>
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<div>
+							<img style="height: 3em;" src="../misc/soft-architecture/pont-cance.jpg">
+							<img style="height: 3em;" src="../misc/soft-architecture/passerelle-seguin.jpg">
+							<img style="height: 3em;" src="../misc/soft-architecture/akashi-bridge.jpg">
+						</div>
+						<p class="fragment">
+							All three bridges are hung below <mark>suspension cables</mark>.
+						</p>
+					</section>
+					<section>
+						<p class="def">
+							The <mark>architecture</mark> of [a building] is determined by 
+							those aspects that are <mark>hardest to change</mark>.
+						</p>
+						<!-- p. 68 -->
+					</section>
+					<section>
+						<p>
+							The Akashi bridge was designed to resist earthquakes.
+							Construction was completed after <mark>10 years</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							The Golden Gate bridge had to be <mark>retrofitted</mark> to resist seismic events.
+							After <mark>20 years</mark>, the operation is still on-going.
+						</p>
+						<!-- https://www.goldengate.org/district/district-projects/seismic-retrofit/ (1997) -->
+						<!-- https://sanfrancisco.cbslocal.com/2017/05/24/costly-golden-gate-bridge-retrofit-still-years-away-from-completion/ (2017) -->
+					</section>
+					<section>
+						<p>
+							Other example: the <mark>Millenium bridge</mark> had to be closed a few hours after it opened,
+							for safety reasons.
+						</p>
+					</section>
+					<section>
+						<p>
+							The bridge had a <mark>novel design</mark>, different from suspension cables.
+						</p>
+						<p class="fragment">
+							Civil engineers had not anticipated that a resonance frequency of
+							0.5Hz would make the bridge <mark>oscillate with increasing amplitude</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/millenium-bridge.png">
+							<figcaption>
+								Millenium bridge
+								<a href="https://www.youtube.com/watch?v=t-_VPRCtiUg">(source: Veritasium)</a>
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p class="def">
+							Architecture is also determined by those aspects that are likely to make a system fail.
+						</p>
+						<p class="aside">
+							(source: self)
+						</p>
+					</section>
+					<section>
+						<p class="note">
+							Definitions come from the same book, unless specified:
+							<a href="https://www.softwarearchitecturebook.com/">Software Architecture</a>
+							by Taylor, Medvidovic and Dashofy (2010).
+						</p>
+					</section>
+					<section>
+						<p class="def">
+							A software system's <em>architecture</em> is the set of principal design decisions made about the system.
+						</p>
+						<!-- p. 58 -->
+					</section>
+					<!-- <section>
+						<p>
+							Design decisions?
+
+							Structure (composed of business modules, technical modules),
+							functional behavior (functions in a pre-defined order),
+							interaction (all using the same protocol),
+							nonfunctional properties (RSE?),
+							implementation (technological choice, e.g. Java just because...)
+						</p>
+					</section> -->
+					<!-- p. 58 -->
+					<section>
+						<p>
+							A software architecture is either <mark>prescriptive</mark> (or as-designed) or
+							<mark>descriptive</mark> (as-implemented).
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/datev-example.png">
+							<figcaption>Example of technical debt in the DATEV information system</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							An architectural model is defined over different <mark>perspectives</mark>:
+						</p>
+						<ul>
+							<li class="fragment">
+								structure<br>
+								<span class="aside">components and interaction dependencies</span>
+							</li>
+							<li class="fragment">
+								functionality<br>
+								<span class="aside">sequences of interactions</span>
+							</li>
+							<li class="fragment">
+								deployment<br>
+								<span class="aside">mapping from components to hardware</span>
+							</li>
+						</ul>
+					</section>
+					<!-- p. 65: discussion on perspectives (structural, functional, deployment)? -->
+				</section>
+				<section>
+					<h4>The Language of Architects</h4>
+					<section>
+						<div class="def" style="font-size: 0.8em;">
+							<p>
+								A <em>software component</em> is an architectural entity that
+							</p>
+							<ol>
+								<li><mark>encapsulates</mark> a subset of the system's <mark>functionality</mark> and/or <mark>data</mark>,</li>
+								<li>restricts access to that subset via an explicitly defined <mark>interface</mark>, and</li>
+								<li>has explicitly defined <mark>dependencies</mark> on its required execution context.</li>
+							</ol>
+						</div>
+						<!-- p. 69 -->
+					</section>
+					<!-- <section>
+						<p>
+							Best practices: encapsulation.
+						</p>
+						<p>
+							Difference with SOLID: one component => one (configured) instance
+							(vs. one class => multiple instances)
+						</p>
+					</section> -->
+					<section>
+						<p>
+							Examples of components:
+						</p>
+						<ul>
+							<li class="fragment">a Database Management System (DBMS)</li>
+							<li class="fragment">a single Micro-Service</li>
+							<li class="fragment">a publish-subscribe broker <span class="aside">[*]</span></li>
+						</ul>
+					</section>
+					<section>
+						<p class="def">
+							A <em>software connector</em> is an architectural element tasked with
+							effecting and <mark>regulating interactions</mark> among components.
+						</p>
+						<!-- p. 70 -->
+					</section>
+					<section>
+						<p class="def">
+							<em>Architectural connectors</em> are a collection of <mark>protocols</mark> that
+							characterize each of the <mark>participant roles</mark> in an interaction and how
+							these roles interact.
+						</p>
+						<p class="aside">
+							Source: <a href="https://doi.org/10.1145/258077.258078">(Allen, 1997)</a>
+						</p>
+					</section>
+					<section>
+						<p>
+							Examples of connectors:
+						</p>
+						<ul>
+							<li class="fragment">
+								procedure calls<br>
+								<span class="aside">RPC, JMI</span>
+							</li>
+							<li class="fragment">
+								event-based exchange<br>
+								<span class="aside">WebSocket, Kafka</span>
+							</li>
+							<li class="fragment">
+								data access<br>
+								<span class="aside">ODBC, IPFS, BitTorrent</span>
+							</li>
+							<li class="fragment">
+								streaming<br>
+								<span class="aside">WebRTC</span>
+							</li>
+						</ul>
+						<!-- <p>
+							Procedure call
+							Event
+							Data access
+							(Linkage)
+							Stream
+							Arbitrator (e.g. semaphores, round-robin -- concurrency management, scheduling and load balancing)
+							Adaptor (conversion services)
+							Distributor (never exist by themselves -- RPC includes a "distributor")
+						</p> -->
+						<!-- p. 164: connector types -->
+					</section>
+					<section>
+						<p>
+							Connectors are functionality-independent and <mark>reusable</mark>.
+						</p>
+						<p class="fragment">
+							Components aren't.
+						</p>
+					</section>
+					<!-- <section>
+						<p>
+							UML component diagrams
+						</p>
+					</section> -->
+					<!-- p. 640 -->
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/connector-implicit.png"><br>
+							<img src="../misc/soft-architecture/connector-explicit.png"><br>
+							<img src="../misc/soft-architecture/connector-component.png">
+							<figcaption>Implicit, explicit and component-based connector definition in UML</figcaption>
+						</figure>
+						<p class="fragment note">
+							The scope of a connector depends on the granularity of the architectural model.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>Styles and Patterns</h4>
+					<section>
+						<div class="def" style="font-size: 0.8em;">
+							<p>
+								An <em>architectural style</em> is a named collection of architectural design decisions that
+							</p>
+							<ol>
+								<li>are applicable in a given <mark>development context</mark>,</li>
+								<li><mark>constrain</mark> architectural design, and</li>
+								<li>elicit <mark>beneficial qualities</mark> in each resulting system.</li>
+							</ol>
+						</div>
+						<!-- p. ? -->
+					</section>
+					<section>
+						<p>
+							In short, an architectural style is a set of <mark>constraints on components and connectors</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Common architectural styles:
+						</p>
+						<ul>
+							<li class="fragment">client-server</li>
+							<li class="fragment">microkernel</li>
+							<li class="fragment">pipe-and-filter</li>
+							<li class="fragment">blackboard</li>
+							<li class="fragment">publish-subscribe</li>
+							<li class="fragment">peer-to-peer</li>
+							<li class="fragment">Service-Oriented Architecture (SOA)</li>
+						</ul>
+						<!-- p. 101 -->
+						<!-- <p>
+							Layered: client-server
+							(Modular: kernel-based) -- not in Taylor et al. (but described in Richards' "Soft Arch Patterns")
+							Dataflow: pipe-and-filter
+							Shared memory: blackboard
+							Implicit invocation: pub-sub
+							SOA?
+							P2P?
+							Others: CORBA (distributed object), REST (distributed resources)
+						</p> -->
+						<!-- p. 137 -->
+						<!-- hierarchical: cathedral, kernel: bazaar model -->
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-cs.png">
+							<figcaption>Client-server style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-kernel.png">
+							<figcaption>Microkernel style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-pipe-filter.png">
+							<figcaption>pipe-and-filter style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-blackboard.png">
+							<figcaption>Blackboard style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-pub-sub.png">
+							<figcaption>Publish-subscribe style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-p2p.png">
+							<figcaption>Peer-to-peer style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-soa.png">
+							<figcaption>SOA style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Advanced (but also common) architectural styles:
+						</p>
+						<ul>
+							<li class="fragment">
+								CORBA<br>
+								<span class="aside">Common Object Request Broker Architecture</span>
+							</li>
+							<li class="fragment">
+								REST<br>
+								<span class="aside">Representational State Transfer</span>
+							</li>
+						</ul>
+						<!-- p. 133 (CORBA) -->
+					</section>
+					<section>
+						<p class="def" style="font-size: 0.8em;">
+							An <em>architectural pattern</em> is a named collection of architectural design decisions that
+							are applicable to a <mark>recurring design problem</mark>, <mark>parameterized</mark>
+							to account for different software development contexts in which that problem appears.
+						</p>
+						<!-- p. ? (and 94) -->
+					</section>
+					<section>
+						<p>
+							Common architectural patterns:
+						</p>
+						<ul>
+							<li class="fragment">3-tier</li>
+							<li class="fragment">Model-View-Controller (MVC)</li>
+							<li class="fragment">sense-compute-control</li>
+						</ul>
+						<!-- p. 94 (starting from) -->
+						<!-- <p>
+							Difference between C/S style and 3-tier (2-tier) pattern?
+							Functional limitation of the pattern. Freedom of use for the style.
+							Presentation may be client/it may be server.
+						</p> -->
+					</section>
+					<section>
+						<p>
+							Patterns are applicable anywhere. Styles aren't.
+						</p>
+						<p class="fragment">
+							Patterns are self-contained. Styles aren't.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>The Example of REST</h4>
+					<section>
+						<p>
+							REST as a combination of 6 architectural constraints.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>Formal Analysis</h4>
+					<section>
+						<p>
+							Temporal logics, Promela.
+						</p>
+						<p>
+							TLA+
+						</p>
+					</section>
+					<section>
+						<p>
+							Quality assurance. Integration tests, functional testing.
+						</p>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>

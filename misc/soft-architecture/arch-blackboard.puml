@@ -1,0 +1,35 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Blackboard Manager] as bm
+
+[Read/write component (1)] as c1
+[Read/write component (2)] as c2
+[Read/write component (3)] as c3
+
+() "Read connector" as rc
+() "Write connector" as wc
+
+bm -up- rc
+bm -up- wc
+
+c1 --( rc
+c1 --( wc
+c2 --( rc
+c2 --( wc
+c3 --( rc
+c3 --( wc
+
+@enduml

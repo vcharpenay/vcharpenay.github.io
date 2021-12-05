@@ -1,0 +1,33 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Upper layer] as ul
+[Middle layer (1)] as ml1
+[Middle layer (2)] as ml2
+[Lower layer] as ll
+
+() "Middle connector (1)" as mc1
+() "Middle connector (2)" as mc2
+() "Lower connector" as lc
+
+ml1 -up- mc1
+ml2 -up- mc2
+ll -up- lc
+
+ul --( mc1
+ml1 --( mc2
+ml2 --( lc
+
+@enduml
