@@ -1,0 +1,47 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Origin Server (1)] as os1
+[Origin Server (2)] as os2
+
+[User Agent (1)] as ua1
+[User Agent  (2)] as ua2
+[User Agent  (3)] as ua3
+
+[Proxy] as p
+[Reverse Proxy (1)] as rp1
+[Reverse Proxy (2)] as rp2
+
+() "HTTP" as c1
+() "HTTP" as c2
+() "HTTPS" as c3
+() "HTTPS" as c4
+() "HTTP (with Cache-Control header)" as c5
+
+os1 -up- c1
+os2 -up- c2
+rp1 -up- c3
+rp2 -up- c4
+p -up- c5
+
+ua1 --( c1
+rp1 --( c1
+rp2 --( c2
+p --( c3
+p --( c4
+ua2 --( c5
+ua3 --( c4
+
+@enduml

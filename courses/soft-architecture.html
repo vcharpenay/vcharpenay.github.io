@@ -71,7 +71,7 @@
 							<li>The Language of Architects</li>
 							<li>Styles and Patterns</li>
 							<li>The Example of REST</li>
-							<li>Formal Analysis</li>
+							<li>Formal Architectural Analysis</li>
 						</ol>
 					</section>
 				</section>
@@ -476,24 +476,448 @@
 					<h4>The Example of REST</h4>
 					<section>
 						<p>
-							REST as a combination of 6 architectural constraints.
+							REST is an architectural style for (highly) <mark>distributed information systems</mark>.
 						</p>
+						<p class="fragment">
+							It is mostly relevant in the presence of multiple actors</mark>,
+							within large <mark>organizations</mark>, across organizations or even at a <mark>world-scale</mark>.
+						</p>
+						<p class="note fragment">
+							REST has influenced most of what the Web is now, via HTTP/1.1.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/restbucks-actors.png">
+							<img src="../misc/soft-architecture/restbucks-interactions.png">
+							<figcaption>Actor of the Restbucks system, "a little coffee shop with global ambitions," and example interactions</figcaption>
+						</figure>
+						<p class="note fragment">
+							The following example is taken from
+							<a href="http://oreilly.com/catalog/9781449394943/">REST in practice: hypermedia and system architecture</a>,
+							by Webber, Parastatidis and Robinson (2010). Authors have worked at Microsoft and Thoughtworks.
+						</p>
+					</section>
+					<section>
+						<p>
+							Restbucks wants:
+						</p>
+						<ul>
+							<li class="fragment">to attract millions of customers (<mark>scalability</mark>),</li>
+							<li class="fragment">not to accept orders if they can't be fulfilled (<mark>integrity</mark>) and</li>
+							<li class="fragment">to make sure an order is always fulfilled once accepted (<mark>fault-tolerance</mark>).</li>
+						</ul>
+						<!-- p. 25 -->
+					</section>
+					<section>
+						<table>
+							<thead>
+								<tr>
+									<th>Basic style</th>
+									<th>Scalability</th>
+									<th>Integrity</th>
+									<th>Fault-tolerance</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Microkernel</td>
+									<td>-</td>
+									<td>++</td>
+									<td>-</td>
+								</tr>
+								<tr>
+									<td>Pipe-and-filter</td>
+									<td>++</td>
+									<td>-</td>
+									<td>+-</td>
+								</tr>
+								<tr>
+									<td>Publish-subscribe</td>
+									<td>++</td>
+									<td>--</td>
+									<td>--</td>
+								</tr>
+								<tr>
+									<td>...</td>
+								</tr>
+							</tbody>
+							<!-- Fieldings: fault-tolerance ~ reliability, integrity not considered -->
+							<caption>Analysis of several architectural styles for the Restbucks system</caption>
+						</table>
+					</section>
+					<section>
+						<p>
+							A more complex style to better fulfill all requirements is required.
+						</p>
+						<p class="fragment">
+							Complex styles for distributed architectures (CORBA, REST) tend to rely on <mark>operations on remote objects</mark>.
+						</p>
+						<p class="note fragment">
+							Chronologically, REST replaced CORBA (~in 2000).
+						</p>
+					</section>
+					<section>
+						<p>
+							Objects manipulated by Restbucks are:
+						</p>
+						<ul>
+							<li class="fragment">orders</li>
+							<li class="fragment">payments</li>
+							<li class="fragment">receipts</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							In REST, an object becomes a <mark>Web resource</mark> identified with a URI:
+						</p>
+						<ul>
+							<li class="fragment">https://restbucks.com/<span style="color: brown;">order</span>/1234</li>
+							<li class="fragment">https://restbucks.com/<span style="color: brown;">payment</span>/1234</li>
+							<li class="fragment">https://restbucks.com/<span style="color: brown;">receipt</span>/1234</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Only <mark>CRUD operations</mark> are available on the resource (create, replace, update, delete).
+						</p>
+						<p class="fragment">
+							Object instantiation is performed as resource creation on a <mark>collection resource</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/restbucks-protocol.png">
+							<figcaption>HTTP requests for the Restbucks ordering service</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							The state of the application is <mark>driven by hypermedia</mark>.
+						</p>
+						<p class="note fragment">
+							That is, references to other objects are available to service consumers as Web links.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/restbucks-hypermedia.png">
+							<figcaption>HTTP requests for the Restbucks ordering service</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Such a "hypermedia" Restbuck service complies to the REST style.
+						</p>
+					</section>
+					<section>
+						<p>
+							REST is an architectural style <mark>derived</mark> from simpler styles.
+						</p>
+						<figure>
+							<img src="../misc/soft-architecture/rest-derivation.png">
+							<figcaption>REST derivation by style constraints <a href="">(Fielding, 2000)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							REST mainly builds upon <mark>6 styles or constraints</mark>:
+						</p>
+						<ul>
+							<li class="fragment">Client-server</li>
+							<li class="fragment">Stateless communication</li>
+							<li class="fragment">Cache</li>
+							<li class="fragment">Uniform interface</li>
+							<li class="fragment">Layered system</li>
+							<li class="fragment">Code-on-demand</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<p class="def" style="font-size: 0.6em;">
+							A <mark>server</mark> component listens for requests.
+							A <mark>client</mark> component sends a request to the server via a connector.
+						</p>
+						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/rest-derivation-1.png">
+							<figcaption>REST derivation by style constraints (1)</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p class="def" style="font-size: 0.6em;">
+							Communication must be <mark>stateless</mark>.
+							Each request cannot take advantage of any stored context on the server.
+						</p>
+						<!-- Session state is therefore kept entirely on the client. -->
+						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/rest-derivation-2.png">
+							<figcaption>REST derivation by style constraints (2)</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p class="def" style="font-size: 0.6em;">
+							The <mark>cache</mark> style requires that the data within a response to a request be labeled as cacheable.
+						</p>
+						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/rest-derivation-3.png">
+							<figcaption>REST derivation by style constraints (3)</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p class="def" style="font-size: 0.6em;">
+							Interacting components have a <mark>uniform interface</mark> between each other.
+						</p>
+						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/rest-derivation-4.png">
+							<figcaption>REST derivation by style constraints (4)</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p class="def" style="font-size: 0.6em;">
+							Each component cannot "see" <mark>beyond the immediate layer</mark> with which
+							it is interacting.
+						</p>
+						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/rest-derivation-5.png">
+							<figcaption>REST derivation by style constraints (5)</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p class="def" style="font-size: 0.6em;">
+							Client functionality <em>may</em> be extended by <mark>downloading and executing code</mark> in the form of applets or scripts.
+						</p>
+						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/rest-derivation-6.png">
+							<figcaption>REST derivation by style constraints (6)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							<mark>All constraints are required</mark> for a RESTful architecture.
+						</p>
+						<figure>
+							<img src="../misc/soft-architecture/rest-derivation-all.png">
+							<figcaption>REST derivation by style constraints (all)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-rest.png">
+							<figcaption>REST style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<table>
+							<thead>
+								<tr>
+									<th>Basic style</th>
+									<th>Scalability</th>
+									<th>Integrity</th>
+									<th>Fault-tolerance</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Microkernel</td>
+									<td>-</td>
+									<td>++</td>
+									<td>-</td>
+								</tr>
+								<tr>
+									<td>Pipe-and-filter</td>
+									<td>++</td>
+									<td>-</td>
+									<td>+-</td>
+								</tr>
+								<tr>
+									<td>Publish-subscribe</td>
+									<td>++</td>
+									<td>--</td>
+									<td>--</td>
+								</tr>
+								<tr style="background: moccasin;">
+									<td>REST</td>
+									<td>++</td>
+									<td>++</td>
+									<td>++</td>
+								</tr>
+							</tbody>
+							<caption>Analysis of several architectural styles for the Restbucks system (bis)</caption>
+						</table>
+					</section>
+					<!--  also: performance, simplicity, modifiability, visibility, portability -->
+					<section>
+						<p>
+							The <mark>uniform interface</mark> constraint is specific to REST.
+						</p>
+						<p class="fragment">
+							It is best explained in terms of a <mark>"maturity model"</mark>.
+						</p>
+						<p class="note fragment">
+							See also
+							<a href="https://www.martinfowler.com/articles/richardsonMaturityModel.html">Martin Fowler's explanation</a>
+							on the topic.
+						</p>
+					</section>
+					<!-- TODO move maturity model above (at the Restbucks example) -->
+					<section data-auto-animate>
+						<p>
+							At level 0, no restriction applies to Web services.
+						</p>
+						<figure data-id="maturity-level" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/maturity-0.png">
+							<figcaption>Maturity level 0</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p>
+							At level 1, resources are uniquely identified by a <mark>URI</mark>.
+						</p>
+						<figure data-id="maturity-level" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/maturity-1.png">
+							<figcaption>Maturity level 1</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p>
+							At level 2, resources can be manipulated with <mark>HTTP operations</mark>.
+						</p>
+						<figure data-id="maturity-level" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/maturity-2.png">
+							<figcaption>Maturity level 2</figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<p>
+							At level 3, available operations are exposed via <mark>hypermedia controls</mark>.
+						</p>
+						<figure data-id="maturity-level" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/maturity-3.png">
+							<figcaption>Maturity level 3</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							A Web API with maturity level 0, 1 or 2 is <em>not</em> RESTful.
+						</p>
+						<p class="fragment">
+							<mark>Maturity level 3</mark> is necessary for Web APIs to be RESTful.
+						</p>
+						<p class="fragment">
+							As a complex architectural style, it is (too) easy to <mark>misuse REST</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Other examples of misuse of the REST architectural style include:
+						</p>
+						<ul>
+							<li class="fragment">one-page Web applications, e.g. with <a href="https://graphql.org/">GraphQL</a> querying</li>
+							<!-- https://goodapi.co/blog/rest-vs-graphql -->
+							<li class="fragment">publish-subscribe on the Web, e.g. with <a href="https://www.w3.org/TR/websub/">WebSub</a></li>
+						</ul>
+						<p class="note fragment">
+							Both examples do, however, follow other styles <span class="highlight">at a higher model granularity</span>. 
+						</p>
+						<!-- GraphQL: layered style, WebSub: publish-subscribe -->
 					</section>
 				</section>
 				<section>
-					<h4>Formal Analysis</h4>
+					<h4>Formal Architectural Analysis</h4>
 					<section>
 						<p>
-							Temporal logics, Promela.
+							In 1997, Allen and Garlan introduced a <mark>formal language</mark> to express architectural models.
+							<a href="https://doi.org/10.1145/258077.258078">(Allen, 1997)</a>
 						</p>
+						<p class="fragment">
+							This language is based on <mark>Communicating Sequential Processes</mark> (CSP).
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/csp.svg">
+							<!-- source: Wikidata-->
+							<figcaption>Syntactic constructs of CSP</figcaption>
+						</figure>
+					</section>
+					<!-- <section>
 						<p>
-							TLA+
+							The major differences between local and distributed computing concern the areas of
+							<mark>latency</mark>, <mark>memory access</mark>, <mark>partial failure</mark>, and <mark>concurrency</mark>
+							<a href="https://link.springer.com/chapter/10.1007%2F3-540-62852-5_6">(Waldo, 1996)</a>
+						</p>
+					</section> -->
+					<section>
+						<p>
+							The main motivation for a formal architectural language is <mark>formal verification</mark> over complex systems.
+						</p>
+						<p class="note fragment">
+							Complex systems are characterized by a high number of interacting components.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/facebook-integrity.jpg">
+							<figcaption>Excerpt of an e-mail sent by a Facebook engineer <a href="https://www.lemonde.fr/pixels/article/2021/10/26/comment-l-algorithme-de-facebook-echappe-au-controle-de-ses-createurs_6099888_4408996.html">(Le Monde, 2021)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							REST ensures a certain decoupling between components.
+						</p>
+						<p class="fragment">
+							But concrete implementations are <mark>never bug-free</mark>.
 						</p>
 					</section>
 					<section>
 						<p>
-							Quality assurance. Integration tests, functional testing.
+							Formal verification has been extensively applied to <mark>hardware design</mark>.
 						</p>
+						<figure>
+							<img src="../misc/soft-architecture/formal-validation.png">
+							<figcaption>Different ways to apply formal verification in a design <a href="https://link.springer.com/book/10.1007/978-3-662-10778-2">(Schneider, 2004)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Formal verification may as well be used for <mark>architectural analysis</mark>. 
+						</p>
+						<p class="fragment">
+							System properties to verify are typically:
+						</p>
+						<ul>
+							<li class="fragment">
+								<mark>safety</mark> properties<br>
+								<span class="aside">to ensure some error <em>never</em> occurs</span>
+							</li>
+							<li class="fragment">
+								<mark>liveness</mark> properties<br>
+								<span class="aside">to ensure some action is <em>always</em> performed</span>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Concrete validation languages include:
+						</p>
+						<ul>
+							<li class="fragment">
+								<a href="https://en.wikipedia.org/wiki/TLA%2B">TLA<sup>+</sup></a><br>
+								<span class="aside">Temporal Logic of Actions (+)</span>
+							</li>
+							<li class="fragment">
+								<a href="https://en.wikipedia.org/wiki/TLA%2B">Promela</a><br>
+								<span class="aside">Process Modeling Language</span>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							As an example, Amazon Web Services (AWS) has been using TLA<sup>+</sup>.
+						</p>
+						<figure class="fragment">
+							<img src="../misc/soft-architecture/formal-validation-aws.png">
+							<figcaption>AWS algorithms verified with TLA<sup>+</sup> and PlusCal, a TLA<sup>+</sup> derivative <a href="https://dl.acm.org/doi/10.1145/2699417">(Newcombe, 2015)</a></figcaption>
+						</figure>
 					</section>
 				</section>
 			</div>
