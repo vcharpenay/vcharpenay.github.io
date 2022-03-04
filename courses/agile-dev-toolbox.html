@@ -26,6 +26,10 @@
 			.reveal .slides .note .highlight {
 				color: brown;
 			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
 			
 			.reveal .slides table {
 				font-size: 0.5em;
@@ -37,7 +41,7 @@
 			}
 
 			.reveal .slides figure img {
-				max-height: 7em; /* FIXME should be a percent of total height */
+				max-height: 7em;
 			}
 		</style>
 	</head>
@@ -53,7 +57,7 @@
 					<section>
 						<p><b>Activity</b>: period of time during which agents consume and produce artifacts</p>
 						<br>
-						<p><b>Project</b>: (partially ordered) set of activitie</p>
+						<p><b>Project</b>: (partially ordered) set of activities</p>
 					</section>
 					<!-- TODO show swimlane to materialize agent -->
 					<section>
@@ -76,14 +80,18 @@
 						</div>
 					</section>
 					<section>
-						<p>Agile development is <u>iterative</u>. Many iterations implies many (versioned) artifacts.</p>
+						<p>Agile development is <mark>iterative</mark>. Many iterations implies many (versioned) artifacts.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/iterative-dev.svg">
 							<figcaption>BPMN diagram of an iterative software development project</figcaption>
 						</figure>
 					</section>
 					<section>
-						<p>Agile development is <u>decentralized</u>. An agile team is self-organized.</p>
+						<p>Agile development is <mark>decentralized</mark>. An agile team is self-organized.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/decentralized-dev.svg">
 							<figcaption>BPMN diagram of a multiparty software development project (with swimlanes)</figcaption>
@@ -149,9 +157,9 @@
 						</p>
 						<br>
 						<p>
-							<u style="text-decoration-color: lightseagreen;">Version control</u>
+							<mark style="background-color: lightseagreen;">Version control</mark>
 							and
-							<u style="text-decoration-color: lightsalmon;">Communication</u>
+							<mark style="background: lightsalmon;">Communication</mark>
 						</p>
 						<!-- is communication the right keyword? -->
 					</section>
@@ -213,9 +221,9 @@
 				<section>
 					<h4>Stigmergy</h4>
 					<section>
-						<p>The fundamental concept that most agile development tools adopt for collaboration is <u>stigmergy</u>.</p>
+						<p>The fundamental concept that most agile development tools adopt for collaboration is <mark>stigmergy</mark>.</p>
 						<br>
-						<p class="fragment">Stigmergy is an indirect form of communication in which agents leaves <u>traces</u> in a <u>shared environment</u>.</p>
+						<p class="fragment">Stigmergy is an indirect form of communication in which agents leaves <mark>traces</mark> in a <mark>shared environment</mark>.</p>
 					</section>
 					<section>
 						<figure>
@@ -274,26 +282,26 @@
 					<section>
 						<p>Rules of stigmergy in agile projects:</p>
 						<ol>
-							<li class="fragment">Project artifacts are visible to all project members (shared environment)</li>
-							<li class="fragment">Artifacts to consume are associated with "requests for actions" (traces)</li>
-							<li class="fragment">Artifacts to produce are associated with "change logs" (traces)</li>
+							<li class="fragment">Project artifacts are visible to all project members <span style="font-size: 0.5em;">(shared environment)</span></li>
+							<li class="fragment">Artifacts are associated with "requests for actions" <span style="font-size: 0.5em;">(consumption traces)</span></li>
+							<li class="fragment">Artifacts are associated with "change logs" <span style="font-size: 0.5em;">(production traces)</span></li>
 						</ol>
 					</section>
 				</section>
 				<section>
 					<h4>Git Basics</h4>
 					<section>
-						<p>First, get a <u>local copy</u> of the code base of a project.</p>
+						<p>First, get a <mark>local copy</mark> of the code base of a project.</p>
 						<br>
 						<pre><code>git clone https://gitlab.emse.fr/&lt;username&gt;/&lt;project&gt;.git</code></pre>
 					</section>
 					<section>
-						<p>Create a new <u>branch</u> of the code base. Each feature or bug fix is associated with a branch.</p>
+						<p>Create a new <mark>branch</mark> of the code base. Each feature or bug fix is associated with a branch.</p>
 						<br>
 						<pre><code>git checkout -b new-feature</code></pre>
 					</section>
 					<section>
-						<p>Perform changes to the code and <u>commit</u> them, as in a database transaction.</p>
+						<p>Perform changes to the code and <mark>commit</mark> them, as in a database transaction.</p>
 						<br>
 						<pre><code>git add &lt;file1&gt; &lt;file2&gt;...</code></pre>
 						<pre><code>git commit -m "summary of the changes performed"</code></pre>
@@ -301,7 +309,7 @@
 					<section>
 						<p>
 							When the feature is implemented or the bug fixed (after several commits),
-							return to the <u>master</u> branch and <u>fetch</u> (or pull) the latest remote copy of the code base.
+							return to the <mark>master</mark> branch and <mark>fetch</mark> (or pull) the latest remote copy of the code base.
 						</p>
 						<br>
 						<pre><code>git checkout master</code></pre>
@@ -309,8 +317,8 @@
 					</section>
 					<section>
 						<p>
-							Then, <u>merge</u> the created branch back to the master branch and
-							<u>push</u> the merged code base to the remote location.
+							Then, <mark>merge</mark> the created branch back to the master branch and
+							<mark>push</mark> the merged code base to the remote location.
 						</p>
 						<br>
 						<pre><code>git merge new-feature</code></pre>
@@ -330,13 +338,25 @@
 					</section>
 					<section>
 						<p>Large-scale projects may have even more complex workflows with Git.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="https://nvie.com/img/git-model@2x.png">
 							<figcaption>Example of branching (source: <a href="https://nvie.com/posts/a-successful-git-branching-model/">nvie.com</a>)</figcaption>
 						</figure>
 					</section>
 					<section>
-						<p>Code releases are generally numbered according to the <a href="https://semver.org/">semantic versioning</a> guidelines.</p>
+						<p>A certain commit (on the master branch) can be tagged as a <mark>release</mark>.</p>
+						<br>
+						<pre><code>git tag -a &lt;version&gt; -m "release description"</code></pre>
+					</section>
+					<section>
+						<p>
+							A release is a <mark>well-tested</mark> code base implementing <mark>well-documented</mark> functionalities.
+						</p>
+					</section>
+					<section>
+						<p>Code releases should be numbered according to the <a href="https://semver.org/">semantic versioning</a> guidelines.</p>
 						<br>
 						<p>
 							v<span style="color: lightseagreen;">2</span>.<span style="color: lightsalmon;">4</span>.<span style="color: lightcoral;">20</span><br>
@@ -359,9 +379,12 @@
 						</table>
 					</section>
 					<section>
-						<div class="note">
+						<p class="note">
+							Code management platforms usually has more advanced features for publishing releases.
+						</p>
+						<div class="note fragment">
 							<p>
-								A release process is generally automated through a production pipeline.
+								In particular, the release process can be automated through a production pipeline.
 								Such pipelines are outside the scope of this lecture.
 							</p>
 						</div>
@@ -371,9 +394,11 @@
 					<h4>Kanban</h4>
 					<!-- parenthesis on Kanban (Scrumban), as a preliminary to Gitlab -->
 					<section>
-						<p>The two main agile methods are <u>Scrum</u> and <u>Kanban</u>.</p>
+						<p>The two main agile methods are <mark>Scrum</mark> and <mark>Kanban</mark>.</p>
 						<br>
-						<p>Gitlab integrates functionalities to mix both methods in a single project (what is also called Scrumban).</p>
+						<p class="fragment">
+							Gitlab integrates functionalities to mix both methods in a single project (what is also called Scrumban).
+						</p>
 					</section>
 					<section>
 						<p>Kanban emerged as a methodology to manage inventories at Toyota.</p>
@@ -385,8 +410,9 @@
 						<!-- p. 27 -->
 					</section>
 					<section>
-						<p>A Kanban is a piece of paper that helps visualize the material flow along a supply chain.</p>
-
+						<p>A Kanban is a piece of paper that helps visualize material flows along a supply chain.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/kanban-process.png">
 							<figcaption>Supplier Kanban process (source: Yasuhiro Monden (1988), <i>Toyota Production System: an integrated approach to Just-In-Time</i>)</figcaption>
@@ -395,7 +421,9 @@
 					</section>
 					<!-- from material flows to immaterial "work" flows --> 
 					<section>
-						<p>The Kanban methodology was then adapted to immaterial "work" flows, through <u>Kanban boards</u>.</p>
+						<p>The Kanban methodology was then adapted to immaterial "work" flows, through <mark>Kanban boards</mark>.</p>
+					</section>
+					<section>
 						<!-- see also "Agile Project Management with Kanban", Eric Brechner at Xbox -->
 						<figure>
 							<img src="../misc/agile-dev/kanboard-brechner2015.png">
@@ -407,15 +435,17 @@
 				<section>
 					<h4>Gitlab Basics</h4>
 					<section>
-						<p>A product backlog materializes on Gitlab as a list of <u>issues</u>.</p>
+						<p>A product backlog materializes on Gitlab as a list of <mark>issues</mark>.</p>
 						<br>
-						<p>Issues can be organized as Kanban boards through <u>labels</u> and assigned to specific <u>milestones</u> (i.e. sprints).</p>
+						<p class="fragment">Issues can be organized as Kanban boards through <mark>labels</mark> and assigned to specific <mark>milestones</mark> (i.e. sprints).</p>
 					</section>
 					<section>
 						<p>The free and open-source <a href="https://gitlab.gnome.org/">GNOME</a> project is managed entirely with Gitlab.</p>
 					</section>
 					<section>
 						<p>The long-term vision of GNOME (multiple releases ahead) is managed as a Kanban board.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/gnome-board.png">
 							<figcaption>GNOME project board</figcaption>
@@ -423,6 +453,8 @@
 					</section>
 					<section>
 						<p>Its short-term vision (single release) is managed via Scrum.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/gnome-milestones.png">
 							<figcaption>GNOME project milestones</figcaption>
@@ -430,6 +462,8 @@
 					</section>
 					<section>
 						<p>Concrete implementation work (individual issue) is again managed with Kanban boards.</p>
+					</section>
+					<section>
 						<figure>
 							<img src="../misc/agile-dev/gimp-milestone.png">
 							<figcaption>Example of an open GIMP project milestone</figcaption>
@@ -454,6 +488,23 @@
 							</tbody>
 						</table>
 					</section> -->
+				</section>
+				<section>
+					<h4>Further Examples</h4>
+					<section>
+						<p>Gitlab itself is <a href="https://gitlab.com/gitlab-org/gitlab">a project on Gitlab</a>.</p>
+					</section>
+					<section>
+						<p>Inkscape is one of the <a href="https://gitlab.com/explore/projects/starred">most starred projects on Gitlab</a>.</p>
+					</section>
+					<section>
+						<p>Visual Studio (VS) Code is an example of large project <a href="https://github.com/microsoft/vscode">hosted on Github</a>.</p>
+						<br>
+						<figure>
+							<img src="../misc/agile-dev/vscode-burndown-chart.png">
+							<figcaption>Example of burndown chart generated from Github issues for VS Code (v1.62)</figcaption>
+						</figure>
+					</section>
 				</section>
 				<section>
 					<section>
