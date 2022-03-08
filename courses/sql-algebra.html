@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Introduction à NoSQL</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: moccasin;
+			}
+
+			.reveal .slides .note mark {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.65em;
+			}
+			
+			.reveal .slides table.t {
+				font-size: 0.75em;
+			}
+			
+			.reveal .slides table.t th {
+				background-color: moccasin;
+			}
+			
+			.reveal .slides table.t td {
+				background-color: linen;
+			}
+
+            .reveal .slides table.plain {
+                border: 0px;
+				font-size: 1em;
+            }
+
+            .reveal .slides table.plain th {
+                text-align: center;
+                border: 0px;
+            }
+
+            .reveal .slides table.plain td {
+                text-align: center;
+                border: 0px;
+            }
+
+            .reveal .slides table.plain img.thumbnail {
+                margin: 20px;
+                max-height: 100px;
+            }
+			
+			.reveal .slides .phi {
+				text-align: left;
+			}
+			
+			.reveal .slides .sql {
+				text-align: left;
+			}
+			
+			.reveal .slides .json {
+				text-align: left;
+			}
+			
+			.reveal .slides .cypher {
+				text-align: left;
+			}
+			
+			.reveal .slides .gremlin {
+				text-align: left;
+			}
+			
+			.reveal .slides .sparql {
+				text-align: left;
+			}
+
+            .reveal .slides .var {
+                color: darkmagenta;
+                font-weight: bold;
+            }
+
+            .reveal .slides .comment {
+                color: lightblue;
+            }
+
+            .reveal .slides .param {
+                color: lightgray;
+            }
+
+            .reveal .slides .string {
+                color: peru;
+            }
+
+            .reveal .slides .nb {
+                color: skyblue;
+            }
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+
+            .reveal .slides caption {
+                color: gray;
+                font-size: 0.5em;
+            }
+
+            .reveal .slides mark {
+                background-color: moccasin;
+            }
+		</style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>SQL et algèbre relationnelle</h1>
+                    <p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+                </section>
+                <section>
+                    <h4>Déroulé du cours</h4>
+                    <section>
+                        <ol>
+                            <li class="fragment">SQL (rappel)</li>
+                            <li class="fragment">Relations et schémas</li>
+                            <li class="fragment">Formes normales</li>
+                            <li class="fragment">Opérateurs algébriques</li>
+                            <li class="fragment">Réécriture de requêtes</li>
+                            <li class="fragment">Optimisation par index</li>
+                        </ol>
+                    </section>
+                </section>
+                <section>
+                    <h4>SQL (rappel)</h4>
+                    <section>
+                        <p class="fragment">SQL signifie<br><mark>Structured Query Language</mark></p>
+                        <p class="fragment">SQL est un langage <mark>déclaratif</mark> de manipulation de données <mark>relationnelles</mark>.</p>
+                    </section>
+                    <section>
+                        <p class="sql">
+                            CREATE TABLE <span class="param">table</span>(<span class="param">attribut(s)</span>) ;<br><br>
+                            INSERT INTO <span class="param">table</span> VALUES <span class="param">tuple</span> ;
+                        </p>
+                    </section>
+                    <section>
+                        <table class="t" style="float: left;">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Nom</th>
+                                    <th>Taille</th>
+                                    <th>Poids</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Bulbizarre</td>
+                                    <td>0.7m</td>
+                                    <td>6.9kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#004</td>
+                                    <td>Salamèche</td>
+                                    <td>0.6m</td>
+                                    <td>8.5kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#007</td>
+                                    <td>Carapuce</td>
+                                    <td>0.5m</td>
+                                    <td>9.0kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#025</td>
+                                    <td>Pikachu</td>
+                                    <td>0.4m</td>
+                                    <td>6.0kg</td>
+                                </tr>
+                                <tr>
+                                    <td>#052</td>
+                                    <td>Miaouss</td>
+                                    <td>0.4m</td>
+                                    <td>4.2kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="t">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Plante</td>
+                                </tr>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Poison</td>
+                                </tr>
+                                <tr>
+                                    <td>#004</td>
+                                    <td>Feu</td>
+                                </tr>
+                                <tr>
+                                    <td>#007</td>
+                                    <td>Eau</td>
+                                </tr>
+                                <tr>
+                                    <td>#025</td>
+                                    <td>Électrik</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                        <p class="sql">
+                            SELECT <span class="param">attribut(s)</span><br>
+                            FROM <span class="param">table(s)</span><br>
+                            WHERE <span class="param">condition(s)</span> ;
+                        </p>
+                    </section>
+                    <section>
+                        <p>(Q<sub>1</sub>) Quel est le nom des Pokémon de type feu ?</p>
+                        <p class="fragment sql">
+                            SELECT <span class="var">Nom</span><br>
+                            FROM <span class="var">Pokémon</span> AS <span class="var">P</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">PokémonType</span> AS <span class="var">PT</span><br>
+                            WHERE <span class="var">P</span>.<span class="var">Rang</span> = <span class="var">PT</span>.<span class="var">Rang</span> AND<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">Type</span> = Feu ;
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Quels problèmes pratiques peuvent apparaître à mesure que la taille des tables augmente ?
+                        </p>
+                    </section>
+                    <section>
+                        <ul>
+                            <li class="fragment">Incohérence dans les données</li>
+                            <li class="fragment">Exécution de requêtes trop lente</li>
+                            <!-- <li class="fragment">Manque d'évolution de la base de données</li> -->
+                        </ul>
+                        <p class="note fragment">
+                            À ces problèmes pratiques peut être donnée une réponse théorique.
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Relations et schémas</h4>
+                    <section>
+                        <p>Le fondement théorique d'SQL est l'<mark>algèbre relationnelle</mark>.</p>
+                        <p class="fragment">Une table (SQL) équivaut à une <mark>relation</mark> en algèbre relationnelle.</p>
+                    </section>
+                    <section>
+                        <p>
+                            Une relation R est un ensemble de <mark>n-uplet</mark> ou <mark>tuples</mark> {t, t', &hellip;}.
+                        </p>
+                        <p class="fragment">
+                            R(t<sub>1</sub>, t<sub>2</sub>, &hellip;, t<sub>n</sub>)<br>
+                            R(t'<sub>1</sub>, t'<sub>2</sub>, &hellip;, t'<sub>n</sub>)<br>
+                            &hellip;
+                        </p>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            Pokémon(#001, Bulbizarre, 0.7, 6.9)<br>
+                            Pokémon(#004, Salamèche, 0.6, 8.5)<br>
+                            Pokémon(#007, Carapuce, 0.5, 9.0)<br>
+                            Pokémon(#025, Pikachu, 0.4, 6.0)<br>
+                            Pokémon(#052, Miaouss, 0.4, 4.2)
+                        </p>
+                    </section>
+                    <!-- <section>
+                        <p class="phi">
+                            Type(#001, Plante)<br>
+                            Type(#001, Poison)<br>
+                            Type(#004, Feu)<br>
+                            Type(#007, Eau)<br>
+                            Type(#025, Électrik)
+                        </p>
+                    </section> -->
+                    <section>
+                        <p>
+                            Un schéma de relation S<sub>R</sub> est un n-uplet d'<mark>attributs</mark> associés à un <mark>domaine</mark> (ensemble de valeurs).
+                        </p>
+                        <p class="fragment">
+                            S<sub>R</sub>(A<sub>i</sub>: D<sub>i</sub>, &hellip;, A<sub>n</sub>: D<sub>i</sub>)
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Un tuple t &in; R est <mark>conforme à un schéma</mark> S<sub>R</sub> si
+                        </p>
+                        <ul>
+                            <li class="fragment">t et S<sub>R</sub> ont la même longueur n</li>
+                            <li class="fragment">t<sub>i</sub> &in; D<sub>i</sub> pour tout i &in; [1, n]</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>
+                            Une relation R est conforme à un schéma S<sub>R</sub> si tout tuple t &in; R y est conforme.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            La relation Pokémon est conforme au schéma suivant&nbsp;:
+                        </p>
+                        <p class="fragment phi">
+                            Pokémon(<br>
+                            &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Poids</span>: <b>REAL</b><br>
+                            )
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Une base de données relationnelles est un <mark>ensemble de relations</mark>, chacune <mark>conforme</mark> à un schéma.
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Formes normales</h4>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Quelle cas particulier de relation étudie-t-on depuis le collège ?
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Celui de la <mark>fonction</mark> (mathématique).
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            La fonction F : <b>Real</b> → <b>Real</b> est une relation
+                        </p>
+                        <ul>
+                            <li class="fragment">
+                                conforme au schéma<br>
+                                &nbsp;&nbsp;S<sub>F</sub>(X: <b>Real</b>, Y: <b>Real</b>)</li>
+                            <li class="fragment">
+                                respectant la contrainte<br>
+                                F(x, y<sub>1</sub>), F(x, y<sub>2</sub>) ⇒ y<sub>1</sub> = y<sub>2</sub>
+                            </li>
+                        </ul>
+                        <p class="note fragment">
+                            On change alors de notation, pour écrire F(x) = y<sub>1</sub> = y<sub>2</sub>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            La contrainte d'unicité sur l'application de F est appelée «&nbsp;<mark>dépendance fonctionnelle</mark>&nbsp;».
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Un schéma de base de données est toujours soumis à au moins une dépendance fonctionnelle&nbsp;: celle de <mark>clé primaire</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Une clé (primaire) est un <mark>ensemble minimal d'attributs</mark> desquels dépendent fonctionnellement <mark>tous les attributs</mark> d'un schéma.
+                        </p>
+                        <p class="note fragment">
+                            Cet ensemble d'attributs n'est pas nécessairement unique.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Le rang d'un Pokémon détermine son nom, sa taille et son poids.
+                        </p>
+                        <p class="fragment">
+                            <span class="var">Rang</span> → {<span class="var">Nom</span>, <span class="var">Taille</span>, <span class="var">Poids</span>}
+                        </p>
+                        <p class="fragment">
+                            Le nom du Pokémon est aussi une clé.
+                        </p>
+                        <p class="fragment">
+                            <span class="var">Nom</span> → {<span class="var">Rang</span>, <span class="var">Taille</span>, <span class="var">Poids</span>}
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Les dépendances fonctionnelles ont certaines propriétés logiques&nbsp;:
+                        </p>
+                        <ul>
+                            <li class="fragment">
+                                X → {A<sub>1</sub>, &hellip;, A<sub>n</sub>} ⇒ X → A<sub>i &in; [1, n]</sub>
+                            </li>
+                            <li class="fragment">
+                                X → Y, Y → Z ⇒ X → Z
+                            </li>
+                            <!-- cf autres règles d'inférence (vues aussi comme des axiomes) d'Armstrong -->
+                        </ul>
+                    </section>
+                    <section>
+                        <p>
+                            Une dépendance fonctionnelle X → Y est <mark>canonique</mark> si Y est un attribut unique A.
+                        </p>
+                        <p class="note fragment">
+                            La suite du cours suppose une représentation canonique des dépendances.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Une base de données relationnelles est un ensemble de relations, chacune conforme à un schéma
+                            <span class="fragment"><b>et <mark>satisfaisant</mark> une ou plusieurs <mark>dépendances fonctionnelles</mark></b>.</span>
+                        </p>
+                        <p class="note fragment">
+                            Les relations peuvent aussi satisfaire des contraintes dites <mark>d'intégrité</mark>.
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>Quelle dépendance fonctionnelle la base de données ci-dessous viole-t-elle ?</p>
+                    </section>
+                    <section>
+                        <table class="t">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Nom</th>
+                                    <th>Taille</th>
+                                    <th>Poids</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Bulbizarre</td>
+                                    <td>0.7m</td>
+                                    <td>6.9kg</td>
+                                    <td>Plante</td>
+                                </tr>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Bulbizarre</td>
+                                    <td>0.7m</td>
+                                    <td>6.8kg</td>
+                                    <td>Poison</td>
+                                </tr>
+                                <tr>
+                                    <td>#004</td>
+                                    <td>Salamèche</td>
+                                    <td>0.6m</td>
+                                    <td>8.5kg</td>
+                                    <td>Feu</td>
+                                </tr>
+                                <tr>
+                                    <td>#007</td>
+                                    <td>Carapuce</td>
+                                    <td>0.5m</td>
+                                    <td>9.0kg</td>
+                                    <td>Eau</td>
+                                </tr>
+                                <tr>
+                                    <td>#025</td>
+                                    <td>Pikachu</td>
+                                    <td>0.4m</td>
+                                    <td>6.0kg</td>
+                                    <td>Électrik</td>
+                                </tr>
+                                <tr>
+                                    <td>#052</td>
+                                    <td>Miaouss</td>
+                                    <td>0.4m</td>
+                                    <td>4.2kg</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                        <p>
+                            Bulbizarre (#001) a deux valeurs de poids (6.9kg et 6.8kg).
+                        </p>
+                        <p class="fragment">
+                            Les données violent donc la dépendance fonctionnelle<br>
+                            <span class="var">Rang</span> → <span class="var">Poids</span>
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Vérifier la satisfaction de dépendances fonctionnelles dans une base de données est peu coûteux.
+                        </p>
+                        <!-- complexité : O(n<sub>R</sub>.n<sub>F</sub>) ? -->
+                        <p class="fragment">
+                            Mais on peut la garantir <mark>sans aucun coût</mark> si le schéma est en <mark>forme normale</mark>.
+                        </p>
+                        <p class="note fragment">
+                            Une forme normale basée sur les dépendances fonctionnelles garantit l'absence à la fois d'<mark>incohérence</mark> et de <mark>redondance</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Il existe plusieurs formes normales imbriquées l'une dans l'autre&nbsp;:
+                        </p>
+                        <ol>
+                            <li class="fragment">1<sup>ère</sup> forme normale (1NF)</li>
+                            <li class="fragment">2<sup>ème</sup> forme normale (2NF)</li>
+                            <li class="fragment">3<sup>ème</sup> forme normale (3NF)</li>
+                            <li class="fragment">forme normale de Boyce-Codd (BCNF)</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <p>
+                            Un schéma relationnel est en <mark>1NF</mark> si tous les attributs sont <mark>indécomposables</mark> (ont des valeurs atomiques).
+                        </p>
+                    </section>
+                    <!-- exemple de violation : "#001 Bulbizarre" ? -->
+                    <section>
+                        <p>
+                            Un attribut A est <mark>non-clé</mark> s'il n'apparaît dans aucune des clés potentielles du schéma de relation.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <span class="var">Taille</span> et <span class="var">Poids</span> sont non-clés.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Une dépendance fonctionnelle X → Y est <mark>élémentaire</mark> s'il n'existe pas de X' &subset; X tel que X' → Y.
+                        </p>
+                        <p class="fragment">
+                            Un attribut A est <mark>pleinement</mark> dépendant d'une clé K si K → A est élémentaire.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <span class="var">Type</span><br>
+                            ne dépend pleinement que de<br>
+                            {<span class="var">Rang</span>, <span class="var">Type</span>}.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Un schéma relationnel est en <mark>2NF</mark> s'il est en 1NF et si <mark>tous les attributs non-clés</mark> sont <mark>pleinement dépendants de toutes les clés</mark>.
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Le schéma ci-dessous n'est pas en 2NF. Pourquoi ?
+                        </p>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            PJoinPT(<br>
+                            &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Poids</span>: <b>REAL</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Type</span>: <b>VARCHAR</b><br>
+                            )
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <span class="var">Taille</span> et <span class="var">Poids</span><br>
+                            ne sont pas pleinement dépendants de la clé potentielle<br>
+                            {<span class="var">Rang</span>, <span class="var">Type</span>}.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Un attribut A dépend <mark>transitivement</mark> d'une clé K s'il existe X tel que
+                        </p>
+                        <ul>
+                            <li class="fragment">A &notin; X, X &NotSubsetEqual; K</li>
+                            <li class="fragment">X ↛ K</li>
+                            <li class="fragment">K → X, X → A</li>
+                        </ul>
+                        <p class="fragment">
+                            Sinon, A dépend <mark>directement</mark> de K.
+                        </p>
+                        <!-- exemple de rang -> nom -> poids/taille -->
+                    </section>
+                    <section>
+                        <p>
+                            Un schéma relationnel est en <mark>3NF</mark> s'il est en 2NF et si <mark>tous les attributs non-clés</mark> sont <mark>directement dépendants de toutes les clés</mark>.
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Le schéma ci-dessous n'est pas en 3NF. Pourquoi ?
+                        </p>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            Pokémon2(<br>
+                            &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
+                            &nbsp;&nbsp;<span class="var">Poids</span>: <b>REAL</b>,<br>
+                            &nbsp;&nbsp;<span class="var">PoidsLourd</span>: <b>BOOLEAN</b><br>
+                            )
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <span class="var">PoidsLourd</span><br>
+                            dépend transitivement de<br>
+                            <span class="var">Rang</span><br>
+                            car
+                        </p>
+                        <ul>
+                            <li class="fragment"><span class="var">Poids</span> ↛ <span class="var">Rang</span></li>
+                            <li class="fragment"><span class="var">Rang</span> → <span class="var">Poids</span>, <span class="var">Poids</span> → <span class="var">PoidsLourd</span></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>
+                            Une dépendance fonctionnelle X → Y est <mark>triviale</mark> si Y &subseteq; X.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Un schéma relationnel est en <mark>BCNF</mark> s'il est en 3NF et si, pour <mark>toute dépendance non-triviale</mark> X → A, X contient une clé.
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Opérateurs algébriques</h4>
+                    <section>
+                        <p>Les (principaux) opérateurs algébriques autorisés sur des relations sont:</p>
+                        <ul>
+                            <li class="fragment"><mark>sélection</mark> (σ)</li>
+                            <li class="fragment"><mark>projection</mark> (π)</li>
+                            <li class="fragment"><mark>jointure</mark> (⋈)</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>Une requête SQL correspond à une <mark>opération algébrique</mark> sur une ou plusieurs relations.</p>
+                        <p class="fragment">
+                            Q<sub>1</sub> ≡ π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Réécriture de requête</h4>
+                    <section>
+                        <p>Une requête peut être optimisée grâce aux <mark>identités algébriques</mark> des opérateurs.</p>
+                        <p class="fragment">
+                            π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
+                            <br>↓<br>
+                            π<sub><span class="var">Nom</span></sub> ( <span class="var">P</span> ⋈ σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">PT</span> ) )
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h4>Optimisation par index</h4>
+                    <section>
+                        <p>Une requête peut aussi être optimisée grâce à des <mark>index</mark> sur les tables.</p>
+                        <table class="fragment">
+                            <thead>
+                                <tr>
+                                    <th>Type d'index</th>
+                                    <th>Complexité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>table de hachage</td>
+                                    <td>recherche d'élément en O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>B-arbre</td>
+                                    <td>recherche d'élément en O(log<sub>2</sub>(n))</td>
+                                </tr>
+                            </tbody>
+                            <caption>Structures d'index et complexité pour la recherche d'élément</caption>
+                        </table>
+                    </section>
+                </section>
+                <section>
+                    <h4>Pour aller plus loin</h4>
+                    <section>
+                        Serge Abiteboul, Richard Hull, Victor Vianu (1995), <b>Foundations of Databases</b>, Addison-Wesley.
+                    </section>
+                </section>
+            </div>
+        </div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+    </body>
+</html>
