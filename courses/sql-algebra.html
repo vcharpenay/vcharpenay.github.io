@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>Introduction à NoSQL</title>
+        <title>SQL et algèbre relationnelle</title>
 
 		<link rel="stylesheet" href="../css/slides-reset.css">
 		<link rel="stylesheet" href="../css/slides.css">
@@ -145,6 +145,7 @@
                             <li class="fragment">Réécriture de requêtes</li>
                             <li class="fragment">Optimisation par index</li>
                         </ol>
+                        <!-- TODO ajouter « cohérence des données », « rapidité des requêtes » -->
                     </section>
                 </section>
                 <section>
@@ -270,26 +271,32 @@
                 <section>
                     <h4>Relations et schémas</h4>
                     <section>
-                        <p>Le fondement théorique d'SQL est l'<mark>algèbre relationnelle</mark>.</p>
-                        <p class="fragment">Une table (SQL) équivaut à une <mark>relation</mark> en algèbre relationnelle.</p>
+                        <p>Le fondement théorique d'SQL est le <mark>modèle relationnelle</mark>.</p>
+                        <p class="fragment">Une table (SQL) équivaut à une <mark>relation</mark> dans le modèle relationnel.</p>
                     </section>
                     <section>
                         <p>
-                            Une relation R est un ensemble de <mark>n-uplet</mark> ou <mark>tuples</mark> {t, t', &hellip;}.
+                            Une relation R est un ensemble de <mark>n-uplet</mark> ou <mark>tuples</mark> {t, t', …} avec
                         </p>
                         <p class="fragment">
-                            R(t<sub>1</sub>, t<sub>2</sub>, &hellip;, t<sub>n</sub>)<br>
-                            R(t'<sub>1</sub>, t'<sub>2</sub>, &hellip;, t'<sub>n</sub>)<br>
-                            &hellip;
+                            t = (t<sub>1</sub>, t<sub>2</sub>, …, t<sub>n</sub>)
+                        </p>
+                        <p class="fragment">
+                            t' = (t'<sub>1</sub>, t'<sub>2</sub>, …, t'<sub>n</sub>)
+                        </p>
+                        <p class="fragment">
+                            …
                         </p>
                     </section>
                     <section>
                         <p class="phi">
-                            Pokémon(#001, Bulbizarre, 0.7, 6.9)<br>
-                            Pokémon(#004, Salamèche, 0.6, 8.5)<br>
-                            Pokémon(#007, Carapuce, 0.5, 9.0)<br>
-                            Pokémon(#025, Pikachu, 0.4, 6.0)<br>
-                            Pokémon(#052, Miaouss, 0.4, 4.2)
+                            <span class="var">Pokémon</span> = {<br>
+                            &nbsp;&nbsp;(#001, Bulbizarre, 0.7, 6.9),<br>
+                            &nbsp;&nbsp;(#004, Salamèche, 0.6, 8.5),<br>
+                            &nbsp;&nbsp;(#007, Carapuce, 0.5, 9.0),<br>
+                            &nbsp;&nbsp;(#025, Pikachu, 0.4, 6.0),<br>
+                            &nbsp;&nbsp;(#052, Miaouss, 0.4, 4.2)<br>
+                            }
                         </p>
                     </section>
                     <!-- <section>
@@ -303,42 +310,47 @@
                     </section> -->
                     <section>
                         <p>
-                            Un schéma de relation S<sub>R</sub> est un n-uplet d'<mark>attributs</mark> associés à un <mark>domaine</mark> (ensemble de valeurs).
-                        </p>
-                        <p class="fragment">
-                            S<sub>R</sub>(A<sub>i</sub>: D<sub>i</sub>, &hellip;, A<sub>n</sub>: D<sub>i</sub>)
-                        </p>
-                    </section>
-                    <section>
-                        <p>
-                            Un tuple t &in; R est <mark>conforme à un schéma</mark> S<sub>R</sub> si
+                            Les valeurs d'un tuple peuvent être indexées
                         </p>
                         <ul>
-                            <li class="fragment">t et S<sub>R</sub> ont la même longueur n</li>
-                            <li class="fragment">t<sub>i</sub> &in; D<sub>i</sub> pour tout i &in; [1, n]</li>
+                            <li class="fragment">par leur <mark>position</mark></li>
+                            <li class="fragment">par un nom ou <mark>attribut</mark></li>
                         </ul>
                     </section>
                     <section>
                         <p>
-                            Une relation R est conforme à un schéma S<sub>R</sub> si tout tuple t &in; R y est conforme.
+                            Si l'on suppose que l'ensemble des attributs est <mark>strictement ordonné</mark>, les deux représentations sont équivalentes.
                         </p>
                     </section>
                     <section>
                         <p>
-                            La relation Pokémon est conforme au schéma suivant&nbsp;:
+                            On peut donc écrire alternativement
                         </p>
-                        <p class="fragment phi">
-                            Pokémon(<br>
-                            &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Poids</span>: <b>REAL</b><br>
-                            )
+                        <ul>
+                            <li class="fragment">t = (t<sub>1</sub>, …, t<sub>n</sub>)</li>
+                            <li class="fragment">t(A<sub>1</sub>) = t<sub>1</sub>, …, t(A<sub>n</sub>) = t<sub>n</sub></li>
+                        </ul>
+                        <p class="fragment">
+                            et on désigne l'ensemble {A<sub>1</sub>, …, A<sub>n</sub>} comme le <mark>type</mark> de t, noté type(t).
+                        </p>
+                        <!-- dans DB Foudations : noté sort(t) -->
+                    </section>
+                    <section>
+                        <p>
+                            Si dans une relation R, tout t ∈ R a le même type S = {A<sub>1</sub>, …, A<sub>n</sub>}, on dit alors que R est une instance du <mark>schéma</mark> S.
                         </p>
                     </section>
                     <section>
                         <p>
-                            Une base de données relationnelles est un <mark>ensemble de relations</mark>, chacune <mark>conforme</mark> à un schéma.
+                            La relation Pokémon est une instance du schéma
+                        </p>
+                        <p class="fragment">
+                            S<sub><span class="var">Pokémon</span></sub> = {<span class="var">Rang</span>, <span class="var">Nom</span>, <span class="var">Taille</span>, <span class="var">Poids</span>}
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Une base de données relationnelles est un <mark>ensemble de relations typées</mark> (chacune instance d'un schéma donné).
                         </p>
                     </section>
                 </section>
@@ -356,15 +368,15 @@
                     </section>
                     <section>
                         <p>
-                            La fonction F : <b>Real</b> → <b>Real</b> est une relation
+                            La fonction F : x ↦ F(x)
                         </p>
                         <ul>
                             <li class="fragment">
-                                conforme au schéma<br>
-                                &nbsp;&nbsp;S<sub>F</sub>(X: <b>Real</b>, Y: <b>Real</b>)</li>
+                                est une instance du schéma<br>
+                                &nbsp;&nbsp;S<sub>F</sub> = {X, Y}</li>
                             <li class="fragment">
-                                respectant la contrainte<br>
-                                F(x, y<sub>1</sub>), F(x, y<sub>2</sub>) ⇒ y<sub>1</sub> = y<sub>2</sub>
+                                respecte la contrainte<br>
+                                (x, y<sub>1</sub>) ∈ F, (x, y<sub>2</sub>) ∈ F ⇒ y<sub>1</sub> = y<sub>2</sub>
                             </li>
                         </ul>
                         <p class="note fragment">
@@ -374,6 +386,12 @@
                     <section>
                         <p>
                             La contrainte d'unicité sur l'application de F est appelée «&nbsp;<mark>dépendance fonctionnelle</mark>&nbsp;».
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Lorsqu'un ensemble d'attributs Y dépend fonctionnellement d'un autre ensemble X, on note<br>
+                            X → Y
                         </p>
                     </section>
                     <section>
@@ -397,7 +415,7 @@
                             <span class="var">Rang</span> → {<span class="var">Nom</span>, <span class="var">Taille</span>, <span class="var">Poids</span>}
                         </p>
                         <p class="fragment">
-                            Le nom du Pokémon est aussi une clé.
+                            Le nom du Pokémon aussi.
                         </p>
                         <p class="fragment">
                             <span class="var">Nom</span> → {<span class="var">Rang</span>, <span class="var">Taille</span>, <span class="var">Poids</span>}
@@ -409,7 +427,7 @@
                         </p>
                         <ul>
                             <li class="fragment">
-                                X → {A<sub>1</sub>, &hellip;, A<sub>n</sub>} ⇒ X → A<sub>i &in; [1, n]</sub>
+                                X → {A<sub>1</sub>, …, A<sub>n</sub>} ⇒ X → A<sub>i &in; [1, n]</sub>
                             </li>
                             <li class="fragment">
                                 X → Y, Y → Z ⇒ X → Z
@@ -427,7 +445,7 @@
                     </section>
                     <section>
                         <p>
-                            Une base de données relationnelles est un ensemble de relations, chacune conforme à un schéma
+                            Une base de données relationnelles est un ensemble de relations typées
                             <span class="fragment"><b>et <mark>satisfaisant</mark> une ou plusieurs <mark>dépendances fonctionnelles</mark></b>.</span>
                         </p>
                         <p class="note fragment">
@@ -611,7 +629,7 @@
                     </section>
                     <section>
                         <p class="phi">
-                            Pokémon2(<br>
+                            P2(<br>
                             &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
                             &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
                             &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
@@ -646,28 +664,230 @@
                 <section>
                     <h4>Opérateurs algébriques</h4>
                     <section>
-                        <p>Les (principaux) opérateurs algébriques autorisés sur des relations sont:</p>
+                        <p>
+                            Formellement, une algèbre (ou structure algébrique) est un ensemble de <mark>valeurs</mark> et d'<mark>opérations</mark> sur ces valeurs.
+                        </p>
+                        <p class="fragment">
+                            Les algèbres classiques sont<br>
+                            (ℤ, {+, &times;}) et (ℝ, {+, &times;}).
+                        </p>
+                        <p class="note fragment">
+                            L'algèbre sur les entiers relatifs est un <mark>anneau</mark>, celle sur les réels est un <mark>corps commutatif</mark>.
+                        </p>
+                        <!-- l'anneau généralise le champ (certaines valeurs n'ont pas d'inverse) -->
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Quels sont les principaux opérateurs algébriques sur l'ensemble des relations (typées) ?
+                        </p>
+                    </section>
+                    <section>
+                        <p>Les opérateurs relationnels de base sont:</p>
                         <ul>
                             <li class="fragment"><mark>sélection</mark> (σ)</li>
                             <li class="fragment"><mark>projection</mark> (π)</li>
-                            <li class="fragment"><mark>jointure</mark> (⋈)</li>
+                            <li class="fragment"><mark>jointure (naturelle)</mark> (⋈)</li>
+                            <li class="fragment"><mark>renommage</mark> (𝛿)</li>
                         </ul>
                     </section>
                     <section>
-                        <p>Une requête SQL correspond à une <mark>opération algébrique</mark> sur une ou plusieurs relations.</p>
-                        <p class="fragment">
-                            Q<sub>1</sub> ≡ π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
+                        <p>
+                            La <mark>sélection σ<sub>A = a</sub>(R)</mark> d'une relation R est le sous-ensemble de R
                         </p>
+                        <p class="fragment">
+                            {t | A(t) = a, t ∈ R}
+                        </p>
+                        <p class="note fragment">
+                            En SQL, d'autres conditions sont autorisées au-delà de l'égalité.
+                        </p>
+                    </section>
+                    <!-- <section>
+                        <p>
+                            On écrit σ<sub>f<sub>1</sub>, f<sub>2</sub>, …, f<sub>k</sub></sub>(R) pour composer des conditions (ou filtres) sur la relation R
+                        </p>
+                        <p class="fragment">
+                            σ<sub>f<sub>k</sub></sub>(…σ<sub>f<sub>2</sub></sub>(σ<sub>f<sub>1</sub></sub>(R))…)
+                        </p>
+                    </section> -->
+                    <section>
+                        <p>
+                            La <mark>projection π<sub>{A<sub>1</sub>, …, A<sub>k</sub>}</sub>(R)</mark> d'une relation R sur les attributs A<sub>1</sub>, …, A<sub>k</sub> est l'ensemble
+                        </p>
+                        <p class="fragment">
+                            {(t(A<sub>1</sub>), …, t(A<sub>k</sub>)) | t ∈ R}
+                        </p>
+                        <p class="note fragment">
+                            En SQL, π s'exprime avec le mot-clé SELECT…
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Pour définir la jointure, on introduit la notation <mark>t[S]</mark> pour désigner un tuple t' tel que
+                        </p>
+                        <ul>
+                            <li class="fragment">type(t') = S</li>
+                            <li class="fragment">t'(A) = t(A) pour tout A ∈ type(t)</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>
+                            La <mark>jointure naturelle R<sub>1</sub> ⋈ R<sub>2</sub></mark> de deux relations R<sub>1</sub>, R<sub>2</sub> est l'ensemble
+                        </p>
+                        <p class="fragment phi">
+                            {<br>
+                            &nbsp;&nbsp;t |<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;type(t) = S<sub>R<sub>1</sub></sub> &cup; S<sub>R<sub>2</sub></sub>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;t[S<sub>R<sub>1</sub></sub>] ∈ R<sub>1</sub>, t[S<sub>R<sub>2</sub></sub>] ∈ R<sub>2</sub></sub><br>
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Le <mark>renommage 𝛿<sub>F</sub>(R)</mark> d'une relation R par la fonction de renommage F est la relation
+                        </p>
+                        <p class="fragment phi">
+                            {<br>
+                            &nbsp;&nbsp;t' |<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;t'(F(A)) = t(A) pour t ∈ R, A ∈ S<sub>R</sub><br>
+                        }
+                        </p>
+                        <!-- fonction de renommage notée differemment dans DB Foundations: notation A1.A2... -> B1.B2... -->
                     </section>
                 </section>
                 <section>
                     <h4>Réécriture de requête</h4>
                     <section>
-                        <p>Une requête peut être optimisée grâce aux <mark>identités algébriques</mark> des opérateurs.</p>
+                        <p>Une requête SQL correspond à une <mark>opération algébrique</mark> sur une ou plusieurs relations.</p>
+                    </section>
+                    <section>
+                        <p>(Q<sub>1</sub>) Quel est le nom des Pokémon de type feu ?</p>
                         <p class="fragment">
-                            π<sub><span class="var">Nom</span></sub> ( σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">P</span> ⋈ <span class="var">PT</span> ) )
-                            <br>↓<br>
-                            π<sub><span class="var">Nom</span></sub> ( <span class="var">P</span> ⋈ σ<sub><span class="var">Type</span> = Feu</sub> ( <span class="var">PT</span> ) )
+                            π<sub><span class="var">Nom</span></sub>(σ<sub><span class="var">Type</span> = Feu</sub>(<span class="var">P</span> ⋈ <span class="var">PT</span>))
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            On utilise une notation en arbre pour représenter les requêtes.
+                        </p>
+                        <img src="../misc/sql-algebra/q1.png">
+                    </section>
+                    <section>
+                        <p>Une requête peut être optimisée grâce aux <mark>identités algébriques</mark> des opérateurs.</p>
+                    </section>
+                    <section>
+                        <table>
+                            <tr>
+                                <td>σ<sub>A=a</sub>(σ<sub>A'=a'</sub>(Q))</td>
+                                <td>↔</td>
+                                <td>σ<sub>A=a,A'=a'</sub>(Q)</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>σ<sub>A=a</sub>(π<sub>S</sub>(Q))</td>
+                                <td>↔</td>
+                                <td>π<sub>S</sub>(σ<sub>A=a</sub>(Q))</td>
+                                <td>si A ∉ S</td>
+                            </tr>
+                            <tr>
+                                <td>σ<sub>A=a</sub>(Q<sub>1</sub> ⋈ Q<sub>2</sub>)</td>
+                                <td>→</td>
+                                <td>σ<sub>A=a</sub>(Q<sub>1</sub>) ⋈ Q<sub>2</sub></td>
+                                <td>si A ∉ S<sub>Q<sub>2</sub></sub></td>
+                            </tr>
+                            <tr>
+                                <td>π<sub>S</sub>(Q<sub>1</sub> ⋈ Q<sub>2</sub>)</td>
+                                <td>→</td>
+                                <td>π<sub>S</sub>(Q<sub>1</sub>) ⋈ Q<sub>2</sub></td>
+                                <td>si S ∩ S<sub>Q<sub>2</sub></sub> = ∅</td>
+                            </tr>
+                            <tr>
+                                <td>Q<sub>1</sub> ⋈ Q<sub>2</sub></td>
+                                <td>↔</td>
+                                <td>Q<sub>2</sub> ⋈ Q<sub>1</sub></td>
+                            </tr>
+                            <caption>Règles de réécriture de requêtes (non-exhaustives)</caption>
+                        </table>
+                        <!-- cf p. 111 de DB Foundations -->
+                    </section>
+                    <section>
+                        <p>
+                            Parmi des requêtes équivalentes, certaines nécessitent de parcourir moins de tuples que d'autres.
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        Parmi les deux arbres de requêtes suivants, lequel serait le plus rapide ?
+                    </section>
+                    <section>
+                        <img src="../misc/sql-algebra/q1.png">
+                        <img src="../misc/sql-algebra/q2.png">
+                    </section>
+                    <section>
+                        <p>
+                            Une heuristique simple pour optimiser des requêtes est de <mark>«&nbsp;faire descendre&nbsp;» les opérations les plus simples</mark> dans l'arbre de requête (sélections, puis projections).
+                        </p>
+                    </section>
+                    <section>
+                        <table>
+                            <tr>
+                                <th>Opération</th><th>Complexité</th>
+                            </tr>
+                            <tr>
+                                <td>σ</td><td>O(n)</td>
+                            </tr>
+                            <tr>
+                                <td>π</td><td>O(n.log<sub>2</sub>(n))</td>
+                            </tr>
+                            <tr>
+                                <td>⋈</td><td>O(n<sub>1</sub>.log<sub>2</sub>(n<sub>1</sub>) + n<sub>2</sub>.log<sub>2</sub>(n<sub>2</sub>))</td>
+                            </tr>
+                            <caption>Complexité des opérations algébriques de base</caption>
+                        </table>
+                        <!-- cf p. 107 de DB Foundations -->
+                        <p class="note fragment">
+                            La complexité de la jointure est donnée pour l'algorithme <mark>sort-merge</mark>. Elle peut être améliorée avec des index.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Parfois, il est préférable d'exécuter une jointure avant une sélection.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            C'est le cas pour la requête suivante&nbsp;:
+                        </p>
+                        <p class="fragment">(Q2) Quels sont les Pokémon de type feu pesant moins de 100 kg ?</p>
+                    </section>
+                    <section>
+                        <p>
+                            D'autres méthodes de réécriture se basent sur des statistiques pré-calculées sur la base de données.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Par exemple, la sélectivité de la condition <span class="var">PT</span>.<span class="var">Type</span> = Feu est bien supérieure à celle de <span class="var">P</span>.<span class="var">Poids</span> &lt; 100kg.
+                        </p>
+                        <img style="width: 30%;" src="../misc/sql-algebra/pokemon-type.png">
+                        <img style="width: 30%;" src="../misc/sql-algebra/pokemon-weight.png">
+                    </section>
+                    <section>
+                        <p>
+                            Les moteurs de requêtes ont généralement la stratégie suivante&nbsp;:
+                        </p>
+                        <ol>
+                            <li class="fragment">générer un grand nombre de requêtes équivalentes</li>
+                            <li class="fragment">estimer leur coût sur la base d'heuristiques configurables</li>
+                            <li class="fragment">évaluer la requête au coût le plus faible</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <p>
+                            Le plan d'évaluation final d'une requête peut aussi <mark>fusionner</mark> certaines opérations pour minimiser les accès mémoires.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Par exemple, lors de la <mark>matérialisation d'une jointure</mark>, les <mark>sélections et projections en amont</mark> (dans l'arbre de requête) peuvent être exécutées en même temps.
                         </p>
                     </section>
                 </section>
@@ -675,7 +895,9 @@
                     <h4>Optimisation par index</h4>
                     <section>
                         <p>Une requête peut aussi être optimisée grâce à des <mark>index</mark> sur les tables.</p>
-                        <table class="fragment">
+                    </section>
+                    <section>
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Type d'index</th>
@@ -695,11 +917,26 @@
                             <caption>Structures d'index et complexité pour la recherche d'élément</caption>
                         </table>
                     </section>
+                    <section>
+                        <p>
+                            Par défaut, les gestionnaires de base de données créent un <mark>index</mark> par table de hachage <mark>pour chaque clé primaire</mark>.
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Pourquoi est-ce important ?
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            La joiture par clé primaire passe en <mark>O(n<sub>2</sub>)</mark> avec un index.
+                        </p>
+                    </section>
                 </section>
                 <section>
                     <h4>Pour aller plus loin</h4>
                     <section>
-                        Serge Abiteboul, Richard Hull, Victor Vianu (1995), <b>Foundations of Databases</b>, Addison-Wesley.
+                        Serge Abiteboul, Richard Hull, Victor Vianu (1995), <a href="http://webdam.inria.fr/Alice/">Foundations of Databases</a>, Addison-Wesley.
                     </section>
                 </section>
             </div>
