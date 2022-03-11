@@ -139,13 +139,22 @@
                     <section>
                         <ol>
                             <li class="fragment">SQL (rappel)</li>
-                            <li class="fragment">Relations et schémas</li>
-                            <li class="fragment">Formes normales</li>
-                            <li class="fragment">Opérateurs algébriques</li>
-                            <li class="fragment">Réécriture de requêtes</li>
-                            <li class="fragment">Optimisation par index</li>
+                            <li class="fragment">
+                                Création de données
+                                <ol>
+                                    <li class="fragment">Relations et schémas</li>
+                                    <li class="fragment">Formes normales</li>
+                                </ol>
+                            </li>
+                            <li class="fragment">
+                                Requêtes sur les données
+                                <ol>
+                                    <li class="fragment">Opérateurs algébriques</li>
+                                    <li class="fragment">Réécriture de requêtes</li>
+                                    <li class="fragment">Optimisation par index</li>
+                                </ol>
+                            </li>
                         </ol>
-                        <!-- TODO ajouter « cohérence des données », « rapidité des requêtes » -->
                     </section>
                 </section>
                 <section>
@@ -259,8 +268,14 @@
                     </section>
                     <section>
                         <ul>
-                            <li class="fragment">Incohérence dans les données</li>
-                            <li class="fragment">Exécution de requêtes trop lente</li>
+                            <li>
+                                Exécution trop lente<br>
+                                <span style="color: lightgray;">de vérification de contraintes</span>
+                            </li>
+                            <li class="fragment">
+                                Exécution trop lente<br>
+                                <span style="color: lightgrey;">de requêtes</span>
+                            </li>
                             <!-- <li class="fragment">Manque d'évolution de la base de données</li> -->
                         </ul>
                         <p class="note fragment">
@@ -271,7 +286,7 @@
                 <section>
                     <h4>Relations et schémas</h4>
                     <section>
-                        <p>Le fondement théorique d'SQL est le <mark>modèle relationnelle</mark>.</p>
+                        <p>Le fondement théorique d'SQL est le <mark>modèle relationnel</mark>.</p>
                         <p class="fragment">Une table (SQL) équivaut à une <mark>relation</mark> dans le modèle relationnel.</p>
                     </section>
                     <section>
@@ -523,12 +538,10 @@
                     </section>
                     <section>
                         <p>
-                            Vérifier la satisfaction de dépendances fonctionnelles dans une base de données est peu coûteux.
+                            Vérifier la satisfaction de dépendances fonctionnelles dans une base de données est peu coûteux
+                            <span class="fragment">si son schéma est en <mark>forme normale</mark>.</span>
                         </p>
-                        <!-- complexité : O(n<sub>R</sub>.n<sub>F</sub>) ? -->
-                        <p class="fragment">
-                            Mais on peut la garantir <mark>sans aucun coût</mark> si le schéma est en <mark>forme normale</mark>.
-                        </p>
+                        <!-- complexité en forme arbitraire : O(n<sub>R</sub>.n<sub>F</sub>) ? -->
                         <p class="note fragment">
                             Une forme normale basée sur les dépendances fonctionnelles garantit l'absence à la fois d'<mark>incohérence</mark> et de <mark>redondance</mark>.
                         </p>
@@ -587,13 +600,13 @@
                     </section>
                     <section>
                         <p class="phi">
-                            PJoinPT(<br>
-                            &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Poids</span>: <b>REAL</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Type</span>: <b>VARCHAR</b><br>
-                            )
+                            S<sub><span class="var">PJoinPT</span></sub> = {<br>
+                            &nbsp;&nbsp;<span class="var">Rang</span>,
+                            <span class="var">Nom</span>,
+                            <span class="var">Taille</span>,
+                            <span class="var">Poids</span>,
+                            <span class="var">Type</span><br>
+                            }
                         </p>
                     </section>
                     <section>
@@ -629,13 +642,13 @@
                     </section>
                     <section>
                         <p class="phi">
-                            P2(<br>
-                            &nbsp;&nbsp;<span class="var">Rang</span>: <b>VARCHAR</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Nom</span>: <b>VARCHAR</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Taille</span>: <b>REAL</b>,<br>
-                            &nbsp;&nbsp;<span class="var">Poids</span>: <b>REAL</b>,<br>
-                            &nbsp;&nbsp;<span class="var">PoidsLourd</span>: <b>BOOLEAN</b><br>
-                            )
+                            S<sub><span class="var">P2</span></sub> = {<br>
+                            &nbsp;&nbsp;<span class="var">Rang</span>,
+                            <span class="var">Nom</span>,
+                            <span class="var">Taille</span>,
+                            <span class="var">Poids</span>,
+                            <span class="var">PoidsLourd</span><br>
+                            }
                         </p>
                     </section>
                     <section>
@@ -692,10 +705,10 @@
                     </section>
                     <section>
                         <p>
-                            La <mark>sélection σ<sub>A = a</sub>(R)</mark> d'une relation R est le sous-ensemble de R
+                            La <mark>sélection σ<sub>A=a</sub>(R)</mark> d'une relation R est le sous-ensemble de R
                         </p>
                         <p class="fragment">
-                            {t | A(t) = a, t ∈ R}
+                            {t | t ∈ R, A(t) = a}
                         </p>
                         <p class="note fragment">
                             En SQL, d'autres conditions sont autorisées au-delà de l'égalité.
@@ -711,13 +724,13 @@
                     </section> -->
                     <section>
                         <p>
-                            La <mark>projection π<sub>{A<sub>1</sub>, …, A<sub>k</sub>}</sub>(R)</mark> d'une relation R sur les attributs A<sub>1</sub>, …, A<sub>k</sub> est l'ensemble
+                            La <mark>projection π<sub>{A<sub>1</sub>,…,A<sub>k</sub>}</sub>(R)</mark> d'une relation R sur les attributs A<sub>1</sub>, …, A<sub>k</sub> est l'ensemble
                         </p>
                         <p class="fragment">
                             {(t(A<sub>1</sub>), …, t(A<sub>k</sub>)) | t ∈ R}
                         </p>
                         <p class="note fragment">
-                            En SQL, π s'exprime avec le mot-clé SELECT…
+                            En SQL, π s'exprime avec le mot-clé SELECT (à ne pas confondre avec l'opérateur σ de sélection…)
                         </p>
                     </section>
                     <section>
@@ -728,6 +741,9 @@
                             <li class="fragment">type(t') = S</li>
                             <li class="fragment">t'(A) = t(A) pour tout A ∈ type(t)</li>
                         </ul>
+                        <p class="note fragment">
+                            t[S] est le tuple {t'} = π<sub>S</sub>({t})
+                        </p>
                     </section>
                     <section>
                         <p>
@@ -743,7 +759,7 @@
                     </section>
                     <section>
                         <p>
-                            Le <mark>renommage 𝛿<sub>F</sub>(R)</mark> d'une relation R par la fonction de renommage F est la relation
+                            Le <mark>renommage 𝛿<sub>F</sub>(R)</mark> d'une relation R par une fonction de renommage F est la relation
                         </p>
                         <p class="fragment phi">
                             {<br>
@@ -856,7 +872,7 @@
                         <p>
                             C'est le cas pour la requête suivante&nbsp;:
                         </p>
-                        <p class="fragment">(Q2) Quels sont les Pokémon de type feu pesant moins de 100 kg ?</p>
+                        <p class="fragment">(Q<sub>2</sub>) Quels sont les Pokémon de type feu pesant moins de 100 kg ?</p>
                     </section>
                     <section>
                         <p>
