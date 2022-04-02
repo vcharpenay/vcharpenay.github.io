@@ -8,6 +8,15 @@
             "author": [
                 {
                     "@type": "BlogPosting",
+                    "datePublished": "2022-03",
+                    "sharedContent": {
+                        "@id": "notes/sutom-tom-tom.html",
+                        "@type": "WebPage",
+                        "name": "Sutomtomtom"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
                     "datePublished": "2019-11",
                     "sharedContent": {
                         "@id": "notes/impressionistic-deep-learning.html",
