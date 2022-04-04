@@ -337,6 +337,7 @@
                             <li class="fragment"><mark>sélection</mark> (σ)</li>
                             <li class="fragment"><mark>projection</mark> (π)</li>
                             <li class="fragment"><mark>jointure</mark> (⋈)</li>
+                            <li class="fragment"><mark>renommage</mark> (𝛿)</li>
                         </ul>
                     </section>
                     <section>
@@ -472,21 +473,22 @@
                         <p>
                             C'est le théorème <b>CAP</b>.
                         </p>
-                        <table class="fragment">
-                            <tr>
-                                <th>Cohérence</th>
-                                <td>les données requêtées sur une partition ne sont jamais obsolètes.</td>
-                            </tr>
-                            <tr>
-                                <th>Accessibilité</th>
-                                <td>une requête sur une partition retourne toujours un résultat.</td>
-                            </tr>
-                            <tr>
-                                <th>Partitionnement tolérant aux fautes</th>
-                                <td>une requête sur une partition retourne parfois une erreur.</td>
-                            </tr>
-                            <caption>Propriétés d'une base de données distribuée</caption>
-                        </table>
+                    </section>
+                    <section>
+                        <ul>
+                            <li>
+                                C<span style="color: lightgray;">ohérence</span><br>
+                                <span style="font-size: 0.5em;">Les données requêtées sur une partition ne sont jamais obsolètes.</span>
+                            </li>
+                            <li class="fragment">
+                                A<span style="color: lightgray;">ccessibilité</span><br>
+                                <span style="font-size: 0.5em;">Une requête sur une partition retourne toujours un résultat.</span>
+                            </li>
+                            <li class="fragment">
+                                P<span style="color: lightgray;">artitionnement tolérant aux fautes</span><br>
+                                <span style="font-size: 0.5em;">Une requête sur une partition retourne parfois une erreur.</span>
+                            </li>
+                        </ul>
                     </section>
                     <section>
                         <p>
@@ -506,7 +508,9 @@
                         <p>
                             Plusieurs modèles de données NoSQL (co)existent.
                         </p>
-                        <table class="fragment">
+                    </section>
+                    <section>
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Déf. de NoSQL</th>
@@ -652,7 +656,7 @@
                         <ul>
                             <li class="fragment">le stockage du catalogue de livre</li>
                             <!-- indexation par ISBN -->
-                            <li class="fragment">l'enregistrement des préférences utilisateur·trice</li>
+                            <li class="fragment">l'enregistrement des préférences d'utilisation</li>
                             <!-- utilisateur·trice déjà identifié·e : Nom, Prénom, ID -->
                             <li class="fragment">l'enregistrement des paniers de e-commerce</li>
                             <!-- utilisateur·trice déjà identifié·e : session ID -->
