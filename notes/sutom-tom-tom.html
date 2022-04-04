@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sutom-tom-tom | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+    <script src="../js/raphael.min.js"></script>
+
+    <style>
+        #simulation svg {
+            border: 1px solid;
+            margin: auto;
+            display:block;
+        }
+
+        #controls {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        <span style="background-color: #0077c7; color: white;">Sutom</span><span style="background-color: #ffbd00; color: white;">tom</span><span style="background-color: #e7002a; color: white;">tom</span>
+    </h1>
+
+    <p class="info">
+        mars 2022
+    </p>
+
+    <p>
+        Solveur de contraintes pour le jeu <a href="https://sutom.nocle.fr/">Sutom</a>.
+    </p>
+
+    <p>
+        Chaque mot doit être donné avec les contraintes renvoyées par Sutom, dans un certain format. Par exemple :
+    </p>
+    <ul>
+        <li>si la lettre 'j' est bien placée, taper <code>[j]</code></li>
+        <li>si la lettre 'j' est mal placée, taper <code>(j)</code></li>
+        <li>si la lettre 'j' n'est pas dans le mot à trouver, taper simplement <code>j</code></li>
+    </ul>
+
+    <p>
+        Donc, si le mot à trouver est 'fameux' (comme ce solveur), le mot 'facile' (comme le jeu) doit être écrit <mark style="background-color: #c8c8c8">[f][a]cil(e)</mark>.
+    </p>
+
+    <div id="grid">
+        <table>
+            <tr>
+                <td><input id="word-1" type="text"></td>
+                <td><input id="btn-1" type="button" value="OK"></td>
+                <td><span id="stat-1"></span></td>
+            </tr>
+            <tr>
+                <td><input id="word-2" disabled type="text"></td>
+                <td><input id="btn-2" disabled type="button" value="OK"></td>
+                <td><span id="stat-2"></span></td>
+            </tr>
+            <tr>
+                <td><input id="word-3" disabled type="text"></td>
+                <td><input id="btn-3" disabled type="button" value="OK"></td>
+                <td><span id="stat-3"></span></td>
+            </tr>
+            <tr>
+                <td><input id="word-4" disabled type="text"></td>
+                <td><input id="btn-4" disabled type="button" value="OK"></td>
+                <td><span id="stat-4"></span></td>
+            </tr>
+            <tr>
+                <td><input id="word-5" disabled type="text"></td>
+                <td><input id="btn-5" disabled type="button" value="OK"></td>
+                <td><span id="stat-5"></span></td>
+            </tr>
+            <tr>
+                <td><input id="word-6" disabled type="text"></td>
+                <td><input id="btn-6" disabled type="button" value="OK"></td>
+                <td><span id="stat-6"></span></td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        const hasWordLength = n => (word => (word.length == n));
+        const isntPresent = letter => (word => word.indexOf(letter) == -1);
+        const isPlacedRight = (letter, idx) => (word => word[idx] == letter);
+        const isMisplaced = (letter, idx) => (word => (word.indexOf(letter) > -1 && word.indexOf(letter) != idx));
+
+        function parse(word) {
+            let i = 0;
+            let nbChars = 0;
+            let constraints = [];
+
+            while (i < word.length) {
+                if (word[i] == '[') {
+                    let placedRightChar = word.substr(i, 3);
+
+                    if (!placedRightChar.match(/\[(.*)\]/)) {
+                        return { index: i, expected: 'placedRight' };
+                    }
+                    
+                    constraints.push(isPlacedRight(word[i+1], nbChars));
+                    i += 3;
+                } else if (word[i] == '(') {
+                    let misplacedChar = word.substr(i, 3);
+
+                    if (!misplacedChar.match(/\((.*)\)/)) {
+                        return { index: i, expected: 'misplaced' };
+                    }
+
+                    constraints.push(isMisplaced(word[i+1], nbChars));
+                    i += 3;
+                } else {
+                    // FIXME unless the letter has several occurrences in the word
+                    constraints.push(isntPresent(word[i]));
+                    i++;
+                }
+
+                nbChars++;
+            }
+
+            constraints.push(hasWordLength(nbChars));
+
+            return constraints;
+        }
+
+        function match(constraints, dict) {
+            return dict.filter(w => {
+                return constraints.every(c => c(w));
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        /*
+         * source: https://www.freelang.com/dictionnaire/dic-francais.php
+         * updates:
+         *  - changed encoding from Windows-1252 to UTF-8
+         *  - removed proper nouns and expressions with following regex: ^([a-z]|[àâäçéèêëîïôöùûüÿœ])*\n$
+         *  - remove diacritics
+         */
+        fetch('../misc/dictionary-fr.txt')
+        .then(r => r.text())
+        .then(txt => txt.split('\n'))
+        .then(dict => {
+            let constraints = [];
+
+            [1, 2, 3, 4, 5, 6].forEach(i => {
+                let word = document.getElementById(`word-${i}`);
+                let btn = document.getElementById(`btn-${i}`);
+                let stat = document.getElementById(`stat-${i}`);
+
+                // disable word by default
+                if (i > 1) {
+                    word.setAttribute('disabled', true);
+                    btn.setAttribute('disabled', true);
+                }
+
+                // reinit field if word entered from previous session
+                word.value = '';
+
+                btn.onclick = () => {
+                    let result = parse(word.value);
+
+                    if (result instanceof Array) {
+                        constraints = constraints.concat(result);
+                        console.log(constraints);
+
+                        let matches = match(constraints, dict);
+                        stat.innerText = ` ${matches.length} mot(s) trouvé(s)`;
+                        // TODO display matches in HTML
+                        console.log(matches);
+
+                        if (i < 6) {
+                            // enable next word
+                            let nextWord = document.getElementById(`word-${i+1}`);
+                            let nextBtn = document.getElementById(`btn-${i+1}`);
+                            
+                            nextWord.removeAttribute('disabled');
+                            nextBtn.removeAttribute('disabled');
+                        }
+                    } else {
+                        let err = result;
+
+                        console.error(`syntax error: expected '${err.expected}' at index ${err.index}`);
+                    }
+                }
+            });
+        });
+    </script>
+<body>
+
+</html>
