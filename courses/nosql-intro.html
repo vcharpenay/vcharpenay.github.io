@@ -63,6 +63,10 @@
                 max-height: 100px;
             }
 			
+			.reveal .slides .phi {
+				text-align: left;
+			}
+			
 			.reveal .slides .sql {
 				text-align: left;
 			}
@@ -237,6 +241,17 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            <span class="var">Pokémon</span> = {<br>
+                            &nbsp;&nbsp;(#001, Bulbizarre, 0.7, 6.9),<br>
+                            &nbsp;&nbsp;(#004, Salamèche, 0.6, 8.5),<br>
+                            &nbsp;&nbsp;(#007, Carapuce, 0.5, 9.0),<br>
+                            &nbsp;&nbsp;(#025, Pikachu, 0.4, 6.0),<br>
+                            &nbsp;&nbsp;(#052, Miaouss, 0.4, 4.2)<br>
+                            }
+                        </p>
                     </section>
                     <section>
                         <p class="sql">
@@ -597,6 +612,20 @@
                         </table>
                     </section>
                     <section>
+                        <p>
+                            Un DBMS «&nbsp;paire clé-valeur&nbsp;» ne gère qu'<mark>une seule relation</mark>, instance du schéma <mark>{Key, Value}</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <span class="var">KV</span> = {
+                                (#001, (Bulbizarre, 0.7, 6.9, {Plante, Poison})),
+                                (#004, (Salamèche, 0.6, 8.5, Feu)),
+                                (#007, (Carapuce, 0.5, 9.0, Eau)),
+                                (#025, (Pikachu, 0.4, 6.0, Électrik)),
+                                (#052, (Miaouss, 0.4, 4.2))
+                            }
+                        </p>
                         <!-- <p>Le schéma du modèle clé-valeur est le plus simple possible.</p> -->
                         <p class="sql">
                             CREATE TABLE <span class="var">KV</span>(<br>
