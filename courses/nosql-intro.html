@@ -609,7 +609,7 @@
                         <p>
                             S<sub><span class="var" title="Mother Of All Tables">MOAT</span></sub> = {<span class="var">Table</span>, <span class="var">Tuple</span>, <span class="var">Attr</span>, <span class="var">Value</span>}
                         </p>
-                        <p>
+                        <p class="fragment">
                             (<span class="var">Table</span>, <span class="var">Tuple</span>, <span class="var">Attr</span>) → <span class="var">Value</span> 
                         </p>
                     </section>
@@ -861,28 +861,41 @@
                     </section>
                     <section>
                         <p>
-                            Un document est une paire clé-valeur dont la valeur est un ensemble de <mark>champs</mark>.
+                            Le modèle «&nbsp;document&nbsp;» est une <mark>extension</mark> de celui de «&nbsp;paire clé-valeur&nbsp;».
                         </p>
                         <p class="fragment">
-                            Les noms de champs dans un document sont <mark>uniques</mark>.
+                            Un <mark>document</mark> est une <mark>valeur</mark> identifiée par une clé.
                         </p>
-                        <!-- <p class="fragment">
-                            Les valeurs des champs sont <mark>typées</mark>.
-                        </p> -->
                     </section>
                     <section>
                         <p>
                             Dans une paire clé-valeur, la valeur est <mark>opaque</mark> (non-interprétée par le DBMS).
                         </p>
                         <p class="fragment">
-                            Un document peut être requêté selon <mark>ses valeurs de champs</mark>.
+                            Un document peut être requêté selon <mark>son contenu</mark>.
                         </p>
                     </section>
                     <section>
                         <p>
-                            D'un point de vue relationnel, un document peut être vu comme un tuple dont les attributs sont utilisés comme clés.
+                            Un document est lui-même un ensemble de paires clé-valeur (<mark>champs</mark>).
                         </p>
-                        <!-- et pourquoi pas comme une relation KV ? ... -->
+                        <p class="fragment">
+                            La <mark>valeur</mark> d'un champ elle-même peut être un <mark>document</mark> (récursivement).
+                        </p>
+                        <!-- <p class="fragment">
+                            Les noms de champs dans un document sont <mark>uniques</mark>.
+                        </p> -->
+                        <!-- <p class="fragment">
+                            Les valeurs des champs sont <mark>typées</mark>.
+                        </p> -->
+                    </section>
+                    <section>
+                        <p>
+                            S<sub><span class="var">Inventory</span></sub> = {<span class="var">ID</span>, <span class="var">Doc</span>}
+                        </p>
+                        <p class="fragment">
+                            <span class="var">ID</span> → <span class="var">Doc</span>
+                        </p>
                     </section>
                     <section>
                         <p class="phi">
@@ -907,47 +920,26 @@
                     </section>
                     <section>
                         <p>
-                            S<sub><span class="var">Inventory</span></sub> = {<span class="var">ID</span>, <span class="var">Document</span>}
+                            Les opérations d'écriture sur une base de documents sont les mêmes que sur des paires clé-valeur.
                         </p>
-                        <p class="fragment">
-                            <span class="var">ID</span> → <span class="var">Document</span>
-                        </p>
+                        <ul class="fragment">
+                            <li><span class="var">Inventory</span>' = <span class="var">Inventory</span> ⋃ {(<span class="param">id</span>, <span class="param">doc</span>)}</li>
+                            <li><span class="var">Inventory</span>' = <span class="var">Inventory</span> ∖ {(<span class="param">id</span>, <span class="param">doc</span>)}</li>
+                        </ul>
                     </section>
                     <section>
                         <p>
-                            π<sub><span class="var">Document</span></sub>(σ<sub><span class="var">ID</span>=id</sub>(<span class="var">Inventory</span>))
+                            Les opérations de lecture sont l'accès <mark>par identifiant</mark> et la recherche <mark>par valeur de champ</mark>.
                         </p>
-                        <p>
-                            σ<sub><span class="var">Key</span>=k <b>AND</b> <span class="var">Value</span>=v</sub>(π<sub><span class="var">Document</span></sub>(<span class="var">Inventory</span>))
-                        </p>
+                        <ul class="fragment">
+                            <li>π<sub><span class="var">Doc</span></sub>(σ<sub><span class="var">ID</span>=<span class="param">id</span></sub>(<span class="var">Inventory</span>))</li>
+                            <li>σ<sub><span class="param">Q</span></sub>(π<sub><span class="var">Doc</span></sub>(<span class="var">Inventory</span>))</li>
+                        </ul>
                         <!-- recursive query: select on field key -->
                     </section>
                     <section>
                         <p>
-                            Écrire dans une base de documents se fait à l'échelle du document.
-                        </p>
-                    </section>
-                    <section>
-                        <p class="sql">
-                            DELETE FROM <span class="var">Document</span> WHERE <span class="var">Id</span> = <span class="param">id</span> ;<br>
-                            INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
-                            INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
-                            INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
-                            <span class="comment">-- etc.</span>
-                        </p>
-                    </section>
-                    <section>
-                        <p class="sql">
-                            SELECT <span class="var">Id</span><br>
-                            FROM <span class="var">Document</span><br>
-                            WHERE <span class="var">Name</span> = <span class="param">name</span><br>
-                            &nbsp;&nbsp;AND <span class="var">Value</span> = <span class="param">value</span><br>
-                            &nbsp;&nbsp;AND <span class="var">Type</span> = <span class="param">type</span> ;
-                        </p>
-                    </section>
-                    <section>
-                        <p>
-                            En pratique, une base de documents est implémenté comme une base de données clé-valeur où :
+                            En pratique, une base de documents est implémentée comme une base de données clé-valeur où :
                         </p>
                         <ul>
                             <li class="fragment">la <mark>valeur</mark> est un <mark>document</mark>, stocké dans format binaire dérivé de <mark>JSON</mark></li>
@@ -964,13 +956,16 @@
                             &nbsp;&nbsp;<span class="string">"type"</span>: [ <span class="string">"plant"</span>, <span class="string">"poison"</span> ]<br>
                             }
                         </p>
+                        <p class="note fragment">
+                            ⚠ Le format utilisé ici n'est pas une notation mathématique, c'est le format <span class="highlight">JSON</span>.
+                        </p>
                     </section>
                     <section>
                         <p>
                             Les documents sont des données <mark>semi-structurées</mark>.
                         </p>
                         <p class="fragment">
-                            Le <mark>schéma d'un document</mark> peut <mark>évoluer</mark> sans changer l'ensemble du contenu de la base.
+                            La <mark>structure d'un document</mark> peut <mark>évoluer</mark> sans changer l'ensemble du contenu de la base.
                         </p>
                     </section>
                     <section data-auto-animate>
@@ -1014,11 +1009,17 @@
                             Exemples de documents&nbsp;:
                         </p>
                         <ul>
-                            <li class="fragment">contenu web multimédia (tweets avec aperçu, vidéos, infographies, etc.)</li>
+                            <li class="fragment">
+                                contenu web multimédia<br>
+                                <span style="color: lightgray; font-size: 0.65em;">tweets avec aperçu, vidéos, infographies, etc.</span>
+                            </li>
                             <!-- https://www.mongodb.com/use-cases/content-management -->
-                            <li class="fragment">documents d'entreprise (profils clients, factures, fiches produits, etc.)</li>
+                            <li class="fragment">
+                                documents d'entreprise<br>
+                                <span style="color: lightgray; font-size: 0.65em;">profils clients, factures, fiches produits, etc.</span>
+                            </li>
                             <!-- https://www.mongodb.com/use-cases/single-view -->
-                            <li class="fragment">données d'objets connectés hétérogènes</li>
+                            <li class="fragment">historiques d'objets connectés</li>
                             <!-- https://www.mongodb.com/use-cases/internet-of-things -->
                             <!-- https://www.mongodb.com/blog/post/video-toyota-industry-40-creating-smart-factory-moving-from-monolithic-code-base-microservices-mongodb-atlas-microsoft-azure -->
                         </ul>
@@ -1082,42 +1083,100 @@
                     </section>
                     <section>
                         <p>
-                            Le modèle «&nbsp;à colonne extensible&nbsp;» conserve la structure de <mark>table</mark>, avec <mark>lignes</mark> et <mark>colonnes</mark>.
+                            Le modèle «&nbsp;à colonne extensible&nbsp;» conserve la structure de <mark>table</mark>, avec accès par <mark>ligne</mark> et par <mark>colonne</mark>.
                         </p>
                         <p class="fragment">
                             À la différence du modèle relationnel, une ligne peut avoir un <mark>nombre variable de colonnes</mark>.
                         </p>
                     </section>
                     <section>
-                        <p class="sql">
-                            CREATE TABLE <span class="var">Values</span>(<br>
-                            &nbsp;&nbsp;<span class="var">RowId</span> BIGINT,<br>
-                            &nbsp;&nbsp;<span class="var">ColumnId</span> VARCHAR(<span class="param">n</span>),<br>
-                            &nbsp;&nbsp;<span class="var">Value</span> BINARY(<span class="param">m</span>)<br>
-                            &nbsp;&nbsp;PRIMARY KEY (<span class="var">RowId</span>, <span class="var">ColumnId</span>)<br>
-                            ) ;<br>
-                            <br>
-                            CREATE INDEX <span class="var">RowIdx</span> ON <span class="var">RowId</span> ;
+                        <p>
+                            S<sub><span class="var">Table</span></sub> = {<span class="var">RowKey</span>, <span class="var">Family<sub>1</sub></span>, &hellip;, <span class="var">Family<sub>n</sub></span>}
+                        </p>
+                        <p class="fragment">
+                            <span class="var">RowKey</span> → <span class="var">Family<sub>i</sub></span> <span style="color: lightgray;">(pour i ∈ [1, n])</span>
                         </p>
                     </section>
                     <section>
                         <p>
-                            L'accès aux valeurs se fait d'abord <mark>par ligne</mark>, puis par colonne.
+                            Dans l'exemple du Pokédex, on peut avoir par exemple <mark>deux familles</mark> de colonnes :
                         </p>
-                        <p class="fragment">
-                            Écrire dans une base de données à colonne extensible se fait aussi <mark>par ligne</mark>.
+                        <ul>
+                            <li class="fragment">les valeurs qualitatives (<span class="var">Quali</span>)</li>
+                            <li class="fragment">les valeurs quantitatives (<span class="var">Quanti</span>)</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            <span class="var">Table</span> = {<br>
+                            &nbsp;&nbsp;(#001, quali<sub>1</sub>, quanti<sub>1</sub>),<br>
+                            &nbsp;&nbsp;(#004, quali<sub>4</sub>, quanti<sub>4</sub>),<br>
+                            &nbsp;&nbsp;(#007, quali<sub>7</sub>, quanti<sub>7</sub>),<br>
+                            &nbsp;&nbsp;(#025, quali<sub>25</sub>, quanti<sub>25</sub>),<br>
+                            &nbsp;&nbsp;(#052, quali<sub>52</sub>, quanti<sub>52</sub>)<br>
+                            }
                         </p>
                     </section>
                     <section>
-                        <p style="width: 120%;" class="sql">
-                            DELETE FROM <span class="var">Values</span> WHERE <span class="var">RowId</span> = <span class="param">id</span> ;<br>
-                            INSERT INTO <span class="var">Values</span> VALUES (<span class="param">id</span>, <span class="param">c1</span>, <span class="param">v1</span>) ;<br>
-                            INSERT INTO <span class="var">Values</span> VALUES (<span class="param">id</span>, <span class="param">c2</span>, <span class="param">v2</span>) ;<br>
-                            INSERT INTO <span class="var">Values</span> VALUES (<span class="param">id</span>, <span class="param">c3</span>, <span class="param">v3</span>) ;<br>
-                            <span class="comment">-- etc.</span>
+                        <p class="phi">
+                            quali<sub>1</sub> = {<br>
+                            &nbsp;&nbsp;(Nom, Bulbizarre),<br>
+                            &nbsp;&nbsp;(Type, {Plante, Poison})<br>
+                            }
                         </p>
-                        <!-- correspond à Cassandra -->
-                        <!-- sur Bigtable, en fait : une écriture se fait par ligne/colonne ; écritures sur une même ligne isolées dans une transaction -->
+                        <p class="fragment phi">
+                            quanti<sub>1</sub> = {<br>
+                            &nbsp;&nbsp;(Taille, 0.7),<br>
+                            &nbsp;&nbsp;(Poids, 6.9)<br>
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            L'écriture se fait soit par ligne entière, soit par colonne.
+                        </p>
+                        <!-- sur Cassandra : écriture par ligne seulement -->
+                        <!-- sur Bigtable/HBase : une écriture se fait par ligne/colonne ; écritures sur une même ligne isolées dans une transaction -->
+                        <ul class="fragment">
+                            <li>
+                                <span class="var">Table</span>' = <span class="var">Table</span> ⋃ {(<span class="param">key</span>, <span class="param">row</span>)}
+                            </li>
+                            <li>
+                                <span class="var">Table</span>' = <span class="var">Table</span><br>
+                                &nbsp;&nbsp;∖ {(<span class="param">key</span>, &hellip;, <span class="param">cf<sub>i</sub></span>, &hellip;)}<br>
+                                &nbsp;&nbsp;⋃ {(<span class="param">key</span>, &hellip;, <span class="param">cf<sub>i</sub></span> ⋃ (<span class="param">col</span>, <span class="param">cell</span>), &hellip;)}
+                            </li>
+                        </ul>
+                        <p class="note fragment">
+                            Idem pour la suppression&hellip;
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Pour la lecture, on peut voir une table comme une base de données clé-valeur à deux niveaux :
+                        </p>
+                        <ol>
+                            <li class="fragment">
+                                accès par clé <mark>aux lignes</mark>
+                            </li>
+                            <li class="fragment">
+                                accès par clé et par identifiant de colonne <mark>aux cellules</mark>
+                            </li>
+                        </ol>
+                    </section>
+                    <section>
+                        <p>
+                            C'est-à-dire, en algèbre relationnelle&nbsp;:
+                        </p>
+                        <ol>
+                            <li class="fragment">
+                                π<sub>S<sub><span class="var">Table</span></sub> ∖ <span class="var">RowKey</span></sub>(σ<sub><span class="var">RowKey</span>=<span class="param">key</span></sub>(<span class="var">Table</span>))
+                            </li>
+                            <li class="fragment">
+                                π<sub><span class="var">Value</span></sub>(σ<sub><span class="var">Key</span>=<span class="param">col</span></sub>(Ans))<br>
+                                où Ans = π<sub><span class="var">Family<sub>i</sub></span></sub>(σ<sub><span class="var">RowKey</span>=<span class="param">key</span></sub>(<span class="var">Table</span>))
+                            </li>
+                        </ol>
                     </section>
                     <section>
                         <p>
