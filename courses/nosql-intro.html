@@ -617,49 +617,52 @@
                         </p>
                     </section>
                     <section>
-                        <p>
-                            <span class="var">KV</span> = {
-                                (#001, (Bulbizarre, 0.7, 6.9, {Plante, Poison})),
-                                (#004, (Salamèche, 0.6, 8.5, Feu)),
-                                (#007, (Carapuce, 0.5, 9.0, Eau)),
-                                (#025, (Pikachu, 0.4, 6.0, Électrik)),
-                                (#052, (Miaouss, 0.4, 4.2))
+                        <p class="phi">
+                            <span class="var">KV</span> = {<br>
+                            &nbsp;&nbsp;(#001, (Bulbizarre, 0.7, 6.9, &hellip;)),<br>
+                            &nbsp;&nbsp;(#004, (Salamèche, 0.6, 8.5, Feu)),<br>
+                            &nbsp;&nbsp;(#007, (Carapuce, 0.5, 9.0, Eau)),<br>
+                            &nbsp;&nbsp;(#025, (Pikachu, 0.4, 6.0, &hellip;)),<br>
+                            &nbsp;&nbsp;(#052, (Miaouss, 0.4, 4.2))<br>
                             }
-                        </p>
-                        <!-- <p>Le schéma du modèle clé-valeur est le plus simple possible.</p> -->
-                        <p class="sql">
-                            CREATE TABLE <span class="var">KV</span>(<br>
-                            &nbsp;&nbsp;<span class="var">Key</span> BINARY(<span class="param">n</span>),<br>
-                            &nbsp;&nbsp;<span class="var">Value</span> BINARY(<span class="param">m</span>),<br>
-                            &nbsp;&nbsp;PRIMARY KEY <span class="var">KEY</span><br>
-                            ) ;
                         </p>
                         <!-- include versions? -->
                         <!-- key/value is necessarily unique? -->
                     </section>
                     <section>
+                        <p class="phi">
+                            t = (#007, (Carapuce, 0.5, 9.0, Eau))
+                        </p>
+                        <p class="phi">
+                            t(<span class="var">Key</span>) = #007<br>
+                            t(<span class="var">Value</span>) = (Carapuce, &hellip;)
+                        </p>
+                    </section>
+                    <section data-background-color="moccasin">
+                        En quoi le schéma {<span class="var">Key</span>, <span class="var">Value</span>} est-il dénormalisé ?
+                    </section>
+                    <section>
+                        <p>
+                            L'attribut <span class="var">Value</span> est <mark>décomposable</mark>.
+                            Le schéma n'est donc pas en 1NF.
+                        </p>
+                    </section>
+                    <section>
                         <p>Les seules opérations possibles sur la base de données sont l'écriture et la lecture de valeurs <mark>par clé</mark>.</p>
                     </section>
                     <section>
-                        <p class="sql">
-                            <span class="comment">-- if first-time insert</span><br>
-                            INSERT INTO <span class="var">KV</span> VALUES (<span class="param">key</span>, <span class="param">value</span>) ;
+                        <p>
+                            <span class="var">KV</span>' = <span class="var">KV</span> &Union; {(k, v)}
                         </p>
-                        <p class="sql">
-                            <span class="comment">-- otherwise</span><br>
-                            UPDATE <span class="var">KV</span><br>
-                            SET <span class="var">Value</span> = <span class="param">value</span> WHERE <span class="var">Key</span> = <span class="param">key</span> ;<br>
+                        <p>
+                            <span class="var">KV</span>' = <span class="var">KV</span> ∖ (k, v)
                         </p>
-                    </section>
-                    <section>
-                        <p class="sql">
-                            SELECT <span class="var">Value</span><br>
-                            FROM <span class="var">KV</span><br>
-                            WHERE <span class="var">Key</span> = <span class="param">key</span> ;
+                        <p>
+                            π<sub><span class="var">Value</span></sub>(σ<sub><span class="var">Key</span>=k</sub>(<span class="var">KV</span>))
                         </p>
                         <p class="fragment note">
-                            Certains DBMS autorisent aussi des requêtes par intervalle :<br><br>
-                            <span class="var">Key</span> &gt; <span style="color: gray;">lower_key</span> AND
+                            Certains DBMS autorisent aussi des requêtes par intervalle :<br>
+                            <span class="var">Key</span> &gt; <span style="color: gray;">lower_key</span> <b>AND</b>
                             <span class="var">Key</span> &lt; <span style="color: gray;">upper_key</span>
                         </p>
                     </section>
@@ -720,25 +723,70 @@
                             </thead>
                             <caption>Ex. de DBMS pour le modèle «&nbsp;document&nbsp;»</caption>
                         </table>
+                        <!-- CouchDB ne permet que de faire des requêtes par ID, pas par valeurs de champs -->
                     </section>
                     <section>
                         <p>
-                            Un document est un ensemble identifié de paires clé-valeurs (<mark>champs</mark>), chaque clé du document étant unique.
+                            Un document est une paire clé-valeur dont la valeur est un ensemble de <mark>champs</mark>.
                         </p>
                         <p class="fragment">
+                            Les noms de champs dans un document sont <mark>uniques</mark>.
+                        </p>
+                        <!-- <p class="fragment">
                             Les valeurs des champs sont <mark>typées</mark>.
+                        </p> -->
+                    </section>
+                    <section>
+                        <p>
+                            Dans une paire clé-valeur, la valeur est <mark>opaque</mark> (non-interprétée par le DBMS).
+                        </p>
+                        <p class="fragment">
+                            Un document peut être requêté selon <mark>ses valeurs de champs</mark>.
                         </p>
                     </section>
                     <section>
-                        <p class="sql">
-                            CREATE TABLE <span class="var">Document</span>(<br>
-                                &nbsp;&nbsp;<span class="var">Id</span> BIGINT,<br>
-                                &nbsp;&nbsp;<span class="var">Name</span> VARCHAR(<span class="param">n</span>),<br>
-                                &nbsp;&nbsp;<span class="var">Value</span> BINARY(<span class="param">m</span>),<br>
-                                &nbsp;&nbsp;<span class="var">Type</span> INTEGER,<br>
-                                &nbsp;&nbsp;PRIMARY KEY (<span class="var">Id</span>, <span class="var">Name</span>)<br>
-                            ) ;
+                        <p>
+                            D'un point de vue relationnel, un document peut être vu comme un tuple dont les attributs sont utilisés comme clés.
                         </p>
+                        <!-- et pourquoi pas comme une relation KV ? ... -->
+                    </section>
+                    <section>
+                        <p class="phi">
+                            <span class="var">Inventory</span> = {<br>
+                            &nbsp;&nbsp;(#001, doc<sub>1</sub>),<br>
+                            &nbsp;&nbsp;(#004, doc<sub>4</sub>),<br>
+                            &nbsp;&nbsp;(#007, doc<sub>7</sub>),<br>
+                            &nbsp;&nbsp;(#025, doc<sub>25</sub>),<br>
+                            &nbsp;&nbsp;(#052, doc<sub>52</sub>)<br>
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            doc<sub>1</sub> = {<br>
+                            &nbsp;&nbsp;(Nom, Bulbizarre),<br>
+                            &nbsp;&nbsp;(Taille, 0.7),<br>
+                            &nbsp;&nbsp;(Poids, 6.9),<br>
+                            &nbsp;&nbsp;(Type, {Plante, Poison})<br>
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            S<sub><span class="var">Inventory</span></sub> = {<span class="var">ID</span>, <span class="var">Document</span>}
+                        </p>
+                        <p class="fragment">
+                            <span class="var">ID</span> → <span class="var">Document</span>
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            π<sub><span class="var">Document</span></sub>(σ<sub><span class="var">ID</span>=id</sub>(<span class="var">Inventory</span>))
+                        </p>
+                        <p>
+                            σ<sub><span class="var">Key</span>=k <b>AND</b> <span class="var">Value</span>=v</sub>(π<sub><span class="var">Document</span></sub>(<span class="var">Inventory</span>))
+                        </p>
+                        <!-- recursive query: select on field key -->
                     </section>
                     <section>
                         <p>
@@ -752,14 +800,6 @@
                             INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
                             INSERT INTO <span class="var">Document</span> VALUES (<span class="param">field</span>) ;<br>
                             <span class="comment">-- etc.</span>
-                        </p>
-                    </section>
-                    <section>
-                        <p>
-                            Dans une paire clé/valeur, la valeur est <mark>opaque</mark> (non-interprétée par le DBMS).
-                        </p>
-                        <p class="fragment">
-                            Un document peut être requêté selon <mark>ses valeurs de champs</mark>.
                         </p>
                     </section>
                     <section>
