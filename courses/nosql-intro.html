@@ -492,16 +492,16 @@
                     <section>
                         <ul>
                             <li>
-                                C<span style="color: lightgray;">ohérence</span><br>
-                                <span style="font-size: 0.5em;">Les données requêtées sur une partition ne sont jamais obsolètes.</span>
+                                <span style="text-decoration: underline;">C</span>ohérence<br>
+                                <span style="color: lightgray; font-size: 0.65em;">Résultat de requête jamais obsolète.</span>
                             </li>
                             <li class="fragment">
-                                A<span style="color: lightgray;">ccessibilité</span><br>
-                                <span style="font-size: 0.5em;">Une requête sur une partition retourne toujours un résultat.</span>
+                                <span style="text-decoration: underline;">A</span>ccessibilité<br>
+                                <span style="color: lightgray; font-size: 0.65em;">Résultat de requête toujours donné.</span>
                             </li>
                             <li class="fragment">
-                                P<span style="color: lightgray;">artitionnement tolérant aux fautes</span><br>
-                                <span style="font-size: 0.5em;">Une requête sur une partition retourne parfois une erreur.</span>
+                                <span style="text-decoration: underline;">P</span>artitionnement tolérant aux fautes<br>
+                                <span style="color: lightgray; font-size: 0.65em;">Résultat de requête parfois égal à une erreur.</span>
                             </li>
                         </ul>
                     </section>
@@ -554,12 +554,113 @@
                             <caption>Modèles de données NoSQL (définition stricte et étendue)</caption>
                         </table>
                     </section>
+                </section>
+                <section>
+                    <h4><span style="text-decoration: line-through;">Forme normale</span> et <span style="text-decoration: line-through;">schéma</span></h4>
                     <section>
                         <p>
-                            Ces modèles permettent chacun des <mark>optimisations</mark> algorithmiques <mark>spécifiques</mark> dans les systèmes de gestion (DBMS) associés.
+                            La <mark>normalisation</mark> d'une base de données tend à <mark>multiplier</mark> les tables et les <mark>jointures</mark>.
                         </p>
                         <p class="fragment">
-                            Ils peuvent cependant être décrits selon les termes de l'<mark>algèbre relationnelle</mark> d'un point de vue <mark>théorique</mark>.
+                            Souvent, une application nécessite de toujours requêter <mark>plusieurs tables simultanément</mark>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Par exemple, l'interface graphique du Pokédex indique toujours le(s) type(s) d'un Pokémon à côté de son nom.
+                        </p>
+                        <p class="fragment">
+                            Une requête qui joint <span class="var">Pokémon</span> et <span class="var">PokémonType</span> prend <mark>1,66 fois plus de temps</mark> qu'une simple requête sur <span class="var">Pokémon</span>.
+                        </p>
+                        <!-- pokemon: 15ms, pokemon x pokemon_types: 25ms (with warm cache) -->
+                    </section>
+                    <section>
+                        <p>
+                            Une solution simple pour <mark>optimiser</mark> le requêtage du Pokédex est de le <mark>dénormaliser</mark> et de ne matérialiser que la table <span class="var">Pokémon</span> ⋈ <span class="var">PokémonType</span>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            C'est par exemple ce que fit la plate-forme <a href="https://en.wikipedia.org/wiki/Digg">Digg</a> en 2009 pour gérer son réseau social aux <mark>millions</mark> de relations et aux <mark>centaines de millions</mark> de pages web référencées.
+                        </p>
+                        <p class="note fragment">
+                            Cf <a href="http://www.25hoursaday.com/weblog/2009/09/10/BuildingScalableDatabasesDenormalizationTheNoSQLMovementAndDigg.aspx"><em>Building Scalable Databases: Denormalization, the NoSQL Movement and Digg</em></a>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Digg est même allée plus loin&hellip;
+                        </p>
+                        <p class="fragment">
+                            Dès lors que les tables sont <mark>dénormalisées</mark>, à quoi sert-il d'avoir un <mark>schéma</mark> ?
+                        </p>
+                    </section>
+                    <section>
+                        <q>
+                            After some deliberation, we decided to implement a <mark>"schema-less" storage system on top of MySQL</mark> rather than use a completely new storage system.
+                        </q>
+                    </section>
+                    <section data-background-color="moccasin">
+                        <p>
+                            Quel serait le (méta-)schéma d'une base de données sans schéma ?
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            S<sub><span class="var" title="Mother Of All Tables">MOAT</span></sub> = {<span class="var">Table</span>, <span class="var">Tuple</span>, <span class="var">Attr</span>, <span class="var">Value</span>}
+                        </p>
+                        <p>
+                            (<span class="var">Table</span>, <span class="var">Tuple</span>, <span class="var">Attr</span>) → <span class="var">Value</span> 
+                        </p>
+                    </section>
+                    <section>
+                        <p class="phi">
+                            <span class="var">MOAT</span> = {<br>
+                            &nbsp;&nbsp;(Pokémon, 1, Rang, #001),<br>
+                            &nbsp;&nbsp;(Pokémon, 1, Nom, Bulbizarre),<br>
+                            &nbsp;&nbsp;(Pokémon, 1, Taille, 0.7),<br>
+                            &nbsp;&nbsp;(Pokémon, 1, Poids, 6.9),<br>
+                            &nbsp;&nbsp;(PokémonType, 1, Rang, #001),<br>
+                            &nbsp;&nbsp;(PokémonType, 1, Type, Plante),<br>
+                            &nbsp;&nbsp;&hellip;<br>
+                            }
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Ce choix technologique <span style="color: lightgray;">(douteux)</span> a duré moins d'un an pour Digg.
+                        </p>
+                        <p class="fragment">
+                            En mars 2010, elle abandonne MySQL pour Cassandra, une base de données NoSQL.
+                        </p>
+                        <p class="note fragment">
+                            Cf <a href="https://web.archive.org/web/20120307033743/http://about.digg.com/node/564"><em>Saying Yes to NoSQL; Going Steady with Cassandra</em></a>.
+                        </p>
+                    </section>
+                    <section>
+                        <q>
+                            Our primary motivation for moving away from MySQL is the increasing difficulty of building a <mark>high performance</mark>, <mark>write intensive</mark>, application on a <mark>data set that is growing quickly</mark>.
+                        </q>
+                        <p class="note fragment">
+                            On retrouve l'argument du passage à l'échelle, avancé par les <em>Web 2.0 companies</em>.
+                        </p>
+                    </section>
+                    <section>
+                        <q>
+                            This growth has forced us into horizontal and vertical partitioning strategies that have <mark>eliminated most of the value of a relational database</mark>, while still incurring all the overhead.
+                        </q>
+                        <p class="note fragment">
+                            Le mouvement NoSQL n'a effectivement pas gardé grand chose d'SQL&hellip; d'où une confusion sur le nom.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Les modèles NoSQL dénormalisés et <em>schema-less</em> permettent chacun des <mark>optimisations</mark> algorithmiques <mark>spécifiques</mark> dans les systèmes de gestion (DBMS) associés.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Ils peuvent cependant être comparés selon les termes de l'<mark>algèbre relationnelle</mark>, d'un point de vue <mark>théorique</mark>.
                         </p>
                     </section>
                 </section>
@@ -694,7 +795,7 @@
                             <!-- utilisateur·trice déjà identifié·e : session ID -->
                         </ul>
                         <p class="fragment note">
-                            ... d'après un <a href="https://doi.org/10.1145/1323293.1294281">article de DeCandia <em>et al.</em></a> paru en 2007.
+                            ... d'après un article de <a href="https://doi.org/10.1145/1323293.1294281">DeCandia <em>et al.</em></a> paru en 2007.
                         </p>
                         <!-- https://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf -->
                     </section>
@@ -1014,7 +1115,7 @@
                             <!-- https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf -->
                         </ul>
                         <p class="fragment note">
-                            ... d'après des articles <a href="https://doi.org/10.1145/1365815.1365816">Chang <em>et al.</em></a> (2008) et <a href="https://doi.org/10.1145/1773912.1773922">Lakshman &amp; Malik</a> (2009).
+                            ... d'après des articles de <a href="https://doi.org/10.1145/1365815.1365816">Chang <em>et al.</em></a> (2008) et <a href="https://doi.org/10.1145/1773912.1773922">Lakshman &amp; Malik</a> (2009).
                         </p>
                     </section>
                     <!-- TODO SQL pour requêter avec le modèle wide column ? -->
@@ -1395,7 +1496,7 @@
                         <ul style="font-size: 0.5em;">
                             <li>Eric Lai (2009), <a href="https://www.computerworld.com/article/2526317/no-to-sql--anti-database-movement-gains-steam.html">"No to SQL? Anti-database movement gains steam</a>," Computerworld, IDG Commmunications.</li>
                             <li>Ben Scofield (2010), <a href="https://www.slideshare.net/bscofield/nosql-codemash-2010/">"NoSQL: Death to Relational Databases(?)</a>," <em>presenté à</em> CodeMash 2010.</li>
-                            <li>Christof Strauch (2011), <a>NoSQL Databases</a>, Hochschule der Medien Stuttgart.</li>
+                            <li>Christof Strauch (2011), <a href="https://seafile.emse.fr/f/0e5bd840dbf14faba412/">NoSQL Databases</a>, Hochschule der Medien Stuttgart.</li>
                             <li>Seth Gilbert and Nancy Lynch (2002), <a href="https://dl.acm.org/doi/abs/10.1145/564585.564601">"Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services</a>," ACM SIGACT News.</li>
                             
                         </ul>
