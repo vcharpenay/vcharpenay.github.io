@@ -935,6 +935,9 @@
                             <li>π<sub><span class="var">Doc</span></sub>(σ<sub><span class="var">ID</span>=<span class="param">id</span></sub>(<span class="var">Inventory</span>))</li>
                             <li>σ<sub><span class="param">Q</span></sub>(π<sub><span class="var">Doc</span></sub>(<span class="var">Inventory</span>))</li>
                         </ul>
+                        <p class="note fragment">
+                            Dans la recherche par valeur de champ, doc ∈ σ<sub>Q</sub>(.) si l'exécution sur doc de la sous-requête Q n'est pas vide. 
+                        </p>
                         <!-- recursive query: select on field key -->
                     </section>
                     <section>
@@ -1173,8 +1176,8 @@
                                 π<sub>S<sub><span class="var">Table</span></sub> ∖ <span class="var">RowKey</span></sub>(σ<sub><span class="var">RowKey</span>=<span class="param">key</span></sub>(<span class="var">Table</span>))
                             </li>
                             <li class="fragment">
-                                π<sub><span class="var">Value</span></sub>(σ<sub><span class="var">Key</span>=<span class="param">col</span></sub>(Ans))<br>
-                                où Ans = π<sub><span class="var">Family<sub>i</sub></span></sub>(σ<sub><span class="var">RowKey</span>=<span class="param">key</span></sub>(<span class="var">Table</span>))
+                                π<sub><span class="var">Value</span></sub>(σ<sub><span class="var">Key</span>=<span class="param">col</span></sub>(<em>R</em>))<br>
+                                où <em>R</em> = π<sub><span class="var">Family<sub>i</sub></span></sub>(σ<sub><span class="var">RowKey</span>=<span class="param">key</span></sub>(<span class="var">Table</span>))
                             </li>
                         </ol>
                     </section>
@@ -1188,9 +1191,15 @@
                             Les deux exemples emblématiques du modèle «&nbsp;à colonnes extensibles&nbsp;» sont:
                         </p>
                         <ul>
-                            <li class="fragment"><em>(Google)</em> la gestion des hyperliens de pages HTML</li>
+                            <li class="fragment">
+                                l'indexage des pages HTML<br>
+                                <span style="color: lightgray;">sur le web</span>
+                            </li>
                             <!-- column families: content, anchors -->
-                            <li class="fragment"><em>(Facebook)</em> la recherche de messages dans un historique de conversations</li>
+                            <li class="fragment">
+                                l'indexage de conversations en ligne<br>
+                                <span style="color: lightgray;">sur Facebook</span>
+                            </li>
                             <!-- column families: term (for search), interactions -->
                         </ul>
                     </section>
@@ -1200,10 +1209,16 @@
                         </p>
                     </section>
                     <section>
-                        <p>Schémas choisis par Google et Facebook&nbsp;:</p>
+                        <p>Schémas choisis&nbsp;:</p>
                         <ul>
-                            <li class="fragment"><em>(Google)</em> deux familles de colonnes : contenu textuel, <em>anchor</em></li>
-                            <li class="fragment"><em>(Facebook)</em> deux familles de colonnes : terme, destinataires</li>
+                            <li class="fragment">
+                                {<span class="var">URL</span>, <span class="var">Content</span>, <span class="var">Anchors</span>}<br>
+                                <span style="color: lightgray;">pour les pages HTML</span>
+                            </li>
+                            <li class="fragment">
+                                {<span class="var">UserID</span>, <span class="var">Content</span>, <span class="var">Recipients</span>}<br>
+                                <span style="color: lightgray;">pour les conversations Facebook</span>
+                            </li>
                             <!-- https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf -->
                         </ul>
                         <p class="fragment note">
@@ -1586,11 +1601,11 @@
                     </section>
                     <section>
                         <ol style="font-size: 0.75em;">
-                            <li class="fragment">une base de données NoSQL utilise souvent un schéma dénormalisé.</li>
-                            <li class="fragment">la définition stricte de NoSQL s'appuie sur 3 points: parallélisme, faible coût matériel, accès distant.</li>
-                            <li class="fragment">les 3 principaux modèles NoSQL sont: clé-valeur, document, colonne extensible.</li>
-                            <li class="fragment">la définition s'étend aussi aux bases de données en graphe et RDF.</li>
-                            <li class="fragment">les modèles NoSQL peuvent se combiner.</li>
+                            <li>une base de données NoSQL est une structure <mark>sans schéma</mark> à base de <mark>paires clé-valeur</mark>.</li>
+                            <li class="fragment">la définition stricte de NoSQL s'appuie sur 3 points: <mark>parallélisme</mark>, <mark>faible coût matériel</mark>, <mark>accès distant</mark>.</li>
+                            <li class="fragment">les 3 principaux modèles NoSQL sont: <mark>clé-valeur</mark>, <mark>document</mark>, <mark>colonne extensible</mark>.</li>
+                            <li class="fragment">la définition s'étend aussi aux bases de données en <mark>graphe</mark> et <mark>RDF</mark>.</li>
+                            <li class="fragment">les modèles NoSQL peuvent se <mark>combiner</mark>.</li>
                         </ol>
                     </section>
                 </section>
