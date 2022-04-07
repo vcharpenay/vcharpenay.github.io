@@ -1263,40 +1263,41 @@
                         </ul>
                     </section>
                     <section>
-                        <p class="sql">
-                            CREATE TABLE <span class="var">Node</span>(<br>
-                            &nbsp;&nbsp;<span class="var">Id</span> BIGINT,<br>
-                            &nbsp;&nbsp;<span class="var">Label</span> VARCHAR(n),<br>
-                            &nbsp;&nbsp;PRIMARY KEY <span class="var">Id</span><br>
-                            ) ;<br>
-                            <br>
-                            CREATE TABLE <span class="var">Edge</span>(<br>
-                            &nbsp;&nbsp;<span class="comment">-- même schéma</span><br>
-                            ) ;
+                        <p>
+                            <span class="var">Graph</span> = (<span class="var">Nodes</span>, <span class="var">Edges</span>)
+                        </p>
+                        <p class="fragment">
+                            S<sub><span class="var">Nodes</span></sub> = {<span class="var">NodeID</span>, <span class="var">Label</span>, <span class="var">Props</span>}
+                        </p>
+                        <p class="fragment">
+                            S<sub><span class="var">Edge</span></sub> = {<span class="var">SrcID</span>, <span class="var">DestID</span>, <span class="var">Label</span>, <span class="var">Props</span>}
                         </p>
                     </section>
                     <section>
-                        <p class="sql" style="width: 120%;">
-                            CREATE TABLE <span class="var">NodeProperty</span>(<br>
-                            &nbsp;&nbsp;<span class="var">Id</span> BIGINT,<br>
-                            &nbsp;&nbsp;<span class="var">Name</span> VARCHAR(<span class="param">n</span>),<br>
-                            &nbsp;&nbsp;<span class="var">Value</span> VARCHAR(<span class="param">m</span>),<br>
-                            &nbsp;&nbsp;PRIMARY KEY (<span class="var">Id</span>, <span class="var">Name</span>)<br>
-                            ) ;<br>
-                            <br>
-                            CREATE TABLE <span class="var">EdgeProperty</span>(<br>
-                            &nbsp;&nbsp;<span class="comment">-- même schéma</span><br>
-                            ) ;
+                        <p class="phi">
+                            <span class="var">Nodes</span> = {<br>
+                            &nbsp;&nbsp;(Kanto, Lieu, props<sub>k</sub>),<br>
+                            &nbsp;&nbsp;(Jadielle, Lieu, props<sub>j</sub>),<br>
+                            &nbsp;&nbsp;(Arène, Lieu, props<sub>aj</sub>),<br>
+                            &nbsp;&nbsp;(Giovanni, Personne, props<sub>g</sub>),<br>
+                            &nbsp;&nbsp;&hellip;<br>
+                            }
+                        </p>
+                        <p class="fragment phi">
+                            props<sub>k</sub> = {(Superficie, 254322)}
                         </p>
                     </section>
                     <section>
-                        <p class="sql" style="width: 120%;">
-                            CREATE TABLE <span class="var">Relationship</span>(<br>
-                            &nbsp;&nbsp;<span class="var">SourceId</span> BIGINT,<br>
-                            &nbsp;&nbsp;<span class="var">EdgeId</span> BIGINT,<br>
-                            &nbsp;&nbsp;<span class="var">TargetId</span> BIGINT,<br>
-                            &nbsp;&nbsp;PRIMARY KEY (<span class="var">SourceId</span>, <span class="var">EdgeId</span>, <span class="var">TargetId</span>)<br>
-                            ) ;
+                        <p class="phi">
+                            <span class="var">Edges</span> = {<br>
+                            &nbsp;&nbsp;(Kanto, Jadielle, Inclut, ∅),<br>
+                            &nbsp;&nbsp;(Jadielle, Arène, Inclut, ∅),<br>
+                            &nbsp;&nbsp;(Arène, Giovanni, Champ., props<sub>g,aj</sub>),<br>
+                            &nbsp;&nbsp;&hellip;<br>
+                            }
+                        </p>
+                        <p class="fragment phi">
+                            props<sub>g,aj</sub> = {(Jusqu'à, Gen2)}
                         </p>
                     </section>
                     <section>
@@ -1345,7 +1346,7 @@
                         <p>(Q<sub>2</sub>) Quels sont les champions Pokémon de la région de Kanto ?</p>
                         <p class="fragment cypher">
                             MATCH<br>
-                            (gymLeader:<span class="var">GymLeader</span>)<br>
+                            (gymLeader:<span class="var">Person</span>)<br>
                             &nbsp;&nbsp;-[:<span class="var">leads</span>]->()<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;-[:<span class="var">locatedIn</span>*]->({id: <span class="string">"kanto"</span>}) ;
                         </p>
@@ -1427,20 +1428,31 @@
                             RDF, acronyme pour <em>Resource Description Framework</em> permet surtout de décrire la sémantique de <mark>ressources web</mark>.
                         </p>
                     </section>
-                    <section>
-                        <p class="sql" style="width: 120%;">
-                            CREATE TABLE <span class="var">Triple</span>(<br>
-                            &nbsp;&nbsp;<span class="var">Subject</span> VARCHAR(<span class="param">n</span>),<br>
-                            &nbsp;&nbsp;<span class="var">Predicate</span> VARCHAR(<span class="param">n</span>),<br>
-                            &nbsp;&nbsp;<span class="var">Object</span> VARCHAR(<span class="param">n</span>),<br>
-                            &nbsp;&nbsp;PRIMARY KEY (<span class="var">Subject</span>, <span class="var">Predicate</span>, <span class="var">Object</span>)<br>
-                            ) ;
+                    <section data-auto-animate>
+                        <p class="phi" data-id="triples">
+                            <span class="var">Triples</span> = {<br>
+                            &nbsp;&nbsp;(Kanto, est de type, Lieu),<br>
+                            &nbsp;&nbsp;(Kanto, a comme superficie, 254322),<br>
+                            &nbsp;&nbsp;(Jadielle, partie de, Kanto),<br>
+                            &nbsp;&nbsp;(Champion, est de type, Rôle),<br>
+                            &nbsp;&nbsp;(Champion, tenu par, Giovanni),<br>
+                            &nbsp;&nbsp;(Champion, tenu jusqu'à, Gen2),<br>
+                            &nbsp;&nbsp;&hellip;<br>
+                            }
                         </p>
-                        <!-- TODO prendre en compte les node types et datatype/lang -->
                     </section>
-                    <section>
-                        <p class="sql">
-                            INSERT INTO <span class="var">Triple</span> VALUES (<span class="param">s</span>, <span class="param">p</span>, <span class="param">o</span>) ;
+                    <section data-auto-animate>
+                        <p class="phi" data-id="triples">
+                            <span class="var">Triples</span> = {<br>
+                            &nbsp;&nbsp;(Kanto, est de type, Lieu),<br>
+                            &nbsp;&nbsp;(Kanto, a comme superficie, 254322),<br>
+                            &nbsp;&nbsp;(Jadielle, partie de, Kanto),<br>
+                            &nbsp;&nbsp;<span style="font-weight: bold;">(partie de, inverse de, contient)</span>,<br>
+                            &nbsp;&nbsp;(Champion, est de type, Rôle),<br>
+                            &nbsp;&nbsp;(Champion, tenu par, Giovanni),<br>
+                            &nbsp;&nbsp;(Champion, tenu jusqu'à, Gen2),<br>
+                            &nbsp;&nbsp;&hellip;<br>
+                            }
                         </p>
                     </section>
                     <section>
@@ -1458,7 +1470,7 @@
                         <p>(Q<sub>2</sub>)</p>
                         <p class="fragment sparql">
                             SELECT ?gymLeader<span class="var"></span> WHERE {<br>
-                            &nbsp;&nbsp;?gymLeader <span class="string">a</span> <span class="var">:Trainer</span> .<br>
+                            &nbsp;&nbsp;?gymLeader <span class="string">a</span> <span class="var">:Person</span> .<br>
                             &nbsp;&nbsp;?gymLeader <span class="var">:leads</span> ?gym .<br>
                             &nbsp;&nbsp;?gym <span class="var">:locatedIn</span> &lt;kanto&gt; .<br>
                             }
