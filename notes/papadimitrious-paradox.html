@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Papadimitriou's Paradox</title>
+    <link rel="stylesheet" href="../css/basic.css">
+</head>
+
+<body>
+    <h1>Papadimitriou's Paradox</h1>
+
+    <p class="info">
+        June 2020
+    </p>
+
+    Paper on the complexity of finding optimal policies for Markov procedures. Interesting phenomenon: some algorithm for the non-stationary case was not satisfactory for the stationary case, not because it had too many computation steps (it had the same amount in both case) but because the <em>input was smaller</em> in the latter case.
+    
+    That is, if a problem is simpler to describe than another, some algorithm would perform "worse" relatively to the input on that simpler problem.
+    
+    Is there a way to estimate the optimal input size for a given problem? In the case of Markov procedures, we are shifting some data from the input to the definition of the problem itself, in the form of an axiom (for all timestamp, the probability distribution is identical).
+    
+    This sounds like finding the right balance between an ABox and a TBox (sort of). Having a smaller TBox for an equivalent description of a specific problem (that is, a more general description that may apply to other problems) seems to complexify the solution to that specific problem.
+    
+    Relates to the question of denotation in logic: the more parts we have to describe, the simpler the execution of an algorithm.
+    
+    Relates to the question of control based on models: control can only be efficient if its model of the system under control is at least as complex as the system itself.
+</body>
+<html>

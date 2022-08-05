@@ -1,0 +1,370 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>From A(ristotle) to B(ayes) | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+    <link rel="stylesheet" href="../css/tutorial.css">
+
+    <style>
+        mtext {
+            font-family: monospace;
+        }
+
+        math {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>From A(ristotle) to B(ayes)</h1>
+
+    <p class="info">
+        September 2019
+    </p>
+
+    <p>
+        One way a logician can penetrate the vast realm of Machine Learning is
+        to observe that probability theory seems to be a good generalization of
+        propositional logic: the logical values <i>true</i> and <i>false</i> are
+        probabilities of 1 and 0 that certain propositions "occur" in a given
+        universe.
+    </p>
+
+    <h2>Truth As a Probability</h2>
+
+    <p>
+        A probability space is defined as a triple <math>(Ω, A, ℙ)</math>,
+        where <math>Ω</math> is the universe, <math>A</math> is a tribe over
+        <math>Ω</math> and <math>ℙ : A ↦ [0,1]</math> is a probability function.
+        These concepts intuitively map to model theory as follows:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Probability Theory</th>
+                <th>Model Theory</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><math>Ω</math></td>
+                <td>set of atomic propositions</td>
+            </tr>
+            <tr>
+                <td><math>A</math></td>
+                <td>set of models</td>
+            </tr>
+            <tr>
+                <td><math>ℙ</math></td>
+                <td>interpretation function</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        As an example, one could (partially) define the following probability
+        function on a very simple knowledge base:
+    </p>
+
+    <math>
+        <mtable>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(alice, bob)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(bob, alice)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+        </mtable>
+    </math>
+
+    <p>
+        Probability theory is based on three axioms, from which classical
+        properties of logics can be derived, like De Morgan's law or modus ponens.
+        These axioms are the following:
+        <ol>
+            <li><math>0 ≤ ℙ(a ∈ A) ≤ 1</math></li>
+            <li><math>ℙ(Ω) = 1</math></li>
+            <li><math>ℙ(a ∪ b) = ℙ(a) + ℙ(b)</math> wherever <math>a, b</math> are <em>independent</em> events</li>
+        </ol>
+    </p>
+
+    <p>
+        The knowledge base above would surely include a rule stating that
+        <i>sibling</i> is a symmetric predicate, implying dependency between
+        propositions (or events):
+    </p>
+
+    <p>
+        <code>sibling(X, Y) :- sibling(Y, X) .</code>
+    </p>
+
+    <p>
+        This rule is encoded as <em>conditional</em> probablities, that is:
+    </p>
+
+    <math>
+        <mtable>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(bob, alice)</mtext>}|{<mtext>sibling(alice, bob)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(alice, bob)</mtext>}|{<mtext>sibling(bob, alice)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+        </mtable>
+    </math>
+
+    <p>
+        Conditional properties are defined as follows:
+    </p>
+
+    <math display="block">
+        <mrow>
+            ℙ(b|a)
+            <mo>=</mo>
+            <mfrac><mrow>ℙ(b ∩ a)</mrow><mrow>ℙ(a)</mrow></mfrac>
+        </mrow>
+    </math>
+
+    <p>
+        By stating that <math>ℙ(b|a) = 1</math>, we indeed condition the truth of
+        <math>b</math> to that of <math>a</math>, as in <math>b</math> :- <math>a</math>.
+        If <math>ℙ(a) = 0</math>, then <math>ℙ(b ∩ a) = 0</math> or the knowledge base is
+        not satisfiable as it leads to division by 0. On the other hand, if <math>ℙ(a) =
+        1</math>, then <math>ℙ(b ∩ a) = 1</math> and <math>b</math> is "certain".
+    </p>
+
+    <p>
+        After translation to a probability space, logical inference becomes simple arithmetics.
+        In particular, modus ponens becomes the application of the following law:
+    </p>
+
+    <math>
+        <mtable columnalign="left">
+            <mtr>
+                <mtd>ℙ(b)</mtd>
+                <mtd>=</mtd>
+                <mtd>ℙ(b ∩ a) + ℙ(b ∩ <mover><mi>a</mi><mo>-</mo></mover>)</mtd>
+            </mtr>
+            <mtr>
+                <mtd></mtd>
+                <mtd>=</mtd>
+                <mtd>ℙ(b|a)⋅ℙ(a) + ℙ(b|<mover><mi>a</mi><mo>-</mo></mover>)⋅ℙ(<mover><mi>a</mi><mo>-</mo></mover>)</mtd>
+            </mtr>
+        </mtable>
+    </math>
+
+    <p>
+        Negation can also be expressed as probabilities equal to 0. However,
+        probability theory's axioms do not enforce any of the closed-world
+        or open-world assumption. Zero-probabilities must be explicitely
+        stated in the latter case.
+    </p>
+
+    <!--
+        - negation different from complement
+        - P(A or B) = P(A) + P(B) - P(A and B)
+    -->
+
+    <h2>Learning from Experience</h2>
+
+    <p>
+        In a simplified view, our experience of the world is a series of
+        propositions (or events) that we interpret as true or false. Rules
+        are not directly perceived, they are learnt from correlation
+        between events, interpreted as causation. 
+    </p>
+
+    <p>
+        The cornerstone of the theory of learning probable causes is Bayes'
+        theorem (which can be easily derived from the definition of conditial
+        probabilities):
+    </p>
+
+    <math display="block">
+        <mrow>
+            ℙ(a|b)
+            <mo>=</mo>
+            <mfrac><mrow>ℙ(b|a)⋅ℙ(a)</mrow><mrow>ℙ(b)</mrow></mfrac>
+        </mrow>
+    </math>
+
+    <p>
+        Given two propositions, both true, Bayes' theorem tells us that there
+        is the same probability that one causes the other and vice-versa. If
+        we go back to our previous example with bob and alice being siblings,
+        stating the symmetry of the predicate may seem redundant.
+    </p>
+
+    <p>
+        However, when a knowledge base includes other individuals with incomplete
+        information, uncertainty arise in the absence of rules. For example,
+        consider the following propositions:
+    </p>
+
+    <math>
+        <mtable columnalign="left">
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(alice, bob)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(bob, alice)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(carol, dave)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(dave, carol)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+            <mtr>
+                <mtd>ℙ({<mtext>sibling(eve, faythe)</mtext>})</mtd>
+                <mtd>=</mtd>
+                <mtd>1</mtd>
+            </mtr>
+        </mtable>
+    </math>
+
+    <p>
+        A classical inference engine would entail the proposition
+        sibling(faythe, eve), provided the symmetry of the sibling predicate.
+        Here, however, in the presence of the propositions alone (no rule),
+        the value of <math>ℙ(<mtext>sibling(faythe, eve)</mtext>)</math> is
+        undefined.
+    </p>
+
+    <math>
+        P(sibling(eve, faythe)|sibling(eve, faythe)) =
+            P(sibling(eve, faythe)|sibling(faythe, eve))
+            * P(sibling(faythe, eve))
+            / P(sibling(eve, faythe))
+    </math>
+
+    <p>
+        we can statistically estimate the following:
+    </p>
+
+    <math>
+        <mtable columnalign="left">
+            <mtr>
+                <mtd>ℙ(<mtext>sibling(X, Y)</mtext>|<mtext>sibling(Y, X)</mtext>)</mtd>
+                <mtd>=</mtd>
+                <mtd>
+                    <mfrac>
+                        <mrow>ℙ(<mtext>sibling(X, Y)</mtext> ∩ <mtext>sibling(Y, X)</mtext>)</mrow>
+                        <mrow>ℙ(<mtext>sibling(X, Y)</mtext>)</mrow>
+                    </mfrac>
+                </mtd>
+            </mtr>
+            <mtr>
+                <mtd></mtd>
+                <mtd>≈</mtd>
+                <mtd>
+                    <mfrac>
+                        <mrow>
+                            <munder><mo>∑</mo><mi>i</mi></munder>
+                            ℙ(<mtext>sibling(</mtext><msub><mi>x</mi><mn>i</mn></msub><mtext>,</mtext>
+                                <msub><mi>y</mi><mn>i</mn></msub><mtext>)</mtext>
+                            ∩ <mtext>sibling(</mtext><msub><mi>y</mi><mn>i</mn></msub><mtext>,</mtext>
+                            <msub><mi>x</mi><mn>i</mn></msub><mtext>)</mtext>)
+                        </mrow>
+                        <mrow>
+                            <munder><mo>∑</mo><mi>i</mi></munder>
+                            ℙ(<mtext>sibling(</mtext><msub><mi>x</mi><mn>i</mn></msub><mtext>,</mtext>
+                            <msub><mi>y</mi><mn>i</mn></msub><mtext>)</mtext>)
+                        </mrow>
+                    </mfrac>
+                </mtd>
+            </mtr>
+            <mtr>
+                <mtd></mtd>
+                <mtd>≈</mtd>
+                <mtd><mfrac><mrow>5</mrow><mrow>6</mrow></mfrac></mtd>
+            </mtr>
+        </mtable>
+    </math>
+
+    <p>
+        This estimation is an <em>a priori</em> estimation.
+    </p>
+
+
+    <!-- <p>
+        Bayes' Theorem: observing A and B implies equivalent probability of cause between the two.
+        Now, if we look at predicates, repeated observations help design rules: property -> class.
+        Observations with classes and properties. Then, observation of properties, what class?
+    </p>
+
+    <p>
+        Having put this "semantic" translation in place, it seems natural to
+        extend truth values to any number <math>x ∈ [0, 1]</math>, expressing
+        a <em>degree of belief</em> of a given proposition.
+    </p>
+
+    <p>
+        Assuming truth values are expressed as <math>ε</math> and <math>1 - ε</math>
+        (<math>ε > 0</math>), we get an idea of how belief may change through experience.
+    </p>
+
+    <p>
+        Real numbers are likely not direct input to some computational problem,
+        though. Rather, they represent the output of some learning process that
+        integrates pieces of knowledge over time, through experience.
+    </p>
+
+    <p>
+        we can only experience facts and learning consists in inferring rules
+        from them. Pedagogy: fixed rules vs. maieutics. Learning rules:
+        conditional probabilities.
+    </p>
+
+    <p>
+        With no constraints and with only "exact" certainty, no inference possible:
+        Bayes' theorem: all rules are equiprobable given cooccurence (no absolute
+        value).
+    </p>
+
+    <p>
+        With some rule template (cause, consequence), inference is made possible.
+        Foundations of Bayesian and Markov logic networks. Simplest case ("naive
+        Bayes"): set of propositions are cause, others are consequences (one
+        level).
+    </p>
+
+    <p>
+        Example of life science classifications: individuals and properties, like
+        <code>hasShell(turtle)</code> to determine their class. Cf Hierarchical
+        Bayesian Models (HBMs) by Tennenbaum.
+    </p>
+
+    <p>
+        We also get an intuition of what neural networks do: they provide very
+        generic rule patterns.
+    </p> -->
+
+    <h2>From B back to A</h2>
+
+    <p>
+        Aristotle's logic is an ideal case that deals only with infinite series
+        of events.
+    </p>
+</body>
+<html>

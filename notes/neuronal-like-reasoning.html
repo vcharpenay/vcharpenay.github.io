@@ -1,0 +1,46 @@
+<DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Using GPU Acceleration for Logical Inference | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+</head>
+
+<body>
+    <h1>Using GPU Acceleration for Logical Inference</h1>
+
+    <p class="info">
+        March 2020
+    </p>
+
+    Long wanted to try things out: Tableaux procedure or semi-naive forward chaining with GPU acceleration.
+    Known to be hard because of the imbalance of the search space. Graph traversal is hard. But recently,
+    experiments on large knowledge graphs show promising results, so what about using the technique for
+    reasoning faster? Other intuition: approximate derivation trees and tableaux with fixed structures that
+    better deploy to GPU kernels (unraveling).
+
+    Approach 1: indexing of the rule-goal graph and random parallel walks through it with some token
+    management system (tokens created at every inferred statement). One GPU pass: edge traversal on the graph.
+
+    Approach 2: not a rule-goal graph but a tableau, instead. The graph unfolds as parallel "agents"
+    locally check the truth value of certain statements. Is roughly equivalent to testing as many domains of
+    interpretation as there are GPU kernels involved.
+
+    Approach 3: unraveling of the rule-goal graph depending of large-scale data (e.g. transitivity rule
+    and whole of Wikidata wdt:P279 claims).
+    
+    Approach 4: a tableau procedure makes many random choices (alternative orderings of atomic formulas exist due to algebraic invariant, such as commutativity/associativity). What about building a lattice of equivalent subformulas and processing in parallel all branches of a lattice?
+    
+    Approach 5: what about using prior probability distributions (e.g. Zipf's law for class instances) to reorder sub-formulas? I.e. to guide graph traversal if not all branches can be assigned a GPU core?
+    
+    See:
+     - "Simulating a P system based efficient solution to SAT by using GPUs"
+     - ManySAT: a Parallel SAT Solver
+    
+    <hr>
+    
+    Note: propositional logic with variables (finite vocabulary) is a useful logical framework but propositions grow quadratically with the number of variables. Any optimization on top of SOTA SAT solvers?
+</body>
+
+</html>

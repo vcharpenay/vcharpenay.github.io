@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Axiomatic Extrapolation of Numeric Data</title>
+    <link rel="stylesheet" href="../css/basic.css">
+    <link rel="stylesheet" href="../css/tutorial.css">
+
+    <style>
+        mtext {
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Axiomatic Extrapolation of Numeric Data</h1>
+
+    <p class="info">
+        March 2020
+    </p>
+
+    First machine learning algorithms: curve smoothing for trajectory calculation. In other words,
+    noise can be deleted by applying a generic calculation, step-by-step, on a time history (e.g. Kalman filter).
+
+    The result is an "axiomatic" extrapolation of a curve, not in terms of numbers but in terms of shapes
+    that can be represented with a finite number of axioms (e.g. as Bezier curves). Does this kind of extrapolation
+    improve ML? E.g. to "read" stock prices or climate monitoring indicators.
+
+    An example: periodicity in the signal can be encoded as the fact the same shape repeats (despite different time
+    intervals and magnitudes across instances of that shape). Is Bayesian inference then enough for prediction? Can it
+    be used for building the axiomatic view on numeric data?
+
+    (Source: https://www.carbonbrief.org/analysis-coronavirus-has-temporarily-reduced-chinas-co2-emissions-by-a-quarter)
+
+    Why it might not work for computer vision? Take e.g. ImageNet: one could think it suffices to describe the 1000
+    object categories in terms of lumped shapes (cylinder with four sticks and a sphere for dogs, etc.). But images
+    are 2D projections of 3D information. We loose information and thus probably let the dimension of possible
+    interpretations explode.
+    
+    Dataset to try with: Microsoft COCO (common objects in context: semantic segmentation of objects in image).
+    Segments could be vectorized, as basic shapes, compositions and transformations (rotate, scale, skew).
+    
+    See also: Kriging and Wiener-Komogorov interpolation method.
+</body>
+<html>

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Semantic Interoperability and Discourse (II) | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+</head>
+
+<body>
+    <h1>Semantic Interoperability and Discourse (II)</h1>
+
+    <p class="info">
+        April 2022
+    </p>
+
+    <p>
+        Introduction to semantic interoperability given at a winter school (<a href="">pdf</a>).
+        Mostly made of references commonly accepted in the SOTA.
+        But intuition SOTA isn't targeting the right problems: aren't all forms of interoperabiltiy necessarily <em>semantic</em>?
+    </p>
+
+    <p>
+        Interoperability: exchange of information between independent systems.
+        Examples:
+        <a href="https://www.buildingsmart.org/standards/bsi-standards/industry-foundation-classes/">IFC</a> (for construction data exchange),
+        <a href="http://www.emsa.europa.eu/cise.html">CISE</a> (for international maritime surveillance).
+    </p>
+
+    <p>
+        Moving from interop to <em>semantic</em> interop: moving from XSD to OWL. What for?
+        Mostly for stating e.g. <code>MyCompanyClass subClassOf CommonClass</code>.
+    </p>
+
+    <p>
+        To what extent is subsumption used/useful?
+        Without OWL, the emitter is responsible for projecting its data onto a common model and the receiver is responsible for doing the opposite transformation.
+        With OWL, the emitter is responsible instead for projecting its data <em>model</em> onto the common model.
+        The receiver then is responsible for making the alignment but it still has to project the data represented in a common model onto its own.
+    </p>
+
+    <p>
+        Commonality between IFC and CISE: both names and initial design suggest a much wider scope than what they are effectively used for (construction vs. entire industry, maritime surveillance vs. all government regulation activity).
+    </p>
+
+    <p class="info">
+        See also <a href="sem-interop.html">Semantic Interoperability and Discourse</a> (April 2020).
+    </p>
+</body>
+<html>
