@@ -117,6 +117,9 @@
 							The <mark>architecture</mark> of [a building] is determined by 
 							those aspects that are <mark>hardest to change</mark>.
 						</p>
+						<p class="aside">
+							(source: attributed to Chris Verhoef)
+						</p>
 						<!-- p. 68 -->
 					</section>
 					<section>
@@ -202,6 +205,9 @@
 							<figcaption>Example of technical debt in the DATEV information system</figcaption>
 						</figure>
 					</section>
+				</section>
+				<section>
+					<h4>The Language of Architects</h4>
 					<section>
 						<p>
 							An architectural model is defined over different <mark>perspectives</mark>:
@@ -222,9 +228,24 @@
 						</ul>
 					</section>
 					<!-- p. 65: discussion on perspectives (structural, functional, deployment)? -->
-				</section>
-				<section>
-					<h4>The Language of Architects</h4>
+					<section>
+						<p>
+							Each of these perspectives corresponds to a type of diagrams in the <mark>Unified Modeling Language</mark> (UML):
+						</p>
+						<ul>
+							<li class="fragment">Component diagrams</li>
+							<li class="fragment">Sequence diagrams</li>
+							<li class="fragment">Deployment diagrams</li>
+						</ul>
+						<p class="note fragment">
+							See <a href="https://www.uml-diagrams.org/">uml-diagrams.org</a> for an extensive documentation.	
+						</p>
+					</section>
+					<section>
+						<p>
+							An architectural model may be fully specified as a <mark>set of UML diagrams</mark> that share certain model entities: <mark>software components</mark>.
+						</p>
+					</section>
 					<section>
 						<div class="def" style="font-size: 0.8em;">
 							<p>
@@ -256,6 +277,14 @@
 							<li class="fragment">a single Micro-Service</li>
 							<li class="fragment">a publish-subscribe broker <span class="aside">[*]</span></li>
 						</ul>
+					</section>
+					<section>
+						<p>
+							Components often interact in similar ways (e.g. via procedure call).
+						</p>
+						<p class="fragment">
+							The complexity of architectural models can be reduced by introducing <mark>software connectors</mark>.
+						</p>
 					</section>
 					<section>
 						<p class="def">
@@ -475,6 +504,7 @@
 							Patterns are self-contained. Styles aren't.
 						</p>
 					</section>
+					<!-- architectural style: set of constraints over all possible models. architectural pattern: (sub)model common to a subset of all possible models? -->
 				</section>
 				<section>
 					<h4>The Example of REST</h4>
