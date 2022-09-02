@@ -237,7 +237,36 @@
 							<li class="fragment">Sequence diagrams</li>
 							<li class="fragment">Deployment diagrams</li>
 						</ul>
+					</section>
+					<section>
+						<figure>
+							<img alt="Example of component diagram for online shopping" src="https://www.uml-diagrams.org/examples/component-example-retail-website.png">
+							<figcaption>
+								Example of component diagram for online shopping
+							</figcaption>
+						</figure>
 						<p class="note fragment">
+							In this lecture, we will not consider hiearchical components.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img alt="Example of sequence diagram for authentication" src="https://www.uml-diagrams.org/examples/sequence-example-facebook-authentication.png">
+							<figcaption>
+								Example of sequence diagram for authentication
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img alt="Example of deployment diagram for online booking" src="https://www.uml-diagrams.org/examples/deployment-example-manifest-web-application.png">
+							<figcaption>
+								Example of deployment diagram for online booking
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
 							See <a href="https://www.uml-diagrams.org/">uml-diagrams.org</a> for an extensive documentation.	
 						</p>
 					</section>
@@ -275,7 +304,7 @@
 						<ul>
 							<li class="fragment">a Database Management System (DBMS)</li>
 							<li class="fragment">a single Micro-Service</li>
-							<li class="fragment">a publish-subscribe broker <span class="aside">[*]</span></li>
+							<li class="fragment">a publish-subscribe broker<a href="#/3/16/0"><span class="aside"><sup>*</sup></span></a></li>
 						</ul>
 					</section>
 					<section>
@@ -345,12 +374,35 @@
 							Components aren't.
 						</p>
 					</section>
-					<!-- <section>
+					<section>
 						<p>
-							UML component diagrams
+							Components are fully<a href="#/3/17"><span class="aside"><sup>*</sup></span></a> specified by:
 						</p>
-					</section> -->
-					<!-- p. 640 -->
+						<ul>
+							<li class="fragment">
+								their <mark>interface</mark><br>
+								<span class="aside">as in UML component diagrams</span>
+							</li>
+							<li class="fragment">
+								their physical <mark>manifestation</mark><br>
+								<span class="aside">as in UML deployment diagrams</span>
+							</li>
+						</ul>
+					</section>
+					<!-- note on difference between software components and hardware components -->
+					<!-- illustration with Restbucks: NegaOctet, Référentiel services numériques_v1.0_FR.pdf, p. 9 -->
+					<section>
+						<p>
+							Connectors are fully specified by:
+						</p>
+						<ul>
+							<li class="fragment">
+								their <mark>protocol</mark><br>
+								<span class="aside">as in sequence diagrams</span>
+							</li>
+						</ul>
+					</section>
+					<!-- comments on UML for architecting: p. 640 -->
 					<section>
 						<figure>
 							<img src="../misc/soft-architecture/connector-implicit.png"><br>
@@ -362,8 +414,16 @@
 							The scope of a connector depends on the granularity of the architectural model.
 						</p>
 					</section>
-					<!-- note on difference between software components and hardware components -->
-					<!-- illustration with Restbucks: NegaOctet, Référentiel services numériques_v1.0_FR.pdf, p. 9 -->
+					<section data-background-color="moccasin">
+						<p>
+							Why does this architectural model exclude the internal behavior of components (e.g. as state machines)?
+						</p>
+					</section>
+					<section>
+						<p>
+							&hellip; because the internal behavior of a component is the aspect of a system that is <mark>easiest to change</mark>.
+						</p>
+					</section>
 				</section>
 				<section>
 					<h4>Styles and Patterns</h4>
