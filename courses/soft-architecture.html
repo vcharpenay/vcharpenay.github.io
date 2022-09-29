@@ -70,6 +70,7 @@
 							<li>Introduction</li>
 							<li>The Language of Architects</li>
 							<li>Styles and Patterns</li>
+							<li>The Example of Microservices</li>
 							<li>The Example of REST</li>
 							<li>Formal Architectural Analysis</li>
 						</ol>
@@ -425,6 +426,13 @@
 						</p>
 					</section>
 				</section>
+				<!--
+					see arch-*.png as real-world examples of architectures,
+					as seen by future engineers (internship reports).
+					Notes:
+					- no formalism
+					- various concerns
+				-->
 				<section>
 					<h4>Styles and Patterns</h4>
 					<section>
@@ -456,7 +464,6 @@
 							<li class="fragment">blackboard</li>
 							<li class="fragment">publish-subscribe</li>
 							<li class="fragment">peer-to-peer</li>
-							<li class="fragment">Service-Oriented Architecture (SOA)</li>
 						</ul>
 						<!-- p. 101 -->
 						<!-- <p>
@@ -465,15 +472,12 @@
 							Dataflow: pipe-and-filter
 							Shared memory: blackboard
 							Implicit invocation: pub-sub
-							SOA?
 							P2P?
 							Others: CORBA (distributed object), REST (distributed resources)
 						</p> -->
 						<!-- p. 137 -->
 						<!-- hierarchical: cathedral, kernel: bazaar model -->
 					</section>
-					<!-- on microservices: typical examples to be found under https://dl.acm.org/doi/pdf/10.1145/3297858.3304013 pp. 5-6 -->
-					<!-- see also slides by Adrian Cockcroft on Slideshare (refd by paper above) -->
 					<section>
 						<figure>
 							<img src="../misc/soft-architecture/arch-cs.png">
@@ -482,14 +486,65 @@
 					</section>
 					<section>
 						<figure>
+							<img src="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/fetching_a_page.png" alt="Example of">
+							<figcaption>Example of Web client fetching content from several servers</figcaption>
+						</figure>
+						<p class="note fragment">
+							In fact, the architecture of the Web follows the more elaborate REST style.
+						</p>
+					</section>
+					<!-- <section>
+						<figure>
+							<img src="https://www.linuxjournal.com/files/linuxjournal.com/linuxjournal/articles/022/2204/2204f1.inline.jpg" alt="Example of">
+							<figcaption>Example of an RPC data flow</figcaption>
+						</figure>
+					</section> -->
+					<section>
+						<figure>
 							<img src="../misc/soft-architecture/arch-kernel.png">
 							<figcaption>Microkernel style</figcaption>
 						</figure>
 					</section>
 					<section>
 						<figure>
+							<img src="../misc/soft-architecture/linux-sci.png">
+							<figcaption>Steps in the execution of a Linux system call. Source: <a href="https://nostarch.com/tlpi/">(Kerrisk, 2010)</a></figcaption>
+						</figure>
+						<p class="note fragment">
+							The Linux kernel provides more than 500 system calls for I/O, memory allocation, process execution, etc. (according to <a href="https://man7.org/linux/man-pages/man2/syscalls.2.html">man-pages</a>).
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://help.eclipse.org/latest/topic/org.eclipse.platform.doc.isv/guide/images/sdk-arch.svg" alt="Architecture of the Eclipse IDE with plug-ins">
+							<figcaption>Architecture of the Eclipse IDE with plug-ins</figcaption>
+							<!-- source: https://help.eclipse.org/latest/index.jsp -->
+						</figure>
+						<p class="note fragment">
+							The Eclipse IDE has more than 50k plug-ins available (according to the <a href="https://marketplace.eclipse.org/">Eclipse Marketplace</a>).
+						</p>
+					</section>
+					<section>
+						<figure>
 							<img src="../misc/soft-architecture/arch-pipe-filter.png">
-							<figcaption>pipe-and-filter style</figcaption>
+							<figcaption>Pipe-and-filter style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://github.com/tensorflow/docs/blob/master/site/en/guide/images/intro_to_graphs/two-layer-network.png?raw=1">
+							<!-- https://www.tensorflow.org/guide/intro_to_graphs?hl=en -->
+							<figcaption>TensorFlow graph of a a two-layer neural network</figcaption>
+						</figure>
+						<p class="note fragment">
+							The pipe-and-filter style is common in (big) data processing software. See e.g. the <a href="https://spark.apache.org/streaming/">Apache Spark Streaming API</a>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://flink.apache.org/img/usecases-eventdrivenapps.png">
+							<!-- https://flink.apache.org/usecases.html -->
+							<figcaption>Stream processing with Apache Flink</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -500,9 +555,46 @@
 					</section>
 					<section>
 						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/WMF_Structured_Content_Store.png">
+							<!-- https://www.mediawiki.org/wiki/Architecture_Repository/Strategy/Goals_and_initiatives/Structured_content_proof_of_value -->
+							<figcaption>Proof-of-Concept architecture for a MediaWiki extension</figcaption>
+							<!-- see also Mediawiki API gateway
+							https://wikitech.wikimedia.org/wiki/API_Gateway -->
+						</figure>
+						<p class="note fragment">
+							The blackboard architecture is most commonly used for knowledge management.
+						</p>
+					</section>
+					<!-- <section>
+						<p>
+							ODBC with concurrent access?
+						</p>
+						<p>
+							<i>Not</i> social media (stream is coordinated)
+						</p>
+					</section> -->
+					<section>
+						<figure>
 							<img src="../misc/soft-architecture/arch-pub-sub.png">
 							<figcaption>Publish-subscribe style</figcaption>
 						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://www.hivemq.com/img/svg/mqtt-publish-subscribe.svg" alt="HiveMQ broker in automotive example">
+							<!-- https://www.hivemq.com/blog/mqtt-essentials-part2-publish-subscribe/ -->
+							<figcaption>Publish-subscribe broker (MQTT protocol) in an Internet of Things (IoT) application</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://www.cloudkarafka.com/img/blog/consumer-group-kafka.png" alt="Topic partitioning with Kafka">
+							<!-- https://www.cloudkarafka.com/blog/part1-kafka-for-beginners-what-is-apache-kafka.html -->
+							<figcaption>Apache Kafka broker using a derivative of publish-subscribe with persistence</figcaption>
+						</figure>
+						<p class="note fragment">
+							Kafka subscribers do not get notified. They have to periodically poll data from the broker. The popular <a href="https://www.rabbitmq.com/">RabbitMQ</a> follows the same style. 
+						</p>
 					</section>
 					<section>
 						<figure>
@@ -512,8 +604,15 @@
 					</section>
 					<section>
 						<figure>
-							<img src="../misc/soft-architecture/arch-soa.png">
-							<figcaption>SOA style</figcaption>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Torrentcomp_small.gif">
+							<figcaption>File sharing with the BitTorrent protocol</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://ethereum.org/static/7a59bdb7a666b01a74535e8bea21a532/c1b63/eth1eth2client.png">
+							<!-- https://ethereum.org/en/developers/docs/nodes-and-clients/ -->
+							<figcaption>Ethereum client for peer-to-peer transaction management</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -521,6 +620,10 @@
 							Advanced (but also common) architectural styles:
 						</p>
 						<ul>
+							<li class="fragment">
+								SOA<br>
+								<span class="aside">Service-Oriented Architecture</span>
+							</li>
 							<li class="fragment">
 								CORBA<br>
 								<span class="aside">Common Object Request Broker Architecture</span>
@@ -556,15 +659,73 @@
 							Presentation may be client/it may be server.
 						</p> -->
 					</section>
+					<section data-background-color="moccasin">
+						<p>
+							What differences are there between a style and a pattern?
+						</p>
+					</section>
 					<section>
+						<p>
+							A pattern is self-contained. It can be considered as a <mark>single</mark> (parametric) <mark>architectural model</mark>.
+						</p>
+						<p class="fragment">
+							From a style, <mark>infinitely many</mark> architectural models can be derived.
+						</p>
+					</section>
+					<section>
+						<p>
+							A pattern constrains <mark>what component</mark> to use <mark>for what purpose</mark>.
+						</p>
+						<p class="fragment">
+							A style mostly constrains the <mark>behavior of connectors</mark>.
+						</p>
+					</section>
+					<!-- <section>
 						<p>
 							Patterns are applicable anywhere. Styles aren't.
 						</p>
 						<p class="fragment">
 							Patterns are self-contained. Styles aren't.
 						</p>
-					</section>
+					</section> -->
+					<!-- To change... Main difference: components and their purpose are pre-defined in arch patterns while style only constrain possible interactions. -->
 					<!-- architectural style: set of constraints over all possible models. architectural pattern: (sub)model common to a subset of all possible models? -->
+				</section>
+				<section>
+					<h4>The Example of Microservices</h4>
+					<section>
+						<p>
+							<mark>Microservices</mark> is the most <mark>widely used</mark> architectural style in standard information systems.
+						</p>
+						<!-- TODO prove that -->
+						<p class="note fragment">
+							As such, the microservice style is most <span class="highlight">difficult to define</span>: the more architects adopt a style, the more diverging interpretations there is...
+						</p>
+					</section>
+					<section>
+						<p>
+							Microservices can be viewed as the <mark>combined adoption</mark> of:
+						</p>
+						<ul>
+							<li class="fragment">the <mark>SOA</mark> style</li>
+							<li class="fragment">the <mark>2-tier</mark> pattern</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-soa.png">
+							<figcaption>SOA style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/arch-3tier.png">
+							<figcaption>2-tier pattern</figcaption>
+						</figure>
+					</section>
+					<!-- on microservices: typical examples to be found under https://dl.acm.org/doi/pdf/10.1145/3297858.3304013 pp. 5-6 -->
+					<!-- see also slides by Adrian Cockcroft on Slideshare (refd by paper above) -->
+					<!-- https://www.slideshare.net/adriancockcroft/microservices-workshop-craft-conference -->
 				</section>
 				<section>
 					<h4>The Example of REST</h4>
@@ -903,6 +1064,7 @@
 							As a complex architectural style, it is (too) easy to <mark>misuse REST</mark>.
 						</p>
 					</section>
+					<!-- Here, introduce microservices, as a style based on MM level 2, only (although nothing prevents adoption of level 3) -->
 					<section>
 						<p>
 							Other examples of misuse of the REST architectural style include:
@@ -915,7 +1077,10 @@
 						<p class="note fragment">
 							Both examples do, however, follow other styles <span class="highlight">at a higher model granularity</span>. 
 						</p>
-						<!-- GraphQL: layered style, WebSub: publish-subscribe -->
+						<!--
+							GraphQL: layered style,
+							WebSub: publish-subscribe
+						-->
 					</section>
 				</section>
 				<section>
