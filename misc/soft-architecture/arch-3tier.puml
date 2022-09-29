@@ -1,0 +1,30 @@
+@startuml
+
+skinparam component {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam interface {
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+[Data tier] as d
+[Logic tier] as l
+
+() "Service connector" as sc
+() "Read connector" as rc
+() "Write connector" as wc
+
+d -up- rc
+d -up- wc
+l -up- sc
+
+l --( rc
+l --( wc
+
+@enduml
