@@ -42,7 +42,7 @@
 			}
 
 			.reveal .slides figure img {
-				max-height: 7em; /* FIXME should be a percent of total height */
+				max-height: 8em; /* FIXME should be a percent of total height */
 			}
 
 			.reveal .slides mark {
@@ -618,6 +618,7 @@
 							In a peer-to-peer network, an architectural change such as <a href="https://ethereum.org/en/upgrades/merge/">The Merge</a> requires updating the software of all participating peers.
 						</p>
 					</section>
+					<!-- TODO add section on benefits of these styles -->
 					<section>
 						<p>
 							Advanced (but also common) architectural styles:
@@ -724,6 +725,45 @@
 						<figure>
 							<img src="../misc/soft-architecture/arch-3tier.png">
 							<figcaption>2-tier pattern</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							A microservice architecture has:
+						</p>
+						<ul>
+							<li class="fragment">2n <mark>decoupled</mark> tiers</li>
+							<li class="fragment">one component for <mark>discovery</mark></li>
+							<li class="fragment">one component for <mark>routing</mark></li>
+							<li class="fragment">one component for <mark>caching</mark></li>
+							<li class="fragment">(and other admin. components)</li>
+						</ul>
+						<p class="note fragment">
+							See several examples as part of the <a href="https://www.csl.cornell.edu/~delimitrou/slides/2019.asplos.microservices.slides.pdf">DeathStarBench benchmark</a> for scientific research.
+						</p>
+					</section>
+					<!-- TODO component diagram -->
+					<section>
+						<p>
+							The microservice architectural style often <mark>dictates human organization</mark> around software development.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/microservices-teams.png">
+							<figcaption>Organization across software development activities. Source: <a href="https://www.slideshare.net/adriancockcroft/microservices-workshop-craft-conference">(Cockcroft, 2016)</a></figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<figure data-id="microservices-org" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/microservices-before.png">
+							<figcaption>General org. to develop software. Source: <a href="https://www.slideshare.net/adriancockcroft/microservices-workshop-craft-conference">(Cockcroft, 2016)</a></figcaption>
+						</figure>
+					</section>
+					<section data-auto-animate>
+						<figure data-id="microservices-org" data-auto-animate-duration="0">
+							<img src="../misc/soft-architecture/microservices-after.png">
+							<figcaption>Alternative org. to develop microservices. Source: <a href="https://www.slideshare.net/adriancockcroft/microservices-workshop-craft-conference">(Cockcroft, 2016)</a></figcaption>
 						</figure>
 					</section>
 					<!-- on microservices: typical examples to be found under https://dl.acm.org/doi/pdf/10.1145/3297858.3304013 pp. 5-6 -->
