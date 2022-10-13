@@ -1,0 +1,45 @@
+@startuml
+
+skinparam participant {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam sequence {
+    ArrowColor black
+    LifeLineBorderColor black
+    LifeLineBackgroundColor white
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+participant "Blackboard Manager" as B
+
+participant "Read/Write Component (1)" as RW1
+participant "Read/Write Component (2)" as RW2
+participant "Read/Write Component (3)" as RW3
+
+RW1 -> B : write(value1)
+activate B
+B --> RW1
+deactivate B
+
+RW2 -> B : read(query1)
+activate B
+B --> RW2 : value1
+deactivate B
+
+RW3 -> B : read(query2)
+activate B
+B --> RW3 : value1
+deactivate B
+
+RW3 -> B : write(value2)
+activate B
+B --> RW3
+deactivate B
+
+@enduml

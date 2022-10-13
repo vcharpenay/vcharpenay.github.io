@@ -1,0 +1,38 @@
+@startuml
+
+skinparam participant {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam sequence {
+    ArrowColor black
+    LifeLineBorderColor black
+    LifeLineBackgroundColor white
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+participant "Peer (1)" as P1
+participant "Peer (2)" as P2
+participant "Peer (3)" as P3
+
+P1 -> P2 : send(msg1)
+activate P2
+P2 --> P1
+deactivate P2
+
+P2 -> P3 : send(msg2)
+activate P3
+P3 --> P2
+deactivate P3
+
+P3 -> P1 : send(msg3)
+activate P1
+P1 --> P3
+deactivate P1
+
+@enduml
