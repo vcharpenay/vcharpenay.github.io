@@ -1,0 +1,45 @@
+@startuml
+
+skinparam participant {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam sequence {
+    ArrowColor black
+    LifeLineBorderColor black
+    LifeLineBackgroundColor white
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+participant "Kernel" as K
+
+participant "Extension (1)" as E1
+participant "Extension (2)" as E2
+participant "Extension (3)" as E3
+
+E1 -> K : syscall1(args1)
+activate K
+K --> E1 : value1
+deactivate K
+
+E1 -> K : syscall2(args2)
+activate K
+K --> E1 : value2
+deactivate K
+
+E2 -> K : syscall1(args3)
+activate K
+K --> E2 : value3
+deactivate K
+
+E3 -> K : syscall1(args4)
+activate K
+K --> E3 : value4
+deactivate K
+
+@enduml

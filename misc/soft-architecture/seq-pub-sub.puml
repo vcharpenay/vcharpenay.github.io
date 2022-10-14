@@ -1,0 +1,39 @@
+@startuml
+
+skinparam participant {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam sequence {
+    ArrowColor black
+    LifeLineBorderColor black
+    LifeLineBackgroundColor white
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+participant "Broker" as B
+
+participant "Subscriber" as S
+participant "Publisher" as P
+
+S -> B : subscribe(topic1)
+activate B
+B --> S
+deactivate B
+
+P -> B : publish(topic1, value1)
+activate B
+B --> P
+deactivate B
+
+B -> S : notify(topic1, value1)
+activate S
+S --> B
+deactivate S
+
+@enduml

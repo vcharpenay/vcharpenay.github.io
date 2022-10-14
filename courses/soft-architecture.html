@@ -36,6 +36,10 @@
 				font-size: 0.5em;
 			}
 
+			.reveal .slides caption {
+				color: gray;
+			}
+
 			.reveal .slides figcaption {
 				color: gray;
 				font-size: 0.5em;
@@ -479,9 +483,28 @@
 						<!-- hierarchical: cathedral, kernel: bazaar model -->
 					</section>
 					<section>
-						<figure>
+						<table>
+							<tr>
+								<th colspan="2" style="text-align: center; background-color: moccasin;">Client-Server</th>
+							</tr>
+							<tr>
+								<th>Components</th>
+								<td>n<sub>c</sub> clients, n<sub>s</sub> servers</td>
+							</tr>
+							<tr>
+								<th>Connectors</th>
+								<td>k client → server (k &lt; n<sub>c</sub>.n<sub>s</sub>)</td>
+							</tr>
+						</table>
+						<figure class="fragment">
 							<img src="../misc/soft-architecture/arch-cs.png">
 							<figcaption>Client-server style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/seq-cs.png">
+							<figcaption>Example of client-server sequence</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -500,9 +523,28 @@
 						</figure>
 					</section> -->
 					<section>
-						<figure>
+						<table>
+							<tr>
+								<th colspan="2" style="text-align: center; background-color: moccasin;">Microkernel</th>
+							</tr>
+							<tr>
+								<th>Components</th>
+								<td>1 kernel, n-1 extensions</td>
+							</tr>
+							<tr>
+								<th>Connectors</th>
+								<td>k.(n-1) extension → kernel (k arbitrary)</td>
+							</tr>
+						</table>
+						<figure class="fragment">
 							<img src="../misc/soft-architecture/arch-kernel.png">
 							<figcaption>Microkernel style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/seq-kernel.png">
+							<figcaption>Example of microkernel sequence</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -525,9 +567,28 @@
 						</p>
 					</section>
 					<section>
-						<figure>
+						<table>
+							<tr>
+								<th colspan="2" style="text-align: center; background-color: moccasin;">Pipe-and-Filter</th>
+							</tr>
+							<tr>
+								<th>Components</th>
+								<td>1 orchestrator, n-1 filters</td>
+							</tr>
+							<tr>
+								<th>Connectors</th>
+								<td>n-1 orchestrator → filter</td>
+							</tr>
+						</table>
+						<figure class="fragment">
 							<img src="../misc/soft-architecture/arch-pipe-filter.png">
 							<figcaption>Pipe-and-filter style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/seq-pipe-filter.png">
+							<figcaption>Example of pipe-and-filter sequence</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -537,7 +598,7 @@
 							<figcaption>TensorFlow graph of a a two-layer neural network</figcaption>
 						</figure>
 						<p class="note fragment">
-							The pipe-and-filter style is common in (big) data processing software. See e.g. the <a href="https://spark.apache.org/streaming/">Apache Spark Streaming API</a>.
+							The pipe-and-filter style is common in (big) data processing software. See also the <a href="https://spark.apache.org/streaming/">Apache Spark Streaming API</a>.
 						</p>
 					</section>
 					<section>
@@ -547,10 +608,33 @@
 							<figcaption>Stream processing with Apache Flink</figcaption>
 						</figure>
 					</section>
+					<!-- TODO invert P&F and BB? BB structurally closer to Kernel; P&F to Pub-Sub... -->
 					<section>
-						<figure>
+						<table>
+							<tr>
+								<th colspan="2" style="text-align: center; background-color: moccasin;">Blackboard</th>
+							</tr>
+							<tr>
+								<th>Components</th>
+								<td>1 blackboard, n-1 readers/writers</td>
+							</tr>
+							<tr>
+								<th>Connectors</th>
+								<td>
+									n-1 reader → blackboard<br>
+									n-1 writer → blackboard
+								</td>
+							</tr>
+						</table>
+						<figure class="fragment">
 							<img src="../misc/soft-architecture/arch-blackboard.png">
 							<figcaption>Blackboard style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/seq-blackboard.png">
+							<figcaption>Example of blackboard sequence</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -574,9 +658,32 @@
 						</p>
 					</section> -->
 					<section>
-						<figure>
+						<table>
+							<tr>
+								<th colspan="2" style="text-align: center; background-color: moccasin;">Publish-Subscribe</th>
+							</tr>
+							<tr>
+								<th>Components</th>
+								<td>1 broker, n-1 publishers/subscribers</td>
+							</tr>
+							<tr>
+								<th>Connectors</th>
+								<td>
+									k<sub>p</sub> publisher → broker<br>
+									k<sub>s</sub> subscriber → broker<br>
+									k<sub>s</sub> broker → subscriber
+								</td>
+							</tr>
+						</table>
+						<figure class="fragment">
 							<img src="../misc/soft-architecture/arch-pub-sub.png">
 							<figcaption>Publish-subscribe style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/seq-pub-sub.png">
+							<figcaption>Example of publish-subscribe sequence</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -597,9 +704,28 @@
 						</p>
 					</section>
 					<section>
-						<figure>
+						<table>
+							<tr>
+								<th colspan="2" style="text-align: center; background-color: moccasin;">Peer-to-Peer</th>
+							</tr>
+							<tr>
+								<th>Components</th>
+								<td>n peers</td>
+							</tr>
+							<tr>
+								<th>Connectors</th>
+								<td>n.(n-1) peer → peer</td>
+							</tr>
+						</table>
+						<figure class="fragment">
 							<img src="../misc/soft-architecture/arch-p2p.png">
 							<figcaption>Peer-to-peer style</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/soft-architecture/seq-p2p.png">
+							<figcaption>Example of peer-to-peer sequence</figcaption>
 						</figure>
 					</section>
 					<section>
@@ -618,7 +744,109 @@
 							In a peer-to-peer network, an architectural change such as <a href="https://ethereum.org/en/upgrades/merge/">The Merge</a> requires updating the software of all participating peers.
 						</p>
 					</section>
-					<!-- TODO add section on benefits of these styles -->
+					<section>
+						<p>
+							An architecture inherits the <mark>beneficial qualities</mark> of the style it adheres to, such as:
+						</p>
+						<ul>
+							<li class="fragment">scalability</li>
+							<!-- <li class="fragment">integrity</li> -->
+							<li class="fragment">visibility</li>
+							<li class="fragment">fault-tolerance</li>
+							<li class="fragment">...</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Architectural qualities can be characterized by <mark>formal metrics</mark>.
+						</p>
+						<table class="fragment">
+							<caption>Architectural qualities and associated metrics</caption>
+							<tr>
+								<th>Scalability</th>
+								<td>Max. nb. of provider components in a single sequence</td>
+								<td></td>
+							</tr>
+							<!-- <tr>
+								<th>Integrity</th>
+								<td>Max. sequence length</td>
+							</tr> -->
+							<tr>
+								<th>Visibility</th>
+								<td>Max. distance between a consumer and a provider</td>
+							</tr>
+							<tr>
+								<th>Fault-tolerance</th>
+								<td>Max. dependencies to a provider component</td>
+							</tr>
+						</table>
+					</section>
+					<!-- <section>
+						<p>
+							Let σ be the longest sequence allowed in the architecture represented as c1 -m-> c2 -> ...
+						</p>
+						<p>
+							Let ω be an architectural model with n components.
+						</p>
+						<table>
+							<tr>
+								<th>Scalability</th>
+								<td>1 / |components(σ)|</td>
+							</tr>
+							<tr>
+								<th>Visibility</th>
+								<td>1 / length(σ)</td>
+							</tr>
+							<tr>
+								<th>Fault-tolerance</th>
+								<td>1 / |connectors(components(ω))|</td>
+							</tr>
+						</table>
+					</section> -->
+					<section>
+						<table>
+							<caption>Evaluation of architectural qualities for the common styles</caption>
+							<tr>
+								<th></th>
+								<th>C-S</th>
+								<th>μK</th>
+								<th>P&F</th>
+								<th>BB</th>
+								<th>P-S</th>
+								<th>P2P</th>
+							</tr>
+							<tr>
+								<th>Scalability</th>
+								<td>1-1/n<sub>s</sub></td>
+								<td>0</td>
+								<td>1-1/(n-1)</td>
+								<td>0</td>
+								<td>1-1/(n-1)</td>
+								<td>1-1/n</td>
+							</tr>
+							<tr>
+								<th>Visibility</th>
+								<td>1</td>
+								<td>1</td>
+								<td>1/(n-1)</td>
+								<td>1</td>
+								<td>1/2</td> <!-- +Inf -->
+								<td>1</td>
+							</tr>
+							<tr>
+								<th>Fault-tol.</th>
+								<td>1-n<sub>c</sub>/n</td>
+								<td>1-(n-1)/n</td>
+								<td>1-1/(n-1)</td>
+								<td>0 (1)</td>
+								<td>0 (1)</td> <!-- or 1 - (n-1)/n -->
+								<td>1-(n-1)/n</td>
+							</tr>
+						</table>
+						<p class="fragment note">
+							Fault-tolerance heavily depends on whether central components (e.g. a blackboard or a publish-subscribe broker) are considered <span class="highlight">non-faulty</span>.
+						</p>
+					</section>
 					<section>
 						<p>
 							Advanced (but also common) architectural styles:
@@ -795,9 +1023,9 @@
 							<a href="http://oreilly.com/catalog/9781449394943/">REST in practice: hypermedia and system architecture</a>,
 							by Webber, Parastatidis and Robinson (2010). 
 						</p>
-						<p class="note fragment">
+						<!-- <p class="note fragment">
 							Authors have worked at Microsoft and Thoughtworks, hence the example.
-						</p>
+						</p> -->
 					</section>
 					<section>
 						<p>
@@ -805,7 +1033,7 @@
 						</p>
 						<ul>
 							<li class="fragment">to attract millions of customers (<mark>scalability</mark>),</li>
-							<li class="fragment">not to accept orders if they can't be fulfilled (<mark>integrity</mark>) and</li>
+							<li class="fragment">not to accept orders if they can't be fulfilled (<mark>visibility</mark>) and</li>
 							<li class="fragment">to make sure an order is always fulfilled once accepted (<mark>fault-tolerance</mark>).</li>
 						</ul>
 						<!-- p. 25 -->
@@ -814,36 +1042,36 @@
 						<table>
 							<thead>
 								<tr>
-									<th>Basic style</th>
+									<th>Arch. style</th>
 									<th>Scalability</th>
-									<th>Integrity</th>
+									<th>Visibility</th>
 									<th>Fault-tolerance</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>Microkernel</td>
-									<td>-</td>
+									<td>--</td>
 									<td>++</td>
-									<td>-</td>
+									<td>--</td>
 								</tr>
 								<tr>
-									<td>Pipe-and-filter</td>
+									<td>Pipe-and-Filter</td>
 									<td>++</td>
-									<td>-</td>
+									<td>--</td>
+									<td>++</td>
+								</tr>
+								<tr>
+									<td>Publish-Subscribe</td>
+									<td>++</td>
 									<td>+-</td>
-								</tr>
-								<tr>
-									<td>Publish-subscribe</td>
-									<td>++</td>
-									<td>--</td>
-									<td>--</td>
+									<td>-- (++)</td>
 								</tr>
 								<tr>
 									<td>...</td>
 								</tr>
 							</tbody>
-							<!-- Fieldings: fault-tolerance ~ reliability, integrity not considered -->
+							<!-- Fieldings: fault-tolerance ~ reliability, integrity not considered (~ verifiability, subsumed by 'simplicity') or considered to be visibility? -->
 							<caption>Analysis of several architectural styles for Restbucks</caption>
 						</table>
 					</section>
@@ -925,12 +1153,12 @@
 							REST mainly builds upon <mark>6 styles or constraints</mark>:
 						</p>
 						<ul>
-							<li class="fragment">Client-server</li>
-							<li class="fragment">Stateless communication</li>
-							<li class="fragment">Cache</li>
-							<li class="fragment">Uniform interface</li>
-							<li class="fragment">Layered system</li>
-							<li class="fragment">Code-on-demand</li>
+							<li class="fragment">client-server</li>
+							<li class="fragment">stateless communication</li>
+							<li class="fragment">cache</li>
+							<li class="fragment">uniform interface</li>
+							<li class="fragment">layered system</li>
+							<li class="fragment">code-on-demand</li>
 						</ul>
 					</section>
 					<section data-auto-animate>
@@ -938,7 +1166,7 @@
 							A <mark>server</mark> component listens for requests.
 							A <mark>client</mark> component sends a request to the server via a connector.
 						</p>
-						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="rest-derivation" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/rest-derivation-1.png">
 							<figcaption>REST derivation by style constraints (1)</figcaption>
 						</figure>
@@ -949,7 +1177,7 @@
 							Each request cannot take advantage of any stored context on the server.
 						</p>
 						<!-- Session state is therefore kept entirely on the client. -->
-						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="rest-derivation" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/rest-derivation-2.png">
 							<figcaption>REST derivation by style constraints (2)</figcaption>
 						</figure>
@@ -958,7 +1186,7 @@
 						<p class="def" style="font-size: 0.6em;">
 							The <mark>cache</mark> style requires that the data within a response to a request be labeled as cacheable.
 						</p>
-						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="rest-derivation" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/rest-derivation-3.png">
 							<figcaption>REST derivation by style constraints (3)</figcaption>
 						</figure>
@@ -967,7 +1195,7 @@
 						<p class="def" style="font-size: 0.6em;">
 							Interacting components have a <mark>uniform interface</mark> between each other.
 						</p>
-						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="rest-derivation" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/rest-derivation-4.png">
 							<figcaption>REST derivation by style constraints (4)</figcaption>
 						</figure>
@@ -977,7 +1205,7 @@
 							Each component cannot "see" <mark>beyond the immediate layer</mark> with which
 							it is interacting.
 						</p>
-						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="rest-derivation" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/rest-derivation-5.png">
 							<figcaption>REST derivation by style constraints (5)</figcaption>
 						</figure>
@@ -986,7 +1214,7 @@
 						<p class="def" style="font-size: 0.6em;">
 							Client functionality <em>may</em> be extended by <mark>downloading and executing code</mark> in the form of applets or scripts.
 						</p>
-						<figure data-id="rest-derivation" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="rest-derivation" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/rest-derivation-6.png">
 							<figcaption>REST derivation by style constraints (6)</figcaption>
 						</figure>
@@ -995,7 +1223,7 @@
 						<p>
 							<mark>All constraints are required</mark> for a RESTful architecture.
 						</p>
-						<figure>
+						<figure class="r-stretch">
 							<img src="../misc/soft-architecture/rest-derivation-all.png">
 							<figcaption>REST derivation by style constraints (all)</figcaption>
 						</figure>
@@ -1064,7 +1292,7 @@
 						<p>
 							At level 0, no restriction applies to Web services.
 						</p>
-						<figure data-id="maturity-level" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="maturity-level" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/maturity-0.png">
 							<figcaption>Maturity level 0</figcaption>
 						</figure>
@@ -1073,7 +1301,7 @@
 						<p>
 							At level 1, resources are uniquely identified by a <mark>URI</mark>.
 						</p>
-						<figure data-id="maturity-level" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="maturity-level" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/maturity-1.png">
 							<figcaption>Maturity level 1</figcaption>
 						</figure>
@@ -1082,7 +1310,7 @@
 						<p>
 							At level 2, resources can be manipulated with <mark>HTTP operations</mark>.
 						</p>
-						<figure data-id="maturity-level" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="maturity-level" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/maturity-2.png">
 							<figcaption>Maturity level 2</figcaption>
 						</figure>
@@ -1091,7 +1319,7 @@
 						<p>
 							At level 3, available operations are exposed via <mark>hypermedia controls</mark>.
 						</p>
-						<figure data-id="maturity-level" data-auto-animate-duration="0">
+						<figure class="r-stretch" data-id="maturity-level" data-auto-animate-duration="0">
 							<img src="../misc/soft-architecture/maturity-3.png">
 							<figcaption>Maturity level 3</figcaption>
 						</figure>

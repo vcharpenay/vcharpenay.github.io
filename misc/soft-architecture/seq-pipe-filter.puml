@@ -1,0 +1,48 @@
+@startuml
+
+skinparam participant {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam sequence {
+    ArrowColor black
+    LifeLineBorderColor black
+    LifeLineBackgroundColor white
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+participant "Pipeline Orchestrator" as O
+
+participant "Filter (1)" as F1
+participant "Filter (2)" as F2
+participant "Filter (3)" as F3
+
+O -> F1 : filter(value1)
+activate F1
+
+O -> F2 : filter(value2)
+activate F2
+
+F2 --> O : fvalue2
+deactivate F2
+
+O -> F3 : filter(fvalue2)
+activate F3
+
+F1 --> O : fvalue1
+deactivate F1
+
+F3 --> O : fvalue31
+deactivate F3
+
+O -> F3 : filter(fvalue1)
+activate F3
+
+F3 --> O : fvalue32
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+
+skinparam participant {
+    FontName Courier
+    ArrowColor black
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam sequence {
+    ArrowColor black
+    LifeLineBorderColor black
+    LifeLineBackgroundColor white
+    FontName Courier
+    BorderColor black
+    BackgroundColor white
+}
+
+participant "Client (1)" as C1
+participant "Client (2)" as C2
+participant "Client (3)" as C3
+
+participant "Server (1)" as S1
+participant "Server (2)" as S2
+
+C1 -> S1 : request(service1, args1)
+activate S1
+S1 --> C1 : response(value1)
+deactivate S1
+
+C2 -> S1: request(service1, args2)
+activate S1
+S1 --> C2: response(value2)
+deactivate S1
+
+C1 -> S2 : request(service2, args3)
+activate S2
+S2 --> C1 : response(value3)
+deactivate S2
+
+C3 -> S1: request(service3, args4)
+activate S1
+S1 --> C3: response(value4)
+deactivate S1
+
+@enduml
