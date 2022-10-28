@@ -30,6 +30,11 @@
 				margin-top: 1.5em; /* margin for upper section title */
 			}
 
+			.reveal .slides .aside {
+				color: gray;
+				font-size: 0.8em;
+			}
+
 			.reveal .slides .note {
 				padding: 0.5em;
 				font-size: 0.5em;
@@ -122,15 +127,17 @@
 					</section>
 					<section>
 						<p>
-							Note: full-stack Web applications are not the only kind of Web app.
+							But full-stack Web applications are not the only kind of Web app.
 						</p>
-						<p class="fragment">
-							On the <a href="https://www.lod-cloud.net/">Linked Open Data (LOD)</a> cloud,
+					</section>
+					<section>
+						<p>
+							On the <a href="https://www.lod-cloud.net/">Linked Open Data (LOD) cloud</a>,
 							the effort is split:
 						</p>
 						<ul>
-							<li class="fragment">Web servers provide <mark>raw data</mark> (of quality)</li>
-							<li class="fragment">The Web browser renders <mark>facets of data</mark> (of interest to the user)</li>
+							<li class="fragment">Web servers provide <mark>raw data</mark><br><span class="aside">of quality</span>
+							<li class="fragment">The Web browser renders <mark>facets of data</mark><br><span class="aside">of interest to the user</span></li>
 						</ul>
 					</section>
 					<section>
@@ -292,7 +299,7 @@ public class Book implements SupportsRdfId {
 					</section>
 					<section>
 						<p>
-							<a href="https://www.w3.org/TR/2014/REC-json-ld-20140116/">JSON-LD</a>: JSON for Linked Data
+							<a href="https://www.w3.org/TR/json-ld/">JSON-LD</a>: JSON for Linked Data
 						</p>
 					</section>
 					<section>
@@ -304,7 +311,7 @@ public class Book implements SupportsRdfId {
 							<li class="fragment">an <mark>expanded</mark> form</li>
 						</ul>
 						<p class="note fragment">
-							Try the <a href="https://json-ld.org/playground/">JSON-LD "playground"</a> to process all forms of JSON-LD.
+							Try the <a href="https://json-ld.org/playground/">JSON-LD Playground</a> to process all forms of JSON-LD.
 						</p>
 					</section>
 					<section>
@@ -348,11 +355,11 @@ public class Book implements SupportsRdfId {
 						<ul>
 							<li>
 								a <mark>node object</mark> (with key <code>@id</code>)<br>
-								&nbsp;&nbsp;<span style="color: lightgray;">~ IRI resource or blank node</span>
+								<span class="aside">~ IRI resource or blank node</span>
 							</li>
 							<li>
 								a <mark>value object</mark> (with key <code>@value</code>)<br>
-								&nbsp;&nbsp;<span style="color: lightgray;">~ literal</span>
+								<span class="aside">~ literal</span>
 							</li>
 						</ul>
 					</section>
@@ -370,12 +377,12 @@ public class Book implements SupportsRdfId {
 							A JSON-LD context includes several kinds of definitions.
 						</p>
 						<p class="note fragment">
-							See <a href="https://www.w3.org/TR/2014/REC-json-ld-20140116/#advanced-concepts">section 6 "Advanced concepts"</a> of the JSON-LD W3C specification.
+							See <a href="https://www.w3.org/TR/json-ld/#advanced-concepts">section 6 "Advanced concepts"</a> of the JSON-LD W3C specification.
 						</p>
 					</section>
 					<section>
 						<p>
-							<b>Compact IRIs</b>: instead of full IRIs, JSON object keys can map to IRI compacted with a declared prefix.
+							<b>Compact IRIs</b>: instead of full IRIs, JSON object keys can map to IRIs compacted with a declared prefix.
 						</p>
 <pre><code>{
   "@context": {
