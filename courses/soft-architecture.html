@@ -516,12 +516,8 @@
 							In fact, the architecture of the Web follows the more elaborate REST style.
 						</p>
 					</section>
-					<!-- <section>
-						<figure>
-							<img src="https://www.linuxjournal.com/files/linuxjournal.com/linuxjournal/articles/022/2204/2204f1.inline.jpg" alt="Example of">
-							<figcaption>Example of an RPC data flow</figcaption>
-						</figure>
-					</section> -->
+					<!-- TODO other example: Apache Thrift (RPC framework) -->
+					<!-- https://thrift.apache.org/docs/ -->
 					<section>
 						<table>
 							<tr>
@@ -585,6 +581,7 @@
 							<figcaption>Pipe-and-filter style</figcaption>
 						</figure>
 					</section>
+					<!-- TODO if orchestrator in P&F, is it still P&F (it looks more like SOA)? Metrics suggest good qualities of P&F. -->
 					<section>
 						<figure>
 							<img src="../misc/soft-architecture/seq-pipe-filter.png">
@@ -828,7 +825,7 @@
 								<th>Visibility</th>
 								<td>1</td>
 								<td>1</td>
-								<td>1/(n-1)</td>
+								<td>1</td> <!-- 1/(n-1) if no orch. -->
 								<td>1</td>
 								<td>1/2</td> <!-- +Inf -->
 								<td>1</td>
@@ -1136,7 +1133,7 @@
 					</section>
 					<section>
 						<p>
-							Such a "hypermedia" Restbuck service complies to the REST style.
+							Such a "hypermedia" Restbucks service complies to the REST style.
 						</p>
 					</section>
 					<section>
@@ -1240,7 +1237,7 @@
 								<tr>
 									<th>Basic style</th>
 									<th>Scalability</th>
-									<th>Integrity</th>
+									<th>Visibility</th>
 									<th>Fault-tolerance</th>
 								</tr>
 							</thead>
@@ -1254,7 +1251,7 @@
 								<tr>
 									<td>Pipe-and-filter</td>
 									<td>++</td>
-									<td>-</td>
+									<td>++</td>
 									<td>+-</td>
 								</tr>
 								<tr>
