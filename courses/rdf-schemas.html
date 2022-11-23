@@ -6,20 +6,6 @@
 
 		<title>The Two Schemas of RDF</title>
 
-		<script type="application/ld+json">
-			{
-				"@context": "http://schema.org/",
-				"@type": "Course",
-				"mainEntityOfPage": "",
-				"name": "RDF for the (Non-Semantic) Web",
-				"author": { "@id": "https://vcharpenay.link/#me" },
-				"teaches": [
-				  { "@id": "http://www.wikidata.org/entity/Q6108942" },
-				  { "@id": "http://www.wikidata.org/entity/Q3475322" }
-				]
-			}
-		</script>
-
 		<link rel="stylesheet" href="../css/slides-reset.css">
 		<link rel="stylesheet" href="../css/slides.css">
 		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
@@ -53,6 +39,43 @@
 			.reveal .slides caption {
 				color: gray;
 			}
+			
+			.reveal .slides .sql {
+				text-align: left;
+			}
+			
+			.reveal .slides .sparql {
+				text-align: left;
+			}
+			
+			.reveal .slides .java {
+				text-align: left;
+			}
+			
+			.reveal .slides .ttl {
+				text-align: left;
+			}
+
+            .reveal .slides .var {
+                color: darkmagenta;
+                font-weight: bold;
+            }
+
+            .reveal .slides .comment {
+                color: lightblue;
+            }
+
+            .reveal .slides .param {
+                color: lightgray;
+            }
+
+            .reveal .slides .string {
+                color: peru;
+            }
+
+            .reveal .slides .nb {
+                color: skyblue;
+            }
 
 			.reveal .slides figcaption {
 				color: gray;
@@ -91,36 +114,206 @@
 				<section>
 					<h4>A Schema for What?</h4>
 					<section>
-						Relational databases always rely on a schema for storing and querying relations.
-
-						Definition of schema:
-							structure
-							+ functionality constraints
-							+ integrity constraints
+						<p>
+							Relational databases always rely on a <mark>schema for guaranteeing consistency</mark>.
+						</p>
 					</section>
 					<section>
-						Object-oriented models also rely on a schema to .
-
-						Definition of schema:
-							structure (frame)
-							+ runtime constraints
+						<p>
+							A relational schema defines:
+						</p>
+						<ul>
+							<li class="fragment">relation <mark>attributes</mark></li>
+							<li class="fragment"><mark>functional dependencies</mark></li>
+							<li class="fragment">integrity <mark>constraints</mark></li>
+							<!-- ex: referential integrity -->
+						</ul>
 					</section>
 					<section>
-						Schema.org is a schema... But no structure is enforced and no constraints apply.
-
-						Difference between validation and inference.
-						Difference between a priori and a posteriori structure.
-						Difference between closed-world and open-world semantics.
+						<p class="sql">
+						CREATE TABLE example(<br>
+						&nbsp;&nbsp;column1 INTEGER,<br>
+						&nbsp;&nbsp;column2 VARCHAR(50),<br>
+						&nbsp;&nbsp;column3 DATE NOT NULL,<br>
+						&nbsp;&nbsp;PRIMARY KEY (column1, column2)<br>
+						);
+						</p>
+					</section>
+					<section>
+						<p class="sql">
+							INSERT INTO example<br>
+							VALUES<br>
+							('test', 'N', NULL);
+						</p>
+						<p class="fragment">
+							Error: column1 must be an Integer.
+						</p>
+					</section>
+					<section>
+						<p>
+							Object-oriented models also rely on a <mark>schema to verify </mark> the <mark>executability</mark> of programs at compile time.
+						</p>
+					</section>
+					<section>
+						<p>
+							An object-oriented schema defines:
+						</p>
+						<ul>
+							<li class="fragment">a <mark>class hierarchy</mark></li>
+							<li class="fragment"><mark>frames</mark> (attributes, methods)</li>
+						</ul>
+					</section>
+					<section>
+						<p class="java">
+							class Jedi extends LivingBeing {<br>
+							&nbsp;&nbsp;final String name;<br>
+							}
+						</p>
+						<p class="fragment">
+							Error: attribute 'name' is never assigned.
+						</p>
+					</section>
+					<section>
+						<p>
+							In contrast, schema.org is an RDF schema&hellip;
+						</p>
+						<p class="fragment">
+							But no structural verification can be done with it.
+						</p>
+					</section>
+					<section>
+						<p>
+							Yet, schema.org also defines:
+						</p>
+						<ul>
+							<li>a class hierarchy</li>
+							<li>properties (~attributes)</li>
+						</ul>
+					</section>
+					<section>
+						<p class="ttl">
+							schema:postalCode<br>
+							&nbsp;&nbsp;schema:domainIncludes schema:PostalAddress ;<br>
+							&nbsp;&nbsp;rdfs:range schema:String .
+						</p>
+					</section>
+					<section>
+						<p class="ttl">
+							:hogwartsAddress schema:postalCode "dunno..." .
+						</p>
+						<p class="fragment">
+							(No complain...)
+						</p>
+					</section>
+					<!-- <section>
+						<p>
+							Schema.org is derived from <a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS), a W3C standard.
+						</p>
+						<p class="fragment">
+							"RDFS provides mechanisms for <mark>describing</mark> groups of related resources and the relationships between these resources." <span class="aside">(source: W3C)</span>
+						</p>
+					</section> -->
+					<section>
+						<p>
+							To ensure large <mark>adoption</mark>, schema.org imposes no constraint on the structure of RDF triples that use its classes and properties.
+						</p>
+						<!-- <p class="fragment">
+							RDFS does not impose constraints either. Instead, it focuses on schema <mark>extension</mark> (via sub-classes and sub-properties).
+						</p> -->
+					</section>
+					<section>
+						<p>
+							For example, most countries have postal codes but a postal code in the US is different from a postal code in France or in Australia.
+						</p>
+						<p class="fragment">
+							It has been a design choice to keep schema.org generic (though not verifiable).
+						</p>
+						<!-- <p class="fragment">
+							In contrast, Wikidata attempts to capture such information (though not reliably).
+						</p> -->
+					</section>
+					<section>
+						<p>
+							What would a validation schema for RDF look like?
+						</p>
+						<p>&hellip;Like the <a class="https://www.w3.org/TR/shacl/">Shapes Constraint Language (SHACL)</a></p>
 					</section>
 				</section>
 				<section>
 					<h4>A Schema for Validation</h4>
 					<section>
+						<p>
+							A SHACL schema is an RDF graph.
+						</p>
+					</section>
+					<section>
+						<p>
+							SHACL defines <mark>node shapes</mark>.
+						</p>
+						<p>
+							An RDF node <mark>conforms</mark> to a shape if it satisfies all constraints defined by the shape.
+						</p>
+						<p>
+							Constraints apply to propertes defined for a node via <mark>property shapes</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Example: https://www.datashapes.org/schemashacl.shapes.ttl
+						</p>
+					</section>
+					<section>
+						<p>
+							Constraints on datatypes, on cardinalities, on classes
+						</p>
+					</section>
+					<section>
+						<p>
+							SPARQL as a constraint language
+						</p>
+					</section>
+					<section>
+						<p>
+							In SQL, a table schema has a syntax that is distinct from tuples. Although most DBMS have a "meta-representation" of a schema (ex: SQLite).
+						</p>
+						<p class="fragment">
+							Conversely, <a href="https://shex.io/">Shape Expressions</a> (ShEx), an alternative to SHACL, ShEx, made the choice of a distinct, more succint syntax.
+						</p>
+					</section>
+					<section>
+						(Opening)
+						OWL satisfiability test
 					</section>
 				</section>
 				<section>
 					<h4>A Schema for Inference</h4>
 					<section>
+						Difference between validation and inference. [Venn diagram: what is asserted, what is true]
+						Difference between a priori and a posteriori structure.
+						Difference between closed-world and open-world semantics.
+					</section>
+					<section>
+						Constraint satisfaction (schema instanciation, satisfiability): traditionally done with SHACL. If correct in a closed-world, correct in an open-world (more restrictive)
+
+						Querying under entailment: traditionally done with OWL. Whatever is inferred is guaranteed to remain true in the future (more restrictive).
+					</section>
+					<section>
+						RDF schema
+
+						<p>
+							The RDF Schema class and property system is similar to the type systems of object-oriented programming languages such as Java. RDF Schema differs from many such systems in that instead of defining a class in terms of the properties its instances may have, RDF Schema describes properties in terms of the classes of resource to which they apply. This is the role of the domain and range mechanisms <span class="aside"><a href="https://www.w3.org/TR/rdf-schema/#h2_ch_introduction">(W3C, 2014)</a></span>
+						</p>
+					</section>
+					<section>
+						~OWL-LD (+ property chains)
+					</section>
+					<section>
+						Existential/universal restrictions?
+					</section>
+					<section>
+						Note: an RDF entity may be both an RDFS class and a NodeShape. See https://www.datashapes.org/schema.ttl
+
+						Note: SHACL validation could be performed under OWL entailment. (research topic)
 					</section>
 				</section>
 			</div>
