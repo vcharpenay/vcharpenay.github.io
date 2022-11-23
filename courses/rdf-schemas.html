@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>The Two Schemas of RDF</title>
+
+		<script type="application/ld+json">
+			{
+				"@context": "http://schema.org/",
+				"@type": "Course",
+				"mainEntityOfPage": "",
+				"name": "RDF for the (Non-Semantic) Web",
+				"author": { "@id": "https://vcharpenay.link/#me" },
+				"teaches": [
+				  { "@id": "http://www.wikidata.org/entity/Q6108942" },
+				  { "@id": "http://www.wikidata.org/entity/Q3475322" }
+				]
+			}
+		</script>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .aside {
+				color: gray;
+				font-size: 0.8em;
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides caption {
+				color: gray;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>
+						The Two Schemas of RDF:<br>
+						<span style="text-shadow: lightblue 5px 5px;">SHACL</span>
+						or
+						<span style="text-shadow: lightgreen 5px 5px;">OWL</span>?
+					</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Outline</h4>
+					<ol>
+						<li class="fragment">A Schema for What?</li>
+						<li class="fragment">A Schema for Validation</li>
+						<li class="fragment">A Schema for Inference</li>
+					</ol>
+				</section>
+				<section>
+					<h4>A Schema for What?</h4>
+					<section>
+						Relational databases always rely on a schema for storing and querying relations.
+
+						Definition of schema:
+							structure
+							+ functionality constraints
+							+ integrity constraints
+					</section>
+					<section>
+						Object-oriented models also rely on a schema to .
+
+						Definition of schema:
+							structure (frame)
+							+ runtime constraints
+					</section>
+					<section>
+						Schema.org is a schema... But no structure is enforced and no constraints apply.
+
+						Difference between validation and inference.
+						Difference between a priori and a posteriori structure.
+						Difference between closed-world and open-world semantics.
+					</section>
+				</section>
+				<section>
+					<h4>A Schema for Validation</h4>
+					<section>
+					</section>
+				</section>
+				<section>
+					<h4>A Schema for Inference</h4>
+					<section>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
