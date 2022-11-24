@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>The Two Schemas of RDF</title>
+		<title>A Tale of Two RDF Schemas: SHACL vs. OWL</title>
 
 		<link rel="stylesheet" href="../css/slides-reset.css">
 		<link rel="stylesheet" href="../css/slides.css">
@@ -56,13 +56,17 @@
 				text-align: left;
 			}
 
+			.reveal .slides .prefix {
+				color: grey;
+			}
+
             .reveal .slides .var {
                 color: darkmagenta;
                 font-weight: bold;
             }
 
             .reveal .slides .comment {
-                color: lightblue;
+                color: darkseagreen;
             }
 
             .reveal .slides .param {
@@ -76,6 +80,17 @@
             .reveal .slides .nb {
                 color: skyblue;
             }
+
+			.reveal .slides .log {
+				text-align: left;
+				padding-left: 10px;
+				background-color: black;
+				color: cornsilk;
+			}
+
+			.reveal .slides .log.error {
+				color: crimson;
+			}
 
 			.reveal .slides figcaption {
 				color: gray;
@@ -96,9 +111,9 @@
 			<div class="slides">
 				<section>
 					<h1>
-						The Two Schemas of RDF:<br>
+						A Tale of Two RDF Schemas:<br>
 						<span style="text-shadow: lightblue 5px 5px;">SHACL</span>
-						or
+						vs.
 						<span style="text-shadow: lightgreen 5px 5px;">OWL</span>?
 					</h1>
 					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
@@ -131,22 +146,23 @@
 					</section>
 					<section>
 						<p class="sql">
-						CREATE TABLE example(<br>
-						&nbsp;&nbsp;column1 INTEGER,<br>
-						&nbsp;&nbsp;column2 VARCHAR(50),<br>
-						&nbsp;&nbsp;column3 DATE NOT NULL,<br>
-						&nbsp;&nbsp;PRIMARY KEY (column1, column2)<br>
+						CREATE TABLE <span class="var">Person</span>(<br>
+						&nbsp;&nbsp;<span class="var">taxID</span> VARCHAR(<span class="nb">25</span>) NOT NULL,<br>
+						&nbsp;&nbsp;<span class="var">familyName</span> VARCHAR(<span class="nb">50</span>) NOT NULL,<br>
+						&nbsp;&nbsp;<span class="var">givenName</span> VARCHAR(<span class="nb">50</span>) NOT NULL,<br>
+						&nbsp;&nbsp;<span class="var">birthDate</span> DATE,<br>
+						&nbsp;&nbsp;PRIMARY KEY (<span class="var">taxID</span>)<br>
 						);
 						</p>
 					</section>
 					<section>
 						<p class="sql">
-							INSERT INTO example<br>
+							INSERT INTO <span class="var">Person</span><br>
 							VALUES<br>
-							('test', 'N', NULL);
+							(NULL, <span class="string">'Ketchum'</span>, <span class="string">'Ash'</span>, NULL);
 						</p>
-						<p class="fragment">
-							Error: column1 must be an Integer.
+						<p class="fragment log error">
+							Error: taxID cannot be NULL.
 						</p>
 					</section>
 					<section>
@@ -165,45 +181,57 @@
 					</section>
 					<section>
 						<p class="java">
-							class Jedi extends LivingBeing {<br>
-							&nbsp;&nbsp;final String name;<br>
+							class <span class="var">Person</span> extends <span class="var">Thing</span> {<br>
+							&nbsp;&nbsp;final String <span class="var">taxID</span>;<br>
+							&nbsp;&nbsp;final String <span class="var">familyName</span>;<br>
+							&nbsp;&nbsp;final String <span class="var">givenName</span>;<br>
+							&nbsp;&nbsp;final Date <span class="var">birthDate</span>;<br><br>
+							&nbsp;&nbsp;public <span class="var">Person</span>(String taxID) { &hellip; }<br>
 							}
 						</p>
-						<p class="fragment">
-							Error: attribute 'name' is never assigned.
+						<p class="fragment log error">
+							Error: familyName is never assigned.
 						</p>
 					</section>
 					<section>
 						<p>
-							In contrast, schema.org is an RDF schema&hellip;
-						</p>
-						<p class="fragment">
-							But no structural verification can be done with it.
+							In contrast, <a href="https://schema.org/">schema.org</a> is an RDF schema that <mark>cannot generate errors</mark>.
 						</p>
 					</section>
 					<section>
 						<p>
-							Yet, schema.org also defines:
+							Yet, <a href="https://schema.org/">schema.org</a> also defines:
 						</p>
 						<ul>
-							<li>a class hierarchy</li>
-							<li>properties (~attributes)</li>
+							<li>a <mark>class hierarchy</mark></li>
+							<li><mark>properties</mark> (~attributes)</li>
 						</ul>
 					</section>
 					<section>
 						<p class="ttl">
-							schema:postalCode<br>
-							&nbsp;&nbsp;schema:domainIncludes schema:PostalAddress ;<br>
-							&nbsp;&nbsp;rdfs:range schema:String .
+							@prefix <span class="prefix">rdfs:</span> &lt;http://www.w3.org/&hellip;&gt;<br>
+							@prefix <span class="prefix">:</span> &lt;http://schema.org/&gt;<br><br>
+							<span class="prefix">:</span><span class="var">Person</span> <span class="prefix">rdfs:</span>subClassOf <span class="prefix">:</span><span class="var">Thing</span> .<br>
+							<span class="comment"># (skipping taxID, etc...)</span><br>
+							<span class="prefix">:</span><span class="var">birthDate</span><br>
+							&nbsp;&nbsp;<span class="prefix">:</span>domainIncludes <span class="prefix">:</span><span class="var">Person</span> ;<br>
+							&nbsp;&nbsp;<span class="prefix">:</span>rangeIncludes <span class="prefix">:</span><span class="var">Date</span> .
+						</p>
+						<p class="note fragment">
+							<a href="https://schema.org/">Schema.org</a> borrows concepts from <a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS), a W3C standard.
 						</p>
 					</section>
 					<section>
 						<p class="ttl">
-							:hogwartsAddress schema:postalCode "dunno..." .
+							&lt;ash&gt;<br>
+							&nbsp;&nbsp;<span class="comment"># taxID: none</span><br>
+							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Ketchum"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Ash"</span> .
 						</p>
-						<p class="fragment">
-							(No complain...)
+						<p class="fragment log">
+							OK.
 						</p>
+						<!-- note: the date string could be typed. But no possibility of doing this with RDFS. Must use OWL -->
 					</section>
 					<!-- <section>
 						<p>
@@ -220,30 +248,47 @@
 						<!-- <p class="fragment">
 							RDFS does not impose constraints either. Instead, it focuses on schema <mark>extension</mark> (via sub-classes and sub-properties).
 						</p> -->
+						<p class="note fragment">
+							Semantic Web practitioners favor the terms <span class="highlight">'vocabulary'</span> or <span class="highlight">'ontology'</span> over 'schema' to refer to such a model.
+						</p>
 					</section>
 					<section>
 						<p>
-							For example, most countries have postal codes but a postal code in the US is different from a postal code in France or in Australia.
+							For example, states <mark>identify citizens with tax IDs</mark> but not all persons are citizens of some state, especially not <mark>fictional characters</mark>.
 						</p>
 						<p class="fragment">
-							It has been a design choice to keep schema.org generic (though not verifiable).
+							Some real persons also have <mark>multiple tax IDs</mark>.
 						</p>
-						<!-- <p class="fragment">
-							In contrast, Wikidata attempts to capture such information (though not reliably).
-						</p> -->
+					</section>
+					<!-- <section>
+						<p>
+							Moreover, in large datasets, it is likely that the <mark>birth date</mark> of persons is known with <mark>varying levels of details</mark> (year, date, time?)
+						</p>
+					</section> -->
+					<section>
+						<p>
+							It has been a design choice to keep schema.org <mark>generic</mark>, i.e.:
+						</p>
+						<ul>
+							<li class="fragment">easy to <mark>extend</mark> but</li>
+							<li class="fragment">hard to <mark>validate</mark></li>
+						</ul>
 					</section>
 					<section>
 						<p>
-							What would a validation schema for RDF look like?
+							What would a <mark>validation schema</mark> for RDF look like?
 						</p>
-						<p>&hellip;Like the <a class="https://www.w3.org/TR/shacl/">Shapes Constraint Language (SHACL)</a></p>
 					</section>
 				</section>
 				<section>
 					<h4>A Schema for Validation</h4>
 					<section>
 						<p>
-							A SHACL schema is an RDF graph.
+							The <a class="https://www.w3.org/TR/shacl/">Shapes Constraint Language (SHACL)</a> has been designed to <mark>declare constraints</mark> on classes and properties.
+						</p>
+					</section>
+					<section>
+						<p class="shacl">
 						</p>
 					</section>
 					<section>
@@ -254,7 +299,7 @@
 							An RDF node <mark>conforms</mark> to a shape if it satisfies all constraints defined by the shape.
 						</p>
 						<p>
-							Constraints apply to propertes defined for a node via <mark>property shapes</mark>.
+							Constraints apply to properties defined for a node via <mark>property shapes</mark>.
 						</p>
 					</section>
 					<section>
@@ -277,7 +322,7 @@
 							In SQL, a table schema has a syntax that is distinct from tuples. Although most DBMS have a "meta-representation" of a schema (ex: SQLite).
 						</p>
 						<p class="fragment">
-							Conversely, <a href="https://shex.io/">Shape Expressions</a> (ShEx), an alternative to SHACL, ShEx, made the choice of a distinct, more succint syntax.
+							Conversely, <a href="https://shex.io/">Shape Expressions</a> (ShEx), an alternative to SHACL, ShEx, made the choice of a distinct, more succinct syntax.
 						</p>
 					</section>
 					<section>
@@ -309,6 +354,8 @@
 					</section>
 					<section>
 						Existential/universal restrictions?
+
+						Usefule restrictions: datatype restrictions (example of Ash's birth date).
 					</section>
 					<section>
 						Note: an RDF entity may be both an RDFS class and a NodeShape. See https://www.datashapes.org/schema.ttl
