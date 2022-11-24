@@ -35,6 +35,10 @@
 			.reveal .slides table {
 				font-size: 0.5em;
 			}
+			
+			.reveal .slides thead {
+				font-weight: bold;
+			}
 
 			.reveal .slides caption {
 				color: gray;
@@ -55,6 +59,18 @@
 			.reveal .slides .ttl {
 				text-align: left;
 			}
+			
+			.reveal .slides .shacl {
+				text-align: left;
+			}
+			
+			.reveal .slides .shex {
+				text-align: left;
+			}
+			
+			.reveal .slides .sparql {
+				text-align: left;
+			}
 
 			.reveal .slides .prefix {
 				color: grey;
@@ -69,7 +85,7 @@
                 color: darkseagreen;
             }
 
-            .reveal .slides .param {
+            .reveal .slides .masked {
                 color: lightgray;
             }
 
@@ -224,6 +240,7 @@
 					<section>
 						<p class="ttl">
 							&lt;ash&gt;<br>
+							&nbsp;&nbsp;a :<span class="var">Person</span>;<br>
 							&nbsp;&nbsp;<span class="comment"># taxID: none</span><br>
 							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Ketchum"</span> ;<br>
 							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Ash"</span> .
@@ -289,79 +306,361 @@
 					</section>
 					<section>
 						<p class="shacl">
+							<!-- @prefix <span class="prefix">sh:</span> &lt;http://www.w3.org/&hellip;&gt;<br>
+							@prefix <span class="prefix">:</span> &lt;http://schema.org/&gt;<br><br> -->
+							<span class="prefix">ex:</span>PersonShape<br>
+							&nbsp;&nbsp;a <span class="prefix">sh:</span>NodeShape ;<br>
+							&nbsp;&nbsp;<span class="prefix">sh:</span>targetClass <span class="prefix">:</span><span class="var">Person</span> ;<br>
+							&nbsp;&nbsp;<span class="prefix">sh:</span>property [<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>path <span class="prefix">:</span><span class="var">taxID</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>minCount <span class="nb">1</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>maxCount <span class="nb">1</span><br>
+							&nbsp;&nbsp;] .
+						</p>
+					</section>
+					<section>
+						<p class="ttl">
+							&lt;ash&gt;<br>
+							&nbsp;&nbsp;a :<span class="var">Person</span>;<br>
+							&nbsp;&nbsp;<span class="comment"># taxID: none</span><br>
+							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Ketchum"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Ash"</span> .
+						</p>
+						<p class="fragment log error">
+							Error: taxID has less than one value.
 						</p>
 					</section>
 					<section>
 						<p>
-							SHACL defines <mark>node shapes</mark>.
+							On the Semantic Web, everything is in RDF. Even SHACL <mark>validation reports</mark>. 
 						</p>
-						<p>
-							An RDF node <mark>conforms</mark> to a shape if it satisfies all constraints defined by the shape.
-						</p>
-						<p>
-							Constraints apply to properties defined for a node via <mark>property shapes</mark>.
+					</section>
+					<section>
+						<p class="shacl">
+							[]<br>
+							&nbsp;&nbsp;a sh:ValidationResult ;<br>
+							&nbsp;&nbsp;sh:resultSeverity sh:Violation ;<br>
+							&nbsp;&nbsp;sh:focusNode &lt;ash&gt; ;<br>
+							&nbsp;&nbsp;sh:resultPath schema:taxID .
 						</p>
 					</section>
 					<section>
 						<p>
-							Example: https://www.datashapes.org/schemashacl.shapes.ttl
-						</p>
-					</section>
-					<section>
-						<p>
-							Constraints on datatypes, on cardinalities, on classes
-						</p>
-					</section>
-					<section>
-						<p>
-							SPARQL as a constraint language
-						</p>
-					</section>
-					<section>
-						<p>
-							In SQL, a table schema has a syntax that is distinct from tuples. Although most DBMS have a "meta-representation" of a schema (ex: SQLite).
+							A SHACL schema is composed of <mark>node shapes</mark>.
 						</p>
 						<p class="fragment">
-							Conversely, <a href="https://shex.io/">Shape Expressions</a> (ShEx), an alternative to SHACL, ShEx, made the choice of a distinct, more succinct syntax.
+							A node shape applies to <mark>focus nodes</mark>, which are either:
+						</p>
+						<ul>
+							<li class="fragment">a single <mark>target node</mark> or</li>
+							<li class="fragment">instances of a <mark>target class</mark></li>
+						</ul>
+					</section>
+					<section>
+						<p class="shacl">
+							<span class="prefix">ex:</span>PersonShape<br>
+							&nbsp;&nbsp;a <span class="prefix">sh:</span>NodeShape ;<br>
+							&nbsp;&nbsp;<span class="prefix">sh:</span>targetClass <span class="prefix">:</span><span class="var">Person</span> ;<br>
+							<span class="masked">
+							&nbsp;&nbsp;sh:property [<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;sh:path :taxID ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;sh:minCount 1 ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;sh:maxCount 1<br>
+							&nbsp;&nbsp;] .
+							</span>
 						</p>
 					</section>
 					<section>
-						(Opening)
-						OWL satisfiability test
+						<p>
+							A node shape is composed of one or more <mark>property shapes</mark>.
+						</p>
+						<p class="fragment">
+							A property shape defines a <mark>path</mark> from the focus node to <mark>value nodes</mark>.
+						</p>
+					</section>
+					<section>
+						<p class="shacl">
+							<span class="masked">
+							ex:PersonShape<br>
+							&nbsp;&nbsp;a sh:NodeShape ;<br>
+							&nbsp;&nbsp;sh:targetClass :Person ;<br>
+							</span>
+							&nbsp;&nbsp;sh:property [<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>path <span class="prefix">:</span><span class="var">taxID</span> ;<br>
+							<span class="masked">
+							&nbsp;&nbsp;&nbsp;&nbsp;sh:minCount 1 ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;sh:maxCount 1 ;<br>
+							&nbsp;&nbsp;] .
+							</span>
+						</p>
+					</section>
+					<section>
+						<p>
+							A property shape also defines <mark>constraints</mark> that must apply on all value nodes.
+						</p>
+					</section>
+					<section>
+						<p class="shacl">
+							<span class="masked">
+							ex:PersonShape<br>
+							&nbsp;&nbsp;a sh:NodeShape ;<br>
+							&nbsp;&nbsp;sh:targetClass :Person ;<br>
+							&nbsp;&nbsp;sh:property [<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;sh:path :taxID ;<br>
+							</span>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>minCount <span class="nb">1</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>maxCount <span class="nb">1</span><br>
+							&nbsp;&nbsp;] .
+						</p>
+					</section>
+					<section>
+						<p>
+							The SHACL standard includes numerous <mark>built-in constraints</mark>.
+						</p>
+						<table class="fragment">
+							<thead>
+								<tr>
+									<td>Value type</td>
+									<td>Cardinality</td>
+									<td>Number</td>
+									<td>String</td>
+									<td>Combination</td>
+									<td>Recursivity</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										sh:class<br>
+										sh:datatype
+									</td>
+									<td>
+										sh:minCount<br>
+										sh:maxCount
+									</td>
+									<td>
+										sh:minExclusive<br>
+										sh:maxExclusive<br>
+										sh:minInclusive<br>
+										sh:maxInclusive
+									</td>
+									<td>
+										sh:minLength<br>
+										sh:maxLength<br>
+										sh:pattern
+									</td>
+									<td>
+										sh:or<br>
+										sh:and<br>
+										sh:not
+									</td>
+									<td>
+										sh:node
+									</td>
+								</tr>
+							</tbody>
+							<caption>Main built-in SHACL constraints</caption>
+						</table>
+					</section>
+					<section>
+						<p class="shacl">
+							<span class="prefix">ex:</span>PersonShape<br>
+							&nbsp;&nbsp;a <span class="prefix">sh:</span>NodeShape ;<br>
+							&nbsp;&nbsp;<span class="prefix">sh:</span>targetClass <span class="prefix">:</span><span class="var">Person</span> ;<br>
+							&nbsp;&nbsp;<span class="prefix">sh:</span>property [<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>path <span class="prefix">:</span><span class="var">birthDate</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>datatype <span class="prefix">xsd:</span>string<br>
+							&nbsp;&nbsp;] .
+						</p>
+					</section>
+					<!-- combined and recursive constraints are tricky: they require introducing constraints on node shapes, not on property shapes -->
+					<section data-background-color="moccasin">
+						<p>
+							SHACL was introduced in 2017.
+						</p>
+						<p class="fragment">
+							How could Semantic Web developers validate their RDF graphs before 2017?
+						</p>
+					</section>
+					<section>
+						<p>
+							<mark>SPARQL</mark> can also be considered as a constraint language.
+						</p>
+					</section>
+					<section>
+						<p class="sparql">
+							SELECT ?person WHERE {<br>
+							&nbsp;&nbsp;?person a :<span class="var">Person</span> .<br>
+							&nbsp;&nbsp;FILTER NOT EXISTS {<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># ~sh:minCount 1</span><br>
+							&nbsp;&nbsp;&nbsp;&nbsp;?person :<span class="var">taxID</span> ?id .<br>
+							&nbsp;&nbsp;}<br>
+							}
+						</p>
+					</section>
+					<section>
+						<p class="sparql">
+							SELECT ?person WHERE {<br>
+							&nbsp;&nbsp;?person<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;a :<span class="var">Person</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;:<span class="var">birthDate</span> ?bdate .<br>
+							&nbsp;&nbsp;FILTER (<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># ~sh:datatype xsd:date</span><br>
+							&nbsp;&nbsp;&nbsp;&nbsp;datatype(?bdate) = xsd:date<br>
+							&nbsp;&nbsp;)<br>
+							}
+						</p>
+					</section>
+					<section>
+						<p>
+							SHACL and SPARQL can be <mark>combined</mark> to provide an expressive validation language.
+						</p>
+						<p class="note fragment">
+							The integration, along with many features of SHACL, is illustrated <a href="https://www.datashapes.org/schemashacl.shapes.ttl">in a single example</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							SHACL shapes must be defined in RDF, which might be tedious to write.
+						</p>
+						<p class="fragment">
+							The main benefit is that RDF class and property declarations can <mark>embed</mark> SHACL shapes.
+						</p>
+					</section>
+					<section>
+						<p class="shacl">
+							<span class="prefix">ex:</span><span class="var">Citizen</span><br>
+							&nbsp;&nbsp;a <span class="prefix">rdfs:</span>Class ;<br>
+							&nbsp;&nbsp;<span class="prefix">rdfs:</span>subClassOf <span class="prefix">:</span><span class="var">Person</span>;<br>
+							&nbsp;&nbsp;<span class="prefix">sh:</span>property [<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>path <span class="prefix">:</span><span class="var">taxID</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>minCount <span class="nb">1</span> ;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>maxCount <span class="nb">1</span><br>
+							&nbsp;&nbsp;] .
+						</p>
+						<p class="note fragment">
+							If a class is also a node shape, it implicitly targets instances of itself.
+						</p>
+					</section>
+					<section>
+						<p>
+							In contrast to SHACL, the <a href="https://shex.io/">Shape Expressions</a> (ShEx) language made the choice of a distinct, more succinct syntax.
+						</p>
+					</section>
+					<section>
+						<p class="shex">
+							:PersonShape {<br>
+							&nbsp;&nbsp;:<span class="var">taxID</span> xsd:string,<br>
+							&nbsp;&nbsp;:<span class="var">familyName</span> xsd:string,<br>
+							&nbsp;&nbsp;:<span class="var">givenName</span> xsd:string,<br>
+							&nbsp;&nbsp;:<span class="var">birthDate</span> xsd:date<br>
+							}
+						</p>
 					</section>
 				</section>
 				<section>
 					<h4>A Schema for Inference</h4>
 					<section>
-						Difference between validation and inference. [Venn diagram: what is asserted, what is true]
-						Difference between a priori and a posteriori structure.
-						Difference between closed-world and open-world semantics.
-					</section>
-					<section>
-						Constraint satisfaction (schema instanciation, satisfiability): traditionally done with SHACL. If correct in a closed-world, correct in an open-world (more restrictive)
-
-						Querying under entailment: traditionally done with OWL. Whatever is inferred is guaranteed to remain true in the future (more restrictive).
-					</section>
-					<section>
-						RDF schema
-
 						<p>
-							The RDF Schema class and property system is similar to the type systems of object-oriented programming languages such as Java. RDF Schema differs from many such systems in that instead of defining a class in terms of the properties its instances may have, RDF Schema describes properties in terms of the classes of resource to which they apply. This is the role of the domain and range mechanisms <span class="aside"><a href="https://www.w3.org/TR/rdf-schema/#h2_ch_introduction">(W3C, 2014)</a></span>
+							SHACL is a valuable part of the Semantic Web technology stack.
+						</p>
+						<p class="fragment">
+							However...
 						</p>
 					</section>
 					<section>
+						<p>
+							Ash, the main character of the Pokémon franchise, is fictional: he has no tax ID.
+						</p>
+						<p class="fragment">
+							Before the first Pokémon anime, Ash didn't even have a family name&hellip;
+						</p>
+					</section>
+					<section data-background-color="moccasin">
+						What SHACL shape would Ash fit best?
+					</section>
+					<section>
+						<p>
+							When designing a vocabulary (a set of RDF classes and properties), it is impossible to think of all possible uses.
+						</p>
+						<p class="fragment">
+							Indeed, one cannot assert <mark>all what is true</mark> with a finite vocabulary.
+						</p>
+					</section>
+					<section>
+						<p>The designer of a vocabulary must define its <a href="https://en.wikipedia.org/wiki/Frame_problem">frame</a>:</p>
+						<ul>
+							<li class="fragment">
+								what is within the frame is known for certain
+							</li>
+							<li class="fragment">
+								what is outside the frame is unknown
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							The two possible treatments for unknown statements are:
+						</p>
+						<ul>
+							<li class="fragment">
+								the <mark>Closed World assumption</mark><br>
+								<span class="aside">what is not stated is false</span>
+							</li>
+							<li class="fragment">
+								the <mark>Open World assumption</mark><br>
+								<span class="aside">what is not stated is undefined</span>
+							</li>
+						</ul>
+						<!-- Difference between validation and inference. [Venn diagram: what is asserted, what is true]
+						Difference between closed-world and open-world semantics. -->
+					</section>
+					<section>
+						<p>
+							<mark>Constraint satisfaction</mark> is typically done under the (more restrictive) Closed World assumption.
+						</p>
+						<p class="note fragment">
+							Whatever is valid in a closed world remains valid in an open world.
+						</p>
+					</section>
+					<section>
+						<p>
+							<mark>Inference</mark> is typically done under the (more restrictive) Open World assumption.
+						</p>
+						<p class="note fragment">
+							Whatever is inferred in an open world remains inferred in a closed world.
+						</p>
+					</section>
+					<section>
+						<p>
+							<a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS) is a minimal language to define vocabularies.
+						</p>
+						<p class="fragment">
+							It includes:
+						</p>
+						<ul>
+							<li class="fragment">sub-class relations,</li>
+							<li class="fragment">sub-property relation,</li>
+							<li class="fragment">property domain definitions,</li>
+							<li class="fragment">property range definitions,</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							For an introduction to OWL, see the <a href="http://www.vcharpenay.link/misc/owl-quickref.pdf">OWL quick reference</a> document.
+						</p>
+					</section>
+					<!-- <section>
 						~OWL-LD (+ property chains)
 					</section>
 					<section>
 						Existential/universal restrictions?
 
 						Usefule restrictions: datatype restrictions (example of Ash's birth date).
-					</section>
-					<section>
-						Note: an RDF entity may be both an RDFS class and a NodeShape. See https://www.datashapes.org/schema.ttl
-
+					</section> -->
+					<!-- <section>
 						Note: SHACL validation could be performed under OWL entailment. (research topic)
-					</section>
+					</section> -->
 				</section>
 			</div>
 		</div>
