@@ -472,7 +472,7 @@
 							&nbsp;&nbsp;<span class="prefix">sh:</span>targetClass <span class="prefix">:</span><span class="var">Person</span> ;<br>
 							&nbsp;&nbsp;<span class="prefix">sh:</span>property [<br>
 							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>path <span class="prefix">:</span><span class="var">birthDate</span> ;<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>datatype <span class="prefix">xsd:</span>string<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="prefix">sh:</span>datatype <span class="prefix">xsd:</span>date<br>
 							&nbsp;&nbsp;] .
 						</p>
 					</section>
@@ -572,19 +572,43 @@
 						</p>
 					</section>
 					<section>
-						<p>
-							Ash, the main character of the Pokémon franchise, is fictional: he has no tax ID.
+						<p class="ttl">
+							&lt;junichi-masuda&gt;<br>
+							&nbsp;&nbsp;a :<span class="var">Person</span>;<br>
+							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Masuda"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Junichi"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968-01-12"</span> .
 						</p>
-						<p class="fragment">
-							Before the first Pokémon anime, Ash didn't even have a family name&hellip;
-						</p>
+						<!-- easter egg on Jan 12th in Pokémon games: https://bulbapedia.bulbagarden.net/wiki/Birthday -->
 					</section>
 					<section data-background-color="moccasin">
-						What SHACL shape would Ash fit best?
+						<p>
+							Do these statements about Junichi Masuda validate the constraint that a birth date must be a date?
+						</p>
 					</section>
 					<section>
 						<p>
-							When designing a vocabulary (a set of RDF classes and properties), it is impossible to think of all possible uses.
+							In many cases, obvious statements are not asserted.
+						</p>
+						<p class="fragment">
+							A schema can help <mark>infer</mark> obvious statements from asserted ones.
+						</p>
+						<p class="note fragment">
+							A schema used for inference should rather be called an <span class="highlight">ontology</span>.
+						</p>
+					</section>
+					<section>
+						<p class="ttl">
+							&lt;junichi-masuda&gt;<br>
+							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968-01-12"</span>^^<span href="prefix">xsd:</span>date .
+						</p>
+						<p class="fragment">
+							&hellip; is a necessary fact for the shape to be validated. It can be considered <mark>true</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Still, many statements are <mark>unknown</mark> with respect to a schema.
 						</p>
 						<p class="fragment">
 							One cannot assert <mark>all what is true</mark> with a finite vocabulary.
@@ -618,17 +642,21 @@
 						<!-- Difference between validation and inference. [Venn diagram: what is asserted, what is true]
 						Difference between closed-world and open-world semantics. -->
 					</section>
-					<section>
+					<section data-auto-animate>
 						<p>
-							<mark>Constraint satisfaction</mark> is typically done under the (more restrictive) Closed World assumption.
+							<mark>Constraint satisfaction</mark><br>
+							<span data-id="stmt">is typically done under the</span><br>
+							Closed World assumption.
 						</p>
 						<p class="note fragment">
 							Whatever is valid in a closed world remains valid in an open world.
 						</p>
 					</section>
-					<section>
+					<section data-auto-animate="">
 						<p>
-							<mark>Inference</mark> is typically done under the (more restrictive) Open World assumption.
+							<mark>Inference</mark><br>
+							<span data-id="stmt">is typically done under the</span><br>
+							Open World assumption.
 						</p>
 						<p class="note fragment">
 							Whatever is inferred in an open world remains inferred in a closed world.
@@ -638,14 +666,48 @@
 						<p>
 							<a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS) is a minimal language to define vocabularies.
 						</p>
-						<p class="fragment">
-							It includes:
+					</section>
+					<section>
+						<p>
+							RDFS includes:
 						</p>
 						<ul>
 							<li class="fragment">sub-class relations,</li>
 							<li class="fragment">sub-property relation,</li>
-							<li class="fragment">property domain definitions,</li>
-							<li class="fragment">property range definitions,</li>
+							<li class="fragment">property domain definitions and</li>
+							<li class="fragment">property range definitions</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							The <a href="http://www.w3.org/TR/owl2-syntax/">Web Ontology Language</a> (OWL) is an overly complex language to define ontologies.
+						</p>
+					</section>
+					<section>
+						<p>
+							OWL includes:
+						</p>
+						<ul>
+							<li class="fragment">all of RDFS</li>
+							<li class="fragment">
+								class combinations<br>
+								<span class="aside">union, intersection, complement</span>
+							</li>
+							<li class="fragment">
+								property characteristics<br>
+								<span class="aside">transitivity, symmetry, inverse, &hellip;</span>
+							</li>
+							<li class="fragment">property chains</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							OWL also includes so-called <mark>restrictions</mark>, including:
+						</p>
+						<ul>
+							<li class="fragment">existential restrictions</li>
+							<li class="fragment">universal restrictions</li>
+							<li class="fragment">cardinality constraints</li>
 						</ul>
 					</section>
 					<section>
