@@ -8,6 +8,15 @@
             "author": [
                 {
                     "@type": "BlogPosting",
+                    "datePublished": "2023-01",
+                    "sharedContent": {
+                        "@id": "notes/semweb-chatgpt.html",
+                        "@type": "WebPage",
+                        "name": "ChatGPT and the Semantic Web"
+                    }
+                },
+                {
+                    "@type": "BlogPosting",
                     "datePublished": "2022-03",
                     "sharedContent": {
                         "@id": "notes/sutom-tom-tom.html",
