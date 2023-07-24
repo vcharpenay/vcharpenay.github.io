@@ -26,6 +26,11 @@
 			.reveal .slides .note .highlight {
 				color: brown;
 			}
+
+			.reveal .slides .aside {
+				color: gray;
+				font-size: 0.8em;
+			}
 			
 			.reveal .slides table {
 				font-size: 0.5em;
@@ -60,10 +65,10 @@
 					<h4>Outline</h4>
 					<ol>
 						<li class="fragment">Sensors and Actuators</li>
-						<li class="fragment">The (Semantic) Sensor Web</li>
 						<li class="fragment">The Idea of a Web of <em>Thing</em></li>
 						<li class="fragment">Representational State Transfer</li>
 						<li class="fragment">The W3C Thing Description Model</li>
+						<li class="fragment">The (Semantic) Sensor Web</li>
 						<li class="fragment">Affordance Selection and Planning</li>
 					</ol>
 				</section>
@@ -109,12 +114,21 @@
 					<section>
 						<!-- many more systems, self-organization -->
 						<p>
-							<b>Wireless Sensor Networks, Internet of Things</b>:
-							Forms of networking that take advantage of the availability of
+							<b>Wireless Sensor Networks</b>:
+							Network that take advantage of the availability of
 							<mark>cheaper and smaller computational devices</mark>.
 						</p>
 						<p class="note fragment">
 							See e.g. <a href="https://github.com/tinyos/">TinyOS</a> and <a href="http://www.contiki-os.org/">Contiki</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							<b>Internet of Things</b>: <mark>World-scale</mark> network that takes advantage of the availability of <mark>Radio-Frequency Identification</mark> (RFID)
+							and other sensing technologies.
+						</p>
+						<p class="note fragment">
+							The term "Internet of Things", introduced <a href="https://www.rfidjournal.com/that-internet-of-things-thing">by Kevin Ashton</a>, first targeted product tracking in supply chains.
 						</p>
 					</section>
 					<section>
@@ -146,10 +160,23 @@
 						</figure>
 					</section>
 					<!-- Venn diagram with Sensor Web, Embedded Web, Semantic Web, ... -->
+					<section data-background-color="moccasin">
+						<p>
+							What, then, is a Thing in the Web of Things?
+						</p>
+					</section>
+					<section>
+						<p>
+							Any <mark>physical</mark> object coupled with a computational device or system <mark>of any size</mark> can be regarded as a Thing.
+						</p>
+						<p class="note fragment">
+							See <a href="https://www.w3.org/TR/wot-architecture/#device-categories">device categories</a> listed in the WoT architecture specification.
+						</p>
+					</section>
 					<section>
 						<p>
 							The <mark>Web of Things</mark> addresses the main technical problem that comes with
-							increasing numbers of sensing and actuation devices: <b>interoperability</b>.
+							increasing numbers of computational devices: <mark>interoperability</mark>.
 						</p>
 					</section>
 					<section>
@@ -160,113 +187,6 @@
 								source: <a href="https://gitlab.emse.fr/ai4industry/hackathon/-/blob/ai4industry2020/slides/wot-keynote.pdf">(Matthias Kovatsch, 2020)</a>
 							</figcaption>
 						</figure>
-					</section>
-				</section>
-				<section>
-					<h4>The (Semantic) Sensor Web</h4>
-					<section>
-						<p>
-							The Open Geospatial Consortium (OGC) first used the Web to
-							<mark>publish sensor measurements</mark> in a unified manner.
-						</p>
-						<figure>
-							<img src="../misc/wot-intro/swe-concept.png">
-							<figcaption>source: <a href="https://docs.opengeospatial.org/wp/07-165r1/">(Botts et al., 2013)</a></figcaption>
-						</figure>
-					</section>
-					<section>
-						<p>
-							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements
-							in a <mark>standard XML format</mark> (O&amp;M).
-						</p>
-						<figure>
-							<p>
-								<code>
-<pre>
-&lt;om:OM_Observation gml:id="obsTest1"&gt;
-  &lt;om:phenomemonTime&gt;
-    &lt;gml:TimeInstant&gt;
-      &lt;gml:timePosition&gt;2010-03-08T16:22:25.00&lt;/gml:timePosition&gt;
-    &lt;/gml:TimeInstant&gt;
-  &lt;/om:phenomemonTime&gt;
-  &lt;om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/hydroSurface.owl#WaterHeight"/&gt;
-  &lt;om:result uom="cm"&gt;28&lt;/om:result&gt;
-&lt;/om:OM_Observation&gt;
-</pre>
-								</code>
-							</p>
-							<figcaption>Example of an O&amp;M observation in XML; source: <a href="http://schemas.opengis.net/om/2.0/examples/spatial_observation1.xml">opengis.net</a></figcaption>
-						</figure>
-					</section>
-					<section>
-						<p>
-							<mark>SOS</mark>, <mark>O&amp;M</mark> and <mark>other OGC standards</mark>
-							are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
-						</p>
-						<p class="fragment">
-							<mark>SWE</mark> then combined with <mark>Semantic Web</mark> technologies has become
-							the <b>Semantic Sensor Web</b>.
-						</p>
-						<p class="note fragment">
-							The Semantic Sensor Web has led to the standardization of the <a></a>Semantic Sensor Network (SSN) ontology. 
-						</p>
-					</section>
-					<section>
-						<figure>
-							<img src="../misc/wot-intro/ssw-model.png">
-							<figcaption>O&amp;M instances extended with other semantic models; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
-						</figure>
-					</section>
-					<section>
-						<figure>
-							<img src="../misc/wot-intro/ssw-arch.png">
-							<figcaption>SOS is enriched with semantic annotations; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
-						</figure>
-					</section>
-					<section>
-						<p>
-							On the Semantic Sensor Web, <mark>inference rules</mark> are used to enrich sensor observations may.
-						</p>
-						<p class="fragment">
-							Such inference rules may be relatively <mark>simple</mark>.
-						</p>
-					</section>
-					<section>
-						<figure>
-							<p>
-								<code>
-<pre>
-	Observation(?obs) &
-	described(?obs, ?weather) &
-	FreezingCondition(?weather) &
-	HighWindCondition(?weather) &
-	SnowCondition(?weather) & 
-		=> BlizzardCondition(?weather)
-</pre>
-								</code>
-							</p>
-							<figcaption>Example of inference rule for weather monitoring; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
-						</figure>
-					</section>
-					<section>
-						<p>
-							Key is not the <mark>complexity</mark> of inference but the <mark>completeness</mark> of the knowledge.
-						</p>
-						<p class="note fragment">
-							Hence, the idea of <em>ubiquitous</em> computing.
-						</p>
-					</section>
-					<section data-auto-animate>
-						<p data-id="q">
-							Now, what about<br>
-							an "<span><mark>Actuator</mark></span> Web Enablement"?
-						</p>
-					</section>
-					<section data-auto-animate>
-						<p data-id="q">
-							Now, what about<br>
-							a "<span><mark>Thing</mark></span> Web Enablement"?
-						</p>
 					</section>
 				</section>
 				<section>
@@ -409,6 +329,9 @@ Content-Type: text/plain
 							Find more Web APIs for the IoT in <a href="https://apis.guru/">one of the OpenAPI catalogs</a>.
 						</p>
 					</section>
+					<section data-background-color="moccasin">
+						How would you design a Web API for <em>any</em> Thing?
+					</section>
 					<section>
 						<p>
 							A minimal <mark>Web Thing API</mark> was proposed in 2015, to update a Thing's properties,
@@ -526,15 +449,30 @@ Content-Type: text/plain
 					<!-- question: which feature does map to which constraint? -->
 					<section>
 						<p>
-							The <mark>uniform interface</mark> constraint is specific to REST.
+							The <mark>uniform interface</mark> constraint is specific to REST (and the Web).
 						</p>
-						<p class="fragment">
-							It consists of <mark>4 sub-constraints</mark>.
+					</section>
+					<section data-background-color="moccasin">
+						<p>
+							What are the main pillars of the architecture of the Web?
 						</p>
 					</section>
 					<section>
 						<ol>
-							<li>identification of resources</li>
+							<li>Identification <span class="aside">with URIs</span></li>
+							<li>Interaction <span class="aside">with HTTP</span></li>
+							<li>Data Formats <span class="aside">incl. hypermedia controls</span></li>
+						</ol>
+						<p class="note fragment">
+							These are the main sections of the 2004 reference specification: <a href="https://www.w3.org/TR/webarch/">Architecture of the World Wide Web</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							These pillars translate into <mark>4 sub-constraints</mark> in REST:
+						</p>
+						<ol>
+							<li class="fragment">identification of resources</li>
 							<li class="fragment">manipulation of resources through representations</li>
 							<li class="fragment">self-descriptive messages</li>
 							<li class="fragment">hypermedia as the engine of application state (<mark>HATEOAS</mark>)</li>
@@ -580,6 +518,22 @@ Content-Type: text/plain
 							REST with pub-sub: MQTT response topics.
 						</p>
 					</section> -->
+					<section data-background-color="moccasin">
+						How to design cyber-physical systems that are <em>not</em> RESTful?
+					</section>
+					<section>
+						<ul>
+							<li>
+								Remote procedure calls are e.g. <mark>not stateless</mark>.
+							</li>
+							<li>
+								Publish-subscribe has <mark>no mechanism for resource manipulation</mark> (in the general case).
+							</li>
+						</ul>
+						<p class="note fragment">
+							Try to design a non-RESTful architecture for the production line mash-up (last section).
+						</p>
+					</section>
 					<section>
 						<p>
 							Web clients can do <mark>hypermedia</mark> navigation by following <mark>links</mark> and submitting <mark>forms</mark>.
@@ -640,6 +594,30 @@ Location: http://ur5-robot.local/pick-and-place/invocation1
 							</div>
 							<figcaption>Hypermedia-driven discovery of available actions for the production line example</figcaption>
 						</figure>
+					</section>
+					<section data-background-color="moccasin">
+						<p>
+							The dominant protocol on the IoT is MQTT. Could REST principles be applied to MQTT?
+						</p>
+					</section>
+					<section>
+						<p>
+							What would be needed for MQTT to become RESTful is:
+						</p>
+						<ul>
+							<li class="fragment">
+								a URI scheme<br>
+								<span class="aside">(an <a href="https://github.com/mqtt/mqtt.org/wiki/URI-Scheme">unofficial scheme</a> exists)</span>
+							</li>
+							<li class="fragment">
+								request-response interactions<br>
+								<span class="aside">(available in MQTT v5)</span>
+							</li>
+							<li class="fragment">
+								a hypermedia data format<br>
+								<span class="aside">(say, RDF)</span>
+							</li>
+						</ul>
 					</section>
 				</section>
 				<section>
@@ -730,6 +708,113 @@ ESP32 | 0.25 mW | 160 MHz | 520 kB
 							Affordances ==> MAS (agent-oriented interface)
 						</p>
 					</section> -->
+				</section>
+				<section>
+					<h4>The (Semantic) Sensor Web</h4>
+					<section>
+						<p>
+							The Open Geospatial Consortium (OGC) first used the Web to
+							<mark>publish sensor measurements</mark> in a unified manner.
+						</p>
+						<figure>
+							<img src="../misc/wot-intro/swe-concept.png">
+							<figcaption>source: <a href="https://docs.opengeospatial.org/wp/07-165r1/">(Botts et al., 2013)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							The OGC <b>Simple Observation Service</b> (SOS) offers sensor observations and measurements
+							in a <mark>standard XML format</mark> (O&amp;M).
+						</p>
+						<figure>
+							<p>
+								<code>
+<pre>
+&lt;om:OM_Observation gml:id="obsTest1"&gt;
+  &lt;om:phenomemonTime&gt;
+    &lt;gml:TimeInstant&gt;
+      &lt;gml:timePosition&gt;2010-03-08T16:22:25.00&lt;/gml:timePosition&gt;
+    &lt;/gml:TimeInstant&gt;
+  &lt;/om:phenomemonTime&gt;
+  &lt;om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/hydroSurface.owl#WaterHeight"/&gt;
+  &lt;om:result uom="cm"&gt;28&lt;/om:result&gt;
+&lt;/om:OM_Observation&gt;
+</pre>
+								</code>
+							</p>
+							<figcaption>Example of an O&amp;M observation in XML; source: <a href="http://schemas.opengis.net/om/2.0/examples/spatial_observation1.xml">opengis.net</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							<mark>SOS</mark>, <mark>O&amp;M</mark> and <mark>other OGC standards</mark>
+							are collectively referred to as the <b>Sensor Web Enablement</b> (SWE) framework.
+						</p>
+						<p class="fragment">
+							<mark>SWE</mark> then combined with <mark>Semantic Web</mark> technologies has become
+							the <b>Semantic Sensor Web</b>.
+						</p>
+						<p class="note fragment">
+							The Semantic Sensor Web has led to the standardization of the <a></a>Semantic Sensor Network (SSN) ontology. 
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/ssw-model.png">
+							<figcaption>O&amp;M instances extended with other semantic models; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/ssw-arch.png">
+							<figcaption>SOS is enriched with semantic annotations; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							On the Semantic Sensor Web, <mark>inference rules</mark> are used to enrich sensor observations may.
+						</p>
+						<p class="fragment">
+							Such inference rules may be relatively <mark>simple</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<p>
+								<code>
+<pre>
+	Observation(?obs) &
+	described(?obs, ?weather) &
+	FreezingCondition(?weather) &
+	HighWindCondition(?weather) &
+	SnowCondition(?weather) & 
+		=> BlizzardCondition(?weather)
+</pre>
+								</code>
+							</p>
+							<figcaption>Example of inference rule for weather monitoring; source: <a href="https://doi.org/10.1109/MIC.2008.87">(Seth et al., 2008)</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Key is not the <mark>complexity</mark> of inference but the <mark>completeness</mark> of the knowledge.
+						</p>
+						<p class="note fragment">
+							Hence, the idea of <em>ubiquitous</em> computing.
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p data-id="q">
+							Now, what about<br>
+							an "<span><mark>Actuator</mark></span> Web Enablement"?
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p data-id="q">
+							Now, what about<br>
+							a "<span><mark>Thing</mark></span> Web Enablement"?
+						</p>
+					</section>
 				</section>
 				<section>
 					<h4>Affordance Selection and Planning</h4>
