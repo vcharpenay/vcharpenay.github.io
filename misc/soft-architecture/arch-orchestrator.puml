@@ -13,24 +13,22 @@ skinparam interface {
     BackgroundColor white
 }
 
-[Source (1)] as s1
-[Source (2)] as s2
+[Pipeline Orchestrator] as o
+
 [Filter (1)] as f1
 [Filter (2)] as f2
-[Sink] as s
+[Filter (3)] as f3
 
-() "Pipe connector" as cf1
-() "Pipe connector" as cf2
-() "Pipe connector" as cs
+() "Connector" as c1
+() "Connector" as c2
+() "Connector" as c3
 
-s1 -down-( cf1
-s2 -down-( cf1
-s2 -down-( cf2
-f1 -down-( cs
-f2 -down-( cs
+f1 -up- c1
+f2 -up- c2
+f3 -up- c3
 
-f1 -up- cf1
-f2 -up- cf2
-s -up- cs
+o --( c1
+o --( c2
+o --( c3
 
 @enduml

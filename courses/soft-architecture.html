@@ -253,7 +253,7 @@
 							</figcaption>
 						</figure>
 						<p class="note fragment">
-							In this lecture, we will not consider hiearchical components.
+							In this lecture, we will not consider hierarchical components.
 						</p>
 					</section>
 					<section>
@@ -571,11 +571,11 @@
 							</tr>
 							<tr>
 								<th>Components</th>
-								<td>1 orchestrator, n-1 filters</td>
+								<td>n filters (incl. sources, sinks)</td>
 							</tr>
 							<tr>
 								<th>Connectors</th>
-								<td>n-1 orchestrator → filter</td>
+								<td>k filter → filter, <span style="font-style: italic;">aka</span> pipes (k &lt; n<sup>2</sup>)</td>
 							</tr>
 						</table>
 						<figure class="fragment">
@@ -583,7 +583,7 @@
 							<figcaption>Pipe-and-filter style</figcaption>
 						</figure>
 					</section>
-					<!-- TODO if orchestrator in P&F, is it still P&F (it looks more like SOA)? Metrics suggest good qualities of P&F. -->
+					<!-- Note: if orchestrator in P&F, is it still P&F (it looks more like SOA)? Metrics suggest good qualities of P&F. -->
 					<section>
 						<figure>
 							<img src="../misc/soft-architecture/seq-pipe-filter.png">
