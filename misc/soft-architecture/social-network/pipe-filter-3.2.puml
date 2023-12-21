@@ -1,0 +1,8 @@
+@startuml
+UI -> UserFilter : query(friends=U1)
+note left
+  Flow: get recommendations (for users)
+end note
+UserFilter -> MediaFilter : [user(id=U2, name=ABC), ...]
+MediaFilter -> UI : [user(id=U2, name=ABC, img=IMG), ...]
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+UI -> TextFilter : query(txt=ABC)
+note left
+  Flow: search posts
+end note
+TextFilter -> PostFilter : query(id=[ID1, ID2, ...])
+PostFilter -> TextFilter : [post(id=ID1, by=U1, txt=ABC), ...]
+TextFilter -> MediaFilter : [post(id=ID1, by=U1, txt=ABC), ...]
+MediaFilter -> UI : [post(id=ID1, by=U1, txt=ABC, img=IMG), ...]
+@enduml

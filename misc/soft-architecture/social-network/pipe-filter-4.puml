@@ -1,0 +1,8 @@
+@startuml
+UI -> PostFilter : post(by=U2, txt=ABC, img=IMG)
+note left
+  Flow: submit post
+end note
+UI -> TextFilter : post(by=U2, txt=ABC, img=IMG)
+UI -> MediaFilter : post(by=U2, txt=ABC, img=IMG)
+@enduml

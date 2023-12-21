@@ -1,0 +1,9 @@
+@startuml
+UI -> PostFilter : query(user_id=U, after:Date)
+note left
+  Flow: retrieve user's history
+end note
+PostFilter -> TextFilter : [post(id=ID, by=U), ...]
+TextFilter -> MediaFilter : [post(id=ID, by=U, txt=ABC), ...]
+MediaFilter -> UI : [post(id=ID, by=U, txt=ABC, img=IMG), ...]
+@enduml

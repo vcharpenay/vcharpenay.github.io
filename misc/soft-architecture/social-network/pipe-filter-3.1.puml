@@ -1,0 +1,10 @@
+@startuml
+UI -> UserFilter : query(id=U1)
+note left
+  Flow: get recommendations (for posts)
+end note
+UserFilter -> PostFilter : query(user_id=[U2, U3, ...])
+PostFilter -> TextFilter : [post(id=ID1, by=U2, txt=ABC), ...]
+TextFilter -> MediaFilter : [post(id=ID1, by=U2, txt=ABC), ...]
+MediaFilter -> UI : [post(id=ID1, by=U2, txt=ABC, img=IMG), ...]
+@enduml
