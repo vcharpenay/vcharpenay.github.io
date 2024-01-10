@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>All Birds Can Fly</title>
+    <link rel="stylesheet" href="../css/basic.css">
+    <style>
+        /* rule base */
+        .r {
+            border: 1px black solid;
+            padding: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>All Birds Can Fly</h1>
+
+    <p class="info">
+        January 2024
+    </p>
+
+    <p>
+        "All birds can fly." is an easy example to start learning rule languages. Marvin Minsky used it in 1985 at AAAI.
+        <!-- see also dl-programs demo? -->
+    </p>
+    <p class="r">
+        <span>canFly(X) :- bird(X) .</span>
+    </p>
+    <p>
+        Except that <a href="https://www.britannica.com/list/8-birds-that-cant-fly">some birds can't fly</a>. But that's not a problem, <a href="http://www-formal.stanford.edu/jmc/applications/applications.html">circumscription</a> can be used.
+        <!--
+            see also http://www-formal.stanford.edu/jmc/applications/node5.html
+        -->
+    </p>
+    <p class="r">
+        <span>canFly(X) :- bird(X), ~abnormal(X, canFly) .</span><br>
+        <span>bird(X) :- penguin(X) .</span><br>
+        <span>abnormal(X, canFly) :- penguin(X) .</span>
+    </p>
+    <p>
+        But then, how and where is the assertion made that some thing is a bird?
+        Rules that <em>define</em> a concept must admit no exception. For instance, a bird always has feathers.
+    </p>
+    <p class="r">
+        <span>bird(X) :- has(X, feathers) .</span>
+    </p>
+    <p>
+        But what about a single feather then?
+    </p>
+    <p class="r">
+        <span>bird(X) :- has(X, E), envelope(E), isComposedOf(E, F),  feather(F) .</span><br>
+        <span>feather(X) :- neural_network(X, PictureOfX) .</span>
+    </p>
+    <p>
+        The first rule above is most easily expressed in a Description Logic syntax. The second rule illustrates an example of neural-symbolic integration.
+    </p>
+    <p>
+        OK, now, what about "can fly"? Flying is itself a concept, "can fly" shouldn't be an atomic predicate. Let's rather introduce a modality.
+    </p>
+    <p class="r">
+        <span>&loz;fly(X) :- bird(X) .</span>
+    </p>
+    <p>
+        But what about "flying" then? Flying is a state of affairs. At the same time, it a temporal entity that has a beginning and an end.
+    </p>
+    <p class="r">
+        <span>temporalEntity(A) :- fly(A) .</span><br>
+        <span>beginsAt(A, _) :- temporalEntity(A) .</span><br>
+        <span>endsAt(A, _) :- temporalEntity(A) .</span>
+    </p>
+    <p>
+        Anything else? <!-- conflicts between default reasoning and modality? -->
+    </p>
+</body>
+<html>
