@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>A Few Software Design Principles</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 7em;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>A Few Software Design Principles</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>SOLID</h4>
+					<section>
+						<p>SOLID is a set of <mark>design principles</mark> to encapsulate behavior:</p>
+						<ul>
+							<li class="fragment">Single-purpose responsibility</li>
+							<li class="fragment">Open-closed</li>
+							<li class="fragment">Liskov substitution</li>
+							<li class="fragment">Interface segregation</li>
+							<li class="fragment">Dependency inversion</li>
+						</ul>
+					</section>
+					<section>
+						<p>What does that mean?</p>
+						<p class="fragment">Robert Martin, the inventor of the acronym, gave an <a href="https://youtu.be/TMuno5RZNeE?si=94MRk4qdgevEqYq7&t=3060">30 minute-long answer</a> to Yale students in 2015</p>
+						<p class="fragment">Let us try in no more than 30 minutes</p>
+					</section>
+				</section>
+				<section>
+					<h4>SOLID with Power Plugs</h4>
+					<section>
+						<p>Single-purpose responsibility:</p>
+						<p>A module should have one, and only one, reason to change.</p>
+					</section>
+					<section data-auto-animate>
+						<img data-id="S" src="../misc/soft-design-principles/power-plugs-01.png">
+					</section>
+					<section data-auto-animate>
+						<img data-id="S" src="../misc/soft-design-principles/power-plugs-02.png">
+					</section>
+					<section>
+						<p>Open-closed:</p>
+						<p>A module should be open for extension but closed for modification.</p>
+					</section>
+					<section data-auto-animate>
+						<img data-id="O" src="../misc/soft-design-principles/power-plugs-03.png">
+					</section>
+					<section data-auto-animate>
+						<img data-id="O" src="../misc/soft-design-principles/power-plugs-04.png">
+					</section>
+					<section>
+						<p>Liskov substitution:</p>
+						<p>Derived modules must be usable through the base module interface, without the need for the user to know the difference.</p>
+					</section>
+					<section data-auto-animate>
+						<img data-id="L" src="../misc/soft-design-principles/power-plugs-05.png">
+					</section>
+					<section data-auto-animate>
+						<img data-id="L" src="../misc/soft-design-principles/power-plugs-06.png">
+					</section>
+					<section>
+						<p>Interface segregation:</p>
+						<p>Many client specific interfaces are better than one general purpose interface.</p>
+					</section>
+					<section data-auto-animate>
+						<img data-id="I" src="../misc/soft-design-principles/power-plugs-07.png">
+					</section>
+					<section data-auto-animate>
+						<img data-id="I" src="../misc/soft-design-principles/power-plugs-08.png">
+					</section>
+					<section>
+						<p>Dependency inversion:</p>
+						<p>Depend upon Abstractions. Do not depend upon concretions.</p>
+					</section>
+					<section data-auto-animate>
+						<img data-id="D" src="../misc/soft-design-principles/power-plugs-09.png">
+					</section>
+					<section data-auto-animate>
+						<img data-id="D" src="../misc/soft-design-principles/power-plugs-10.png">
+					</section>
+				</section>
+				<section>
+					<h4>SOLID with Classes</h4>
+					<section>
+						<p>
+							SOLID principles are defined in terms of software modules, i.e. classes or sets of classes (packages, components).
+						</p>
+						<p class="fragment">
+							They in fact also apply to entire programs with network interfaces (such as Web APIs).
+						</p>
+					</section>
+					<section>
+						<quot>
+							Object-oriented programming is about managing dependencies, by selectively <mark>reinverting certain key dependencies</mark> in your architecture <span class="fragment">so that you can prevent <mark>rigidity</mark>, <mark>fragility</mark>, <mark>non-reusability</mark>.</span>
+						</quot>
+						<!-- non-reusability: immobility -->
+					</section>
+					<section>
+						<p>
+							Imperative programming allows only one type of dependency: <mark>hierarchies</mark>.
+						</p>
+						<p class="fragment">
+							Thanks to <mark>polymorphism</mark>, object-oriented programming allows arbitrary dependencies among components.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>Examples</h4>
+					<section>
+						<figure>
+							<img style="width: 60%;" src="../misc/soft-design-principles/srp-ko.png">
+							<img style="width: 60%;" src="../misc/soft-design-principles/srp-ok.png">
+							<figcaption>Good and bad example of the single-purpose responsibility principle</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img style="width: 60%;" src="../misc/soft-design-principles/ocp-ok.png">
+							<figcaption>Good example of the open-closed principle</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img style="width: 20%;" src="../misc/soft-design-principles/lsp-ko1.png">
+							<img style="width: 20%;" src="../misc/soft-design-principles/lsp-ko2.png">
+							<figcaption>Bad example of the Liskov substitution principle</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img style="width: 45%;" src="../misc/soft-design-principles/isp-ok.png">
+							<img style="width: 45%;" src="../misc/soft-design-principles/isp-ko.png">
+							<figcaption>Good and bad example of the interface segregation principle</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img style="width: 45%;" src="../misc/soft-design-principles/dip-ko.png">
+							<img style="width: 45%;" src="../misc/soft-design-principles/dip-ok.png">
+							<figcaption>Good and bad example of the dependency inversion principle</figcaption>
+						</figure>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
