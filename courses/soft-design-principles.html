@@ -144,7 +144,28 @@
 							</em>
 							<span class="fragment">— Robert Martin</span>
 						</p>
+						<p class="note fragment">
+							You can hear him say that <a href="https://youtu.be/TMuno5RZNeE?si=tnNQ8sulnToTXH-I&t=3070">here</a>.
+						</p>
 						<!-- non-reusability: immobility -->
+					</section>
+					<section>
+						<p>
+							A module is <mark>rigid</mark> if it has to be changed when surrounding modules change.
+						</p>
+					</section>
+					<section>
+						<p>
+							A module is <mark>fragile</mark> if it is likely to break when surrounding modules change.
+						</p>
+					</section>
+					<section>
+						<p>
+							A module is <mark>immobile</mark> or <mark>non-reusable</mark> if it has to be changed when used in another program.
+						</p>
+						<p class="note fragment">
+							All three characteristics refer to the module's <span class="highlight">long-term maintainability</span>.
+						</p>
 					</section>
 					<section>
 						<p>
@@ -154,6 +175,13 @@
 							Thanks to <mark>polymorphism</mark>, object-oriented programming allows arbitrary dependencies among components.
 						</p>
 					</section>
+					<!--
+						Examples of polymorphic fns:
+						- store() - to any kind of database
+						- log() - SLF4J
+						- fit()/predict()
+						- 
+					-->
 				</section>
 				<section>
 					<h4>Examples</h4>
