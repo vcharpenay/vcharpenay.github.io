@@ -77,7 +77,7 @@
 				<section>
 					<h4>SOLID with Power Plugs</h4>
 					<section>
-						<p>Single-purpose responsibility:</p>
+						<p style="text-decoration: underline;">Single-purpose responsibility:</p>
 						<p>A module should have one, and only one, reason to change.</p>
 					</section>
 					<section data-auto-animate>
@@ -87,7 +87,7 @@
 						<img data-id="S" src="../misc/soft-design-principles/power-plugs-02.png">
 					</section>
 					<section>
-						<p>Open-closed:</p>
+						<p style="text-decoration: underline;">Open-closed:</p>
 						<p>A module should be open for extension but closed for modification.</p>
 					</section>
 					<section data-auto-animate>
@@ -97,7 +97,7 @@
 						<img data-id="O" src="../misc/soft-design-principles/power-plugs-04.png">
 					</section>
 					<section>
-						<p>Liskov substitution:</p>
+						<p style="text-decoration: underline;">Liskov substitution:</p>
 						<p>Derived modules must be usable through the base module interface, without the need for the user to know the difference.</p>
 					</section>
 					<section data-auto-animate>
@@ -107,7 +107,7 @@
 						<img data-id="L" src="../misc/soft-design-principles/power-plugs-06.png">
 					</section>
 					<section>
-						<p>Interface segregation:</p>
+						<p style="text-decoration: underline;">Interface segregation:</p>
 						<p>Many client specific interfaces are better than one general purpose interface.</p>
 					</section>
 					<section data-auto-animate>
@@ -117,7 +117,7 @@
 						<img data-id="I" src="../misc/soft-design-principles/power-plugs-08.png">
 					</section>
 					<section>
-						<p>Dependency inversion:</p>
+						<p style="text-decoration: underline;">Dependency inversion:</p>
 						<p>Depend upon Abstractions. Do not depend upon concretions.</p>
 					</section>
 					<section data-auto-animate>
@@ -220,6 +220,21 @@
 						</figure>
 					</section>
 				</section>
+				<!--
+					Conveyor case study:
+					- single-purpose : one conveyor but several modules? E.g. in AAS: CO2 emissions as separate Node in a CNC model...
+					- open-closed is crucial for BoaConcept!
+					- Liskov substitution to allow for future changes in the conveyor
+					- interface segregation: AGV interface + AMR (more specific) interface
+					- dependency inversion to avoid vendor lock-in on conveyors
+
+					Given interface:
+					https://github.com/OPCFoundation/UA-Nodeset/blob/latest/Mining/TransportDumping/ArmouredFaceConveyor/1.0.0/Opc.Ua.Mining.TransportDumping.ArmouredFaceConveyor.NodeSet2.xml
+
+					See also:
+					- https://github.com/eclipse/vorto/tree/development/models
+					- https://docs.ros.org/en/api/amr_interop_msgs/html/msg/Location.html
+				-->
 			</div>
 		</div>
 
