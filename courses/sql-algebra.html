@@ -738,11 +738,11 @@
                             Pour définir la jointure, on introduit la notation <mark>t[S]</mark> pour désigner un tuple t' tel que
                         </p>
                         <ul>
-                            <li class="fragment">type(t') = S</li>
-                            <li class="fragment">t'(A) = t(A) pour tout A ∈ type(t)</li>
+                            <li class="fragment">S ⊆ type(t)</li>
+                            <li class="fragment">t'(A) = t(A) pour tout A ∈ S</li>
                         </ul>
                         <p class="note fragment">
-                            t[S] est le tuple {t'} = π<sub>S</sub>({t})
+                            t[S] est le tuple t' tel que {t'} = π<sub>S</sub>({t})
                         </p>
                     </section>
                     <section>
@@ -802,7 +802,7 @@
                                 <td>σ<sub>A=a</sub>(π<sub>S</sub>(Q))</td>
                                 <td>↔</td>
                                 <td>π<sub>S</sub>(σ<sub>A=a</sub>(Q))</td>
-                                <td>si A ∉ S</td>
+                                <td>si A ∈ S</td>
                             </tr>
                             <tr>
                                 <td>σ<sub>A=a</sub>(Q<sub>1</sub> ⋈ Q<sub>2</sub>)</td>
