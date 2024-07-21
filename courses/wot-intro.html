@@ -68,7 +68,7 @@
 						<li class="fragment">The Idea of a Web of <em>Thing</em></li>
 						<li class="fragment">Representational State Transfer</li>
 						<li class="fragment">The W3C Thing Description Model</li>
-						<li class="fragment">The (Semantic) Sensor Web</li>
+						<li class="fragment">Semantics for the Web of Things</li>
 						<li class="fragment">Affordance Selection and Planning</li>
 					</ol>
 				</section>
@@ -78,6 +78,15 @@
 						<p>
 							The Web of Things is the latest emergence of a long-lasting field of research.
 						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/wot-intro/wot-timeline.png">
+							<figcaption>
+								The Web of Things' past;
+								source: <a href="https://gitlab.emse.fr/ai4industry/hackathon/-/blob/ai4industry2020/slides/wot-keynote.pdf">(Matthias Kovatsch, 2020)</a>
+							</figcaption>
+						</figure>
 					</section>
 					<section>
 						<ul style="list-style-type: none;">
@@ -178,15 +187,6 @@
 							The <mark>Web of Things</mark> addresses the main technical problem that comes with
 							increasing numbers of computational devices: <mark>interoperability</mark>.
 						</p>
-					</section>
-					<section>
-						<figure>
-							<img src="../misc/wot-intro/wot-timeline.png">
-							<figcaption>
-								The Web of Things' past;
-								source: <a href="https://gitlab.emse.fr/ai4industry/hackathon/-/blob/ai4industry2020/slides/wot-keynote.pdf">(Matthias Kovatsch, 2020)</a>
-							</figcaption>
-						</figure>
 					</section>
 				</section>
 				<section>
@@ -321,7 +321,7 @@ Content-Type: text/plain
 								to connect IoT devices to AWS
 							</li>
 							<li class="fragment">
-								<a href="https://app.swaggerhub.com/apis/Plattform_i40/AssetAdministrationShell-REST-API/Review1">Asset Administration Shell (AAS) API</a>
+								<a href="https://app.swaggerhub.com/apis/Plattform_i40/Entire-API-Collection/V3.0.2">Asset Administration Shell (AAS) API</a>
 								for cyber-physical systems
 							</li>
 						</ul>
@@ -383,13 +383,28 @@ Content-Type: text/plain
 							<caption>Web Thing API; source: <a href="https://www.w3.org/Submission/wot-model/">(Trifa et al., 2015)</a></caption>
 						</table>
 					</section>
-					<!-- question: how to map previously shown APIs with this one? -->
-					<!-- action:/things/{thingName}/jobs (AWS) and /submodel​/submodelElements​/{seIdShortPath}​/invokeSync (AAS) -->
+					<section data-background-color="moccasin">
+						<p>
+							What operations of the Web Thing API are also available in previously defined APIs?
+						</p>
+						<!-- action:/things/{thingName}/jobs (AWS) and /submodel​/submodelElements​/{seIdShortPath}​/invokeSync (AAS) -->
+					</section>
 					<section>
 						<p>
-							Still, how to execute mashups on arbitrary Things, <mark>without prior knowledge</mark> of their API?
+							Defining a Web interface to Things does not solve all interoperability problems <mark>between Things and clients</mark>, though.
 						</p>
-						<!-- ...via REST/hypermedia -->
+					</section>
+					<section>
+						<ol>
+							<li>
+								Can some Thing <mark>of any size</mark> interoperate with any other device?<br>
+								<span class="aside">Embedded Web</span>
+							</li>
+							<li class="fragment">
+								Can clients execute mashups <mark>without prior knowledge</mark> of the Things?<br>
+								<span class="aside">Semantic Web of Things (SWoT)</span> 
+							</li>
+						</ol>
 					</section>
 					<!-- <section>
 						<p>
@@ -481,15 +496,14 @@ Content-Type: text/plain
 							<span class="highlight">Linked Data</span> interfaces are RESTful by construction.
 						</p>
 					</section>
-					<section>
+					<!-- <section>
 						<p>Two examples of HATEOAS:</p>
 						<ul>
 							<li class="fragment">Redirection to an OAuth2 authentication sever</li>
-							<!-- example of Shibboleth -->
 							<li class="fragment">Reverse proxy (on server side) performing load balancing</li>
-							<!-- example of BBB on emse.fr -->
 						</ul>
-					</section>
+					</section> -->
+					<!-- Not exactly examples of HATEAOS. OAuth2 also require layered system, for instance. HATEOAS: the state of an app is fully specified by a path in a navgraph. -->
 					<section>
 						<figure>
 							<img src="../misc/wot-intro/hypermedia.png">
@@ -619,20 +633,65 @@ Location: http://ur5-robot.local/pick-and-place/invocation1
 							</li>
 						</ul>
 					</section>
+					<section>
+						<p>
+							REST over MQTT would allow for <mark>large-scale asynchronous communication</mark> between clients and servers.
+						</p>
+						<p class="fragment">
+							An extension to REST integrates further asynchronous operations to REST: <mark>A+REST</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							In REST over MQTT, clients can only receive a <mark>single response</mark> after a request on some resource.
+						</p>
+						<p class="fragment">
+							In A+REST, clients can <mark>watch</mark> the resource, receiving arbitrarily many notifications that the resource representation has changed.
+						</p>
+						<p class="note fragment">
+							A+REST was first described in <a href="https://doi.org/10.1109/ICSE.2004.1317465">(Khare, 2004)</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							CoAP, the <mark>Constrained Application Protocol</mark> embraces the A+REST architectural style, with the <mark>OBSERVE</mark> flag on GET operations.
+						</p>
+						<p class="note fragment">
+							The <a href="https://hypermedea.github.io/">Hypermedea</a> agent framework also follows the principles of A+REST.
+						</p>
+					</section>
 				</section>
 				<section>
 					<h4>The W3C Thing Description Model</h4>
 					<section>
 						<p>
 							The World Wide Web Consortium (W3C) has initiated a standardization effort
-							to <mark>facilitate automated mash-ups</mark> based on semantic descriptions of Things.
+							to <mark>facilitate automated mashups</mark> based on semantic descriptions of Things.
 						</p>
 						<!-- with dynamic discovery, online selection... -->
+					</section>
+					<section data-background-color="moccasin">
+						<p>
+							What do existing standards such as OpenAPI lack to describe WoT Things?
+						</p>
+					</section>
+					<section>
+						<p>
+							A translation from W3C WoT Thing Descriptions to <mark>OpenAPI</mark> and <mark>AsyncAPI</mark> exists.
+						</p>
+						<p class="fragment">
+							But there is no standard that captures <mark>both synchronous and asynchronous</mark> operations, as in A+REST.
+						</p>
+						<p class="fragment note">
+							See <a href="https://playground.thingweb.io/">playground.thingweb.io</a> for examples with OpenAPI and AsyncAPI.
+						</p>
 					</section>
 					<section>
 						<p>
 							REST is (theoretically) independent of the communication protocol.
-							A WoT standard should also target IoT and industrial protocols.
+						</p>
+						<p class="fragment">
+							A WoT standard should target as many <mark>IoT and industrial protocols</mark> as possible.
 						</p>
 					</section>
 					<section>
@@ -710,7 +769,7 @@ ESP32 | 0.25 mW | 160 MHz | 520 kB
 					</section> -->
 				</section>
 				<section>
-					<h4>The (Semantic) Sensor Web</h4>
+					<h4>Semantics for the Web of Things</h4>
 					<section>
 						<p>
 							The Open Geospatial Consortium (OGC) first used the Web to
@@ -813,6 +872,17 @@ ESP32 | 0.25 mW | 160 MHz | 520 kB
 						<p data-id="q">
 							Now, what about<br>
 							a "<span><mark>Thing</mark></span> Web Enablement"?
+						</p>
+					</section>
+					<section>
+						<p>
+							There is no standard Web model to specify the effects of an actuation.
+						</p>
+						<p class="fragment">
+							It is however possible to provide semantics to Things by publishing <mark>Thing Models</mark> to online repositories.
+						</p>
+						<p class="note fragment">
+							See the <a href="https://github.com/vcharpenay/wot-catalogue/">WoT catalogue</a> for a list of model repositories.
 						</p>
 					</section>
 				</section>
