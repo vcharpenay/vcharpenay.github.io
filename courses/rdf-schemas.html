@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>A Tale of Two Schemas: SHACL vs. OWL</title>
+		<title>Introduction to RDF Schemas</title>
 
 		<link rel="stylesheet" href="../css/slides-reset.css">
 		<link rel="stylesheet" href="../css/slides.css">
@@ -108,6 +108,10 @@
 				color: crimson;
 			}
 
+			.reveal .slides .log.warning {
+				color: coral;
+			}
+
 			.reveal .slides figcaption {
 				color: gray;
 				font-size: 0.5em;
@@ -127,23 +131,35 @@
 			<div class="slides">
 				<section>
 					<h1>
-						A Tale of Two Schemas:<br>
-						<span style="text-shadow: lightblue 5px 5px;">SHACL</span>
-						vs.
-						<span style="text-shadow: lightgreen 5px 5px;">OWL</span>
+						Introduction to RDF Schema<span style="text-shadow: lightsalmon 5px 5px;">s</span>
 					</h1>
+					<!-- <h4 class="fragment">Vocabularies, Ontologies and Schemas.</h4> -->
 					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
 				</section>
 				<section>
 					<h4>Outline</h4>
 					<ol>
-						<li class="fragment">A Schema for What?</li>
-						<li class="fragment">A Schema for Validation</li>
-						<li class="fragment">A Schema for Inference</li>
+						<li class="fragment">A What?</li>
+						<li class="fragment">An RDF <s>Schema</s> Vocabulary</li>
+						<li class="fragment">An RDF <s>Schema</s> Ontology</li>
+						<li class="fragment">An RDF Schema</li>
 					</ol>
 				</section>
 				<section>
-					<h4>A Schema for What?</h4>
+					<h4>A What?</h4>
+					<section>
+						<p>
+							A schema is the definition of <mark>recurring structure</mark> in data, which can also be seen as <mark>constraints</mark> on the data.
+						</p>
+						<p class="fragment">
+							An algorithm can decide whether a piece of data <mark>validates</mark> the schema or not.
+						</p>
+					</section>
+					<section data-background-color="moccasin">
+						<p>
+							What types of schema do you know?
+						</p>
+					</section>
 					<section>
 						<p>
 							Relational databases always rely on a <mark>schema for guaranteeing consistency</mark>.
@@ -215,26 +231,13 @@
 						</p>
 					</section>
 					<section>
-						<p>
-							Yet, <a href="https://schema.org/">schema.org</a> also defines:
-						</p>
-						<ul>
-							<li>a <mark>class hierarchy</mark></li>
-							<li><mark>properties</mark> (~attributes)</li>
-						</ul>
-					</section>
-					<section>
 						<p class="ttl">
-							@prefix <span class="prefix">rdfs:</span> &lt;http://www.w3.org/&hellip;&gt;<br>
 							@prefix <span class="prefix">:</span> &lt;http://schema.org/&gt;<br><br>
-							<span class="prefix">:</span><span class="var">Person</span> <span class="prefix">rdfs:</span>subClassOf <span class="prefix">:</span><span class="var">Thing</span> .<br>
+							<span class="prefix">:</span><span class="var">Person</span> a <span class="prefix">:</span><span class="var">Class</span> .<br>
 							<span class="comment"># (skipping taxID, etc...)</span><br>
 							<span class="prefix">:</span><span class="var">birthDate</span><br>
 							&nbsp;&nbsp;<span class="prefix">:</span>domainIncludes <span class="prefix">:</span><span class="var">Person</span> ;<br>
 							&nbsp;&nbsp;<span class="prefix">:</span>rangeIncludes <span class="prefix">:</span><span class="var">Date</span> .
-						</p>
-						<p class="note fragment">
-							<a href="https://schema.org/">Schema.org</a> borrows concepts from <a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS), a W3C standard.
 						</p>
 					</section>
 					<section>
@@ -250,14 +253,33 @@
 						</p>
 						<!-- note: the date string could be typed. But no possibility of doing this with RDFS. Must use OWL -->
 					</section>
-					<!-- <section>
+				</section>
+				<section>
+					<h4>An RDF <s>Schema</s> Vocabulary</h4>
+					<!-- mediating structure for sem interop -->
+					<!-- assumption: writer/reader express the same thing with the same words. Query: right results -->
+					<!-- To guarantee sem interop, more is needed than a _vocabulary_. Lexicon alone isn't a language. -->
+						<!-- Example of relationship between terms (of a lexicon): hypernym -->
+					<!-- RDFS: relationship between classes and properties with domain/range. More to it with OWL -->
+
+					<!-- exercises:
+						- express relational constraints in RDFS/OWL
+						- express UML schemas in RDFS/OWL
+
+						(solution linked in a schema.org snippet?)
+
+						- MCQ: SHACL vs. OWL: differences in satisfiability, entailment (if SHACL had entailment regimes)
+					-->
+					<section>
 						<p>
-							Schema.org is derived from <a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS), a W3C standard.
+							<a href="https://schema.org/">Schema.org</a> is a <span style="color: lightgray;">sort of</span> schema that only defines:
 						</p>
-						<p class="fragment">
-							"RDFS provides mechanisms for <mark>describing</mark> groups of related resources and the relationships between these resources." <span class="aside">(source: W3C)</span>
-						</p>
-					</section> -->
+						<ul>
+							<li class="fragment">a <mark>class hierarchy</mark></li>
+							<li class="fragment"><mark>properties</mark></li>
+							<li class="fragment">various annotations</li>
+						</ul>
+					</section>
 					<section>
 						<p>
 							To ensure large <mark>adoption</mark>, schema.org imposes no constraint on the structure of RDF triples that use its classes and properties.
@@ -266,7 +288,7 @@
 							RDFS does not impose constraints either. Instead, it focuses on schema <mark>extension</mark> (via sub-classes and sub-properties).
 						</p> -->
 						<p class="note fragment">
-							Semantic Web practitioners favor the terms <span class="highlight">'vocabulary'</span> or <span class="highlight">'ontology'</span> over 'schema' to refer to such a model.
+							Semantic Web practitioners favor the terms <span class="highlight">'vocabulary'</span> over 'schema' to refer to such a model.
 						</p>
 					</section>
 					<section>
@@ -290,15 +312,167 @@
 							<li class="fragment">easy to <mark>extend</mark> but</li>
 							<li class="fragment">hard to <mark>validate</mark></li>
 						</ul>
+						<!-- "The driving factor in the design of Schema.org was to make it easy for webmasters to publish their data." -->
+						<!-- https://dl.acm.org/doi/pdf/10.1145/2844544 -->
 					</section>
 					<section>
 						<p>
-							What would a <mark>validation schema</mark> for RDF look like?
+							It is still possible to define <mark>post-hoc constraints</mark> on RDF graphs that use schema.org's vocabulary.
+						</p>
+						<p class="fragment">
+							Schema.org's <a href="https://validator.schema.org/">validator</a> and Google's <a href="https://search.google.com/test/rich-results">"enriched result" tester</a> have their own schema to trigger <mark>warnings</mark> and <mark>errors</mark>.
+						</p>
+					</section>
+					<section>
+						<img style="max-height: 8em;" src="../misc/rdf-schemas/sdo-validator.png">
+						<p class="fragment log error">
+							The property "salt" is not recognized by the schema for an object of type "NutritionInformation".
+						</p>
+					</section>
+					<section>
+						<img style="max-height: 8em;" src="../misc/rdf-schemas/rich-results-tester.png">
+						<p class="fragment log warning">
+							Field "recipeCuisine" missing (optional).
+						</p>
+					</section>
+					<section>
+						<p>
+							Schema.org's validator not only validates JSON-LD data.
+						</p>
+						<p class="fragment">
+							It also tries to <mark>repair schema violations</mark>.
+						</p>
+						<!-- See https://schema.org/docs/validator.html:
+						 "[The validator] can apply some heuristics for cases where markup provides text values when an entity is expected." -->
+						<!-- If string instead of :Person, generation of [ a :Person ; :name "name" ] -->
+					</section>
+				</section>
+				<section>
+					<h4>An RDF <s>Schema</s> Ontology</h4>
+					<section>
+						<p>
+							Schema.org was inspired by <mark>RDF Schema</mark> (RDFS), a minimal language to define vocabularies.
+						</p>
+						<!-- RDFS 1.0: 2004
+						SDO: 2011
+						RDFS 1.1: 2014 -->
+						<p class="fragment">
+							However, RDFS goes slightly beyond vocabulary-level definitions.
+						</p>
+						<p class="fragment note">
+							RDFS and schema.org were actually designed by the same persons.
+						</p>
+						<!-- schema:Class == rdfs:Class -->
+					</section>
+					<!-- <section>
+						<p class="fragment">
+							"RDFS provides mechanisms for <mark>describing</mark> groups of related resources and the relationships between these resources." <span class="aside">(source: W3C)</span>
+						</p>
+					</section> -->
+					<section>
+						<p>
+							RDFS includes:
+						</p>
+						<ul>
+							<li class="fragment"><mark>sub-class</mark> relations,</li>
+							<li class="fragment"><mark>sub-property</mark> relation,</li>
+							<li class="fragment">property <mark>domain</mark> definitions and</li>
+							<li class="fragment">property <mark>range</mark> definitions</li>
+						</ul>
+					</section>
+					<section>
+						<p class="ttl">
+							@prefix <span class="prefix">rdfs:</span> &lt;http://www.w3.org/&hellip;&gt;<br>
+							@prefix <span class="prefix">xsd:</span> &lt;http://www.w3.org/&hellip;&gt;<br>
+							@prefix <span class="prefix">:</span> &lt;http://schema.org/&gt;<br><br>
+							<span class="prefix">:</span><span class="var">Person</span> <span class="prefix">rdfs:</span>subClassOf <span class="prefix">:</span><span class="var">Thing</span> .<br>
+							<span class="prefix">:</span><span class="var">birthDate</span><br>
+							&nbsp;&nbsp;<span class="prefix">rdfs:</span>domain <span class="prefix">:</span><span class="var">Person</span> ;<br>
+							&nbsp;&nbsp;<span class="prefix">rdfs:</span>range <span class="prefix">xsd:</span><span class="var">date</span> .
+						</p>
+					</section>
+					<section>
+						<p class="ttl">
+							&lt;junichi-masuda&gt;<br>
+							&nbsp;&nbsp;a :<span class="var">Person</span>;<br>
+							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Masuda"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Junichi"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968"</span>^^<span class="prefix">xsd:</span>gYear .
+						</p>
+						<p class="fragment log error">
+							The range of :birthDate is of incompatible datatype xsd:date.
+						</p>
+						<!-- It is possible to reason over datatypes with RDFS ranges. Example in  https://www.w3.org/TR/2004/REC-rdf-mt-20040210/#dtype_interp -->
+						<!-- But RDF playground doesn't complain (rule engine?) -->
+					</section>
+					<section>
+						<p>
+							With RDFS, it is however not possible to validate whether Junichi Masuda has a tax ID or not.
+						</p>
+						<p class="fragment">
+							RDFS is <mark>not meant for data validation</mark>.
+						</p>
+					</section>
+					<section>
+						<p class="ttl">
+							&lt;junichi-masuda&gt;<br>
+							&nbsp;&nbsp;a :<span class="var">Person</span>;<br>
+							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Masuda"</span> ;<br>
+							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Junichi"</span> ;<br>
+							&nbsp;&nbsp;<span class="comment"># full date provided</span><br>
+							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968-01-12"</span> .
+						</p>
+						<!-- easter egg on Jan 12th in Pokémon games: https://bulbapedia.bulbagarden.net/wiki/Birthday -->
+					</section>
+					<section data-background-color="moccasin">
+						<p>
+							Do these statements about Junichi Masuda validate the constraint that a birth date must be a date?
+						</p>
+					</section>
+					<section>
+						<p>
+							In many cases, obvious statements are not asserted.
+						</p>
+						<p class="fragment">
+							A schema can help <mark>infer</mark> obvious statements from asserted ones.
+						</p>
+						<p class="note fragment">
+							A schema used for inference should rather be called an <span class="highlight">ontology</span>.
+						</p>
+					</section>
+					<section>
+						<p class="ttl">
+							&lt;junichi-masuda&gt;<br>
+							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968-01-12"</span>^^<span class="prefix">xsd:</span>date .
+						</p>
+						<p class="fragment">
+							&hellip; is a necessary fact for the schema to be validated. It can be considered <mark>true</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Still, many statements are <mark>unknown</mark> with respect to a schema.
+						</p>
+						<p class="fragment">
+							Typically, what is <mark>unknown</mark> is assumed to be <mark>false</mark> when validating data.
+						</p>
+						<p class="note fragment">
+							There are good reasons <em>not</em> to make this assumption. See for instance ontologies expressed in the <span class="highlight">Web Ontology Language</span>.
+						</p>
+					</section>
+					<section>
+						<p>
+							What would a proper <mark>validation schema</mark> for RDF look like?
 						</p>
 					</section>
 				</section>
 				<section>
-					<h4>A Schema for Validation</h4>
+					<h4>An RDF Schema</h4>
+					<!-- <section>
+						<p>
+							Vocabulary and ontology languages had been standardized for the Web long before any schema language.
+						</p>
+					</section> -->
 					<section>
 						<p>
 							The <a class="https://www.w3.org/TR/shacl/">Shapes Constraint Language (SHACL)</a> has been designed to <mark>declare constraints</mark> on classes and properties.
@@ -560,172 +734,6 @@
 							}
 						</p>
 					</section>
-				</section>
-				<section>
-					<h4>A Schema for Inference</h4>
-					<section>
-						<p>
-							SHACL is a valuable part of the Semantic Web technology stack.
-						</p>
-						<p class="fragment">
-							However...
-						</p>
-					</section>
-					<section>
-						<p class="ttl">
-							&lt;junichi-masuda&gt;<br>
-							&nbsp;&nbsp;a :<span class="var">Person</span>;<br>
-							&nbsp;&nbsp;:<span class="var">familyName</span> <span class="string">"Masuda"</span> ;<br>
-							&nbsp;&nbsp;:<span class="var">givenName</span> <span class="string">"Junichi"</span> ;<br>
-							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968-01-12"</span> .
-						</p>
-						<!-- easter egg on Jan 12th in Pokémon games: https://bulbapedia.bulbagarden.net/wiki/Birthday -->
-					</section>
-					<section data-background-color="moccasin">
-						<p>
-							Do these statements about Junichi Masuda validate the constraint that a birth date must be a date?
-						</p>
-					</section>
-					<section>
-						<p>
-							In many cases, obvious statements are not asserted.
-						</p>
-						<p class="fragment">
-							A schema can help <mark>infer</mark> obvious statements from asserted ones.
-						</p>
-						<p class="note fragment">
-							A schema used for inference should rather be called an <span class="highlight">ontology</span>.
-						</p>
-					</section>
-					<section>
-						<p class="ttl">
-							&lt;junichi-masuda&gt;<br>
-							&nbsp;&nbsp;:<span class="var">birthDate</span> <span class="string">"1968-01-12"</span>^^<span href="prefix">xsd:</span>date .
-						</p>
-						<p class="fragment">
-							&hellip; is a necessary fact for the shape to be validated. It can be considered <mark>true</mark>.
-						</p>
-					</section>
-					<section>
-						<p>
-							Still, many statements are <mark>unknown</mark> with respect to a schema.
-						</p>
-						<p class="fragment">
-							One cannot assert <mark>all what is true</mark> with a finite vocabulary.
-						</p>
-					</section>
-					<section>
-						<p>The designer of a vocabulary must define its <a href="https://en.wikipedia.org/wiki/Frame_problem">frame</a>:</p>
-						<ul>
-							<li class="fragment">
-								what is within the frame is known for certain
-							</li>
-							<li class="fragment">
-								what is outside the frame is unknown
-							</li>
-						</ul>
-					</section>
-					<section>
-						<p>
-							The two possible treatments for unknown statements are:
-						</p>
-						<ul>
-							<li class="fragment">
-								the <mark>Closed World assumption</mark><br>
-								<span class="aside">what is not stated is false</span>
-							</li>
-							<li class="fragment">
-								the <mark>Open World assumption</mark><br>
-								<span class="aside">what is not stated is undefined</span>
-							</li>
-						</ul>
-						<!-- Difference between validation and inference. [Venn diagram: what is asserted, what is true]
-						Difference between closed-world and open-world semantics. -->
-					</section>
-					<section data-auto-animate>
-						<p>
-							<mark>Constraint satisfaction</mark><br>
-							<span data-id="stmt">is typically done under the</span><br>
-							Closed World assumption.
-						</p>
-						<p class="note fragment">
-							Whatever is valid in a closed world remains valid in an open world.
-						</p>
-					</section>
-					<section data-auto-animate="">
-						<p>
-							<mark>Inference</mark><br>
-							<span data-id="stmt">is typically done under the</span><br>
-							Open World assumption.
-						</p>
-						<p class="note fragment">
-							Whatever is inferred in an open world remains inferred in a closed world.
-						</p>
-					</section>
-					<section>
-						<p>
-							<a href="https://www.w3.org/TR/rdf-schema/">RDF Schema</a> (RDFS) is a minimal language to define vocabularies.
-						</p>
-					</section>
-					<section>
-						<p>
-							RDFS includes:
-						</p>
-						<ul>
-							<li class="fragment">sub-class relations,</li>
-							<li class="fragment">sub-property relation,</li>
-							<li class="fragment">property domain definitions and</li>
-							<li class="fragment">property range definitions</li>
-						</ul>
-					</section>
-					<section>
-						<p>
-							The <a href="http://www.w3.org/TR/owl2-syntax/">Web Ontology Language</a> (OWL) is an overly complex language to define ontologies.
-						</p>
-					</section>
-					<section>
-						<p>
-							OWL includes:
-						</p>
-						<ul>
-							<li class="fragment">all of RDFS</li>
-							<li class="fragment">
-								class combinations<br>
-								<span class="aside">union, intersection, complement</span>
-							</li>
-							<li class="fragment">
-								property characteristics<br>
-								<span class="aside">transitivity, symmetry, inverse, &hellip;</span>
-							</li>
-							<li class="fragment">property chains</li>
-						</ul>
-					</section>
-					<section>
-						<p>
-							OWL also includes so-called <mark>restrictions</mark>, including:
-						</p>
-						<ul>
-							<li class="fragment">existential restrictions</li>
-							<li class="fragment">universal restrictions</li>
-							<li class="fragment">cardinality constraints</li>
-						</ul>
-					</section>
-					<section>
-						<p>
-							For an introduction to OWL, see the <a href="http://www.vcharpenay.link/misc/owl-quickref.pdf">OWL quick reference</a> document.
-						</p>
-					</section>
-					<!-- <section>
-						~OWL-LD (+ property chains)
-					</section>
-					<section>
-						Existential/universal restrictions?
-
-						Usefule restrictions: datatype restrictions (example of Ash's birth date).
-					</section> -->
-					<!-- <section>
-						Note: SHACL validation could be performed under OWL entailment. (research topic)
-					</section> -->
 				</section>
 
 				<!--

@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Web Ontologies</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .aside {
+				color: gray;
+				font-size: 0.8em;
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+			
+			.reveal .slides thead {
+				font-weight: bold;
+			}
+
+			.reveal .slides caption {
+				color: gray;
+			}
+			
+			.reveal .slides .sql {
+				text-align: left;
+			}
+			
+			.reveal .slides .sparql {
+				text-align: left;
+			}
+			
+			.reveal .slides .java {
+				text-align: left;
+			}
+			
+			.reveal .slides .ttl {
+				text-align: left;
+			}
+			
+			.reveal .slides .shacl {
+				text-align: left;
+			}
+			
+			.reveal .slides .shex {
+				text-align: left;
+			}
+			
+			.reveal .slides .sparql {
+				text-align: left;
+			}
+
+			.reveal .slides .prefix {
+				color: grey;
+			}
+
+            .reveal .slides .var {
+                color: darkmagenta;
+                font-weight: bold;
+            }
+
+            .reveal .slides .comment {
+                color: darkseagreen;
+            }
+
+            .reveal .slides .masked {
+                color: lightgray;
+            }
+
+            .reveal .slides .string {
+                color: peru;
+            }
+
+            .reveal .slides .nb {
+                color: skyblue;
+            }
+
+			.reveal .slides .log {
+				text-align: left;
+				padding-left: 10px;
+				background-color: black;
+				color: cornsilk;
+			}
+
+			.reveal .slides .log.error {
+				color: crimson;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 8em; /* FIXME should be a percent of total height */
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>
+						Web Ontologies
+					</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Outline</h4>
+					<ol>
+						<li class="fragment">Section</li>
+                        <li class="fragment">Section</li>
+					</ol>
+				</section>
+                <section>
+                    <h4>Inference</h4>
+                    <section>
+                        <p>
+                            Model checking (schema or constraints validation)
+                            vs.
+                            Inference
+                        </p>
+                    </section>
+					<section>
+						<p>
+							Many statements are <mark>unknown</mark> with respect to a schema.
+						</p>
+						<p class="fragment">
+							One cannot assert <mark>all what is true</mark> with a finite vocabulary.
+						</p>
+					</section>
+					<section>
+						<p>The designer of a vocabulary must define its <a href="https://en.wikipedia.org/wiki/Frame_problem">frame</a>:</p>
+						<ul>
+							<li class="fragment">
+								what is within the frame is known for certain
+							</li>
+							<li class="fragment">
+								what is outside the frame is unknown
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							The two possible treatments for unknown statements are:
+						</p>
+						<ul>
+							<li class="fragment">
+								the <mark>Closed World assumption</mark><br>
+								<span class="aside">what is not stated is false</span>
+							</li>
+							<li class="fragment">
+								the <mark>Open World assumption</mark><br>
+								<span class="aside">what is not stated is undefined</span>
+							</li>
+						</ul>
+						<!-- Difference between validation and inference. [Venn diagram: what is asserted, what is true]
+						Difference between closed-world and open-world semantics. -->
+					</section>
+					<section data-auto-animate>
+						<p>
+							<mark>Constraint satisfaction</mark><br>
+							<span data-id="stmt">is typically done under the</span><br>
+							Closed World assumption.
+						</p>
+						<p class="note fragment">
+							Whatever is valid in a closed world remains valid in an open world.
+						</p>
+					</section>
+					<section data-auto-animate="">
+						<p>
+							<mark>Inference</mark><br>
+							<span data-id="stmt">is typically done under the</span><br>
+							Open World assumption.
+						</p>
+						<p class="note fragment">
+							Whatever is inferred in an open world remains inferred in a closed world.
+						</p>
+					</section>
+                </section>
+                <section>
+                    <h4>OWL</h4>
+					<section>
+						<p>
+							The <a href="http://www.w3.org/TR/owl2-syntax/">Web Ontology Language</a> (OWL) is an overly complex language to define ontologies.
+						</p>
+					</section>
+					<section>
+						<p>
+							OWL includes:
+						</p>
+						<ul>
+							<li class="fragment">all of RDFS</li>
+							<li class="fragment">
+								class combinations<br>
+								<span class="aside">union, intersection, complement</span>
+							</li>
+							<li class="fragment">
+								property characteristics<br>
+								<span class="aside">transitivity, symmetry, inverse, &hellip;</span>
+							</li>
+							<li class="fragment">property chains</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							OWL also includes so-called <mark>restrictions</mark>, including:
+						</p>
+						<ul>
+							<li class="fragment">existential restrictions</li>
+							<li class="fragment">universal restrictions</li>
+							<li class="fragment">cardinality constraints</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							For an introduction to OWL, see the <a href="http://www.vcharpenay.link/misc/owl-quickref.pdf">OWL quick reference</a> document.
+						</p>
+					</section>
+					<!-- <section>
+						~OWL-LD (+ property chains)
+					</section>
+					<section>
+						Existential/universal restrictions?
+
+						Usefule restrictions: datatype restrictions (example of Ash's birth date).
+					</section> -->
+					<!-- <section>
+						Note: SHACL validation could be performed under OWL entailment. (research topic)
+					</section> -->
+                </section>
+            </div>
+        </div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+    </body>
+</html>
