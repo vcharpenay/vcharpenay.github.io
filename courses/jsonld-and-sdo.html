@@ -442,9 +442,45 @@ public class Book implements SupportsRdfId {
 							Schema.org is a collection of RDF <mark>classes</mark> and <mark>properties</mark>
 							to describe entities typically described in Web pages.
 						</p>
-						<p class="fragment">
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/jsonld-and-sdo/sdo-hierarchy.png">
+							<figcaption>Schema.org's hierarchy in 2015; source: <a href="https://dl.acm.org/doi/pdf/10.1145/2844544">Communications of the ACM</a></figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
 							Schema.org also provides a <mark>default JSON-LD context</mark> for Web developers to use.
 						</p>
+					</section>
+					<section><figure>
+						<pre><code>{
+  "@context":"http://schema.org",
+  "@type":"Movie",
+  "contentRating":"PG",
+  "dateCreated":"2009-10-16",
+  "genre":["Kids & Family","Fantasy","Adventure"],
+  "name":"Where the Wild Things Are",
+  "url":"https://www.rottentomatoes.com/m/where_the_wild_things_are",
+  "actor":[
+    {
+      "@type":"Person",
+      "name":"Catherine Keener",
+      "sameAs":"https://www.rottentomatoes.com/celebrity/catherine_keener"
+    },
+    {
+      "@type":"Person",
+      "name":"Max Records",
+      "sameAs":"https://www.rottentomatoes.com/celebrity/max-records"
+    },
+    ...
+  ]
+}</code></pre>
+							<figcaption>
+								Schema.org snippet from Rotten Tomatoes.
+							</figcaption>
+						</figure>
 					</section>
 					<section>
 						<figure>
