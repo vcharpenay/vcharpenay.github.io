@@ -28,7 +28,7 @@
 				background-color: wheat;
 			}
 
-			.reveal .slides .note .highlight {
+			.reveal .slides .note mark {
 				color: brown;
 			}
 			
@@ -134,29 +134,121 @@
 				<section>
 					<h4>Outline</h4>
 					<ol>
-						<li class="fragment">Section</li>
-                        <li class="fragment">Section</li>
+						<li class="fragment">Ontologies</li>
+						<li class="fragment">Open and Closed Worlds</li>
+                        <li class="fragment">The Web Ontology Language (OWL)</li>
+						<li class="fragment">Ontology Alignment</li>
+						<li class="fragment">Beyond OWL</li>
 					</ol>
 				</section>
-                <section>
-                    <h4>Inference</h4>
-                    <section>
-                        <p>
-                            Model checking (schema or constraints validation)
-                            vs.
-                            Inference
-                        </p>
-                    </section>
+				<section>
+					<h4>Onto&hellip;?</h4>
 					<section>
 						<p>
-							Many statements are <mark>unknown</mark> with respect to a schema.
+							<span style="color: peru;">Philosopher:</span> an ontology is a theory of <mark>what is</mark>.
 						</p>
 						<p class="fragment">
+							Aristotle stated that all things belong to <mark>one of ten categories</mark>.
+						</p>
+						<p class="fragment note">
+							Some of his contemporaries agreed with his theory, others disagreed.
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							<span data-id="def-1"><span style="color: peru;">Computer scientist:</span> an ontology is<br></span>
+							a <mark>specification</mark><br>
+							<span data-id="def-2">of<br></span>
+							a <mark>conceptualization</mark>.
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							<span data-id="def-1"><span style="color: peru;">Computer scientist:</span> an ontology is<br></span>
+							a <mark>formal description</mark><br>
+							<span data-id="def-2">of<br></span>
+							<mark>concepts and relationships</mark>.
+						</p>
+						<!-- <q class="fragment">
+							That is, an ontology is a description of the concepts and relationships that can exist for an agent or a community of agents.
+						</q> -->
+						<!-- <p class="fragment note">
+							See <a href="https://web.archive.org/web/20240112231425/http://www-ksl.stanford.edu/kst/what-is-an-ontology.html">What is an Ontology?</a> by Tom Gruber in 1992.
+						</p> -->
+					</section>
+					<section>
+						<p>
+							SUMO, BFO or DOLCE are examples of ontologies aiming to capture <mark>all known concepts</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img alt="BFO ontology (source: Wikipedia)" src="https://upload.wikimedia.org/wikipedia/commons/4/4e/BFO_ontology.jpg">
+							<figcaption>Basic Formal Ontology 2.0</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							<span style="color: peru;">Ontology engineer:</span> an ontology defines the vocabulary with which <mark>queries and assertions</mark> are exchanged among <mark>agents</mark>.
+							<!-- from Gruber (1992) -->
+						</p>
+						<p class="fragment">
+							That is, ontologies are specifications of <mark>shared</mark> conceptualizations.
+						</p>
+					</section>
+					<section>
+						<p>
+							Agreement across all humans over a common ontology is not reachable, though.
+						</p>
+						<p class="fragment">
+							<mark>Partial agreement</mark> over <mark>small sets</mark> of concepts is much more .
+						</p>
+					</section>
+					<section>
+						<p>
+							<span style="color: peru;">Web researcher:</span> a <mark>Web ontology</mark> is a <mark>consistent set of concepts</mark> exposed on the Web, such that others can (partially) reuse and <mark>align</mark> with these concepts.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/web-ontologies/wot-cloud.png">
+							<figcaption>
+								Graph of alignments between IoT ontologies.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Web ontologies are commonly layered as:
+						</p>
+						<ul>
+							<li class="fragment">
+								Upper-level ontologies<br>
+								<span class="aside">SUMO, BFO, DOLCE, &hellip;</span>
+							</li>
+							<li class="fragment">
+								Domain ontologies<br>
+								<span class="aside">for manufacturing, social networks, art, &hellip;</span>
+							</li>
+							<li class="fragment">
+								Application-specific ontologies<br>
+								<span class="aside"></span>
+							</li>
+						</ul>
+					</section>
+				</section>
+                <section>
+                    <h4>Open and Closed Worlds</h4>
+					<section>
+						<p>
+							If anyone can publish their ontology on the Web, they must decide what to do with the <mark>unknown</mark>.
+						</p>
+						<p class="fragment note">
 							One cannot assert <mark>all what is true</mark> with a finite vocabulary.
 						</p>
 					</section>
 					<section>
-						<p>The designer of a vocabulary must define its <a href="https://en.wikipedia.org/wiki/Frame_problem">frame</a>:</p>
+						<p>The designer of an ontology must define its <a href="https://en.wikipedia.org/wiki/Frame_problem">frame</a>:</p>
 						<ul>
 							<li class="fragment">
 								what is within the frame is known for certain
@@ -203,20 +295,66 @@
 							Whatever is inferred in an open world remains inferred in a closed world.
 						</p>
 					</section>
-                </section>
-                <section>
-                    <h4>OWL</h4>
 					<section>
 						<p>
-							The <a href="http://www.w3.org/TR/owl2-syntax/">Web Ontology Language</a> (OWL) is an overly complex language to define ontologies.
+							Ontologies should be:
 						</p>
+						<ul>
+							<li class="fragment">
+								easy to extend
+							</li>
+							<li class="fragment">
+								hard to validate
+							</li>
+						</ul>
+						<p class="fragment note">
+							Ontology engineers should design ontologies under the open-world assumption.
+						</p>
+					</section>
+                    <!-- <section>
+                        <p>
+							SHACL is a <mark>constraint declaration</mark> language. It was not designed as an ontology language.
+                        </p>
+                    </section> -->
+                </section>
+                <section>
+                    <h4>The Web Ontology Language (OWL)</h4>
+					<section>
+						<p>
+							The <a href="http://www.w3.org/TR/owl2-syntax/">Web Ontology Language</a> (OWL) is the reference language to define ontologies.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<pre><code>ObjectUnionOf( a:Person a:Animal )</code></pre>
+							<figcaption>
+								Example in the <a href="http://www.w3.org/TR/owl2-syntax/">functional syntax</a> of OWL.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<pre><code>_:x rdf:type owl:Class .
+_:x owl:unionOf ( a:Person a:Animal ) .</code></pre>
+							<figcaption>
+								Example of an <a href="https://www.w3.org/TR/owl2-mapping-to-rdf/">RDF mapping</a> of OWL.
+							</figcaption>
+						</figure>					
+					</section>
+					<section>
+						<figure>
+							<pre><code>Person or Animal</code></pre>
+							<figcaption>
+								Example of the <a href="hhttps://www.w3.org/TR/owl2-manchester-syntax/">Manchester syntax</a> of OWL.
+							</figcaption>
+						</figure>					
 					</section>
 					<section>
 						<p>
 							OWL includes:
 						</p>
 						<ul>
-							<li class="fragment">all of RDFS</li>
+							<li class="fragment">all of RDF Schema</li>
 							<li class="fragment">
 								class combinations<br>
 								<span class="aside">union, intersection, complement</span>
@@ -255,6 +393,98 @@
 						Note: SHACL validation could be performed under OWL entailment. (research topic)
 					</section> -->
                 </section>
+				<section>
+					<h4>Ontology Alignment</h4>
+					<section>
+						Inference can be used to <mark>automatically align</mark> RDF graphs of various origins.
+					</section>
+					<section>
+						<figure>
+							<pre><code>Class: foaf:Person
+EquivalentTo: schema:Person
+
+Class: foaf:Image
+EquivalentTo: schema:ImageObject
+
+Class: foaf:Document
+SubClassOf: schema:CreativeWork</code></pre>
+							<figcaption>
+								Alignment between FOAF and schema.org.
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							<mark>Ontology-based data access</mark> (OBDA) is a common approach to data integration. It generally requires inference from alignment axioms.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../misc/web-ontologies/obda.png">
+							<figcaption>Virtual Knowledge Graph (VKG) architecture <a href="https://edbtschool22.labri.fr/slides/tutorial9-slides.pdf">(source: Diego Calvanese)</a></figcaption>
+						</figure>
+					</section>
+				</section>
+				<section>
+					<h4>Beyond OWL</h4>
+					<section>
+						<p>
+							For practical use, several <mark>OWL profiles</mark> exist:
+						</p>
+						<ul>
+							<li class="fragment">
+								OWL QL<br>
+								<span class="aside">for OBDA, among others</span>
+							</li>
+							<li class="fragment">
+								OWL EL<br>
+								<span class="aside">with applications in the medical domain</span>
+								<!-- SNOMED, the Systematized Nomenclature of Medicine -->
+							</li>
+							<li class="fragment">
+								OWL RL<br>
+								<span class="aside">for implementation with a rule engine</span>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Yet, OWL is not a universal ontological language.
+						</p>
+					</section>
+					<section>
+						<p>
+							For instance, it is not possible to express such things as:
+						</p>
+						<ul>
+							<li>
+								Job interviews for the same position are always followed by at least one hiring event.
+							</li>
+							<!-- <li>
+								TODO
+							</li> -->
+						</ul>
+					</section>
+					<section>
+						<p>
+							Rule languages, such as <mark>SWRL</mark>, can express ontological constraints that OWL cannot. And vice-versa.
+						</p>
+						<p class="fragment">
+							Mixing arbirary OWL axioms and rules is <mark>powerful</mark> but inference is <mark>not guaranteed to terminate</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Predicate logic is (assumed to be) the most universal language.
+						</p>
+						<p class="fragment">
+							<mark>Common logic</mark> is an international standard to define ontologies in predicate logic.
+						</p>
+						<p class="fragment note">
+							See <a href="http://www.jfsowa.com/talks/clintro.pdf">Introduction to Common Logic</a> by John F. Sowa.
+						</p>
+					</section>
+				</section>
             </div>
         </div>
 
