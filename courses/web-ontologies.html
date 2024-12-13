@@ -28,7 +28,7 @@
 				background-color: wheat;
 			}
 
-			.reveal .slides .note mark {
+			.reveal .slides .note .highlight {
 				color: brown;
 			}
 			
@@ -165,7 +165,7 @@
 					<section data-auto-animate>
 						<p>
 							<span data-id="def-1"><span style="color: peru;">Computer scientist:</span> an ontology is<br></span>
-							a <mark>formal description</mark><br>
+							e.g. a <mark>formal description</mark><br>
 							<span data-id="def-2">of<br></span>
 							<mark>concepts and relationships</mark>.
 						</p>
@@ -201,7 +201,7 @@
 							Agreement across all humans over a common ontology is not reachable, though.
 						</p>
 						<p class="fragment">
-							<mark>Partial agreement</mark> over <mark>small sets</mark> of concepts is much more .
+							<mark>Partial agreement</mark> over <mark>small sets</mark> of concepts is much more realistic.
 						</p>
 					</section>
 					<section>
@@ -213,7 +213,7 @@
 						<figure>
 							<img src="../misc/web-ontologies/wot-cloud.png">
 							<figcaption>
-								Graph of alignments between IoT ontologies.
+								Graph of alignments between IoT ontologies
 							</figcaption>
 						</figure>
 					</section>
@@ -244,7 +244,7 @@
 							If anyone can publish their ontology on the Web, they must decide what to do with the <mark>unknown</mark>.
 						</p>
 						<p class="fragment note">
-							One cannot assert <mark>all what is true</mark> with a finite vocabulary.
+							One cannot assert <span class="highlight">all what is true</span> with a finite vocabulary.
 						</p>
 					</section>
 					<section>
@@ -307,8 +307,9 @@
 								hard to validate
 							</li>
 						</ul>
-						<p class="fragment note">
-							Ontology engineers should design ontologies under the open-world assumption.
+						<p class="fragment">
+							Ontology engineers should therefore design ontologies under the<br>
+							<span class="fragment"><mark>open-world assumption</mark>.</span>
 						</p>
 					</section>
                     <!-- <section>
@@ -326,26 +327,59 @@
 					</section>
 					<section>
 						<figure>
-							<pre><code>ObjectUnionOf( a:Person a:Animal )</code></pre>
+							<pre><code>Declaration( Class( :Person ) )
+Declaration( ObjectProperty( :knows ) )
+Declaration( DataProperty( :familyName ) )
+Declaration( DataProperty( :birthDate ) )
+
+SubClassOf( :Person
+  ObjectAllValuesFrom( :knows :Person ))
+SubClassOf( :Person
+  DataSomeValuesFrom( :familyName xsd:string ))
+
+DataPropertyRange( :birthDate xsd:date )</code></pre>
 							<figcaption>
-								Example in the <a href="http://www.w3.org/TR/owl2-syntax/">functional syntax</a> of OWL.
+								Example in the <a href="http://www.w3.org/TR/owl2-syntax/">functional syntax</a> of OWL
 							</figcaption>
 						</figure>
 					</section>
 					<section>
 						<figure>
-							<pre><code>_:x rdf:type owl:Class .
-_:x owl:unionOf ( a:Person a:Animal ) .</code></pre>
+							<pre><code>:Person a owl:Class .
+:knows a owl:ObjectProperty .
+:familyName a owl:DatatypeProperty .
+:birthDate a owl:DatatypeProperty .
+
+:Person rdfs:subClassOf [
+  a owl:Restriction ;
+  owl:onProperty :knows ;
+  owl:allValuesFrom :Person
+], [
+  a owl:Restriction ;
+  owl:onProperty :familyName ;
+  owl:someValuesFrom xsd:string
+] .
+
+:birthDate rdfs:range xsd:date .</code></pre>
 							<figcaption>
-								Example of an <a href="https://www.w3.org/TR/owl2-mapping-to-rdf/">RDF mapping</a> of OWL.
+								Example of <a href="https://www.w3.org/TR/owl2-mapping-to-rdf/">mapping to RDF</a>
 							</figcaption>
 						</figure>					
 					</section>
 					<section>
 						<figure>
-							<pre><code>Person or Animal</code></pre>
+							<pre><code>Class: Person
+  SubClassOf: knows only Person
+  SubClassOf: familyName some string
+
+ObjectProperty: knows
+
+DataProperty: familyName
+
+DataProperty: birthDate
+  Range: date</code></pre>
 							<figcaption>
-								Example of the <a href="hhttps://www.w3.org/TR/owl2-manchester-syntax/">Manchester syntax</a> of OWL.
+								Example in the OWL <a href="https://www.w3.org/TR/owl2-manchester-syntax/">Manchester syntax</a>
 							</figcaption>
 						</figure>					
 					</section>
@@ -379,6 +413,9 @@ _:x owl:unionOf ( a:Person a:Animal ) .</code></pre>
 					<section>
 						<p>
 							For an introduction to OWL, see the <a href="http://www.vcharpenay.link/misc/owl-quickref.pdf">OWL quick reference</a> document.
+						</p>
+						<p class="fragment note">
+							Reference documentation also includes the <a href="https://www.w3.org/TR/owl2-primer/">OWL 2 Primer</a> and the <a href="https://www.w3.org/TR/owl2-manchester-syntax/#Quick_Reference">Manchester syntax quick reference</a>.
 						</p>
 					</section>
 					<!-- <section>
