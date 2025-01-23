@@ -1,5 +1,5 @@
 @startuml
-UI -> UserFilter : query(id=U1)
+UI -> UserFilter : query(user_id=U1)
 note left
   Flow: get recommendations (for posts)
 end note
