@@ -225,45 +225,137 @@
 				</section>
 				<section>
 					<h4>Extraction, vérification, traitement</h4>
-					<!-- <section>
-						Memes Excel
-
-						- Excel / finance meme : https://www.reddit.com/r/trippinthroughtime/comments/knbl8e/richard_in_accounting_approves_of_this_meme/
-						- bien connaître Excel : https://www.reddit.com/r/memes/comments/1bcwhuh/anyone_who_can_work_with_excel_is_god/?tl=fr
-						- dates dans : https://infosec.exchange/@b33fpebble/111358999210802603
-						- https://www.reddit.com/r/excel/
+					<section>
+						<p>
+							Quel(s) outil(s) utiliser pour traiter des données hétérogènes aux formats CSV, JSON, XML et autres ?
+						</p>
 					</section>
 					<section>
-						rapport à PowerBI, Python (Jupyter, Pandas, Matplotlib) ?
+						<img style="height: 12em;" src="https://i.imgur.com/2Rp8uXl.jpeg">
 
+						<!-- https://www.reddit.com/r/trippinthroughtime/comments/knbl8e/richard_in_accounting_approves_of_this_meme/ -->
+					</section>
+					<section>
+						<img style="height: 12em;" src="https://media.infosec.exchange/infosec.exchange/media_attachments/files/111/358/983/331/694/257/original/d3551add489cce70.jpg">
+
+						<!-- https://infosec.exchange/@b33fpebble/111358999210802603 -->
+					</section>
+					<section>
+						<img style="height: 12em;" src="https://i.redd.it/u0o65dxygwnc1.jpeg">
+
+						<!-- https://www.reddit.com/r/memes/comments/1bcwhuh/anyone_who_can_work_with_excel_is_god/ -->
+					</section>
+					<section>
+						<p>
+							Excel est si important dans le traitement de données qu'il a son propre sujet sur Reddit (<a href="https://www.reddit.com/r/excel/">r/excel</a>).
+						</p>
+						<p class="fragment">
+							Le concept de <mark>feuille de calcul</mark> et de <mark>macro</mark> aura fait son succès.
+						</p>
+					</section>
+					<section>
+						<p>
+							Depuis, d'autres outils de traitement de données se sont aussi imposés, comme Power BI ou Tableau.
+						</p>
+						<p class="fragment">
+							Ces outils facilitent le développement des <mark>tableaux de bord</mark> pour l'aide à la décision.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Global_Temperatures_Server.png/1920px-Global_Temperatures_Server.png">
+							<figcaption>Capture d'écran de Tableau (cf. <a href="https://en.wikipedia.org/wiki/Tableau_Software">Wikipédia</a>)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Pour des usages avancées d'analyse de données, les outils les plus courant sont des bibliothèques Python :
+						</p>
+						<ul>
+							<li class="fragment">Pandas</li>
+							<li class="fragment">NumPy</li>
+							<li class="fragment">Matplotlib</li>
+							<li class="fragment">(Scikit-learn, PyTorch, etc.)</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+
+# prepare plot
+fig, ax = plt.subplots()
+
+# read file downloaded from data.gouv.fr
+data_frame = pd.read_csv("export-dataset-20250310-054939.csv", sep=";")
+
+# select data along quality_score column
+score = data_frame["quality_score"].to_numpy()
+# generate bins [0,0.1[, [0.1, 0.2[, ..., [0.9, 1[
+bins = np.arange(0, 1, 0.1)
+
+# display score distribution across bins
+ax.hist(score, bins, histtype='step')
+
+ax.set_xlabel("quality score")
+ax.set_ylabel("nb. occurrences")
+
+plt.show()</code></pre>
+							<figcaption>Script Python pour générer un graphique à partir d'un fichier CSV</figcaption>
+						</figure>
+						
+						<!-- source du fichier CSV : https://www.data.gouv.fr/fr/datasets/r/4babf5f2-6a9c-45b5-9144-ca5eae6a7a6d -->
+					</section>
+				</section>
+				<section>
+					<h4>Publication</h4>
+					<section>
+						<p>
+							La publication de données (ouvertes ou non) se fait essentiellement sur le Web.
+						</p>
+						<p class="fragment">
+							Les données peuvent être générées dynamiquement à travers une <mark>interface de programmation</mark> (API) Web.
+						</p>
+						<p class="fragment note">
+							Voir par exemple des plates-formes de trafic <a href="http://marinetraffic.com/">maritime</a> ou <a href="https://www.flightradar24.com">aérien</a>.
+						</p>
+					</section>
+					<!-- <section>
 						Illustrer les avantages d'OnlyOffice : embarquer une feuille de calcul dans les slides (HTML) ?
 					</section> -->
 				</section>
 				<section>
-					<h4>Publication</h4>
-					<!-- <section>
-						Mises à disposition 
-						Au sein de l’entreprise ;
-						Pour le reste du monde.
-						Choix des formats
-						Favoriser les standards : txt, csv, html, xml, bases de données.
-						Mécanisme de diffusion
-						Les outils de l’internet : serveurs web, PHP et les bases de données
-					</section> -->
-				</section>
-				<section>
 					<h4>Études de cas</h4>
-					<!-- <section>
-						Marégraphe
+					<section>
+						<p>
+							La première étude de cas portera sur l'analyse des données collectées par un <mark>marégraphe</mark>.
+						</p>
+						<p class="fragment">
+							La seconde étude de cas portera sur des données de <mark>téléphonie mobile</mark>.
+						</p>
 					</section>
 					<section>
-						Données antennes
-
-						https://www.data.gouv.fr/fr/datasets/mon-reseau-mobile/
-
-						https://www.zoneadsl.com/couverture-mobile/carte
-						https://www.data.gouv.fr/fr/reuses/carte-des-reseaux-mobile-en-france-metopolitaine-couverture-et-qualite-de-service/ (détail des données)
-					</section> -->
+						<figure>
+							<img src="../../misc/applications-intégrées/maregraphe-1.jpg">
+							<img src="../../misc/applications-intégrées/maregraphe-2.jpg">
+							<figcaption>Prototype de marégraphe (issu d'un projet d'élèves ICM)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../../misc/applications-intégrées/maregraphe-data-2.jpg">
+							<figcaption>Estimation des marées en différents lieux sur la côte Atlantique</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="../../misc/applications-intégrées/zoneadsl.png">
+							<figcaption>Utilisation de données ouvertes pour la promotion d'abonnements téléphoniques par <a href="https://www.data.gouv.fr/fr/datasets/mon-reseau-mobile/">Zone ADSL</a></figcaption>
+						</figure>
+						<p class="fragment note">
+							Le service de Zone ADSL combine <a href="https://www.data.gouv.fr/fr/reuses/carte-des-reseaux-mobile-en-france-metopolitaine-couverture-et-qualite-de-service/">quatre jeux de données</a>.
+						</p>
+					</section>
 				</section>
 			</div>
 		</div>
