@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Applications intégrées : Panorama</title>
+
+		<link rel="stylesheet" href="../../css/slides-reset.css">
+		<link rel="stylesheet" href="../../css/slides.css">
+		<link rel="stylesheet" href="../../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 7em;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Applications intégrées (Panorama)</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Objectif</h4>
+					<section>
+						<p>Apprendre à <mark>extraire, à vérifier et à traiter</mark> des <mark>informations utiles</mark> à l'entreprise.</p>
+					</section>
+					<section>
+						<p>Extraire, vérifier et traiter ?</p>
+						<ul>
+							<li class="fragment">seules quelques informations sont intégrées dans les SI des entreprises</li>
+							<li class="fragment">l'évolution des besoins dépasse la réactivité des SI</li>
+						</ul>
+					</section>
+					<section>
+						<p>Informations <i>utiles à l'entreprise</i> ?</p>
+						<ul>
+							<li class="fragment">données métier</li>
+							<!-- gérées par un SI d'entreprise -->
+							<li class="fragment">informations extraites des équipements</li>
+							<!-- par exemple, Linky -->
+							<li class="fragment">informations institutionnelles</li>
+							<!-- abonnements (semrush), open data -->
+							<li class="fragment">informations sur le Web</li>
+							<!-- exemples ? -->
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h4>Données ouvertes</h4>
+					<section>
+						<span style="text-decoration: underline;">Donnée ouverte</span> (déf.) : donnée diffusée de manière <mark>structurée</mark> selon une méthodologie et une <mark>licence ouverte</mark> garantissant son libre accès et sa réutilisation par tous, sans restriction technique, juridique ou financière.
+
+						<!-- http://fr.wikipedia.org/wiki/Données_ouvertes -->
+					</section>
+					<section>
+						<figure>
+							<img src="../../misc/applications-intégrées/datagouv.png">
+							<figcaption>Portail de données ouvertes <a href="https://www.data.gouv.fr/">data.gouv.fr</a></figcaption>
+						</figure>
+						<!-- https://www.data.gouv.fr/fr/dashboard/ -->
+					</section>
+					<section>
+						<figure>
+							<img src="../../misc/applications-intégrées/open-data-maturity.png">
+							<figcaption>Niveau de maturité des données ouvertes dans les pays membres de l'UE, par <a href="https://data.europa.eu/">data.europa.eu</a></figcaption>
+						</figure>
+
+						<!-- https://data.europa.eu/en/publications/datastories/10th-anniversary-open-data-maturity-report -->
+					</section>
+					<section>
+						<figure>
+							<img src="https://1.bp.blogspot.com/-3eGK0nq-u6w/X0VEp0OPr6I/AAAAAAAAGdA/oXCleTVV36IqXmpg_Mnu1nZ6TtBqpsB8ACLcBGAsYHQ/s0/image3.png">
+							<figcaption>Nombre de jeux de données recensés par Google Dataset Search (voir <a href="https://research.google/blog/an-analysis-of-online-datasets-using-dataset-search-published-in-part-as-a-dataset/">analyse détaillée</a>)</figcaption>
+						</figure>
+
+						<!-- https://datasetsearch.research.google.com/ -->
+					</section>
+					<section>
+						<p>
+							Quels sont les propriétés des jeux de données ouvertes ?
+						</p>
+
+						<!-- Une information / Une collection d’informations.
+						Aspect temporel
+						Diffusion temps réel ;
+						Historiques.
+						Méthodes de collecte
+						Push : on vous envoie les données ;
+						Pull : vous vérifiez régulièrement la présence de nouvelles informations. -->
+					</section>
+					<section>
+						<figure>
+							<img src="https://www.w3.org/TR/vocab-dcat-3/images/dcat-all-attributes.svg">
+							<figcaption><a href="https://www.w3.org/TR/vocab-dcat-3/">DCAT</a> : modèle standard de méta-données sur les catalogues des données en ligne</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Quels sont les formats des jeux de données ouvertes ?
+						</p>
+					</section>
+					<section>
+						<table>
+							<tbody>
+								<tr>
+									<td>CSV</td><td>15%</td>
+									<td>XLS</td><td>3%</td>
+								</tr>
+								<tr>
+									<td>JSON</td><td>8%</td>
+									<td>WMS</td><td>2,5%</td>
+								</tr>
+								<tr>
+									<td>PDF</td><td>7%</td>
+									<td>XML</td><td>2,5%</td>
+								</tr>
+								<tr>
+									<td>Zip</td><td>7%</td>
+									<td>KML</td><td>2%</td>
+								</tr>
+								<tr>
+									<td>Shapefile</td><td>6%</td>
+									<td>GML</td><td>2%</td>
+								</tr>
+								<tr>
+									<td>GeoJSON</td><td>5%</td>
+									<td>ODS</td><td>2%</td>
+								</tr>
+								<tr>
+									<td>HTML</td><td>4%</td>
+									<td>Texte</td><td>1%</td>
+								</tr>
+								<tr>
+									<td>XLSX</td><td>4%</td>
+									<td>(autres)</td><td>27%</td>
+								</tr>
+							</tbody>
+							<caption>Formats des données disponibles sur <a href="https://www.data.gouv.fr/">data.gouv.fr</a></caption>
+						</table>
+
+						<!-- https://www.data.gouv.fr/fr/datasets/catalogue-des-donnees-de-data-gouv-fr/ -->
+
+						<!-- https://schema.data.gouv.fr/statistiques.html -->
+					</section>
+					<section>
+						<p>
+							Quelle est la qualité des jeux de données ouvertes ?
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="../../misc/applications-intégrées/datagouv-quality.png">
+							<figcaption>Distribution du score qualité des jeux de données sur <a href="https://www.data.gouv.fr/">data.gouv.fr</a></figcaption>
+						</figure>
+					</section>
+				</section>
+				<section>
+					<h4>Formats de données</h4>
+					<section>
+						<p>Le <mark>texte brut</mark> est le format le plus simple. Il n'impose aucune structure.</p>
+						<p class="fragment note">
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=txt">Exemples</a>.
+						</p>
+						<p class="fragment note">
+							Attention au mode d'encodage des données : UTF, ASCII ou ISO-Western-Europe-* ?
+						</p>
+					</section>
+					<section>
+						<p>Les formats <mark>CSV</mark> (comma-separated values) et <mark>TSV</mark> (tabulation-separated values) sont de loin les plus utilisés. Ils permettent de facilement encoder des tableaux.</p>
+						<p class="fragment note">
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=csv">Exemples</a>.
+						</p>
+					</section>
+					<section>
+						<p>Le format <mark>JSON</mark> (JavaScript Object Notation) est le plus simple à utiliser depuis un programme.</p>
+						<p class="fragment note">
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=json">Exemples</a>.
+						</p>
+					</section>
+					<section>
+						<p>Le format <mark>XML</mark> (Extended Markup Language) est issu des technologies du Web, il permet de représenter des structures arborescentes.</p>
+						<p class="fragment note">
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=xml">Exemples</a>.
+						</p>
+					</section>
+					<section>
+						<p>Les formats <mark>RDF</mark> (Resource Description Framework) comme <mark>Turtle</mark> permettent de représenter n'importe quelles données en graphe.</p>
+						<p class="fragment note">
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=ttl">Exemples</a>.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>Extraction, vérification, traitement</h4>
+					<!-- <section>
+						Memes Excel
+
+						- Excel / finance meme : https://www.reddit.com/r/trippinthroughtime/comments/knbl8e/richard_in_accounting_approves_of_this_meme/
+						- bien connaître Excel : https://www.reddit.com/r/memes/comments/1bcwhuh/anyone_who_can_work_with_excel_is_god/?tl=fr
+						- dates dans : https://infosec.exchange/@b33fpebble/111358999210802603
+						- https://www.reddit.com/r/excel/
+					</section>
+					<section>
+						rapport à PowerBI, Python (Jupyter, Pandas, Matplotlib) ?
+
+						Illustrer les avantages d'OnlyOffice : embarquer une feuille de calcul dans les slides (HTML) ?
+					</section> -->
+				</section>
+				<section>
+					<h4>Publication</h4>
+					<!-- <section>
+						Mises à disposition 
+						Au sein de l’entreprise ;
+						Pour le reste du monde.
+						Choix des formats
+						Favoriser les standards : txt, csv, html, xml, bases de données.
+						Mécanisme de diffusion
+						Les outils de l’internet : serveurs web, PHP et les bases de données
+					</section> -->
+				</section>
+				<section>
+					<h4>Études de cas</h4>
+					<!-- <section>
+						Marégraphe
+					</section>
+					<section>
+						Données antennes
+
+						https://www.data.gouv.fr/fr/datasets/mon-reseau-mobile/
+
+						https://www.zoneadsl.com/couverture-mobile/carte
+						https://www.data.gouv.fr/fr/reuses/carte-des-reseaux-mobile-en-france-metopolitaine-couverture-et-qualite-de-service/ (détail des données)
+					</section> -->
+				</section>
+			</div>
+		</div>
+
+		<script src="../../js/slides.js"></script>
+		<script src="../../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
