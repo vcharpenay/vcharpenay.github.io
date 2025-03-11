@@ -192,7 +192,7 @@
 					<section>
 						<p>Le <mark>texte brut</mark> est le format le plus simple. Il n'impose aucune structure.</p>
 						<p class="fragment note">
-							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=txt">Exemples</a>.
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=txt">exemples</a>.
 						</p>
 						<p class="fragment note">
 							Attention au mode d'encodage des données : UTF, ASCII ou ISO-Western-Europe-* ?
@@ -201,25 +201,25 @@
 					<section>
 						<p>Les formats <mark>CSV</mark> (comma-separated values) et <mark>TSV</mark> (tabulation-separated values) sont de loin les plus utilisés. Ils permettent de facilement encoder des tableaux.</p>
 						<p class="fragment note">
-							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=csv">Exemples</a>.
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=csv">exemples</a>.
 						</p>
 					</section>
 					<section>
 						<p>Le format <mark>JSON</mark> (JavaScript Object Notation) est le plus simple à utiliser depuis un programme.</p>
 						<p class="fragment note">
-							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=json">Exemples</a>.
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=json">exemples</a>.
 						</p>
 					</section>
 					<section>
 						<p>Le format <mark>XML</mark> (Extended Markup Language) est issu des technologies du Web, il permet de représenter des structures arborescentes.</p>
 						<p class="fragment note">
-							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=xml">Exemples</a>.
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=xml">exemples</a>.
 						</p>
 					</section>
 					<section>
 						<p>Les formats <mark>RDF</mark> (Resource Description Framework) comme <mark>Turtle</mark> permettent de représenter n'importe quelles données en graphe.</p>
 						<p class="fragment note">
-							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=ttl">Exemples</a>.
+							Voir <a href="https://www.data.gouv.fr/fr/datasets/?format=ttl">exemples</a>.
 						</p>
 					</section>
 				</section>
@@ -318,6 +318,78 @@ plt.show()</code></pre>
 						</p>
 						<p class="fragment note">
 							Voir par exemple des plates-formes de trafic <a href="http://marinetraffic.com/">maritime</a> ou <a href="https://www.flightradar24.com">aérien</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Historiquement, le langage le plus courant pour programmer des serveurs Web est <mark>PHP</mark>.
+						</p>
+						<!-- exemples : https://ecampus.emse.fr/login/index.php -->
+						<p class="fragment">
+							PHP permet de construire facilement des pages HTML (Hypertext Markup Language, sous-ensemble d'XML).
+						</p>
+						<p class="fragment note">
+							PHP est le backronyme récursif de PHP: Hyptertext Processor.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Tricomptes : gestion de comptes partagés&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Tricompte &lt;?= $account-&gt;name ?&gt;&lt;/h1&gt;
+
+    &lt;section id="transactions"&gt;
+      &lt;h2&gt;Paiements&lt;/h2&gt;
+      &lt;p&gt;
+        &lt;a href="transaction.php?c=&lt;?= $c ?&gt;"&gt;Ajouter&lt;/a&gt;
+      &lt;/p&gt;
+      &lt;table&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;Date&lt;/th&gt;
+            &lt;th&gt;Montant&lt;/th&gt;
+            &lt;th&gt;Libellé&lt;/th&gt;
+            &lt;th&gt;Par&lt;/th&gt;
+            &lt;th&gt;Pour&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;?php
+            foreach ($account-&gt;transactions as $t) {
+              echo "&lt;tr&gt;";
+
+              echo "&lt;td&gt;{$t-&gt;date}&lt;/td&gt;";
+              echo "&lt;td&gt;{$t-&gt;amount}&lt;/td&gt;";
+              echo "&lt;td&gt;{$t-&gt;reason}&lt;/td&gt;";
+              echo "&lt;td&gt;{$t-&gt;by}&lt;/td&gt;";
+
+              $for = implode(', ', $t-&gt;for);
+              echo "&lt;td&gt;{$for}&lt;/td&gt;";
+
+              echo "&lt;/tr&gt;";
+            }
+          ?&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt; 
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+							<figcaption>Extrait de code PHP</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							La loi d'Atwood dicte cependant que tout ce qui peut être réécrit en <mark>JavaScript</mark> (JS) sera un jour réécrit en JS.
+						</p>
+						<p class="fragment">
+							En cause, les interfaces graphiques des navigateurs qui ne peuvent exécutent que du code JS pour un rendu dynamique.
+						</p>
+						<p class="fragment note">
+							À l'origine, Jeff Atwood <a href="https://blog.codinghorror.com/all-programming-is-web-programming/">énonçait sa loi</a> comme une blague (littéralement).
 						</p>
 					</section>
 					<!-- <section>
