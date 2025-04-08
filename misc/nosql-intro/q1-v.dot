@@ -1,0 +1,17 @@
+digraph {
+  rankdir=BT
+  node [shape=none, fontname="monospace"]
+  edge [color=black]
+
+  Project [label=<π<sub><font color="darkmagenta"><b>Rang</b></font>,<font color="darkmagenta"><b>Nom</b></font></sub>(<font color="darkmagenta"><b>P</b></font>)>]
+  PT [label=<<b>PT</b>>, fontcolor=darkmagenta]
+  Join [label=<⋈>]
+  Select [label=<σ<sub><font color="darkmagenta"><b>Type</b></font> = Feu</sub>>]
+  ProjectName [label=<π<sub><font color="darkmagenta"><b>Nom</b></font></sub>>]
+
+  Project -> Join
+  PT -> Select
+  Select -> Join
+  Join -> ProjectName
+
+}

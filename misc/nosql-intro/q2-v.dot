@@ -1,0 +1,23 @@
+digraph {
+  rankdir=BT
+  node [shape=none, fontname="monospace"]
+  edge [color=black]
+
+  PWeight [label=<π<sub><font color="darkmagenta"><b>Rang, Taille, Poids</b></font></sub>(<font color="darkmagenta"><b>P</b></font>)>]
+  PName [label=<π<sub><font color="darkmagenta"><b>Rang, Nom</b></font></sub>(<font color="darkmagenta"><b>P</b></font>)>]
+  PT [label=<<b>PT</b>>, fontcolor=darkmagenta]
+  JoinPPT [label=<⋈>]
+  JoinWeight [label=<⋈>]
+  Select [label=<σ<sub><font color="darkmagenta"><b>Type</b></font> = Feu</sub>>]
+  SelectWeight [label=<σ<sub><font color="darkmagenta"><b>Poids</b></font> &lt; 100kg</sub>>]
+  Project [label=<π<sub><font color="darkmagenta"><b>Nom</b></font></sub>>]
+
+  PWeight -> JoinPPT
+  PT -> Select
+  Select -> JoinPPT
+  JoinPPT -> SelectWeight
+  SelectWeight -> JoinWeight
+  PName -> JoinWeight
+  JoinWeight -> Project
+
+}

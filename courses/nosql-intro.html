@@ -653,7 +653,7 @@
                             Le mouvement NoSQL n'a effectivement pas gardé grand chose d'SQL&hellip; d'où une confusion sur le nom.
                         </p>
                     </section>
-                    <section>
+                    <!-- <section>
                         <p>
                             Les modèles NoSQL dénormalisés et <em>schema-less</em> permettent chacun des <mark>optimisations</mark> algorithmiques <mark>spécifiques</mark> dans les systèmes de gestion (DBMS) associés.
                         </p>
@@ -662,7 +662,74 @@
                         <p>
                             Ils peuvent cependant être comparés selon les termes de l'<mark>algèbre relationnelle</mark>, d'un point de vue <mark>théorique</mark>.
                         </p>
+                    </section> -->
+                </section>
+                <section>
+                    <h4>Partitionnement</h4>
+                    <section>
+                        <p>
+                            Les bases de données relationnelles peuvent être <mark>distribuées</mark> sur plusieurs serveurs.
+                        </p>
+                        <p class="fragment">
+                            Les données peuvent être partionnées <mark>horizontalement</mark> ou <mark>verticalement</mark>.
+                        </p>
                     </section>
+                    <section>
+                        <p>
+                            σ<sub><span class="var">Rang</span> &le; #151</sub>,
+                            σ<sub><span class="var">Rang</span> &gt; #151</sub>
+                        </p>
+                        <p class="fragment">
+                            et
+                        </p>
+                        <p class="fragment">
+                            π<sub><span class="var">Rang, Nom</span></sub>,
+                            π<sub><span class="var">Rang, Taille, Poids</span></sub>
+                        </p>
+                        <p class="fragment">
+                            sont deux exemples de partitionnement de la table <span class="var">Pokémon</span>.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            L'évaluation de requêtes SQL doit alors prendre en compte le(s) partitionnement(s) des données.
+                        </p>
+                        <p class="fragment">
+                            Le nombre d'<mark>accès aux partitions</mark> doit être minimisé.
+                        </p>
+                    </section>
+                    <section>
+                        <img style="vertical-align: top;" src="../misc/nosql-intro/q1.png">
+                        <img style="vertical-align: top;" src="../misc/nosql-intro/q1-h.png">
+                        <img style="vertical-align: top;" src="../misc/nosql-intro/q1-v.png">
+                    </section>
+                    <section>
+                        <img style="max-width: 30%; vertical-align: top;" src="../misc/nosql-intro/q2.png">
+                        <img style="max-width: 30%; vertical-align: top;" src="../misc/nosql-intro/q2-h.png">
+                        <img style="max-width: 30%; vertical-align: top;" src="../misc/nosql-intro/q2-v.png">
+                    </section>
+                    <!-- Exemple : Nom des Pokémons de type feu.
+                        
+                        Partitionnement horizontal :
+                        Partitionnement par type : un accès à PT, jointure à faire avant la sélection.
+                        Partitionnement par taille/poids : si n partitions, n sélections / si on rajoute poids &lt; 100kg, la sélection devrait se faire avant la jointure.
+
+                        Partitionnement vertical :
+                        Nom vs. poids, taille : première requête facile / deuxième requête devrait cette fois faire la sélection après la jointure. Mais elle demande 2x plus de parcours de Rang (pour poids et nom, pas de fusion des opérateurs possibles) -->
+                    <section>
+                        <p>
+                            L'absence de schéma complique l'optimisation de certaines requêtes.
+                        </p>
+                        <p class="fragment">
+                            Un partitionnemnt vertical sur <span class="var">Pokémon</span> se traduirait par exemple par un partitionnement horizontal sur <span class="var">MOAT</span>.
+                        </p>
+                        <p class="fragment note">
+                            Le critère de sélection des partitions horizontales ne peut pas être exprimé en SQL.
+                        </p>
+                    </section>
+                    <!-- <section>
+                        Une première base de données NoSQL : Cassandra
+                    </section> -->
                 </section>
                 <section>
                     <h4>Le modèle «&nbsp;paire clé-valeur&nbsp;»</h4>

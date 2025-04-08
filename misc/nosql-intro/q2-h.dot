@@ -1,0 +1,22 @@
+digraph {
+  rankdir=BT
+  node [shape=none, fontname="monospace"]
+  edge [color=black]
+
+  P10 [label=<σ<sub><font color="darkmagenta"><b>Poids</b></font> in [0,10]</sub>(<font color="darkmagenta"><b>P</b></font>)>]
+  P100 [label=<σ<sub><font color="darkmagenta"><b>Poids</b></font> in ]10,100]</sub>(<font color="darkmagenta"><b>P</b></font>)>]
+  // PHW [label=<σ<sub><font color="darkmagenta"><b>Poids</b></font> &gt; 100</sub>>]
+  Union [label=<∪>]
+  PT [label=<<b>PT</b>>, fontcolor=darkmagenta]
+  Join [label=<⋈>]
+  Select [label=<σ<sub><font color="darkmagenta"><b>Type</b></font> = Feu</sub>>]
+  Project [label=<π<sub><font color="darkmagenta"><b>Nom</b></font></sub>>]
+
+  P10 -> Union
+  P100 -> Union
+  Union -> Join
+  PT -> Select
+  Select -> Join
+  Join -> Project
+
+}
