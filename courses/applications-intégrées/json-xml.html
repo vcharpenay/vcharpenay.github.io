@@ -1,0 +1,802 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>JSON et XML</title>
+
+		<link rel="stylesheet" href="../../css/slides-reset.css">
+		<link rel="stylesheet" href="../../css/slides.css">
+		<link rel="stylesheet" href="../../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figure img {
+				max-height: 7em;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>JSON et XML</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>JSON</h4>
+					<section>
+						<p>
+							<a href="https://www.json.org/">JSON</a>: JavaScript Object Notation
+						</p>
+					</section>
+					<section>
+						<p>
+							Une valeur JSON est un objet<span class="fragment">, un tableau</span> <span class="fragment">ou une valeur simple.</span>
+						</p>
+						<table class="fragment">
+							<tr>
+								<th>Type</th>
+								<th>Example</th>
+							</tr>
+							<tr>
+								<td>Null</td>
+								<th><code>null</code></th>
+							</tr>
+							<tr>
+								<td>Boolean</td>
+								<th><code>true</code>, <code>false</code></th>
+							</tr>
+							<tr>
+								<td>Number</td>
+								<th><code>2.4</code></th>
+							</tr>
+							<tr>
+								<td>String</td>
+								<th><code>"abc"</code></th>
+							</tr>
+							<tr>
+								<td>Object</td>
+								<th><code>{ "a": 2.4, "b": "abc", ... }</code></th>
+							</tr>
+							<tr>
+								<td>Array</td>
+								<th><code>[ 2.4, "abc", ... ]</code></th>
+							</tr>
+							<caption>Les six types JSON</caption>
+						</table>
+					</section>
+					<section>
+						<p style="font-style: italic;">
+							"That’s it. That is all of JSON."
+							— Douglas Crockford <a href="https://www.oreilly.com/library/view/javascript-the-good/9780596517748/">(Crockford, 2008)</a>
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>{ 
+  "store": {
+    "book": [
+      { "category": "reference",
+        "author": "Nigel Rees",
+        "title": "Sayings of the Century",
+        "price": 8.95
+      },
+      { "category": "fiction",
+        "author": "Evelyn Waugh",
+        "title": "Sword of Honour",
+        "price": 12.99
+      },
+      { "category": "fiction",
+        "author": "Herman Melville",
+        "title": "Moby Dick",
+        "isbn": "0-553-21311-3",
+        "price": 8.99
+      },
+      { "category": "fiction",
+        "author": "J. R. R. Tolkien",
+        "title": "The Lord of the Rings",
+        "isbn": "0-395-19395-8",
+        "price": 22.99
+      }
+    ],
+    "bicycle": {
+      "color": "red",
+      "price": 399
+    }
+  }
+}</code></pre>
+							<figcaption>
+								Représentation JSON d'un inventaire
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Tous les nombres, même les entiers, sont représentés en <mark>virgule flottante</mark> (double précision).
+						</p>
+						<p class="fragment">
+							Les valeurs true et "true" sont <mark>différentes</mark> (idem pour false et null).
+						</p>
+					</section>
+					<section>
+						<p style="font-style: italic;">
+							JSON’s design goals were to be <mark>minimal</mark>, <mark>portable</mark>, textual, and a subset of JavaScript.
+							The less we need to agree on in order to interoperate, the more easily we can interoperate. — ibid
+						</p>
+					</section>
+					<section>
+						<p>
+							CSV (comme TSV) est encore plus mimimal et portable.
+						</p>
+						<p class="fragment">
+							Pourquoi JSON ?
+						</p>
+					</section>
+					<section>
+						<p>
+							JSON permet de représenter des <mark>données imbriquées</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>{
+  "title": "Les Ulis",
+  "categorie": "Géographie",
+  "paragraphs": [
+    {
+    "context": "Le ruisseau Le Rouillon prend sa source dans la commune voisine de Villejust et marque au début de son cours la frontière avec la commune, à l’est. À l’ouest, à quelques centaines de mètres de la frontière communale, le ruisseau d’Angoulême marque la frontière entre les communes voisines de Bures-sur-Yvette et Gometz-le-Châtel, sans passer sur le territoire des Ulis. L’unique point d’eau « naturel » présent est un vaste étang au centre du parc nord, en lisière de la forêt séparant Les Ulis et Bures-sur-Yvette. L’association « Ulis Pêche Passion » y organise des concours de pêche sportive. Trois petites mares ont été creusées pour marquer l’entrée du quartier résidentiel de l’Ermitage, en bordure de la route nationale 118.",
+    "qas": [
+      {
+      "question": "Quel ruisseau débute à Villejust ?",
+      "id": 3706,
+      "answers": [
+        {
+        "text": "Le Rouillon",
+        "answer_start": 12
+        },
+        {
+        "text": "Le Rouillon",
+        "answer_start": 12
+        },
+        {
+        "text": "Le Rouillon",
+        "answer_start": 12
+        }
+      ]
+      },
+      {
+      "question": "Quel ruisseau ne court pas par les Ulis ?",
+      "id": 3705,
+      "answers": [
+        {
+        "text": "Angoulême",
+        "answer_start": 231
+        },
+        {
+        "text": "Angoulême",
+        "answer_start": 231
+        }
+      ]
+      },
+      {
+      "question": "Quelle activité propose l'association \"Ulis Pêche Passion\" ?",
+      "id": 3707,
+      "answers": [
+        {
+        "text": "des concours de pêche sportive",
+        "answer_start": 564
+        },
+        {
+        "text": "concours de pêche sportive",
+        "answer_start": 568
+        }
+      ]
+      },
+      {
+      "question": "Combien de mares symbolisent le début du quartier de l'Ermitage ?",
+      "id": 3708,
+      "answers": [
+        {
+        "text": "Trois",
+        "answer_start": 596
+        }
+      ]
+      },
+      {
+      "question": "Au bord de quel route se trouve le quartier de l'Ermitage ?",
+      "id": 3709,
+      "answers": [
+        {
+        "text": "nationale 118",
+        "answer_start": 717
+        }
+      ]
+      }
+    ]
+    },
+    {
+    "context": "Cette ville nouvelle a été implantée à vingt-quatre kilomètres au sud-ouest de Paris-Notre-Dame, point zéro des routes de France, excentrée dans le département puisqu’à vingt et un kilomètres au nord-ouest d’Évry, six kilomètres au sud-ouest de Palaiseau, vingt-quatre kilomètres au nord-ouest de Corbeil-Essonnes, vingt-huit kilomètres au nord d’Étampes, neuf kilomètres au nord-ouest de Montlhéry, douze kilomètres au nord-ouest d’Arpajon, vingt et un kilomètres au nord-est de Dourdan, vingt-six kilomètres au nord-ouest de La Ferté-Alais, trente-huit kilomètres au nord-ouest de Milly-la-Forêt et seulement quatorze kilomètres au sud-est de Versailles.",
+    "qas": [
+      {
+      "question": "A combien de kilomètres de Paris se trouvent les Ulis ?",
+      "id": 865,
+      "answers": [
+        {
+        "text": "vingt-quatre kilomètres",
+        "answer_start": 39
+        },
+        {
+        "text": "à vingt-quatre kilomètres au sud-ouest de Paris-Notre-Dame",
+        "answer_start": 37
+        }
+      ]
+      },
+      {
+      "question": "quel est le point zero de toutes les routes de France ?",
+      "id": 866,
+      "answers": [
+        {
+        "text": "à vingt-quatre kilomètres au sud-ouest de Paris-Notre-Dame",
+        "answer_start": 37
+        },
+        {
+        "text": "Paris-Notre-Dame",
+        "answer_start": 79
+        }
+      ]
+      },
+      {
+      "question": "A combien de kilomètres de Palaiseau sont situés les Ulis  ?",
+      "id": 867,
+      "answers": [
+        {
+        "text": "six kilomètres",
+        "answer_start": 214
+        },
+        {
+        "text": "six kilomètres au sud-ouest de Palaiseau",
+        "answer_start": 214
+        }
+      ]
+      },
+      {
+      "question": "Les Ulis sont ils au sud d'Arpajon ?",
+      "id": 868,
+      "answers": [
+        {
+        "text": "au nord-ouest d’Arpajon",
+        "answer_start": 417
+        }
+      ]
+      },
+      {
+      "question": "Les Ulis sont ils à trois kilometres de Corbeil-Essonnes",
+      "id": 869,
+      "answers": [
+        {
+        "text": "vingt-quatre kilomètres au nord-ouest de Corbeil-Essonnes",
+        "answer_start": 256
+        }
+      ]
+      }
+    ]
+    }
+  ]
+}</code></pre>
+							<figcaption>
+								Données d'apprentissage issues de la plate-forme d'IA française (<a href="https://www.data.gouv.fr/fr/datasets/piaf-le-dataset-francophone-de-questions-reponses/">PIAF</a>)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							JSON permet de représenter des <mark>données polymorphiques</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>[
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [
+		  4.4038713,
+		  45.4278157
+		]
+	  },
+	  "properties": {
+		"addr:housename": "Centre Henri Fayol",
+		"amenity": "university",
+		"name": "École Nationale Supérieure des Mines de Saint-Étienne",
+		"wheelchair": "yes"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [
+		  4.4010841,
+		  45.4274329
+		]
+	  },
+	  "properties": {
+		"bench": "yes",
+		"bin": "yes",
+		"bus": "yes",
+		"departures_board": "timetable",
+		"highway": "bus_stop",
+		"name": "Espace Fauriel",
+		"network": "STAS",
+		"network:wikidata": "Q377869",
+		"public_transport": "platform",
+		"shelter": "yes",
+		"tactile_paving": "no"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "LineString",
+		"coordinates": [
+		  [
+			4.4055691,
+			45.428594
+		  ],
+		  [
+			4.4055511,
+			45.4285345
+		  ],
+		  [
+			4.4056649,
+			45.4285546
+		  ],
+		  [
+			4.4056465,
+			45.4286077
+		  ],
+		  [
+			4.4055691,
+			45.428594
+		  ]
+		]
+	  },
+	  "properties": {
+		"building": "yes",
+		"source": "cadastre-dgi-fr source : Direction Générale des Impôts - Cadastre. Mise à jour : 2010"
+	  }
+	},  
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "MultiPolygon",
+		"coordinates": [
+		  [
+			[
+			  [
+				4.4039439,
+				45.4280956
+			  ],
+			  [
+				4.4043546,
+				45.4279869
+			  ],
+			  [
+				4.4043787,
+				45.4280304
+			  ],
+			  [
+				4.4043933,
+				45.4280267
+			  ],
+			  [
+				4.4045044,
+				45.4280719
+			  ],
+			  [
+				4.4044423,
+				45.4281471
+			  ],
+			  [
+				4.4044327,
+				45.4281583
+			  ],
+			  [
+				4.4044396,
+				45.4281714
+			  ],
+			  [
+				4.4043402,
+				45.4281977
+			  ],
+			  [
+				4.4042587,
+				45.4282203
+			  ],
+			  [
+				4.4042363,
+				45.4281781
+			  ],
+			  [
+				4.4041516,
+				45.4282007
+			  ],
+			  [
+				4.404162,
+				45.4282222
+			  ],
+			  [
+				4.4041261,
+				45.4282317
+			  ],
+			  [
+				4.4041381,
+				45.4282524
+			  ],
+			  [
+				4.4040567,
+				45.4282756
+			  ],
+			  [
+				4.4040543,
+				45.4282726
+			  ],
+			  [
+				4.4040403,
+				45.4282765
+			  ],
+			  [
+				4.4039439,
+				45.4280956
+			  ]
+			]
+		  ]
+		]
+	  },
+	  "properties": {
+		"building": "yes",
+		"source": "cadastre-dgi-fr source : Direction Générale des Impôts - Cadastre. Mise à jour : 2010"
+	  }
+	}
+]</code></pre>
+							<figcaption>
+								Données géographiques au format <a href="https://geojson.org/">GeoJSON</a>
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						JSON permet (aussi) de représenter des <mark>données tabulaires</mark>.
+					</section>
+					<section>
+						<figure>
+<pre><code>[
+  {
+	"date": "2020-03-18",
+	"rea": 771,
+	"hosp": 2972
+  },
+  {
+	"date": "2020-03-19",
+	"rea": 1002,
+	"hosp": 4073
+  },
+  {
+	"date": "2020-05-13",
+	"rea": 2385,
+	"hosp": 21009,
+	"tx_pos": 2.26
+  },
+  {
+	"date": "2020-06-01",
+	"rea": 1270,
+	"hosp": 14237,
+	"tx_pos": 1.5
+  }
+]</code></pre>
+							<figcaption>
+								Indicateurs du Covid-19 (<a href="https://www.data.gouv.fr/fr/datasets/synthese-des-indicateurs-de-suivi-de-lepidemie-covid-19/">sources au format CSV</a>)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+<pre><code>{
+  "2020-03-18": {
+	"rea": 771,
+	"hosp": 2972
+  },
+  "2020-03-19": {
+	"rea": 1002,
+	"hosp": 4073
+  },
+  "2020-05-13": {
+	"rea": 2385,
+	"hosp": 21009,
+	"tx_pos": 2.26
+  },
+  "2020-06-01": {
+	"rea": 1270,
+	"hosp": 14237,
+	"tx_pos": 1.5
+  }
+}</code></pre>
+							<figcaption>
+								Indicateurs du Covid-19 indexés par date
+							</figcaption>
+						</figure>
+					</section>
+				</section>
+				<section>
+					<h4>JSON et programmation</h4>
+					<section>
+						<p>
+							JSON est dérivé de JavaScript.
+						</p>
+						<p class="fragment">
+							Un fichier JSON est un ficher JavaScript valide.
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>let f = {
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ 4.4038713, 45.4278157 ]
+  }
+};
+
+let str = JSON.stringify(f);
+
+if (JSON.parse(str) == f) {
+  console.log("Roundtripping works!");
+} else {
+  console.log("Eh?");
+}</code></pre>
+							<figcaption>Illustration des opérations <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/">JSON</a> en JavaScript</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							JavaScript n'est pas le seul langage dans lequel on peut facilement manipuler des données JSON.
+						</p>
+						<p class="fragment">
+							C'est aussi le cas en <mark>Python</mark>.
+						</p>
+						<p class="fragment note">
+							Et dans au moins 60 autres langages, d'après le site <a href="https://www.json.org/">json.org</a>.
+						</p>
+					</section>
+					<section>
+						<figure>
+<pre><code>import json
+
+f = {
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ 4.4038713, 45.4278157 ]
+  }
+}
+
+str = json.dumps(f)
+
+if (json.loads(str) == f):
+  print("Roundtripping works!");
+else:
+  print("Eh?")</code></pre>
+							<figcaption>Illustration des opérations <a href="https://docs.python.org/3/library/json.html">JSON</a> en Python</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Dans la plupart des langages de programmation, récupérer <mark>une</mark> valeur dans une structure JSON est trivial&nbsp;:
+						</p>
+						<pre class="fragment"><code>f.geometry.coordinates[0] // 4.4038713</code></pre>
+						<pre class="fragment"><code>f['geometry']['coordinates'][0] # idem</code></pre>
+					</section>
+					<section>
+						<p>
+							Comment accéder à <mark>plusieurs</mark> valeurs en une seule requête&nbsp;?
+						</p>
+						<p class="fragment">
+							Par exemple, à travers une expression <mark>JSONPath</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							On peut par exemple vouloir sélectionner un certain type d'objets GeoJSON dans un tableau.</p>
+						<pre class="fragment"><code>$[?@.geometry.type == "Point"]</code></pre>
+						<p class="fragment note">
+							Faites le test sur <a href="https://jsonpath.com/#eJzdVt1u0zAUfhUr4rKtEseOk0oTIP4lQEPlbq0mN_FaQ2oH22Gqpj3A3oJb7nmDvhgOydaE1aizhJDoRWvnfP5yzvm-nPQq0MwYLlbB9CpgYsUFC6aBusgzHONgFMjaVLU5pWatg-kFLTW7HgVfaqa2Fvbo7PGTyYrJDTNqOzHbioGTEzAPTiUXZh4s7PlC5vWGCWPRZ3MBwFXzBSymQc-DqV29ZNTUym5Gt7FbyibeHRge6W4w2sdyKVXBBTVMN5Cz2wgAaILCOCVRPOpdwxMESRphcntt0S6u73KolKyYMrzl62VBi0JN17LWTNBNl88zW6Fi4DUTioOXdCvLQXIWJ7jZttha8K9M6V_7HmZPtrvJZcnAe2q4FNSuZnW1-644s00CBdPgnRVJ2xWYUduG8e7GZikEG9Bdrhkr8zXlqiXdNnV0NTY_baH_Ro0oTFF0Tw0Uw-zhaiyZyNe9EntJLLlwBGp9OFCwiqqmen2-lFQVLcpwWz5dlsMGr_lqfUk7TS3juTaycij6Qlc0Z9YYtVVxaA3BzKVUn1vc7OPT2aHo9JJ_5gU1tIV9iAlJk2yArOplyfNzo6jQlVSmRVYlNRdSbQZQvWalYepwCwzNDS_ZeUW_2qHQYoT8a9Z5a608M-rXrY7yT2_ZmgnjJOubqbNTijO0v7gY_ZEBRwcZYoSPpUgSlB2iwCg5mgIl-ABFEhJydCHHtMLjGat5Wdy54XfHaFmrvJMzpwXVdhKOixUfXyjQxsAUPOeK5c08A69234WdZs1ca2bZm021-2E0GINn3dmJnW-agd038MmetmehHRh_zYDv6tLwU1luV1L4WHCwubft3j4Ziofu2GsTZjgZRhajIyhRbJ11mJJkzWzwoSQpcWUZh8iLMotjFyVMiA8lDhFyUZLIq3CEoCvLCJHIizKGrl5GOI39KDOH4mlEIj95UAhdlBnxkgdip4kgDL0Kh3HilMf-h_OhjHDk6iUMQ6_Co8TVSmg_XowwiVyUceSXZJw6KTH08pB9cTkFJ36zLcTIJTgk0I_STmEnZYI9KB841Pvb3uZ_eBvPxSK4_gkHel5q">jsonpath.com</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Voir <a href="https://www.rfc-editor.org/rfc/rfc9535#tbl-example">d'autres exemples</a> issus de la spécification technique.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>XML</h4>
+					<section>
+						XML utilise une notation différente de JSON.
+					</section>
+					<section>
+						<figure>
+<pre><code>&lt;table&gt;
+&lt;thead&gt;
+	&lt;tr&gt;&lt;th&gt;Category&lt;/th&gt;
+	&lt;th&gt;Author&lt;/th&gt;
+	&lt;th&gt;Title&lt;/th&gt;
+	&lt;th&gt;Price&lt;/th&gt;
+	&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;
+	&lt;td&gt;Nigel Rees&lt;/td&gt;
+	&lt;td&gt;Sayings of the Century&lt;/td&gt;
+	&lt;td&gt;8.95&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
+	&lt;td&gt;Evelyn Waugh&lt;/td&gt;
+	&lt;td&gt;Sword of Honour&lt;/td&gt;
+	&lt;td&gt;12.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;
+	&lt;td&gt;Herman Melville&lt;/td&gt;
+	&lt;td&gt;Moby Dick&lt;/td&gt;
+	&lt;td&gt;8.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;
+	&lt;td&gt;J. R. R. Tolkien&lt;/td&gt;
+	&lt;td&gt;The Lord of the Rings&lt;/td&gt;
+	&lt;td&gt;22.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;table&gt;</code></pre>
+<!-- https://web.archive.org/web/20030307035729/https://coli.lili.uni-bielefeld.de/~andreas/Seminare/sommer02/books.xml -->
+							<figcaption>Représentation XML d'un inventaire</figcaption>
+						</figure>
+					</section>
+					<section>
+						Par ailleurs, XML rajoute une distinction entre <mark>attributs</mark> et <mark>éléments</mark>.
+					</section>
+					<section>
+						<figure>
+<pre><code>&lt;osm version="0.6" generator="openstreetmap-cgimap 2.0.1 (2270285 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/"&gt;
+
+	&lt;node id="2794933485" visible="true" version="2" changeset="60340492" timestamp="2018-07-02T09:32:46Z" user="wheelmap_visitor" uid="290680" lat="45.4278157" lon="4.4038713"&gt;
+  &lt;tag k="addr:housename" v="Centre Henri Fayol"/&gt;
+  &lt;tag k="amenity" v="university"/&gt;
+  &lt;tag k="name" v="École Nationale Supérieure des Mines de Saint-Étienne"/&gt;
+  &lt;tag k="wheelchair" v="yes"/&gt;
+ &lt;/node&gt;
+
+	&lt;node id="2743483449" visible="true" version="4" changeset="153077179" timestamp="2024-06-23T16:56:01Z" user="XR Saint-Etienne" uid="20335547" lat="45.4274329" lon="4.4010841"&gt;
+  &lt;tag k="bench" v="yes"/&gt;
+  &lt;tag k="bin" v="yes"/&gt;
+  &lt;tag k="bus" v="yes"/&gt;
+  &lt;tag k="departures_board" v="timetable"/&gt;
+  &lt;tag k="highway" v="bus_stop"/&gt;
+  &lt;tag k="name" v="Espace Fauriel"/&gt;
+  &lt;tag k="network" v="STAS"/&gt;
+  &lt;tag k="network:wikidata" v="Q377869"/&gt;
+  &lt;tag k="public_transport" v="platform"/&gt;
+  &lt;tag k="shelter" v="yes"/&gt;
+  &lt;tag k="tactile_paving" v="no"/&gt;
+ &lt;/node&gt;
+
+	&lt;node id="783899817" visible="true" version="1" changeset="5056993" timestamp="2010-06-23T09:41:02Z" user="Xinfe" uid="167945" lat="45.4286077" lon="4.4056465"/&gt;
+
+	&lt;node id="783925266" visible="true" version="1" changeset="5056993" timestamp="2010-06-23T09:59:43Z" user="Xinfe" uid="167945" lat="45.4282756" lon="4.4040567"/&gt;
+
+	&lt;way id="63236359" visible="true" version="3" changeset="14403008" timestamp="2012-12-25T17:40:20Z" user="user_870861" uid="870861"&gt;
+  &lt;nd ref="783965751"/&gt;
+  &lt;nd ref="783854346"/&gt;
+  &lt;nd ref="783981483"/&gt;
+  &lt;nd ref="783899817"/&gt;
+  &lt;nd ref="783965751"/&gt;
+  &lt;tag k="building" v="yes"/&gt;
+  &lt;tag k="source" v="cadastre-dgi-fr source : Direction Générale des Impôts - Cadastre. Mise à jour : 2010"/&gt;
+ &lt;/way&gt;
+
+	&lt;way id="63320179" visible="true" version="4" changeset="14403008" timestamp="2012-12-25T17:38:46Z" user="user_870861" uid="870861"&gt;
+		&lt;nd ref="784627543"/&gt;
+		&lt;nd ref="784350453"/&gt;
+		&lt;nd ref="783815393"/&gt;
+		&lt;nd ref="784424092"/&gt;
+		&lt;nd ref="783925266"/&gt;
+		&lt;nd ref="784890003"/&gt;
+		&lt;nd ref="784879808"/&gt;
+		&lt;nd ref="784685636"/&gt;
+		&lt;nd ref="784770065"/&gt;
+		&lt;nd ref="784573319"/&gt;
+		&lt;nd ref="784827352"/&gt;
+		&lt;nd ref="783850806"/&gt;
+		&lt;nd ref="783711802"/&gt;
+		&lt;nd ref="783803929"/&gt;
+		&lt;nd ref="783745789"/&gt;
+		&lt;nd ref="783980045"/&gt;
+		&lt;nd ref="783815872"/&gt;
+		&lt;nd ref="784661100"/&gt;
+		&lt;nd ref="784627543"/&gt;
+		&lt;tag k="building" v="yes"/&gt;
+		&lt;tag k="source" v="cadastre-dgi-fr source : Direction Générale des Impôts - Cadastre. Mise à jour : 2010"/&gt;
+	   &lt;/way&gt;
+
+&lt;/osm&gt;</code></pre>
+							<figcaption>Données géographiques au format XML d'OpenStreetMap</figcaption>
+						</figure>
+					</section>
+					<section>
+						Exemples XPath.
+
+						<!-- XPath 	JSONPath 	Result
+/store/book/author 	$.store.book[*].author 	the authors of all books in the store
+//author 	$..author 	all authors
+/store/* 	$.store.* 	all things in store, which are some books and a red bicycle.
+/store//price 	$.store..price 	the price of everything in the store.
+//book[3] 	$..book[2] 	the third book
+//book[last()] 	$..book[(@.length-1)]
+$..book[-1:] 	the last book in order.
+//book[position()<3] 	$..book[0,1]
+$..book[:2] 	the first two books
+//book[isbn] 	$..book[?(@.isbn)] 	filter all books with isbn number
+//book[price<10] 	$..book[?(@.price<10)] 	filter all books cheapier than 10
+//* 	$..* 	all Elements in XML document. All members of JSON structure.  -->
+					</section>
+					<section>
+						JSON est nettement plus utilisé qu'XML.
+						Mais...
+					</section>
+					<section>
+						Le format <mark>HTML</mark>, spécifiant la structure des pages Web, est un sous-ensemble d'XML.
+					</section>
+					<section>
+						Le format <mark>XLS(X)</mark> est lui aussi un sous-ensemble d'XML.
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../../js/slides.js"></script>
+		<script src="../../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
