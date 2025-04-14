@@ -655,37 +655,38 @@ else:
 					</section>
 					<section>
 						<figure>
-<pre><code>&lt;table&gt;
-&lt;thead&gt;
-	&lt;tr&gt;&lt;th&gt;Category&lt;/th&gt;
-	&lt;th&gt;Author&lt;/th&gt;
-	&lt;th&gt;Title&lt;/th&gt;
-	&lt;th&gt;Price&lt;/th&gt;
-	&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;
-	&lt;td&gt;Nigel Rees&lt;/td&gt;
-	&lt;td&gt;Sayings of the Century&lt;/td&gt;
-	&lt;td&gt;8.95&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
-	&lt;td&gt;Evelyn Waugh&lt;/td&gt;
-	&lt;td&gt;Sword of Honour&lt;/td&gt;
-	&lt;td&gt;12.99&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;
-	&lt;td&gt;Herman Melville&lt;/td&gt;
-	&lt;td&gt;Moby Dick&lt;/td&gt;
-	&lt;td&gt;8.99&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;
-	&lt;td&gt;J. R. R. Tolkien&lt;/td&gt;
-	&lt;td&gt;The Lord of the Rings&lt;/td&gt;
-	&lt;td&gt;22.99&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;table&gt;</code></pre>
-<!-- https://web.archive.org/web/20030307035729/https://coli.lili.uni-bielefeld.de/~andreas/Seminare/sommer02/books.xml -->
+<pre><code>&lt;store&gt;
+	&lt;book&gt;
+		&lt;category&gt;reference&lt;/category&gt;
+		&lt;author&gt;Nigel Rees&lt;/author&gt;
+		&lt;title&gt;Sayings of the Century&lt;/title&gt;
+		&lt;price&gt;8.95&lt;/price&gt;
+	&lt;/book&gt;
+	&lt;book&gt;
+		&lt;category&gt;fiction&lt;/category&gt;
+		&lt;author&gt;Evelyn Waugh&lt;/author&gt;
+		&lt;title&gt;Sword of Honour&lt;/title&gt;
+		&lt;price&gt;12.99&lt;/price&gt;
+	&lt;/book&gt;
+	&lt;book&gt;
+		&lt;category&gt;fiction&lt;/category&gt;
+		&lt;author&gt;Herman Melville&lt;/author&gt;
+		&lt;title&gt;Moby Dick&lt;/title&gt;
+		&lt;isbn&gt;0-553-21311-3&lt;/isbn&gt;
+		&lt;price&gt;8.99&lt;/price&gt;
+	&lt;/book&gt;
+	&lt;book&gt;
+		&lt;category&gt;fiction&lt;/category&gt;
+		&lt;author&gt;J. R. R. Tolkien&lt;/author&gt;
+		&lt;title&gt;The Lord of the Rings&lt;/title&gt;
+		&lt;isbn&gt;0-395-19395-8&lt;/isbn&gt;
+		&lt;price&gt;22.99&lt;/price&gt;
+	&lt;/book&gt;
+	&lt;bicycle&gt;
+		&lt;color&gt;red&lt;/color&gt;
+		&lt;price&gt;19.95&lt;/price&gt;
+	&lt;/bicycle&gt;
+&lt;/store&gt;</code></pre>
 							<figcaption>Représentation XML d'un inventaire</figcaption>
 						</figure>
 					</section>
@@ -760,28 +761,82 @@ else:
 						</figure>
 					</section>
 					<section>
-						Exemples XPath.
-
-						<!-- XPath 	JSONPath 	Result
-/store/book/author 	$.store.book[*].author 	the authors of all books in the store
-//author 	$..author 	all authors
-/store/* 	$.store.* 	all things in store, which are some books and a red bicycle.
-/store//price 	$.store..price 	the price of everything in the store.
-//book[3] 	$..book[2] 	the third book
-//book[last()] 	$..book[(@.length-1)]
-$..book[-1:] 	the last book in order.
-//book[position()<3] 	$..book[0,1]
-$..book[:2] 	the first two books
-//book[isbn] 	$..book[?(@.isbn)] 	filter all books with isbn number
-//book[price<10] 	$..book[?(@.price<10)] 	filter all books cheapier than 10
-//* 	$..* 	all Elements in XML document. All members of JSON structure.  -->
+						<table>
+							<thead>
+								<tr>
+									<th>XPath</th>
+									<th>JSONPath</th>
+									<th>Intended result</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>/store/book/author</td>
+									<td>$.store.book[*].author</td>
+									<td>the authors of all books in the store</td>
+								</tr>
+								<tr>
+									<td>//author</td>
+									<td>$..author</td>
+									<td>all authors</td>
+								</tr>
+								<tr>
+									<td>/store/*</td>
+									<td>$.store.*</td>
+									<td>all things in store (some books and a red bicycle)</td>
+								</tr>
+								<tr>
+									 	 	
+									<td>/store//price</td>
+									<td>$.store..price</td>
+									<td>the price of everything in the store</td>
+								</tr>
+								<!-- <tr>
+									<td>//book[3]</td>
+									<td>$..book[2]</td>
+									<td>the third book</td>
+								</tr>
+								<tr>
+									<td>//book[last()]</td>
+									<td>$..book[(@.length-1)]<br>$..book[-1:]</td>
+									<td>the last book in order</td>
+								</tr> -->
+								<tr>
+									<td>//book[position()&lt;3]</td>
+									<td>$..book[0,1]<br>$..book[:2]</td>
+									<td>the first two books</td>
+								</tr>
+								<tr>
+									<td>//book[isbn]</td>
+									<td>$..book[?(@.isbn)]</td>
+									<td>filter all books with isbn number</td>
+								</tr>
+								<tr> 
+									<td>//book[price&lt;10]</td>
+									<td>$..book[?(@.price&lt;10)]</td>
+									<td>filter all books cheaper than 10</td>
+								</tr>
+								<!-- <tr> 
+									<td>//*</td>
+									<td>$..*</td>
+									<td>all Elements in XML document; all members of JSON structure</td>
+								</tr> -->
+							</tbody>
+							<caption>Comparaison entre XPath et JSONPath</caption>
+							<!-- https://goessner.net/articles/JsonPath/ -->
+						</table>
 					</section>
 					<section>
 						JSON est nettement plus utilisé qu'XML.
 						Mais...
 					</section>
 					<section>
-						Le format <mark>HTML</mark>, spécifiant la structure des pages Web, est un sous-ensemble d'XML.
+						<p>
+							Le format <mark>HTML</mark>, spécifiant la structure des pages Web, est un sous-ensemble d'XML.
+						</p>
+						<p class="fragment note">
+							Plus exactement, XHTML est un sous-ensemble d'XML.
+						</p>
 					</section>
 					<section>
 						Le format <mark>XLS(X)</mark> est lui aussi un sous-ensemble d'XML.
