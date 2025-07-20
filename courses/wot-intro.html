@@ -65,6 +65,7 @@
 					<h4>Outline</h4>
 					<ol>
 						<li class="fragment">Sensors and Actuators</li>
+						<li class="fragment">Intelligent Systems?</li>
 						<li class="fragment">The Idea of a Web of <em>Thing</em></li>
 						<li class="fragment">Representational State Transfer</li>
 						<li class="fragment">The W3C Thing Description Model</li>
@@ -169,6 +170,89 @@
 						</figure>
 					</section>
 					<!-- Venn diagram with Sensor Web, Embedded Web, Semantic Web, ... -->
+				</section>
+				<section>
+					<h4>Intelligent Systems?</h4>
+					<section>
+						<p>
+							<mark>Cybernetics</mark> and <mark>Artificial Intelligence</mark> (AI) stem from the same range of ideas.
+							<!-- SOAR is a differentiation engine -->
+						</p>
+						<p class="fragment">
+							The Web of Things maintains the connection with AI through <mark>architectural constraints</mark>.
+						</p> 
+					</section>
+					<section>
+						<p>
+							But first&hellip; Are you intelligent?
+						</p>
+						<p class="fragment">
+							Prove it on the Abstraction and Reasoning Challenge (ARC): <a href="https://arcprize.org/play">arcprize.org/play</a>
+						</p>
+					</section>
+					<section>
+						<p>
+							Intelligence is the ability of a single set of <mark>Web agents</mark> to operate on a broad range of configurations of <mark>Web servers</mark> and according to a global objective.
+						</p>
+						<p class="fragment note">
+							This definition is adapted from the MOSAIK framework, defined for self-organized manufacturing systems <a href="https://www.vcharpenay.link/publications/2021-ieee-pc.pdf">(Charpenay, 2021)</a>.
+						</p>
+					</section>
+					<section>
+						<p>
+							In other words, intelligence is not in the system under control but in the <mark>controller</mark>.
+						</p>
+						<p class="fragment">
+							An important pre-condition for intelligence is <mark>connectivity</mark>.
+						</p>
+						<p class="fragment note">
+							Note that homes, cities, manufacturing systems and even phones are not <em>smart</em> just because they are connected to the Internet.
+						</p>
+					</section>
+					<section data-background-color="moccasin">
+						What is wrong in the following statement?
+					</section>
+					<section>
+						<quote style="font-size: 0.8em; line-height: normal;">
+							<em>Imagine you want to tell your conveyor to adapt its speed depending on whether plastic or metal components are on it — you need to do some image recognition on the conveyor and you need an algorithm to change the speed. Now we can use agents to fulfill all of it<!-- : describe what we want to have in the machine, generate the code, take it up live and so forth -->.</em> — Franz Menzl <a href="https://www.linkedin.com/posts/franz-menzl_ai-productivity-automation-activity-7333516239836762114-hqgR">on LinkedIn (2025)</a>
+						</quote>
+					</section>
+					<section>
+						<p>
+							For the agent to reason and act, <mark>there must already be a camera</mark> on the conveyor.
+						</p>
+						<p class="fragment">
+							Moreover, "you" often <mark>don't know how to change speed</mark> via a digital interface. Neither does the agent.
+						</p>
+					</section>
+					<!-- <section>
+						Connectivity: the Thing has an IP.
+						MQTT (decoupling in space/time): it sends data.
+					</section>
+					<section>
+						- MQTT interface: what are the topics? Directory (as in the early days of the Internet, newsgroup, etc.)
+						- see examples in https://www.w3.org/TR/wot-discovery/
+						- Even knowing the topics, subscribe to observe (push) or publish to get a response (pull)?
+						- resource-oriented interfaces: CRUD on resources that are as static as possible
+							- analogy with automation control panels
+						- async? Yes, with A-REST.
+						- semantic interop: what resources? Basic layer: properties (GET,PUT) / actions (POST) / events (WATCH)
+						- more semantics? Structural interop (from abstract representation of XYZ to array or map object; to BLE fields; etc.)
+						- even more semantics? Procedural semantics (Jason) and planning (affordances, standard control as delta minimization as done in the 70s by Newell/Simon with SOAR)
+					</section> -->
+				</section>
+				<section>
+					<h4>The Idea of a Web of <em>Things</em></h4>
+					<section>
+						<p>
+							"<em>Every kind of thing can have its own kind of reason for being a thing.</em>"
+							— Patrick Hayes <a href="https://philpapers.org/rec/HAYTSN-2">(Hayes, 1983)</a>
+						</p>
+						<!-- wooclap -->
+						<!-- sensor, AC, MRI machine, human, a location -->
+						<!-- command, temperature, event -->
+						<!-- TODO use DUL entities? Wikidata subclasses of Entity? -->
+					</section>
 					<section data-background-color="moccasin">
 						<p>
 							What, then, is a Thing in the Web of Things?
@@ -187,19 +271,6 @@
 							The <mark>Web of Things</mark> addresses the main technical problem that comes with
 							increasing numbers of computational devices: <mark>interoperability</mark>.
 						</p>
-					</section>
-				</section>
-				<section>
-					<h4>The Idea of a Web of <em>Things</em></h4>
-					<section>
-						<p>
-							"<em>Every kind of thing can have its own kind of reason for being a thing.</em>"
-							— Patrick Hayes <a href="https://philpapers.org/rec/HAYTSN-2">(Hayes, 1983)</a>
-						</p>
-						<!-- wooclap -->
-						<!-- sensor, AC, MRI machine, human, a location -->
-						<!-- command, temperature, event -->
-						<!-- TODO use DUL entities? Wikidata subclasses of Entity? -->
 					</section>
 					<section>
 						<p>
