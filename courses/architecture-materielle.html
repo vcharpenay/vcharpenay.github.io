@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Architecture des ordinateurs</title>
+
+		<link rel="stylesheet" href="../css/slides-reset.css">
+		<link rel="stylesheet" href="../css/slides.css">
+		<link rel="stylesheet" href="../css/slides-theme.css" id="theme">
+		<link rel="stylesheet" href="../css/slides-code.css" id="highlight-theme">
+
+		<style>
+			.reveal .slides section section {
+				margin-top: 1.5em; /* margin for upper section title */
+			}
+
+			.reveal .slides .note {
+				padding: 0.5em;
+				font-size: 0.5em;
+				color: peru;
+				background-color: wheat;
+			}
+
+			.reveal .slides .note .highlight {
+				color: brown;
+			}
+
+			.reveal .slides mark {
+				background-color: moccasin;
+			}
+			
+			.reveal .slides table {
+				font-size: 0.5em;
+			}
+
+			.reveal .slides figcaption {
+				color: gray;
+				font-size: 0.5em;
+			}
+
+			.reveal .slides img {
+				max-height: 10em;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Architecture des ordinateurs</h1>
+					<p><a href="https://www.vcharpenay.link/">Victor Charpenay</a></p>
+				</section>
+				<section>
+					<h4>Introduction</h4>
+					<section>
+						<p>
+							Qu'est-ce qu'un ordinateur ?
+						</p>
+						<!-- https://commons.wikimedia.org/wiki/Personal_computer -->
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/1/10/IPhone_1_and_iPhone_OS_1.jpg">
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Amazon_Kindle_Paperwhite_3.jpg/500px-Amazon_Kindle_Paperwhite_3.jpg">
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Echo_2nd_gen.jpg/500px-Amazon_Echo_2nd_gen.jpg">
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Texas_Instruments_SR-10_Calculator.jpg/960px-Texas_Instruments_SR-10_Calculator.jpg">
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Arduino_MEGA2560.png/640px-Arduino_MEGA2560.png">
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/JaCarta_smart_card.JPG/960px-JaCarta_smart_card.JPG">
+					</section>
+					<section>
+						<p>
+							Un ordinateur est un <mark>calculateur</mark> avec des périphériques d'<mark>entrée</mark> et de <mark
+							>sortie</mark>.
+						</p>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-1.png">
+					</section>
+					<section>
+						<p>
+							Les signaux d'entrée/sortie peuvent prendre n'importe quelle forme :
+						</p>
+						<ul>
+							<li class="fragment">symbole (de clavier)</li>
+							<li class="fragment">pression de surface (d'écran)</li>
+							<li class="fragment">mesure numérique (de capteur)</li>
+							<li class="fragment">son</li>
+							<li class="fragment">lumière</li>
+							<li class="fragment">&hellip;</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Mais tous les calculateurs ne sont pas des ordinateurs.
+						</p>
+					</section>
+					<section>
+						<p>
+							Un ordinateur est un calculateur <mark>universel</mark>.
+						</p>
+						<p class="fragment">
+							Il peut calculer n'importe quelle fonction (qui associe une entrée à une sortie).
+						</p>
+						<p class="note fragment">
+							D'où la variété de signaux d'entrée et sortie des appareils.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h4>Historique</h4>
+					<section>
+						<p>
+							Que faut-il à un calculateur pour être universel ?
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Pascaline-CnAM_823-1-IMG_1506-black.jpg/960px-Pascaline-CnAM_823-1-IMG_1506-black.jpg">
+							<figcaption>
+								<a href="https://fr.wikipedia.org/wiki/Pascaline">Pascaline</a> (1652)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Jacquard_loom_p1040320.jpg/960px-Jacquard_loom_p1040320.jpg">
+							<figcaption>
+								<a href="https://fr.wikipedia.org/wiki/M%C3%A9tier_Jacquard">Métier Jacquard</a> (1801)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Charles_Babbage_Difference_Engine_No._2_Computer_History_Museum_in_Mountian_View_California.jpg/960px-Charles_Babbage_Difference_Engine_No._2_Computer_History_Museum_in_Mountian_View_California.jpg">
+							<figcaption>
+								<a href="https://fr.wikipedia.org/wiki/Charles_Babbage#La_machine_%C3%A0_diff%C3%A9rences">Machine à différences</a> (1821)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Z3_Deutsches_Museum.JPG/960px-Z3_Deutsches_Museum.JPG">
+							<figcaption>
+								<a href="https://fr.wikipedia.org/wiki/Zuse_3">Zuse 3</a> (1941)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/ARL_ENIAC_01.png/960px-ARL_ENIAC_01.png">
+							<figcaption>
+								<a href="https://fr.wikipedia.org/wiki/ENIAC">ENIAC</a> (1945)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/DEC_PDP-8-e_Minicomputer_in_Museum_%28edited%2C_without_background%29.jpg/500px-DEC_PDP-8-e_Minicomputer_in_Museum_%28edited%2C_without_background%29.jpg">
+							<figcaption>
+								<a href="https://fr.wikipedia.org/wiki/PDP-8">PDP-8</a> (1965)
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Un calculateur universel doit nécessairement être <mark>programmable</mark>.
+						</p>
+						<p class="fragment">
+							Pour autant, le métier Jacquard est programmable, mais il n'est pas un calculateur universel.
+						</p>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-2.png">
+					</section>
+				</section>
+				<section>
+					<h4>Systèmes de transition</h4>
+					<section>
+						<p>
+							Qu'est-ce qu'un programme ?
+						</p>
+					</section>
+					<section>
+						<p>
+							Un programme est une <mark>séquence d'instructions</mark>.
+						</p>
+						<p class="fragment">
+							Chaque instruction est une <mark>transition</mark>
+							d'un <mark>état</mark> à un autre.
+						</p>
+					</section>
+					<section>
+						<p>
+							Le modèle de calcul formel le plus simple est celui des <mark>machines à états finis</mark>.
+						</p>
+						<p class="fragment">
+							On les apelle aussi des <mark>automates</mark>.
+						</p>
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Braid_StepBystep.jpg">
+					</section>
+					<section>
+						<img src="https://www.parc-naturel-pilat.fr/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2024/09/atelier-1911-1024x709.jpg.webp">
+						<!-- https://www.parc-naturel-pilat.fr/nos-actions/patrimoines/nos-actions-patrimoine/captation-du-savoir-faire-passementier/ -->
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-fsm.png">
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse.png">
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-3.png">
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2a-fsm.png">
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2a.png">
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2b-fsm.png">
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2b.png">
+					</section>
+					<section>
+						<p>
+							Un automate, par défaut, ne nécessite que l'<mark>état courant</mark> pour connaître les transitions possibles.
+						</p>
+						<p class="fragment">
+							On peut lui rajouter une mémoire sous la forme d'une <mark>pile</mark>.
+						</p>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2b-pda.png">
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2b.png">
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-4.png">
+					</section>
+					<section>
+						<p>
+							Un automate à pile n'est pas un calculateur universel.
+						</p>
+						<p class="fragment">
+							Il suffit cependant de remplacer la pile par un <mark>ruban</mark>.
+						</p>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2inf-tm.png">
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2inf.png">
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-5.png">
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/bb-5-tm.png">
+					</section>
+					<section>
+						<img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Busy_Beaver_5_State_2_Color.png">
+					</section>
+					<section>
+						<p>
+							Le critère principal pour qu'un calculateur soit universel est d'associer une <mark>mémoire</mark> à un système de transition.
+						</p>
+					</section>
+					<section>
+						<p>
+							En pratique, les ordinateurs n'ont pas de mémoire sous la forme d'un ruban mais d'un <mark>index</mark>.
+						</p>
+						<p class="fragment">
+							Ce sont des <mark>mémoires à accès direct</mark> (random access memory).
+						</p>
+					</section>
+					<section>
+						<p>
+							Un autre critère d'universalité est la possibilité pour un programme d'avoir :
+						</p>
+						<ul>
+							<li class="fragment">des branches (if &hellip;)</li>
+							<li class="fragment">des boucles (for each &hellip;)</li>
+						</ul>
+						<p class="note fragment">
+							Le Zuse 3 n'est pas considéré comme le premier ordinateur parce qu'il n'avait pas d'équivalent à <span class="highlight">if</span>.
+						</p>
+					</section>
+					<section>
+						<p>
+							L'architecture de référence pour les ordinateurs est celle de <mark>von Neumann</mark>.
+						</p>
+						<p class="note fragment">
+							Elle a en fait été conçue par John Mauchly et John Presper Eckert, que John von Neumann a eu la chance d'encadrer.
+						</p>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-6.png">
+					</section>
+				</section>
+				<section>
+					<h4>Le calcule en pratique</h4>
+					<!-- <section>
+						ALU
+					</section>
+					<section>
+						Registre vs. RAM
+					</section>
+					<section>
+						Jeu d'instructions
+					</section>
+					<section>
+						Assembleur
+					</section>
+					<section>
+						Adressage
+					</section> -->
+					<section>
+
+					</section>
+					<!-- Illustration d'un circuit ~ instruction :
+					https://fr.wikipedia.org/wiki/PDP-8#/media/Fichier:S111FlipChipSchematic.jpg -->
+					<!-- Illustration des registres, de l'adressage, ... :
+					https://fr.wikipedia.org/wiki/PDP-8#/media/Fichier:Digital_pdp8-e2.jpg -->
+				</section>
+				<section>
+					<h4>Autres principes architecturaux</h4>
+					<section>
+						
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="../js/slides.js"></script>
+		<script src="../js/slides-code.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+	</body>
+</html>
