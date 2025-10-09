@@ -304,34 +304,322 @@
 					</section>
 				</section>
 				<section>
-					<h4>Le calcule en pratique</h4>
-					<!-- <section>
-						ALU
+					<h4>Le calcul en pratique</h4>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/004_2021_09_17_Lichtzeltfotografie.jpg">
+							<figcaption>
+								Relais téléphonique
+							</figcaption>
+						</figure>
 					</section>
 					<section>
-						Registre vs. RAM
+						<figure>
+							<img src="https://www.irif.fr/~carton/Enseignement/Architecture/Cours/Gates/tunnel.png">
+							<figcaption>
+								Transistor MOSFET  (source: <a href="https://www.irif.fr/~carton/Enseignement/Architecture/Cours/Gates/">O. Carton</a>)
+							</figcaption>
+						</figure>
 					</section>
 					<section>
-						Jeu d'instructions
+						<p>
+							Avec des portes logiques, on peut à la fois encoder des <mark>opérations</mark> (comme ADD) et de la <mark>mémoire</mark>.
+						</p>
 					</section>
 					<section>
-						Assembleur
+						<figure>
+							<img src="https://www.irif.fr/~carton/Enseignement/Architecture/Cours/Gates/and.png">
+							<img src="">
+							<figcaption>
+								Porte logique AND (source: <a href="https://www.irif.fr/~carton/Enseignement/Architecture/Cours/Gates/">O. Carton</a>)
+							</figcaption>
+						</figure>
 					</section>
 					<section>
-						Adressage
-					</section> -->
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Full-adder.svg">
+							<figcaption>
+								Circuit logique pour ADD (1 bit)
+							</figcaption>
+							<!-- 2+2=5 for high values of 2? -->
+						</figure>
+					</section>
 					<section>
-
+						<p>
+							Un processeur a un ensemble pré-défini d'opérations arithmétiques et logiques, encodées dans l'<mark>ALU</mark> (pour "arithmetic and logic unit").
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/9/92/SR_Flip-flop_Diagram.svg">
+							<figcaption>
+								Circuit logique de bascule
+							</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							Un <mark>registre</mark> (<i>n</i> bits) est un ensemble de <i>n</i> bascules.
+						</p>
+						<p class="note fragment">
+							On peut voir la RAM comme un très grand ensemble de registres mis en séquence.
+						</p>
+					</section>
+					<section>
+						<p>
+							L'horloge d'un processeur permet de <mark>synchroniser</mark> l'ALU avec la mémoire.
+						</p>
+						<p class="fragment">
+							À chaque tic-tac, le processeur fait :
+						</p>
+						<ul>
+							<li class="fragment">une opération arithmétique ou logique ou</li>
+							<li class="fragment">une opération mémoire (lecture, écriture)</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Un programme consistant en une séquence d'instructions, chaque instruction doit correspondre à :
+						</p>
+						<ul>
+							<li class="fragment">une opération arithmétique ou logique ou</li>
+							<li class="fragment">une opération mémoire (lecture, écriture)</li>
+						</ul>
+						<p class="note fragment">
+							Dans ce cours, on distingue une instruction et une opération, qui s'exécute en un seul cycle d'horloge.
+						</p>
+					</section>
+					<section data-background="moccasin">
+						<p>
+							Si l'on veut représenter un programme sous forme d'automate, à quoi correspondent les états possible de l'automate ?
+						</p>
+						<!-- case "état courant" / "pile" ou "ruban" -->
+					</section>
+					<section>
+						<p>
+							Les opérations mémoire passent toujours par des registres propres au processeur.
+						</p>
+						<p>
+							Ces registres sont <mark>programmables</mark>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/PDP-8_I_Bedienfeld_%28simuliert%29.png/1920px-PDP-8_I_Bedienfeld_%28simuliert%29.png">
+							<figcaption>Panneau frontal d'un PDP-8</figcaption>
+						</figure>
 					</section>
 					<!-- Illustration d'un circuit ~ instruction :
 					https://fr.wikipedia.org/wiki/PDP-8#/media/Fichier:S111FlipChipSchematic.jpg -->
-					<!-- Illustration des registres, de l'adressage, ... :
-					https://fr.wikipedia.org/wiki/PDP-8#/media/Fichier:Digital_pdp8-e2.jpg -->
+					<section data-background="moccasin">
+						<p>
+							Que produit le compilateur à partir de code Java ?
+						</p>
+						<!-- TODO présenter un programme de "tressage" ? -->
+					</section>
+					<!-- <section>
+						- représentation du pgm en mémoire
+						index of instruction, opérande 1, opérande 2
+						index of instruction, opérande 1, opérande 2
+						index of instruction, opérande 1, opérande 2
+					</section> -->
+					<section>
+						<p>
+							Les mots instructions du PDP-8 sont encodées sur 12 octets.
+						</p>
+						<!--
+						0 		2 	3 	4 	5 						11
+						Opération 	I 	Z 	Adresse (7 bits)
+						-->
+						<!-- I : indirection
+						Z : s'il est activé, indique que l'adresse doit être complétée en utilisant les cinq bits de poids fort du compteur de programme (PC),  -->
+						<!-- si IOT, découpage différent : -->
+						<!-- 0 		2 	3 					8 	9 		11
+						110 = IOT 	Périphérique 	Fonction E/S -->
+					</section>
+					<section>
+						<p>
+							Le PDP-8 a&hellip; <span class="fragment">8 instructions.</span>
+						</p>
+						<table class="fragment">
+							<tr>
+								<th>Instruction</th>
+								<th>Encodage</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>AND</td>
+								<td>000</td>
+								<td>-</td>
+							</tr>
+							<tr>
+								<td>TAD</td>
+								<td>001</td>
+								<td>Two Complement Add</td>
+							</tr>
+							<tr>
+								<td>ISZ</td>
+								<td>010</td>
+								<td>Increment and Skip if Zero</td>
+							</tr>
+							<tr>
+								<td>DCA</td>
+								<td>011</td>
+								<td>Deposit and Clear Accumulator</td>
+							</tr>
+							<tr>
+								<td>JMS</td>
+								<td>100</td>
+								<td>JuMp to Subroutine</td>
+							</tr>
+							<tr>
+								<td>JMP</td>
+								<td>101</td>
+								<td>JuMP</td>
+							</tr>
+							<tr>
+								<td>IOT</td>
+								<td>110</td>
+								<td>Input Output Transfer</td>
+							</tr>
+							<tr>
+								<td>OPR</td>
+								<td>111</td>
+								<td>Operation (dont HLT)</td>
+							</tr>
+							<caption>Instructions du PDP-8 et leur encodage</caption>
+						</table>
+					</section>
+					<section>
+						<p>
+							Le PDP-8 a aussi des opérations <mark>micro-codées</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Un langage assembleur est conçu pour que la compilation de code assembleur soit la plus simple possible.
+						</p>
+						<p class="fragment">
+							C'est un langage de <mark>bas niveau</mark>.
+						</p>
+					</section>
+					<!-- <section>
+						128 193 1 / add(1, cx);
+					</section> -->
+					<section>
+						<p>
+							Pour un même jeu d'instructions, comme x86, il existe plusieurs variantes de langages assembleurs comme <a href="https://en.wikipedia.org/wiki/Netwide_Assembler">Netwide Assembler</a> ou <a href="https://en.wikipedia.org/wiki/GNU_Assembler">GNU Assembler</a>.
+						</p>
+					</section>
+					<section>
+						<table>
+							<tr>
+								<th>Instructions</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>
+									and, or, xor, not
+								</td>
+								<td>opérations logiques</td>
+							</tr>
+							<tr>
+								<td>
+									add, sub, mul, div, cmp
+								</td>
+								<td>opérations arithmétiques</td>
+							</tr>
+							<tr>
+								<td>
+									mov
+								</td>
+								<td>déplacement registre ou mémoire</td>
+							</tr>
+							<tr>
+								<td>
+									jmp
+								</td>
+								<td>saut d'instruction (jump)</td>
+							</tr>
+							<tr>
+								<td>
+									ja, jb, je, jae, jbe, jne
+								</td>
+								<td>sauts conditionnels (above/below/equal)</td>
+							</tr>
+							<tr>
+								<td>
+									halt
+								</td>
+								<td>arrêt du programme</td>
+							</tr>
+							<caption>Instructions x86 de base</caption>
+						</table>
+					</section>
+					<section>
+						<p>
+							Toutes ces instructions ont des arguments qui peuvent être :
+						</p>
+						<ul>
+							<li class="fragment">une valeur constante</li>
+							<li class="fragment">le nom d'un registre</li>
+							<li class="fragment">l'adresse d'une case mémoire</li>
+						</ul>
+<pre class="fragment"><code>add(1, ax);
+mov(ax, bx);
+mov(bx, my_static_var);</code></pre>
+					</section>
+					<section>
+						<p>
+							Il existe trois modes d'adressage en assembleur :
+						</p>
+
+					</section>
+					<section>
+						<figure>
+							<img src="https://www.plantation-productions.com/Webster/www.artofasm.com/Linux/HTML/images/HelloWorld5.gif">
+							<figcaption>Registres x86 programmables (source: <a href="https://www.randallhyde.com/AssemblyLanguage/www.artofasm.com/index.html">AoA</a>)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://www.plantation-productions.com/Webster/www.artofasm.com/Linux/HTML/images/HelloWorld6.gif">
+							<figcaption>Structure du registre spécial x86 EFLAGS (source: <a href="https://www.randallhyde.com/AssemblyLanguage/www.artofasm.com/index.html">AoA</a>)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							En assembleur, comme dans un langage de plus haut niveau, il est important de distinguer :
+						</p>
+						<ul>
+							<li class="fragment">une référence</li>
+							<li class="fragment">une valeur (référent)</li>
+						</ul>
+						<p class="note fragment">
+							Notamment, la différence est importante entre la valeur d'une variable <span class="highlight">x</span> et son adresse en mémoire <span class="highlight">&x</span>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Il existe trois modes d'adressage en assembleur :
+						</p>
+<pre><code>mov([5], ax);
+mov([bx], ax);
+mov([bx+5], ax);</code></pre>
+					</section>
+					<!-- <section>
+						static
+						someValue: int32;
+						someOtherValue: int32;
+
+						&someValue
+					</section> -->
 				</section>
 				<section>
 					<h4>Autres principes architecturaux</h4>
 					<section>
-						
+						<!-- re-parler des étiquettes des FSM : effets de bord -->
+						<!-- re-parler du PDP-8 : instruction d'interruption / entrée-sortie -->
 					</section>
 				</section>
 			</div>
