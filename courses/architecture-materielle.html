@@ -425,8 +425,14 @@
 					</section> -->
 					<section>
 						<p>
-							Les mots instructions du PDP-8 sont encodées sur 12 octets.
+							Les mots instructions du PDP-8 sont encodées sur 12 octets :
 						</p>
+						<ul>
+							<li class="fragment"><mark>instruction</mark> sur 3 bits</li>
+							<li class="fragment">I (<mark>indirection</mark>) sur 1 bit</li>
+							<li class="fragment">Z (<mark>zéro relatif</mark>) sur 1 bit</li>
+							<li class="fragment"><mark>adresse mémoire</mark> sur 7 bits</li>
+						</ul>
 						<!--
 						0 		2 	3 	4 	5 						11
 						Opération 	I 	Z 	Adresse (7 bits)
@@ -492,8 +498,38 @@
 					</section>
 					<section>
 						<p>
-							Le PDP-8 a aussi des opérations <mark>micro-codées</mark>.
+							Certaines opérations du PDP-8 sont <mark>micro-codées</mark>.
 						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							001000010010<br>
+							001000010011<br>
+							011000000000<br>
+							110000002010<br>
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							001 0 0 0010010<br>
+							001 0 0 0010011<br>
+							011 0 0 0000000<br>
+							110 000002 010<br>
+						</p>
+					</section>
+					<section data-auto-animate>
+						<p>
+							TAD 0010010<br>
+							TAD 0010011<br>
+							DCA<br>
+							IOT 02 010<br>
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/PDP-8_I_Bedienfeld_%28simuliert%29.png/1920px-PDP-8_I_Bedienfeld_%28simuliert%29.png">
+							<figcaption>Panneau frontal d'un PDP-8</figcaption>
+						</figure>
 					</section>
 					<section>
 						<p>
@@ -509,6 +545,9 @@
 					<section>
 						<p>
 							Pour un même jeu d'instructions, comme x86, il existe plusieurs variantes de langages assembleurs comme <a href="https://en.wikipedia.org/wiki/Netwide_Assembler">Netwide Assembler</a> ou <a href="https://en.wikipedia.org/wiki/GNU_Assembler">GNU Assembler</a>.
+						</p>
+						<p class="note fragment">
+							Pour la suite, on utilisera le langage High-Level Assembly (HLA).
 						</p>
 					</section>
 					<section>
@@ -568,12 +607,6 @@
 <pre class="fragment"><code>add(1, ax);
 mov(ax, bx);
 mov(bx, my_static_var);</code></pre>
-					</section>
-					<section>
-						<p>
-							Il existe trois modes d'adressage en assembleur :
-						</p>
-
 					</section>
 					<section>
 						<figure>
