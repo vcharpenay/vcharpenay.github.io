@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Controwlled English | Victor Charpenay</title>
+    <link rel="stylesheet" href="../css/basic.css">
+    <script src="../js/n3.min.js"></script>
+
+    <style>
+        #panels {
+            text-align: center;
+        }
+
+        #panels input {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Contr<span style="color: steelblue;">owl</span>led English</h1>
+
+    <p class="info">
+        October 2025
+    </p>
+
+    <p>
+        Language models, as a by-product, capture interdependencies between triples. To do so, however, they need a full-text representation of triples. Controwlled English is a controlled language (inspired by <a href="https://github.com/LogicalContracts/LogicalEnglish">Logical English</a>) created for that purpose.
+    </p>
+    <p>
+        Translate Turtle into Controwlled English:
+    </p>
+
+    <div id="panels">
+        <textarea id="ttl-input" rows="10" cols="80"></textarea>
+        <input id="translate-btn" type="button" value="Translate">
+        <textarea id="owlen-output" readonly rows="10" cols="80"></textarea>
+        <input id="copy-btn" type="button" value="Copy to clipboard">
+    </div>
+
+<!-- @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.org/> .
+
+ex:s a ex:C ; ex:p ex:o ; ex:q ex:o .
+ex:s rdfs:label "Alice" .
+ex:o rdfs:label "Bob" .
+ex:C rdfs:label "class" . -->
+
+    <script type="text/javascript">
+        function Translator(quads) {
+            this.labels = {};
+            this.statements = [];
+
+            for (quad of quads) {
+                let p = quad.predicate.value;
+
+                if (p === "http://www.w3.org/2000/01/rdf-schema#label")
+                    // TODO check language tag and prefer English
+                    this.labels[quad.subject.value] = quad.object.value;
+                else
+                    this.statements.push(quad);
+            }
+        }
+
+        Translator.prototype.instantiate = function(tpl, s, o) {
+            return tpl.replace("{subject}", s).replace("{object}", o) + ".";
+        }
+
+        Translator.prototype.verbalize = function(quad) {
+            let s = quad.subject.value;
+            if (!this.labels[s]) return undefined;
+
+            let p = quad.predicate.value;
+
+            if (p === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+                let c = quad.object.value;
+                if (!this.labels[c]) return undefined;
+
+                // TODO 'a' or 'an' (or uncountable or unidentifiable)
+                //       use class templates instead
+
+                let tpl = "{subject} is a {object}";
+                return this.instantiate(tpl, this.labels[s], this.labels[c]);
+            } else {
+                let tpl = templates[p];
+                if (!tpl) return undefined;
+
+                let o = quad.object.value;
+                if (o.termType === "NamedNode" && !this.labels[o])
+                    return undefined;
+
+                // TODO deal with blank nodes
+                // TODO deal with literals
+
+                return this.instantiate(tpl, this.labels[s], this.labels[o]);
+            }
+        }
+
+        Translator.prototype.getSentences = function() {
+            let sentences = [];
+
+            for (let quad of this.statements) {
+                let sentence = this.verbalize(quad);
+                if (sentence) sentences.push(sentence);
+                else console.warn("Ignoring: " + quad);
+            }
+
+            return sentences.join("\n");
+        };
+    </script>
+
+    <script type="text/javascript">
+        const parser = new N3.Parser();
+
+        const templates = {
+            "http://example.org/p": "{subject} knows {object}",
+            "http://example.org/q": "{subject} has {object} as property",
+        }
+
+        async function translate(ttl) {
+            let quads = await parse(ttl);
+            let translator = new Translator(quads);
+            return translator.getSentences();
+        }
+    </script>
+
+    <script>
+        const ttlInput = document.getElementById('ttl-input');
+        const translateButton = document.getElementById('translate-btn');
+        const owlenOutput = document.getElementById('owlen-output');
+        const copyButton = document.getElementById('copy-btn');
+
+        translateButton.onclick = () => {
+            let ttl = ttlInput.value;
+            
+            translate(ttl)
+            .then(txt => owlenOutput.value = txt)
+            .catch(error => console.error(error));
+        };
+
+        copyButton.onclick = () => {
+            navigator.clipboard.writeText(owlenOutput.value);
+        };
+    </script>
+<body>
+
+</html>
