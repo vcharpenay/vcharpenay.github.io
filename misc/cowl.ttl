@@ -1,0 +1,72 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix cowl: <http://purl.org/controlled-english#> .
+
+cowl:template
+    a rdf:Property ;
+    rdfs:label "template" ;
+    rdfs:comment "Property or class template to generate Controwlled English sentences" .
+
+schema:Thing cowl:template "something"@en .
+schema:Person cowl:template "a person"@en .
+# application of the a/an rule
+schema:Organization cowl:template "an organization"@en .
+schema:Place cowl:template "a place"@en .
+# uncountable entity as class
+schema:CreativeWork cowl:template "creative work"@en .
+# adjective as class
+schema:Intangible cowl:template "intangible"@en .
+schema:Action cowl:template "an action"@en .
+schema:MedicalEntity cowl:template "a medical entity"@en .
+schema:Event cowl:template "an event"@en .
+
+# the triple's subject must be the subject of the sentence;
+# otherwise, it may break the semantics of the triple
+# if connectives, relative clauses or class expressions are used
+schema:subjectOf cowl:template "is the subject of <>"@en .
+schema:about cowl:template "is about <>"@en .
+schema:potentialAction cowl:template "can be acted upon by <>"@en .
+schema:alternateName cowl:template "is also known as <>"@en .
+schema:additionalName cowl:template "has <> as additional name"@en .
+schema:address cowl:template "has address <>"@en .
+schema:affiliation cowl:template "is affiliated to <>"@en .
+schema:alumniOf cowl:template "is alumni of <>"@en .
+# reverse transformation isn't possible if templates are identical
+# (the preposition changes if the object is year or a precise date)
+schema:birthDate cowl:template "was born <>"@en .
+schema:birthPlace cowl:template "was born in <>"@en .
+# subject and object must always be considered as single entities;
+# even if plural would fit better, as here
+schema:children cowl:template "has child <>"@en .
+schema:contactPoint cowl:template "can be contacted through <>"@en .
+schema:email cowl:template "has e-mail <>"@en .
+schema:familyName cowl:template "has family name <>"@en .
+schema:givenName cowl:template "has given name <>"@en .
+schema:follows cowl:template "follows <>"@en .
+schema:funder cowl:template "funds <>"@en .
+# formulation with ':' helps make potential repetitions more natural
+# (e.g. if the object is anonymous)
+schema:hasOccupation cowl:template "has the following occupation: <>"@en .
+schema:height cowl:template "is <> tall"@en .
+schema:knows cowl:template "knows <>"@en .
+schema:makesOffer cowl:template ""@en .
+schema:memberOf cowl:template "is a member of <>"@en .
+schema:nationality cowl:template "is a citizen of <>"@en .
+schema:netWorth cowl:template "is worth <> net"@en .
+schema:owns cowl:template "owns <>"@en .
+
+# unsupported formatting properties:
+# schema:honorificPrefix
+# schema:honorificSuffix
+
+# domain is heterogeneous, the template looses information
+# FIXME what if other properties have the same template?
+# TODO contextualize template to class/datatype (reduces ambiguity)?
+schema:hasOfferCatalog cowl:template "manages <>"@en .
+schema:award cowl:template "received <>"@en .
+# the object's class is in the property label;
+# but in case the object is anonymous, there is undesired repetition
+schema:brand cowl:template "manages <>"@en .
+
+# many properties involve URLs; they can be skipped.

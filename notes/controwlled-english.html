@@ -12,6 +12,10 @@
             text-align: center;
         }
 
+        #panels textarea {
+            resize: vertical;
+        }
+
         #panels input {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -27,7 +31,7 @@
     </p>
 
     <p>
-        Language models, as a by-product, capture interdependencies between triples. To do so, however, they need a full-text representation of triples. Controwlled English is a controlled language (inspired by <a href="https://github.com/LogicalContracts/LogicalEnglish">Logical English</a>) created for that purpose.
+        Language models, as a by-product, capture interdependencies between triples. To do so, however, they need a full-text representation of triples. Controwlled English is a controlled language created for that purpose. It was inspired by <a href="https://github.com/LogicalContracts/LogicalEnglish">Logical English</a>.
     </p>
     <p>
         Translate Turtle into Controwlled English:
@@ -36,21 +40,34 @@
     <div id="panels">
         <textarea id="ttl-input" rows="10" cols="80"></textarea>
         <input id="translate-btn" type="button" value="Translate">
-        <textarea id="owlen-output" readonly rows="10" cols="80"></textarea>
+        <textarea id="cowl-output" readonly rows="10" cols="80"></textarea>
         <input id="copy-btn" type="button" value="Copy to clipboard">
     </div>
 
 <!-- @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix cowl: <http://purl.org/controwlled-english#> .
 @prefix ex: <http://example.org/> .
 
-ex:s a ex:C ; ex:p ex:o ; ex:q ex:o .
+ex:C cowl:template "something"@en .
+ex:p cowl:template "knows <>"@en .
+ex:q cowl:template "has <> as property"@en .
+
+ex:s a ex:C ; ex:p ex:o ; ex:q ex:o ; ex:p "Robert" .
 ex:s rdfs:label "Alice" .
-ex:o rdfs:label "Bob" .
-ex:C rdfs:label "class" . -->
+ex:o rdfs:label "Bob" . -->
 
     <script type="text/javascript">
+        function serialize(quad) {
+            let s = quad.subject;
+            let p = quad.predicate;
+            let o = quad.object;
+
+            return s.value + " " + p.value + " " + o.value;
+        }
+
         function Translator(quads) {
             this.labels = {};
+            this.templates = {};
             this.statements = [];
 
             for (quad of quads) {
@@ -59,42 +76,55 @@ ex:C rdfs:label "class" . -->
                 if (p === "http://www.w3.org/2000/01/rdf-schema#label")
                     // TODO check language tag and prefer English
                     this.labels[quad.subject.value] = quad.object.value;
+                else if (p === "http://purl.org/controwlled-english#template")
+                    // TODO check template parameters
+                    this.templates[quad.subject.value] = quad.object.value;
                 else
                     this.statements.push(quad);
             }
         }
 
-        Translator.prototype.instantiate = function(tpl, s, o) {
-            return tpl.replace("{subject}", s).replace("{object}", o) + ".";
+        Translator.prototype.instantiate = function(tpl, ...args) {
+            let instance = "";
+
+            if (!tpl) return undefined;
+            if (args.some(arg => !arg)) return undefined;
+
+            if (args.length === 1) {
+                i = args[0];
+                instance = i + " is " + tpl;
+            } else if (args.length === 2) {
+                s = args[0];
+                o = args[1];
+                instance = s + " " + tpl.replace("<>", o);
+            }
+
+            return instance + ".";
         }
 
         Translator.prototype.verbalize = function(quad) {
             let s = quad.subject.value;
-            if (!this.labels[s]) return undefined;
-
             let p = quad.predicate.value;
 
             if (p === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
                 let c = quad.object.value;
-                if (!this.labels[c]) return undefined;
+                let tpl = this.templates[c];
 
-                // TODO 'a' or 'an' (or uncountable or unidentifiable)
-                //       use class templates instead
-
-                let tpl = "{subject} is a {object}";
-                return this.instantiate(tpl, this.labels[s], this.labels[c]);
+                return this.instantiate(tpl, this.labels[s]);
             } else {
-                let tpl = templates[p];
-                if (!tpl) return undefined;
+                let tpl = this.templates[p];
+                let qo = quad.object;
+                let o = qo.value;
 
-                let o = quad.object.value;
-                if (o.termType === "NamedNode" && !this.labels[o])
-                    return undefined;
+                if (qo.termType === "NamedNode") {
+                    o = this.labels[o];
+                } else if (qo.termType === "BlankNode") {
+                    // TODO construct relative clauses, if possible
+                    // TODO otherwise, assign arbitrary name
+                    //      use "something that"? Pb. of something/someone
+                }
 
-                // TODO deal with blank nodes
-                // TODO deal with literals
-
-                return this.instantiate(tpl, this.labels[s], this.labels[o]);
+                return this.instantiate(tpl, this.labels[s], o);
             }
         }
 
@@ -104,7 +134,7 @@ ex:C rdfs:label "class" . -->
             for (let quad of this.statements) {
                 let sentence = this.verbalize(quad);
                 if (sentence) sentences.push(sentence);
-                else console.warn("Ignoring: " + quad);
+                else console.warn("Ignoring: " + serialize(quad));
             }
 
             return sentences.join("\n");
@@ -114,9 +144,16 @@ ex:C rdfs:label "class" . -->
     <script type="text/javascript">
         const parser = new N3.Parser();
 
-        const templates = {
-            "http://example.org/p": "{subject} knows {object}",
-            "http://example.org/q": "{subject} has {object} as property",
+        function parse(ttl) {
+            let quads = [];
+
+            return new Promise((resolve, reject) => {
+                parser.parse(ttl, (error, quad, prefixes) => {
+                    if (error) reject(error);
+                    else if (quad) quads.push(quad);
+                    else resolve(quads);
+                });
+            })
         }
 
         async function translate(ttl) {
@@ -129,19 +166,19 @@ ex:C rdfs:label "class" . -->
     <script>
         const ttlInput = document.getElementById('ttl-input');
         const translateButton = document.getElementById('translate-btn');
-        const owlenOutput = document.getElementById('owlen-output');
+        const cowlOutput = document.getElementById('cowl-output');
         const copyButton = document.getElementById('copy-btn');
 
         translateButton.onclick = () => {
             let ttl = ttlInput.value;
             
             translate(ttl)
-            .then(txt => owlenOutput.value = txt)
+            .then(txt => cowlOutput.value = txt)
             .catch(error => console.error(error));
         };
 
         copyButton.onclick = () => {
-            navigator.clipboard.writeText(owlenOutput.value);
+            navigator.clipboard.writeText(cowlOutput.value);
         };
     </script>
 <body>
