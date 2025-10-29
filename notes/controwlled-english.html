@@ -57,6 +57,10 @@ ex:s rdfs:label "Alice" .
 ex:o rdfs:label "Bob" . -->
 
     <script type="text/javascript">
+        const type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        const label = "http://www.w3.org/2000/01/rdf-schema#label";
+        const template = "http://purl.org/controwlled-english#template";
+
         function serialize(quad) {
             let s = quad.subject;
             let p = quad.predicate;
@@ -66,77 +70,140 @@ ex:o rdfs:label "Bob" . -->
         }
 
         function Translator(quads) {
-            this.labels = {};
             this.templates = {};
-            this.statements = [];
+            this.index = {};
+            this.roots = [];
 
             for (quad of quads) {
-                let p = quad.predicate.value;
+                let s = quad.subject;
+                let p = quad.predicate;
+                let o = quad.object;
 
-                if (p === "http://www.w3.org/2000/01/rdf-schema#label")
-                    // TODO check language tag and prefer English
-                    this.labels[quad.subject.value] = quad.object.value;
-                else if (p === "http://purl.org/controwlled-english#template")
+                if (p.value === template) {
                     // TODO check template parameters
-                    this.templates[quad.subject.value] = quad.object.value;
-                else
-                    this.statements.push(quad);
-            }
-        }
+                    // TODO check language tag and prefer English
+                    this.templates[s.value] = o;
+                } else {
+                    let item = this.getItem(s);
 
-        Translator.prototype.instantiate = function(tpl, ...args) {
-            let instance = "";
+                    if (p.value === label) {
+                        // TODO check language tag and prefer English
+                        item.label = o;
+                    } else if (p.value === type) {
+                        if (!item.types) item.types = [];
+                        item.types.push(o);
+                    } else {
+                        if (!item.predicates) {
+                            item.predicates = {};
 
-            if (!tpl) return undefined;
-            if (args.some(arg => !arg)) return undefined;
+                            let isRoot =
+                                s.termType === "NamedNode"
+                                || (s.termType === "BlankNode"
+                                    && this.structure.length === 0);
 
-            if (args.length === 1) {
-                i = args[0];
-                instance = i + " is " + tpl;
-            } else if (args.length === 2) {
-                s = args[0];
-                o = args[1];
-                instance = s + " " + tpl.replace("<>", o);
-            }
+                            if (isRoot) this.roots.push(item);
+                        }
 
-            return instance + ".";
-        }
+                        if (!item.predicates[p.value]) {
+                            item.predicates[p.value] = [];
+                        }
 
-        Translator.prototype.verbalize = function(quad) {
-            let s = quad.subject.value;
-            let p = quad.predicate.value;
-
-            if (p === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
-                let c = quad.object.value;
-                let tpl = this.templates[c];
-
-                return this.instantiate(tpl, this.labels[s]);
-            } else {
-                let tpl = this.templates[p];
-                let qo = quad.object;
-                let o = qo.value;
-
-                if (qo.termType === "NamedNode") {
-                    o = this.labels[o];
-                } else if (qo.termType === "BlankNode") {
-                    // TODO construct relative clauses, if possible
-                    // TODO otherwise, assign arbitrary name
-                    //      use "something that"? Pb. of something/someone
+                        item.predicates[p.value].push(o);
+                    }
                 }
-
-                return this.instantiate(tpl, this.labels[s], o);
             }
+        };
+
+        Translator.prototype.getItem = function(node) {
+            let id = node.value;
+            let item = this.index[id];
+
+            if (!item) {
+                item = { node: node };
+                this.index[id] = item;
+            }
+            
+            return item;
+        };
+
+        Translator.prototype.getConjunction = function(phrases) {
+            let n = phrases.length - 1;
+            
+            if (n > 0) phrases[n] = "and " + phrases[n];
+            return phrases.join(", ");
+        };
+
+        Translator.prototype.getNodePhrase = function(node) {
+            let item = this.getItem(node);
+
+            // literals are their own label
+            if (node.termType === "Literal") item = { label: node };
+            
+            if (item.label) return item.label.value;
+
+            let np = "";
+
+            if (item.types) np += this.getClassPhrase(item.types);
+
+            // TODO if item.predicates relative clauses
+            
+            return undefined;
+        };
+
+        Translator.prototype.getClassPhrase = function(classes) {
+            return this.getConjunction(classes.map(c => {
+                let tpl = this.templates[c.value];
+
+                if (tpl) return tpl.value;
+                else console.warn("Ignoring type: ", c.value);
+            }));
         }
 
-        Translator.prototype.getSentences = function() {
+        Translator.prototype.getPredicatePhrase = function(id, nodes) {
+            let tpl = this.templates[id];
+
+            if (tpl) {
+                let nps = nodes.map(node => this.getNodePhrase(node));
+                return tpl.value.replace("<>", this.getConjunction(nps));
+            } else console.warn("Ignoring predicate: ", id);
+        };
+
+        Translator.prototype.getSentence = function(node) {
+            let item = this.getItem(node);
+
+            if (!item.types && !item.predicate) return undefined;
+
+            let np = this.getNodePhrase(node);
+
             let sentences = [];
 
-            for (let quad of this.statements) {
-                let sentence = this.verbalize(quad);
-                if (sentence) sentences.push(sentence);
-                else console.warn("Ignoring: " + serialize(quad));
+            if (item.types) {
+                let s = np + " is " + this.getClassPhrase(item.types) + ".";
+                sentences.push(s);
             }
 
+            if (item.predicates) {
+                let pps = [];
+
+                for (id in item.predicates) {
+                    let nodes = item.predicates[id];
+                    pps.push(this.getPredicatePhrase(id, nodes));
+                }
+                
+                let conjunct = this.getConjunction(pps);
+
+                sentences.push(np + " " + conjunct + ".");
+            }
+
+            return sentences.join(" ");
+        }
+
+        Translator.prototype.getAnaphoricSentence = function(node) {
+            // TODO have indication of which anaphor to use (it/they/...)
+        };
+
+        Translator.prototype.getSentences = function() {
+            let sentences = this.roots.map(item => this.getSentence(item.node));
             return sentences.join("\n");
         };
     </script>
