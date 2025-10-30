@@ -31,7 +31,10 @@
     </p>
 
     <p>
-        Language models, as a by-product, capture interdependencies between triples. To do so, however, they need a full-text representation of triples. Controwlled English is a controlled language created for that purpose. It was inspired by <a href="https://github.com/LogicalContracts/LogicalEnglish">Logical English</a>.
+        Controwlled English is a controlled language that provides a full-text representation of RDF triples. It was inspired by <a href="https://github.com/LogicalContracts/LogicalEnglish">Logical English</a> and <a href="https://attempto.ifi.uzh.ch/">Attempot Controlled English (ACE)</a>.
+    </p>
+    <p>
+        Controwlled English (or any other "controwlled" language) is based on annotations on RDF classes and properties, similar to <code>rdfs:label</code> statements. Unlabelled blank nodes are handled via relative clauses, such that no variable is required to verbalize triples. As a consequence, unlabelled blank nodes must be tree-shaped, as would be the model of an existential ontology (EL++ and its fragments).
     </p>
     <p>
         Translate Turtle into Controwlled English:
@@ -45,21 +48,28 @@
     </div>
 
 <!-- @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix cowl: <http://purl.org/controwlled-english#> .
+@prefix cowl: <http://purl.org/controwlled#> .
 @prefix ex: <http://example.org/> .
 
 ex:C cowl:template "something"@en .
 ex:p cowl:template "knows <>"@en .
 ex:q cowl:template "has <> as property"@en .
 
-ex:s a ex:C ; ex:p ex:o ; ex:q ex:o ; ex:p "Robert" .
 ex:s rdfs:label "Alice" .
-ex:o rdfs:label "Bob" . -->
+ex:o rdfs:label "Bob" .
+ex:t rdfs:label "Cassie" .
+
+ex:s
+  a ex:C ;
+  ex:p ex:o ;
+  ex:q ex:o ;
+  ex:p "Robert" ;
+  ex:q [ ex:p "X" ; ex:q ex:t ] . -->
 
     <script type="text/javascript">
         const type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
         const label = "http://www.w3.org/2000/01/rdf-schema#label";
-        const template = "http://purl.org/controwlled-english#template";
+        const template = "http://purl.org/controwlled#template";
 
         function serialize(quad) {
             let s = quad.subject;
@@ -99,7 +109,9 @@ ex:o rdfs:label "Bob" . -->
                             let isRoot =
                                 s.termType === "NamedNode"
                                 || (s.termType === "BlankNode"
-                                    && this.structure.length === 0);
+                                    && this.roots.length === 0);
+
+                            // TODO blank node might not be root after all
 
                             if (isRoot) this.roots.push(item);
                         }
@@ -141,32 +153,53 @@ ex:o rdfs:label "Bob" . -->
             
             if (item.label) return item.label.value;
 
-            let np = "";
+            let np = item.types ?
+                this.getClassPhrase(item.types) :
+                "a thing"; // owl:Thing
 
-            if (item.types) np += this.getClassPhrase(item.types);
+            if (item.predicates) {
+                let pps = this.getPropertyPhrases(item.predicates);
+                np += " that " + pps;
+            }
 
-            // TODO if item.predicates relative clauses
-            
-            return undefined;
+            return np || undefined;
         };
 
         Translator.prototype.getClassPhrase = function(classes) {
-            return this.getConjunction(classes.map(c => {
+            let nps = classes
+            .map(c => {
                 let tpl = this.templates[c.value];
 
                 if (tpl) return tpl.value;
                 else console.warn("Ignoring type: ", c.value);
-            }));
+            })
+            .filter(np => np);
+
+            return this.getConjunction(nps);
         }
 
-        Translator.prototype.getPredicatePhrase = function(id, nodes) {
+        Translator.prototype.getPropertyPhrase = function(id, nodes) {
             let tpl = this.templates[id];
 
             if (tpl) {
-                let nps = nodes.map(node => this.getNodePhrase(node));
+                let nps = nodes
+                .map(node => this.getNodePhrase(node))
+                .filter(np => np);
+
                 return tpl.value.replace("<>", this.getConjunction(nps));
             } else console.warn("Ignoring predicate: ", id);
         };
+
+        Translator.prototype.getPropertyPhrases = function(predicates) {
+            let pps = [];
+
+            for (id in predicates) {
+                let nodes = predicates[id];
+                pps.push(this.getPropertyPhrase(id, nodes));
+            }
+
+            return this.getConjunction(pps);
+        }
 
         Translator.prototype.getSentence = function(node) {
             let item = this.getItem(node);
@@ -178,21 +211,13 @@ ex:o rdfs:label "Bob" . -->
             let sentences = [];
 
             if (item.types) {
-                let s = np + " is " + this.getClassPhrase(item.types) + ".";
-                sentences.push(s);
+                let cp = this.getClassPhrase(item.types);
+                sentences.push(np + " is " + cp + ".");
             }
 
             if (item.predicates) {
-                let pps = [];
-
-                for (id in item.predicates) {
-                    let nodes = item.predicates[id];
-                    pps.push(this.getPredicatePhrase(id, nodes));
-                }
-                
-                let conjunct = this.getConjunction(pps);
-
-                sentences.push(np + " " + conjunct + ".");
+                let pps = this.getPropertyPhrases(item.predicates);
+                sentences.push(np + " " + pps + ".");
             }
 
             return sentences.join(" ");

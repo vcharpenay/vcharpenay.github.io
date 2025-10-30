@@ -1,12 +1,12 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
-@prefix cowl: <http://purl.org/controlled-english#> .
+@prefix cowl: <http://purl.org/controwlled#> .
 
 cowl:template
     a rdf:Property ;
-    rdfs:label "template" ;
-    rdfs:comment "Property or class template to generate Controwlled English sentences" .
+    rdfs:label "template"@en ;
+    rdfs:comment "Property or class template to generate Controwlled sentences"@en .
 
 schema:Thing cowl:template "something"@en .
 schema:Person cowl:template "a person"@en .
@@ -28,6 +28,8 @@ schema:subjectOf cowl:template "is the subject of <>"@en .
 schema:about cowl:template "is about <>"@en .
 schema:potentialAction cowl:template "can be acted upon by <>"@en .
 schema:alternateName cowl:template "is also known as <>"@en .
+# when the property template has a suffix,
+# relative clauses with the same property are hardly readable
 schema:additionalName cowl:template "has <> as additional name"@en .
 schema:address cowl:template "has address <>"@en .
 schema:affiliation cowl:template "is affiliated to <>"@en .
