@@ -653,8 +653,155 @@ mov([bx+5], ax);</code></pre>
 				<section>
 					<h4>Autres principes architecturaux</h4>
 					<section>
-						<!-- re-parler des étiquettes des FSM : effets de bord -->
-						<!-- re-parler du PDP-8 : instruction d'interruption / entrée-sortie -->
+						<p>
+							Un système de transition ou un programme ont presque toujours une entrée et/ou une sortie.
+						</p>
+						<p class="fragment">
+							Un programme peut assi avoir des <mark>effets de bord</mark> dans son exécution.
+						</p>
+						<p class="fragment note">
+							C'est le cas de <span class="highlight">stdout.put()</span> et <span class="highlight">System.out.println()</span>.
+						</p>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2b-fsm.png">
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/tresse-2inf-tm.png">
+					</section>
+					<section>
+						<p>
+							Le CPU et la mémoire communiquent avec des <mark>périphériques</mark> :
+						</p>
+						<ul>
+							<li class="fragment">disque dur</li>
+							<li class="fragment">écran, hauts-parleurs</li>
+							<li class="fragment">clavier, souris</li>
+							<li class="fragment">&hellip;</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Siemens_T100_Telex.jpg">
+							<figcaption>Téléscripteur Siemens T100 (clavier, imprimante)</figcaption>
+						</figure>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/DEC_VT100_terminal_transparent.png">
+							<figcaption>Terminal textuel DEC VT100</figcaption>
+						</figure>
+					</section>
+					<section>
+						<p>
+							L’accès à un périphérique passe par :
+						</p>
+						<ul>
+							<li class="fragment">un bus système</li>
+							<li class="fragment">un ou plusieurs bridges</li>
+							<li class="fragment">un ou plusieurs bus d'extension</li>
+							<li class="fragment">un contrôleur de périphérique</li>
+						</ul>
+					</section>
+					<section>
+						<img src="https://serpaggi-cours.pages.emse.fr/acp/html/_images/architecture-8.png">
+					</section>
+					<section data-background="moccasin">
+						<p>
+							Pourquoi faut-il deux bus de communication entre le CPU et les périphériques ?
+						</p>
+					</section>
+					<section>
+						<p>
+							La communication avec les périphériques passe souvent par des <mark>interruptions</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							L'exécution du programme courant est interrompue pour qu'un autre programme s'exécute : une <mark>routine de service</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							En cas d'interruption, le contexte d'exécution courant doit d'abord être sauvegardé :
+						</p>
+						<ul>
+							<li class="fragment">l'état de l'instruction pointer (IP)</li>
+							<li class="fragment">l'état du stack pointer (SP)</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Dans le jeu d'instruction x86, l'instruction <mark>iret</mark> termine la routine de service et restaure IP et SP.
+						</p>
+					</section>
+					<section>
+						<p>
+							La gestion de la mémoire et des périphériques dans un ordinateur est une tâche complexe.
+						</p>
+						<p class="fragment">
+							C'est la mission du <mark>système d'exploitation</mark> (OS).
+						</p>
+					</section>
+					<section>
+						<p>
+							La norme <mark>Portable Operating System Interface for Unix</mark> (POSIX) spécifie les fonctionnalités de base d'un OS.
+						</p>
+					</section>
+					<section>
+						<ul>
+							<li>contrôle de processus</li>
+							<li>gestion des interruptions</li>
+							<li>lecture/écriture de fichiers</li>
+							<li>chaînage de processus (pipe)</li>
+							<li>bibliothèque standard C</li>
+							<li>interface avec un terminal</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							Un <mark>processus</mark> représente l'exécution d'un programme dans un <mark>segment</mark> de mémoire défini.
+						</p>
+						<p class="fragment note">
+							Lorsque le programme tente d'accéder à la mémoire en-dehors du segment, cela génère une faute de segmentation, <span class="highlight">segfault</span>.
+						</p>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Exemple_d%27ordonnanceur_pr%C3%A9emptif_Round-Robin.jpg">
+							<figcaption>Traitement pseudo-parallèle de processus (tâches)</figcaption>
+						</figure>
+					</section>
+					<section data-background="moccasin">
+						<p>
+							Comment se fait la transition d'un processus à un autre ?
+						</p>
+					</section>
+					<section>
+						<p>
+							Un traitement peut réellement se faire en parallèle lorsque <mark>plusieurs processeurs</mark> sont disponibles, avec leurs <mark>propres registres</mark>.
+						</p>
+					</section>
+					<section>
+						<p>
+							Le calcul parallèle se définit selon deux critères :
+						</p>
+						<ul>
+							<li class="fragment">single/multiple instruction flow</li>
+							<li class="fragment">single/multiple data</li>
+						</ul>
+					</section>
+					<section>
+						<figure>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Mapreduce.png">
+							<figcaption>Schéma de fonctionnement de MapReduce</figcaption>
+						</figure>
+					</section>
+
+					<!-- re-parler du PDP-8 : instruction d'interruption / entrée-sortie -->
+					
+					<!--
+					instructions d'"interruption" (JMS, ION, IOFF?)
+					https://fr.wikipedia.org/wiki/MapReduce
+					-->
 					</section>
 				</section>
 			</div>
