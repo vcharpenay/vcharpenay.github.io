@@ -8,55 +8,207 @@ cowl:template
     rdfs:label "template"@en ;
     rdfs:comment "Property or class template to generate Controwlled sentences"@en .
 
-schema:Thing cowl:template "something"@en .
-schema:Person cowl:template "a person"@en .
+schema:Thing a rdfs:Class ; cowl:template "something"@en .
+schema:Person a rdfs:Class ; cowl:template "a person"@en .
 # application of the a/an rule
-schema:Organization cowl:template "an organization"@en .
-schema:Place cowl:template "a place"@en .
+schema:Organization a rdfs:Class ; cowl:template "an organization"@en .
+schema:Place a rdfs:Class ; cowl:template "a place"@en .
 # uncountable entity as class
-schema:CreativeWork cowl:template "creative work"@en .
+schema:CreativeWork a rdfs:Class ; cowl:template "creative work"@en .
 # adjective as class
-schema:Intangible cowl:template "intangible"@en .
-schema:Action cowl:template "an action"@en .
-schema:MedicalEntity cowl:template "a medical entity"@en .
-schema:Event cowl:template "an event"@en .
+schema:Intangible a rdfs:Class ; cowl:template "intangible"@en .
+schema:Action a rdfs:Class ; cowl:template "an action"@en .
+schema:MedicalEntity a rdfs:Class ; cowl:template "a medical entity"@en .
+schema:Event a rdfs:Class ; cowl:template "an event"@en .
+schema:Product a rdfs:Class ; cowl:template "a product"@en .
+schema:DietarySupplement a rdfs:Class ; cowl:template "a dietary supplement"@en .
+schema:Drug a rdfs:Class ; cowl:template "a drug"@en .
+schema:IndividualProduct a rdfs:Class ; cowl:template "an individual product"@en .
+schema:ProductModel a rdfs:Class ; cowl:template "a product model"@en .
+schema:SomeProducts a rdfs:Class ; cowl:template "some products"@en .
+schema:Vehicle a rdfs:Class ; cowl:template "a vehicle"@en .
+schema:BusOrCoach a rdfs:Class ; cowl:template "a bus"@en .
+schema:Car a rdfs:Class ; cowl:template "a car"@en .
+schema:Motorcycle a rdfs:Class ; cowl:template "a motorcycle"@en .
+schema:MotorizedBicycle a rdfs:Class ; cowl:template "a motorized bicycle"@en .
+schema:Accommodation a rdfs:Class ; cowl:template "an accommodation"@en .
+schema:Apartment a rdfs:Class ; cowl:template "an apartment"@en .
+schema:CampingPitch a rdfs:Class ; cowl:template "a camping pitch"@en .
+schema:House a rdfs:Class ; cowl:template "a house"@en .
+schema:Room a rdfs:Class ; cowl:template "a room"@en .
+schema:Suite a rdfs:Class ; cowl:template "a suite"@en .
+schema:AdministrativeArea a rdfs:Class ; cowl:template "an administrative area"@en .
+schema:City a rdfs:Class ; cowl:template "a city"@en .
+schema:Country a rdfs:Class ; cowl:template "a country"@en .
+schema:State a rdfs:Class ; cowl:template "a state"@en .
+schema:CivicStructure a rdfs:Class ; cowl:template "a civic structure"@en .
+schema:DefinedRegion a rdfs:Class ; cowl:template "a defined region"@en .
+schema:Landform a rdfs:Class ; cowl:template "a landform"@en .
+schema:BodyOfWater a rdfs:Class ; cowl:template "a body of water"@en .
+schema:Canal a rdfs:Class ; cowl:template "a canal"@en .
+schema:LakeBodyOfWater a rdfs:Class ; cowl:template "a lake"@en .
+schema:OceanBodyOfWater a rdfs:Class ; cowl:template "an ocean"@en .
+schema:Pond a rdfs:Class ; cowl:template "a pond"@en .
+schema:Reservoir a rdfs:Class ; cowl:template "a reservoir"@en .
+schema:RiverBodyOfWater a rdfs:Class ; cowl:template "a river"@en .
+schema:SeaBodyOfWater a rdfs:Class ; cowl:template "a sea"@en .
+schema:Waterfall a rdfs:Class ; cowl:template "a waterfall"@en .
+schema:Continent a rdfs:Class ; cowl:template "a continent"@en .
+schema:Mountain a rdfs:Class ; cowl:template "a mountain"@en .
+schema:Volcano a rdfs:Class ; cowl:template "a volcano"@en .
+schema:LandmarksOrHistoricalBuildings a rdfs:Class ; cowl:template "a historical lankdmark"@en .
+schema:LocalBusiness a rdfs:Class ; cowl:template "a local business"@en .
+schema:Residence a rdfs:Class ; cowl:template "a residence"@en .
+schema:TouristAttraction a rdfs:Class ; cowl:template "a tourist attraction"@en .
+schema:Patient a rdfs:Class ; cowl:template "a patient"@en .
+schema:Airline a rdfs:Class ; cowl:template "an airline"@en .
+schema:Cooperative a rdfs:Class ; cowl:template "a cooperative"@en .
+schema:Corporation a rdfs:Class ; cowl:template "a corporation"@en .
+schema:EducationalOrganization a rdfs:Class ; cowl:template "an educational organization"@en .
+schema:CollegeOrUniversity a rdfs:Class ; cowl:template "a university"@en .
+schema:ElementarySchool a rdfs:Class ; cowl:template "an elementary school"@en .
+schema:HighSchool a rdfs:Class ; cowl:template "a high school"@en .
+schema:MiddleSchool a rdfs:Class ; cowl:template "a middle school"@en .
+schema:Preschool a rdfs:Class ; cowl:template "a preschool"@en .
+schema:School a rdfs:Class ; cowl:template "a school"@en .
+schema:GovernmentOrganization a rdfs:Class ; cowl:template "a governmental organization"@en .
+schema:MedicalOrganization a rdfs:Class ; cowl:template "a medical organization"@en .
+# TODO avoid ambiguity with the dentist themselves: always satisfactory?
+schema:Dentist a rdfs:Class ; cowl:template "a dentist's office"@en .
+schema:DiagnosticLab a rdfs:Class ; cowl:template "a medical laboratory"@en .
+schema:Hospital a rdfs:Class ; cowl:template "a hospital"@en .
+schema:MedicalClinic a rdfs:Class ; cowl:template "a clinic"@en .
+schema:Pharmacy a rdfs:Class ; cowl:template "a pharmacy"@en .
+schema:Physician a rdfs:Class ; cowl:template "a physician's office"@en .
+schema:VeterinaryCare a rdfs:Class ; cowl:template "a veterinary's office"@en .
+# acronym as class (case-sensitive label)
+schema:NGO a rdfs:Class ; cowl:template "an NGO"@en .
+schema:PerformingGroup a rdfs:Class ; cowl:template "a performance group"@en .
+schema:DanceGroup a rdfs:Class ; cowl:template "a dance group"@en .
+schema:MusicGroup a rdfs:Class ; cowl:template "a musical group"@en .
+schema:TheaterGroup a rdfs:Class ; cowl:template "a theater group"@en .
+schema:PoliticalParty a rdfs:Class ; cowl:template "a political party"@en .
+schema:SportsOrganization a rdfs:Class ; cowl:template "a sports organization"@en .
+schema:SportsTeam a rdfs:Class ; cowl:template "a sports team"@en .
+# language-sensitive label
+schema:WorkersUnion a rdfs:Class ; cowl:template "a labor union"@en-US .
+schema:WorkersUnion a rdfs:Class ; cowl:template "a labour union"@en-UK .
+schema:BusinessEvent a rdfs:Class ; cowl:template "a business event"@en .
+# TODO distinguish with Course (learning resource)?
+schema:CourseInstance a rdfs:Class ; cowl:template "a course"@en .
+schema:DanceEvent a rdfs:Class ; cowl:template "a dance performance"@en .
+schema:DeliveryEvent a rdfs:Class ; cowl:template "a delivery event"@en .
+schema:EducationEvent a rdfs:Class ; cowl:template "an educational event"@en .
+schema:ExhibitionEvent a rdfs:Class ; cowl:template "an exhibition"@en .
+schema:Festival a rdfs:Class ; cowl:template "a festival"@en .
+# a publication can also be what is being published
+schema:PublicationEvent a rdfs:Class ; cowl:template "a publication event"@en .
+schema:ScreeningEvent a rdfs:Class ; cowl:template "a screening"@en .
+schema:SportsEvent a rdfs:Class ; cowl:template "a sports event"@en .
+schema:SocialEvent a rdfs:Class ; cowl:template "a social event"@en .
+schema:TheaterEvent a rdfs:Class ; cowl:template "a theater performance"@en .
+schema:VisualArtsEvent a rdfs:Class ; cowl:template "a visual arts event"@en .
+schema:Article a rdfs:Class ; cowl:template "an article"@en .
+schema:NewsArticle a rdfs:Class ; cowl:template "a news article"@en .
+schema:Report a rdfs:Class ; cowl:template "a report"@en .
+schema:ScholarlyArticle a rdfs:Class ; cowl:template "a research paper"@en .
+schema:SocialMediaPosting a rdfs:Class ; cowl:template "a social media post"@en .
+schema:TechArticle a rdfs:Class ; cowl:template "a technical article"@en .
+schema:Atlas a rdfs:Class ; cowl:template "an atlas"@en .
+schema:Blog a rdfs:Class ; cowl:template "a blog"@en .
+schema:Book a rdfs:Class ; cowl:template "a book"@en .
+schema:Chapter a rdfs:Class ; cowl:template "a book chapter"@en .
+schema:Clip a rdfs:Class ; cowl:template "a clip"@en .
+schema:MovieClip a rdfs:Class ; cowl:template "a movie clip"@en .
+schema:RadioClip a rdfs:Class ; cowl:template "a radio clip"@en .
+schema:TVClip a rdfs:Class ; cowl:template "a TV clip"@en .
+schema:VideoGameClip a rdfs:Class ; cowl:template "a video game clip"@en .
+schema:Code a rdfs:Class ; cowl:template "code"@en .
+schema:Collection a rdfs:Class ; cowl:template "a collection"@en .
+schema:ComicStory a rdfs:Class ; cowl:template "a comic story"@en .
+schema:Comment a rdfs:Class ; cowl:template "a comment"@en .
+schema:Conversation a rdfs:Class ; cowl:template "a conversation"@en .
+schema:Course a rdfs:Class ; cowl:template "a course"@en .
+# TODO likely to clash with non-creative work season/series
+schema:CreativeWorkSeason a rdfs:Class ; cowl:template "a season"@en .
+schema:CreativeWorkSeries a rdfs:Class ; cowl:template "a series"@en .
+schema:DataCatalog a rdfs:Class ; cowl:template "a data catalog"@en .
+schema:Dataset a rdfs:Class ; cowl:template "a dataset"@en .
+schema:Diet a rdfs:Class ; cowl:template "a diet"@en .
+schema:DigitalDocument a rdfs:Class ; cowl:template "a digital document"@en .
+schema:Episode a rdfs:Class ; cowl:template "an episode"@en .
+schema:ExercisePlan a rdfs:Class ; cowl:template "an exercise plan"@en .
+schema:Game a rdfs:Class ; cowl:template "a game"@en .
+schema:HowTo a rdfs:Class ; cowl:template "a how-to"@en .
+schema:Map a rdfs:Class ; cowl:template "a map"@en .
+schema:MediaObject a rdfs:Class ; cowl:template "a media file"@en .
+schema:AudioObject a rdfs:Class ; cowl:template "an audio file"@en .
+schema:DataDownload a rdfs:Class ; cowl:template "part of a dataset"@en .
+schema:ImageObject a rdfs:Class ; cowl:template "an image file"@en .
+schema:MusicVideoObject a rdfs:Class ; cowl:template "a music video file"@en .
+schema:TextObject a rdfs:Class ; cowl:template "a text file"@en .
+schema:VideoObject a rdfs:Class ; cowl:template "a video file"@en .
+schema:Menu a rdfs:Class ; cowl:template "a menu"@en .
+schema:Message a rdfs:Class ; cowl:template "a menu item"@en .
+schema:Movie a rdfs:Class ; cowl:template "a movie"@en .
+schema:MusicComposition a rdfs:Class ; cowl:template "a musical composition"@en .
+schema:MusicPlaylist a rdfs:Class ; cowl:template "a playlist"@en .
+schema:MusicAlbum a rdfs:Class ; cowl:template "an album"@en .
+schema:MusicRelease a rdfs:Class ; cowl:template "an album release"@en .
+schema:MusicRecording a rdfs:Class ; cowl:template "a music recording"@en .
+schema:Painting a rdfs:Class ; cowl:template "a painting"@en .
+schema:Photograph a rdfs:Class ; cowl:template "a photograph"@en .
+schema:PublicationIssue a rdfs:Class ; cowl:template "a publication issue"@en .
+schema:PublicationVolume a rdfs:Class ; cowl:template "a publication volume"@en .
+schema:Review a rdfs:Class ; cowl:template "a review"@en .
+schema:Sculpture a rdfs:Class ; cowl:template "a sculpture"@en .
+schema:SoftwareApplication a rdfs:Class ; cowl:template "a software application"@en .
+schema:SoftwareSourceCode a rdfs:Class ; cowl:template "source code"@en .
+schema:TVSeason a rdfs:Class ; cowl:template "a TV season"@en .
+schema:TVSeries a rdfs:Class ; cowl:template "a TV series"@en .
+schema:Thesis a rdfs:Class ; cowl:template "a thesis"@en .
+schema:VisualArtwork a rdfs:Class ; cowl:template "visual artwork"@en .
+schema:WebPage a rdfs:Class ; cowl:template "a web page"@en .
+schema:WebPageElement a rdfs:Class ; cowl:template "a web page element"@en .
+schema:WebSite a rdfs:Class ; cowl:template "a website"@en .
 
 # the triple's subject must be the subject of the sentence;
 # otherwise, it may break the semantics of the triple
 # if connectives, relative clauses or class expressions are used
-schema:subjectOf cowl:template "is the subject of <>"@en .
-schema:about cowl:template "is about <>"@en .
-schema:potentialAction cowl:template "can be acted upon by <>"@en .
-schema:alternateName cowl:template "is also known as <>"@en .
+schema:subjectOf a rdf:Property ; cowl:template "is the subject of <>"@en .
+schema:about a rdf:Property ; cowl:template "is about <>"@en .
+schema:potentialAction a rdf:Property ; cowl:template "can be acted upon by <>"@en .
+schema:alternateName a rdf:Property ; cowl:template "is also known as <>"@en .
 # when the property template has a suffix,
 # relative clauses with the same property are hardly readable
-schema:additionalName cowl:template "has <> as additional name"@en .
-schema:address cowl:template "has address <>"@en .
-schema:affiliation cowl:template "is affiliated to <>"@en .
-schema:alumniOf cowl:template "is alumni of <>"@en .
+schema:additionalName a rdf:Property ; cowl:template "has <> as additional name"@en .
+schema:address a rdf:Property ; cowl:template "has address <>"@en .
+schema:affiliation a rdf:Property ; cowl:template "is affiliated to <>"@en .
+schema:alumniOf a rdf:Property ; cowl:template "is alumni of <>"@en .
 # reverse transformation isn't possible if templates are identical
 # (the preposition changes if the object is year or a precise date)
-schema:birthDate cowl:template "was born <>"@en .
-schema:birthPlace cowl:template "was born in <>"@en .
+schema:birthDate a rdf:Property ; cowl:template "was born <>"@en .
+schema:birthPlace a rdf:Property ; cowl:template "was born in <>"@en .
+schema:deathDate a rdf:Property ; cowl:template "died <>"@en .
+schema:deathPlace a rdf:Property ; cowl:template "died in <>"@en .
 # subject and object must always be considered as single entities;
 # even if plural would fit better, as here
-schema:children cowl:template "has child <>"@en .
-schema:contactPoint cowl:template "can be contacted through <>"@en .
-schema:email cowl:template "has e-mail <>"@en .
-schema:familyName cowl:template "has family name <>"@en .
-schema:givenName cowl:template "has given name <>"@en .
-schema:follows cowl:template "follows <>"@en .
-schema:funder cowl:template "funds <>"@en .
+schema:children a rdf:Property ; cowl:template "has child <>"@en .
+schema:contactPoint a rdf:Property ; cowl:template "can be contacted through <>"@en .
+schema:email a rdf:Property ; cowl:template "has e-mail <>"@en .
+schema:familyName a rdf:Property ; cowl:template "has family name <>"@en .
+schema:givenName a rdf:Property ; cowl:template "has given name <>"@en .
+schema:follows a rdf:Property ; cowl:template "follows <>"@en .
+schema:funder a rdf:Property ; cowl:template "funds <>"@en .
 # formulation with ':' helps make potential repetitions more natural
 # (e.g. if the object is anonymous)
-schema:hasOccupation cowl:template "has the following occupation: <>"@en .
-schema:height cowl:template "is <> tall"@en .
-schema:knows cowl:template "knows <>"@en .
-schema:makesOffer cowl:template ""@en .
-schema:memberOf cowl:template "is a member of <>"@en .
-schema:nationality cowl:template "is a citizen of <>"@en .
-schema:netWorth cowl:template "is worth <> net"@en .
-schema:owns cowl:template "owns <>"@en .
+schema:hasOccupation a rdf:Property ; cowl:template "has the following occupation: <>"@en .
+schema:height a rdf:Property ; cowl:template "is <> tall"@en .
+schema:knows a rdf:Property ; cowl:template "knows <>"@en .
+schema:memberOf a rdf:Property ; cowl:template "is a member of <>"@en .
+schema:nationality a rdf:Property ; cowl:template "is a citizen of <>"@en .
+schema:netWorth a rdf:Property ; cowl:template "is worth <> net"@en .
+schema:owns a rdf:Property ; cowl:template "owns <>"@en .
 
 # unsupported formatting properties:
 # schema:honorificPrefix
@@ -65,10 +217,20 @@ schema:owns cowl:template "owns <>"@en .
 # domain is heterogeneous, the template looses information
 # FIXME what if other properties have the same template?
 # TODO contextualize template to class/datatype (reduces ambiguity)?
-schema:hasOfferCatalog cowl:template "manages <>"@en .
-schema:award cowl:template "received <>"@en .
+schema:hasOfferCatalog a rdf:Property ; cowl:template "manages <>"@en .
+schema:award a rdf:Property ; cowl:template "received <>"@en .
 # the object's class is in the property label;
 # but in case the object is anonymous, there is undesired repetition
-schema:brand cowl:template "manages <>"@en .
+schema:brand a rdf:Property ; cowl:template "manages <>"@en .
 
 # many properties involve URLs; they can be skipped.
+
+schema:actor a rdf:Property ; cowl:template "stars <>"@en .
+# if action: "takes place" ; if organization: "is located"
+schema:location a rdf:Property ; cowl:template "is located in <>"@en .
+schema:foundingDate a rdf:Property ; cowl:template "was founded <>"@en .
+schema:subOrganization a rdf:Property ; cowl:template "controls <>"@en .
+schema:geoTouches a rdf:Property ; cowl:template "has border with <>"@en .
+schema:countryOfOrigin a rdf:Property ; cowl:template "originates from <>"@en .
+schema:productionDate a rdf:Property ; cowl:template "was produced in <>"@en .
+schema:containedInPlace a rdf:Property ; cowl:template "is in <>"@en .
