@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta >
+        <title>Machine à états finis</title>
+        <style>
+            body {
+                max-width: 640px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            * {
+                font-family: monospace;
+            }
+
+            svg .box-header {
+                font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#7a7a7a;fill-opacity:1;stroke:none
+            }
+
+            svg rect {
+                fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1
+            }
+
+            svg path {
+                fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Machine à états finis</h1>
+        <p>
+            Une machine à états finis peut s'écrire comme une suite de transitions, de la forme "instruction|état suivant". Par exemple, "attendre|1" est une transition pendant laquelle la machine n'effectue aucune opération et passe à l'état 1. Lors de la transition "permuter a/b|2", la machine effectue une permutation des deux premiers éléments disponibles en entrée et passe à l'état 2.
+        </p>
+        <div>
+            <textarea
+            id="program-tape"
+            cols="80"
+            rows="10"
+            style="resize:none;width:calc(100% - 8px);">attendre|1
+permuter a/b|2
+permuter b/c|3
+permuter a/b|4
+permuter b/c|5
+permuter a/b|6
+permuter b/c|1</textarea>
+            <button onclick="load()">Charger le programme</button>
+        </div>
+        <p>
+            À chaque transition, la machine lit l'entrée et charge l'instruction courante dans son unité de calcul. L'instruction est ensuite exécutée par l'unité de calcul, qui donne le résultat en sortie, et l'état suivant selon le programme devient l'état courant.
+        </p>
+        <div>
+            <span>Entrée&nbsp;:</span>
+            <input
+            id="input-peripheral"
+            type="text"></input>
+            <button onclick="doStep()">Effectuer une transition</button>
+        </div>
+
+        <svg
+            width="640"
+            height="640"
+            viewBox="0 0 640 640"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker
+                style="overflow:visible;"
+                id="arrow-triangle"
+                refX="0"
+                refY="0"
+                orient="auto-start-reverse"
+                markerWidth="10"
+                markerHeight="10">
+                <path
+                    d="M 0,0 -20,10 V -10 Z" />
+                </marker>
+            </defs>
+            <rect
+            width="200"
+            height="200"
+            x="220"
+            y="10" />
+            <rect
+            width="180"
+            height="80"
+            x="230"
+            y="20" />
+            <text
+            class="box-header"
+            x="235"
+            y="35">État courant</text>
+            <text
+            style="font-size:24px;"
+            x="235"
+            y="75"
+            id="ip">0</text>
+            <rect
+            width="180"
+            height="80"
+            x="230"
+            y="120" />
+            <text
+            class="box-header"
+            x="235"
+            y="135">Unité de calcul</text>
+            <text
+            style="font-size:24px;"
+            x="235"
+            y="175"
+            id="instruction">attendre</text>
+            <rect
+            width="200"
+            height="261.95245"
+            x="220"
+            y="270" />
+            <text
+            class="box-header"
+            x="225"
+            y="285">Automate</text>
+            <text
+            id="program"
+            style="font-size:18px;;white-space:pre;"
+            transform="translate(2,16)"
+            x="225"
+            y="340"></text>
+            <rect
+            width="150"
+            height="80"
+            x="10"
+            y="60" />
+            <text
+            class="box-header"
+            x="15"
+            y="75">Entrée</text>
+            <text
+            style="font-size:24px;"
+            x="15"
+            y="115"
+            id="input"></text>
+            <rect
+            width="150"
+            height="80"
+            x="480"
+            y="60" />
+            <text
+            class="box-header"
+            x="485"
+            y="75">Sortie</text>
+            <text
+            style="font-size:24px;"
+            x="485"
+            y="115"
+            id="output"></text>
+            <path
+            style="marker-start:url(#arrow-triangle);marker-end:url(#arrow-triangle)"
+            d="M 320,210 320,270" />
+            <path
+            style="marker-end:url(#arrow-triangle)"
+            d="M 160,100 220,100" />
+            <path
+            style="marker-end:url(#arrow-triangle)"
+            d="M 420,100 480,100" />
+        </svg>
+
+        <script type="text/javascript">
+            const programTape = document.getElementById("program-tape")
+            const inputPeripheral = document.getElementById("input-peripheral")
+
+            const ip = document.getElementById("ip")
+            const instruction = document.getElementById("instruction")
+            const program = document.getElementById("program")
+            const input = document.getElementById("input")
+            const output = document.getElementById("output")
+
+            compiledProgram = undefined
+
+            function load() {
+                source = programTape.value
+
+                try {
+                    compiledProgram = source
+                        .split("\n")
+                        .map(line => line.split("|"))
+
+                    program.innerHTML = source
+
+                    // FIXME on Chrome, text wrapping is broken
+                } catch (e) {
+                    program.innerHTML = "Erreur de chargement"
+                    console.log(e)
+                }
+            }
+            
+            function doStep() {
+                if (!compiledProgram) return;
+
+                let [i, next] = compiledProgram[Number(ip.innerHTML)]
+
+                instruction.innerHTML = i
+
+                val = inputPeripheral.value
+                input.innerHTML = val
+
+                if (i == "permuter a/b") val = flip(val, 0, 1)
+                if (i == "permuter b/c") val = flip(val, 1, 2)
+                if (i == "permuter a/c") val = flip(val, 0, 2)
+                if (i == "permuter") val = flip(val, 0, val.length - 1)
+
+                output.innerHTML = val
+                ip.innerHTML = next
+            }
+
+            function flip(str, i, j) {
+                let arr = []
+                
+                for (c of str) { arr.push(c) }
+
+                arr[j] = str[i]
+                arr[i] = str[j]
+
+                return arr.join("")
+            }
+        </script>
+    </body>
+</html>
