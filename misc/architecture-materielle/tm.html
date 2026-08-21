@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta >
+        <title>Machine de Turing</title>
+        <style>
+            body {
+                max-width: 640px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            * {
+                font-family: monospace;
+            }
+
+            svg .box-header {
+                font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#7a7a7a;fill-opacity:1;stroke:none
+            }
+
+            svg rect {
+                fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1
+            }
+
+            svg path {
+                fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Machine de Turing</h1>
+        <p>
+            TODO
+        </p>
+        <div>
+            <textarea
+            id="program-tape"
+            cols="80"
+            rows="10"
+            style="resize:none;width:calc(100% - 8px);">attendre &rarr; 1
+écrire '1' et aller à droite &rarr; 2
+si '0', permuter &rarr; 3 ; si '1', aller à droite &rarr; 2
+écrire '1' et aller à gauche &rarr; 4
+si '0', permuter &rarr; 1 ; si '1', aller à gauche &rarr; 4</textarea>
+            <button onclick="load()">Charger le programme</button>
+        </div>
+        <p>
+            TODO
+        </p>
+        <div>
+            <span>Entrée&nbsp;:</span>
+            <input
+            id="input-peripheral"
+            type="text"></input>
+            <button onclick="doStep()">Effectuer une transition</button>
+        </div>
+
+        <svg
+            width="640"
+            height="780"
+            viewBox="0 -140 640 780"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker
+                style="overflow:visible;"
+                id="arrow-triangle"
+                refX="0"
+                refY="0"
+                orient="auto-start-reverse"
+                markerWidth="10"
+                markerHeight="10">
+                <path
+                    d="M 0,0 -20,10 V -10 Z" />
+                </marker>
+            </defs>
+            <rect
+            width="620"
+            height="80"
+            x="10"
+            y="-130" />
+            <text
+            class="box-header"
+            x="15"
+            y="-115">Ruban</text>
+            <text
+            style="font-size:24px;"
+            x="15"
+            y="-75"
+            id="tape">&hellip;0000000000000000000000000000000000000000&hellip;</text>
+            <rect
+            width="200"
+            height="200"
+            x="220"
+            y="10" />
+            <rect
+            width="85"
+            height="80"
+            x="230"
+            y="20" />
+            <text
+            class="box-header"
+            x="235"
+            y="35">IP</text>
+            <text
+            style="font-size:24px;"
+            x="235"
+            y="75"
+            id="ip">0</text>
+            <rect
+            width="85"
+            height="80"
+            x="325"
+            y="20" />
+            <text
+            class="box-header"
+            x="330"
+            y="35">TP</text>
+            <text
+            style="font-size:24px;"
+            x="330"
+            y="75"
+            id="sp">0</text>
+            <rect
+            width="180"
+            height="80"
+            x="230"
+            y="120" />
+            <text
+            class="box-header"
+            x="235"
+            y="135">Unité de calcul</text>
+            <text
+            style="font-size:24px;"
+            x="235"
+            y="175"
+            id="instruction"></text>
+            <rect
+            width="200"
+            height="261.95245"
+            x="220"
+            y="270" />
+            <text
+            class="box-header"
+            x="225"
+            y="285">Automate</text>
+            <text
+            id="program"
+            style="font-size:18px;;white-space:pre;"
+            transform="translate(2,16)"
+            x="225"
+            y="340"></text>
+            <rect
+            width="150"
+            height="80"
+            x="10"
+            y="60" />
+            <text
+            class="box-header"
+            x="15"
+            y="75">Entrée</text>
+            <text
+            style="font-size:24px;"
+            x="15"
+            y="115"
+            id="input"></text>
+            <rect
+            width="150"
+            height="80"
+            x="480"
+            y="60" />
+            <text
+            class="box-header"
+            x="485"
+            y="75">Sortie</text>
+            <text
+            style="font-size:24px;"
+            x="485"
+            y="115"
+            id="output"></text>
+            <path
+            style="marker-start:url(#arrow-triangle);marker-end:url(#arrow-triangle)"
+            d="M 320,-50 320,10" />
+            <path
+            style="marker-start:url(#arrow-triangle);marker-end:url(#arrow-triangle)"
+            d="M 320,210 320,270" />
+            <path
+            style="marker-end:url(#arrow-triangle)"
+            d="M 160,100 220,100" />
+            <path
+            style="marker-end:url(#arrow-triangle)"
+            d="M 420,100 480,100" />
+        </svg>
+
+        <script type="text/javascript">
+            const programTape = document.getElementById("program-tape")
+            const inputPeripheral = document.getElementById("input-peripheral")
+
+            const tape = document.getElementById("tape")
+            const ip = document.getElementById("ip")
+            const sp = document.getElementById("sp")
+            const instruction = document.getElementById("instruction")
+            const program = document.getElementById("program")
+            const input = document.getElementById("input")
+            const output = document.getElementById("output")
+
+            compiledProgram = undefined
+
+            function parseProgram(str) {
+                return str.split("\n").map(parseChoice)
+            }
+
+            function parseChoice(str) {
+                return str.split(" ; ").map(parseTransition)
+            }
+
+            function parseTransition(str) {
+                [i, next] = str.split(" → ")
+                return [parseInstruction(i), parseState(next)]
+            }
+
+            function parseInstruction(str) {
+                ops = str.split(/, | et | puis /)
+
+                let cond = null
+                let op = null
+                let w = null
+                let mov = null
+
+                try {
+                    cond = parseCondition(ops[0])
+                    ops.shift()
+                } catch (e) {}
+
+                if (ops.length == 0) throw Error(`${str} should be an instruction with at least one operation`)
+                
+                try {
+                    op = parseOperation(ops[0])
+                    ops.shift()
+                } catch (e) {}
+
+                if (ops.length == 0) return [cond, op, w, mov]
+                
+                try {
+                    w = parseWriteOperation(ops[0])
+                    ops.shift()
+                } catch (e) {}
+
+                if (ops.length == 0) return [cond, op, w, mov]
+                
+                try {
+                    mov = parseMoveOperation(ops[0])
+                    ops.shift()
+                } catch (e) {}
+
+                if (ops.length > 0) console.warn(`Ignoring ${ops.join(" / ")}`)
+                
+                return [cond, op, w, mov]
+            }
+
+            function parseCondition(str) {
+                let m = str.match(/si '(0|1)'/)
+                if (m) return m[1]
+                else throw new Error(`'${str}' should be a condition`)
+            }
+
+            function parseOperation(str) {
+                let m = str.match(/permuter( [abc]\/[abc])?|attendre|avancer/)
+                if (m) return m[0]
+                else throw new Error(`'${str}' should be a known operation`)
+            }
+
+            function parseWriteOperation(str) {
+                let m = str.match(/écrire '(0|1)'/)
+                if (m) return m[1]
+                else throw new Error(`'${str}' should be a write operation`)
+            }
+
+            function parseMoveOperation(str) {
+                let m = str.match(/aller à (gauche|droite)/)
+                if (m) return m[1]
+                else throw new Error(`'${str}' should be a write operation`)
+            }
+
+            function parseState(str) {
+                if (str.match(/[0-9]+/)) return str
+                else throw new Error(`'${str}' should be an integer state`)
+            }
+
+            function load() {
+                let source = programTape.value
+
+                try {
+                    compiledProgram = parseProgram(source)
+
+                    // TODO compile into numbers
+                    // TODO linearize branches
+
+                    program.innerHTML = source
+
+                    // FIXME on Chrome, text wrapping is broken
+                } catch (e) {
+                    program.innerHTML = "Erreur de chargement"
+                    console.log(e)
+                }
+            }
+            
+            function doStep() {
+                if (!compiledProgram) return;
+
+                let choices = compiledProgram[Number(ip.innerHTML)]
+
+                for ([i, next] of choices) {
+                    // TODO compiled version instead instead
+                    instruction.innerHTML = i
+
+                    val = inputPeripheral.value
+                    input.innerHTML = val
+
+                    let sp0 = 20 + Number(sp.innerHTML)
+                    
+                    let tape0 = tape.innerHTML
+                    // TODO check bounds
+                    let tval = tape0[sp0]
+                    
+                    let [cond, op, w, mov] = i
+
+                    if (tval == cond || !cond) {
+                        if (op) {
+                            if (op == "permuter a/b") val = flip(val, 0, 1)
+                            if (op == "permuter b/c") val = flip(val, 1, 2)
+                            if (op == "permuter a/c") val = flip(val, 0, 2)
+                            if (op == "permuter") val = flip(val, 0, val.length - 1)
+                        }
+
+                        if (w) {
+                            let prefix = tape0.substring(0, sp0)
+                            let suffix = tape0.substring(sp0 + 1)
+                            tape0 = prefix + w + suffix
+
+                            // TODO add color to each character (using tspan)
+                        }
+
+                        if (mov) {
+                            if (mov == "gauche") sp0--
+                            if (mov == "droite") sp0++
+                        }
+
+                        output.innerHTML = val
+                        tape.innerHTML = tape0
+                        ip.innerHTML = next
+                        sp.innerHTML = String(sp0 - 20)
+
+                        break
+                    }                    
+                }
+            }
+
+            function flip(str, i, j) {
+                let arr = []
+                
+                for (c of str) { arr.push(c) }
+
+                arr[j] = str[i]
+                arr[i] = str[j]
+
+                return arr.join("")
+            }
+        </script>
+    </body>
+</html>

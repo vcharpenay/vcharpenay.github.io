@@ -1,0 +1,7 @@
+attendre → 1
+si '0', écrire '1' puis aller à droite → 2 ; si '1', aller à gauche → 3
+si '0', écrire '1' puis aller à droite → 3 ; si '1', aller à droite → 2
+si '0', écrire '1' puis aller à droite → 4 ; si '1', écrire '0' puis aller à gauche → 5
+si '0', écrire '1' puis aller à gauche → 1 ; si '1', aller à gauche → 4
+si '0', écrire '1' puis aller à droite → 6 ; si '1', écrire '0' puis aller à gauche → 1
+attendre → 6

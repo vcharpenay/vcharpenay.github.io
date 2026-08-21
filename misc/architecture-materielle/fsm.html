@@ -114,7 +114,7 @@ permuter b/c|1</textarea>
             style="font-size:24px;"
             x="235"
             y="175"
-            id="instruction">attendre</text>
+            id="instruction"></text>
             <rect
             width="200"
             height="261.95245"
@@ -182,7 +182,7 @@ permuter b/c|1</textarea>
             compiledProgram = undefined
 
             function load() {
-                source = programTape.value
+                let source = programTape.value
 
                 try {
                     compiledProgram = source
@@ -207,6 +207,8 @@ permuter b/c|1</textarea>
 
                 val = inputPeripheral.value
                 input.innerHTML = val
+
+                // TODO add color to each character (using tspan)
 
                 if (i == "permuter a/b") val = flip(val, 0, 1)
                 if (i == "permuter b/c") val = flip(val, 1, 2)
