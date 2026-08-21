@@ -43,11 +43,13 @@
             id="program-tape"
             cols="80"
             rows="10"
-            style="resize:none;width:calc(100% - 8px);">attendre &rarr; 1
-écrire '1' et aller à droite &rarr; 2
-si '0', permuter &rarr; 3 ; si '1', aller à droite &rarr; 2
-écrire '1' et aller à gauche &rarr; 4
-si '0', permuter &rarr; 1 ; si '1', aller à gauche &rarr; 4</textarea>
+            style="resize:none;width:calc(100% - 8px);">0 -> 1 : attendre
+1 -> 2 : écrire '1' et aller à droite
+2 -> 3 : si '0', permuter
+2 -> 2 : si '1', aller à droite
+3 -> 4 : écrire '1' et aller à gauche
+4 -> 1 : si '0', permuter
+4 -> 4 : si '1', aller à gauche</textarea>
             <button onclick="load()">Charger le programme</button>
         </div>
         <p>
@@ -213,16 +215,13 @@ si '0', permuter &rarr; 1 ; si '1', aller à gauche &rarr; 4</textarea>
             compiledProgram = undefined
 
             function parseProgram(str) {
-                return str.split("\n").map(parseChoice)
-            }
-
-            function parseChoice(str) {
-                return str.split(" ; ").map(parseTransition)
+                return str.split("\n").map(parseTransition)
             }
 
             function parseTransition(str) {
-                [i, next] = str.split(" → ")
-                return [parseInstruction(i), parseState(next)]
+                m = str.match(/(\w+) -> (\w+) : (.+)/)
+                if (m) return [m[1], m[2], parseInstruction(m[3])]
+                else throw new Error(`${str} should be a valid transition`)
             }
 
             function parseInstruction(str) {
@@ -297,7 +296,23 @@ si '0', permuter &rarr; 1 ; si '1', aller à gauche &rarr; 4</textarea>
                 let source = programTape.value
 
                 try {
-                    compiledProgram = parseProgram(source)
+                    let parsedProgram = parseProgram(source)
+
+                    let states = []
+                    let transitions = []
+
+                    for (let [src, tgt, i] of parsedProgram) {
+                        let srcIdx = states.indexOf(src)
+                        let tgtIdx = states.indexOf(tgt)
+
+                        if (srcIdx < 0) srcIdx = states.push(src) - 1
+                        if (tgtIdx < 0) tgtIdx = states.push(tgt) - 1
+
+                        if (!transitions[src]) transitions[src] = []
+                        transitions[src].push([i, tgtIdx])
+                    }
+
+                    compiledProgram = states.map(s => transitions[s])
 
                     // TODO compile into numbers
                     // TODO linearize branches
