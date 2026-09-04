@@ -145,7 +145,7 @@
             id="instruction"></text>
             <rect
             width="200"
-            height="261.95245"
+            height="275"
             x="220"
             y="270" />
             <text
@@ -154,8 +154,7 @@
             y="285">Automate</text>
             <text
             id="program"
-            style="font-size:18px;;white-space:pre;"
-            transform="translate(2,16)"
+            style="font-size:18px;white-space:pre;"
             x="225"
             y="340"></text>
             <rect
@@ -212,7 +211,7 @@
             const input = document.getElementById("input")
             const output = document.getElementById("output")
 
-            compiledProgram = undefined
+            let compiledProgram = undefined
 
             function parseProgram(str) {
                 return str.split("\n").map(parseTransition)
@@ -287,41 +286,37 @@
                 else throw new Error(`'${str}' should be a write operation`)
             }
 
-            function parseState(str) {
-                if (str.match(/[0-9]+/)) return str
-                else throw new Error(`'${str}' should be an integer state`)
-            }
-
             function load() {
                 let source = programTape.value
 
                 try {
+                    compiledProgram = []
+
                     let parsedProgram = parseProgram(source)
 
-                    let states = []
-                    let transitions = []
+                    let idx = {}
 
                     for (let [src, tgt, i] of parsedProgram) {
-                        let srcIdx = states.indexOf(src)
-                        let tgtIdx = states.indexOf(tgt)
-
-                        if (srcIdx < 0) srcIdx = states.push(src) - 1
-                        if (tgtIdx < 0) tgtIdx = states.push(tgt) - 1
-
-                        if (!transitions[src]) transitions[src] = []
-                        transitions[src].push([i, tgtIdx])
+                        if (!idx[src]) idx[src] = []
+                        idx[src].push([i, tgt])
                     }
 
-                    compiledProgram = states.map(s => transitions[s])
+                    let jumps = {}
 
-                    // TODO compile into numbers
-                    // TODO linearize branches
+                    for (let src in idx) {
+                        jumps[src] = compiledProgram.length
+                        for (let item of idx[src]) compiledProgram.push(item)
+                    }
 
-                    program.innerHTML = source
+                    for (let t of compiledProgram) t[1] = jumps[t[1]]
+
+                    // TODO truncate (horizontally and vertically)
+                    program.innerHTML = compiledProgram.map(encode).join("\n")
 
                     // FIXME on Chrome, text wrapping is broken
                 } catch (e) {
-                    program.innerHTML = "Erreur de chargement"
+                    compiledProgram = undefined
+                    program.innerHTML = truncate("Erreur de chargement")
                     console.log(e)
                 }
             }
@@ -329,51 +324,49 @@
             function doStep() {
                 if (!compiledProgram) return;
 
-                let choices = compiledProgram[Number(ip.innerHTML)]
+                cur = Number(ip.innerHTML)
+                let [i, jump] = compiledProgram[cur]
 
-                for ([i, next] of choices) {
-                    // TODO compiled version instead instead
-                    instruction.innerHTML = i
+                instruction.innerHTML = encode([i, jump])
 
-                    val = inputPeripheral.value
-                    input.innerHTML = val
+                val = inputPeripheral.value
+                input.innerHTML = val
 
-                    let sp0 = 20 + Number(sp.innerHTML)
-                    
-                    let tape0 = tape.innerHTML
-                    // TODO check bounds
-                    let tval = tape0[sp0]
-                    
-                    let [cond, op, w, mov] = i
+                let tp0 = 20 + Number(sp.innerHTML)
+                
+                let tape0 = tape.innerHTML
+                // TODO check bounds
+                let tval = tape0[tp0]
+                
+                let [cond, op, w, mov] = i
 
-                    if (tval == cond || !cond) {
-                        if (op) {
-                            if (op == "permuter a/b") val = flip(val, 0, 1)
-                            if (op == "permuter b/c") val = flip(val, 1, 2)
-                            if (op == "permuter a/c") val = flip(val, 0, 2)
-                            if (op == "permuter") val = flip(val, 0, val.length - 1)
-                        }
+                if (tval == cond || !cond) {
+                    if (op) {
+                        if (op == "permuter a/b") val = flip(val, 0, 1)
+                        if (op == "permuter b/c") val = flip(val, 1, 2)
+                        if (op == "permuter a/c") val = flip(val, 0, 2)
+                        if (op == "permuter") val = flip(val, 0, val.length - 1)
+                    }
 
-                        if (w) {
-                            let prefix = tape0.substring(0, sp0)
-                            let suffix = tape0.substring(sp0 + 1)
-                            tape0 = prefix + w + suffix
+                    if (w) {
+                        let prefix = tape0.substring(0, tp0)
+                        let suffix = tape0.substring(tp0 + 1)
+                        tape0 = prefix + w + suffix
 
-                            // TODO add color to each character (using tspan)
-                        }
+                        // TODO add color to each character (using tspan)
+                    }
 
-                        if (mov) {
-                            if (mov == "gauche") sp0--
-                            if (mov == "droite") sp0++
-                        }
+                    if (mov) {
+                        if (mov == "gauche") tp0--
+                        if (mov == "droite") tp0++
+                    }
 
-                        output.innerHTML = val
-                        tape.innerHTML = tape0
-                        ip.innerHTML = next
-                        sp.innerHTML = String(sp0 - 20)
-
-                        break
-                    }                    
+                    output.innerHTML = val
+                    tape.innerHTML = tape0
+                    ip.innerHTML = String(jump)
+                    sp.innerHTML = String(tp0 - 20)
+                } else {
+                    ip.innerHTML = String(cur + 1)
                 }
             }
 
@@ -386,6 +379,22 @@
                 arr[i] = str[j]
 
                 return arr.join("")
+            }
+
+            function encode(t) {
+                [i, jump] = t
+
+                return i.map(str => {
+                    if (!str) return "x"
+                    else return str.split(/ |\//).map(w => w[0]).join("")
+                }).join("") + String(jump)
+            }
+
+            function truncate(str) {
+                // 18 chars, 18px font size, ~60% height/width ratio
+                // gives 194px < 200px width
+                if (str.length > 18) return str.substring(0, 16) + "&hellip;"
+                else return str
             }
         </script>
     </body>

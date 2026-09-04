@@ -1,7 +1,12 @@
-attendre → 1
-si '0', écrire '1' puis aller à droite → 2 ; si '1', aller à gauche → 3
-si '0', écrire '1' puis aller à droite → 3 ; si '1', aller à droite → 2
-si '0', écrire '1' puis aller à droite → 4 ; si '1', écrire '0' puis aller à gauche → 5
-si '0', écrire '1' puis aller à gauche → 1 ; si '1', aller à gauche → 4
-si '0', écrire '1' puis aller à droite → 6 ; si '1', écrire '0' puis aller à gauche → 1
-attendre → 6
+0 -> 1 : attendre
+1 -> 2 : si '0', écrire '1' puis aller à droite
+1 -> 3 : si '1', aller à gauche
+2 -> 3 : si '0', écrire '1' puis aller à droite
+2 -> 2 : si '1', aller à droite
+3 -> 4 : si '0', écrire '1' puis aller à droite
+3 -> 5 : si '1', écrire '0' puis aller à gauche
+4 -> 1 : si '0', écrire '1' puis aller à gauche
+4 -> 4 : si '1', aller à gauche
+5 -> 6 : si '0', écrire '1' puis aller à droite
+5 -> 1 : si '1', écrire '0' puis aller à gauche
+6 -> 6 : attendre
