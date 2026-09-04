@@ -36,24 +36,30 @@
     <body>
         <h1>Machine à états finis</h1>
         <p>
-            Une machine à états finis peut s'écrire comme une suite de transitions, de la forme "instruction|état suivant". Par exemple, "attendre|1" est une transition pendant laquelle la machine n'effectue aucune opération et passe à l'état 1. Lors de la transition "permuter a/b|2", la machine effectue une permutation des deux premiers éléments disponibles en entrée et passe à l'état 2.
+            Une machine à états finis peut s'écrire comme un ensemble de transitions, de la forme "état courant -> état suivant : action". Par exemple, "0 -> 1 : attendre" est une transition pendant laquelle la machine n'effectue aucune opération et passe à l'état 1. Lors de la transition "1 -> 2 : permuter a/b", la machine effectue une permutation des deux premiers éléments disponibles en entrée et passe à l'état 2.
         </p>
         <div>
             <textarea
             id="program-tape"
             cols="80"
             rows="10"
-            style="resize:none;width:calc(100% - 8px);">attendre|1
-permuter a/b|2
-permuter b/c|3
-permuter a/b|4
-permuter b/c|5
-permuter a/b|6
-permuter b/c|1</textarea>
+            style="resize:none;width:calc(100% - 8px);">0 -> 1 : attendre
+1 -> 2 : permuter a/b
+2 -> 3 : permuter b/c
+3 -> 4 : permuter a/b
+4 -> 5 : permuter b/c
+5 -> 6 : permuter a/b
+6 -> 1 : permuter b/c</textarea>
             <button onclick="load()">Charger le programme</button>
         </div>
         <p>
-            À chaque transition, la machine lit l'entrée et charge l'instruction courante dans son unité de calcul. L'instruction est ensuite exécutée par l'unité de calcul, qui donne le résultat en sortie, et l'état suivant selon le programme devient l'état courant.
+            Avant d'être chargé en mémoire, le programme a dû être compilé. Compiler signifie transformer chaque transition en une instruction exécutable par la machine. En général, l'instruction est plus précise que la transition mais ici, une instruction correspond simplement au code de l'opération à effectuer (opcode) et à l'index de l'instruction suivante. Par exemple, l'instruction "pab2" correspond à "permuter a/b et pointer vers l'instruction à l'index 2" (les index commencent à 0). Il y a autant d'instructions qu'il y a de transitions&nbsp;; lorsque le programme est non-déterministe, il y a donc plus d'instructions qu'il n'y a d'états.
+        </p>
+        <p>
+            On utilise souvent les termes "machine à états finis" et "automate" pour désigner à la fois la machine et son programme. Lorsque la machine est programmable, c'est-à-dire qu'un nouveau programme peut être chargé en mémoire, il est important de faire la distinction&nbsp;: le programme est une suite d'instructions et la machine exécute cette suite d'instructions, l'une après l'autre.
+        </p>
+        <p>
+            À chaque transition, la machine lit l'entrée et charge l'instruction courante dans son unité de calcul. L'instruction est ensuite exécutée par l'unité de calcul, qui donne le résultat en sortie, et pointe vers l'instruction suivante selon le programme. IP signifie "instruction pointer".
         </p>
         <div>
             <span>Entrée&nbsp;:</span>
@@ -95,7 +101,7 @@ permuter b/c|1</textarea>
             <text
             class="box-header"
             x="235"
-            y="35">État courant</text>
+            y="35">IP (instruction)</text>
             <text
             style="font-size:24px;"
             x="235"
@@ -127,9 +133,8 @@ permuter b/c|1</textarea>
             <text
             id="program"
             style="font-size:18px;white-space:pre;"
-            transform="translate(2,16)"
             x="225"
-            y="340"></text>
+            y="325"></text>
             <rect
             width="150"
             height="80"
@@ -181,19 +186,52 @@ permuter b/c|1</textarea>
 
             compiledProgram = undefined
 
+            function parseProgram(str) {
+                return str.split("\n").map(parseTransition)
+            }
+
+            function parseTransition(str) {
+                m = str.match(/(\w+) -> (\w+) : (.+)/)
+                if (m) return [m[1], m[2], m[3]]
+                else throw new Error(`${str} should be a valid transition`)
+            }
+
             function load() {
                 let source = programTape.value
 
                 try {
-                    compiledProgram = source
-                        .split("\n")
-                        .map(line => line.split("|"))
+                    compiledProgram = []
 
-                    program.innerHTML = source
+                    let parsedProgram = parseProgram(source)
+
+                    let idx = {}
+
+                    for (let [src, tgt, i] of parsedProgram) {
+                        if (!idx[src]) idx[src] = []
+                        idx[src].push([i, tgt])
+                    }
+
+                    let jumps = {}
+
+                    for (let src in idx) {
+                        let ts = idx[src]
+
+                        // randomize non-determistic transitions
+                        let next = Math.floor(Math.random() * ts.length)
+                        jumps[src] = compiledProgram.length + next
+
+                        for (let t of ts) compiledProgram.push(t)
+                    }
+
+                    for (let t of compiledProgram) t[1] = jumps[t[1]]
+
+                    let encodedProgram = compiledProgram.map(encode)
+                    program.innerHTML = truncate(encodedProgram)
 
                     // FIXME on Chrome, text wrapping is broken
                 } catch (e) {
-                    program.innerHTML = "Erreur de chargement"
+                    compiledProgram = undefined
+                    program.innerHTML = truncate(["Erreur de chargement"])
                     console.log(e)
                 }
             }
@@ -201,9 +239,9 @@ permuter b/c|1</textarea>
             function doStep() {
                 if (!compiledProgram) return;
 
-                let [i, next] = compiledProgram[Number(ip.innerHTML)]
+                let [i, jump] = compiledProgram[Number(ip.innerHTML)]
 
-                instruction.innerHTML = i
+                instruction.innerHTML = encode([i, jump])
 
                 val = inputPeripheral.value
                 input.innerHTML = val
@@ -216,7 +254,7 @@ permuter b/c|1</textarea>
                 if (i == "permuter") val = flip(val, 0, val.length - 1)
 
                 output.innerHTML = val
-                ip.innerHTML = next
+                ip.innerHTML = String(jump)
             }
 
             function flip(str, i, j) {
@@ -228,6 +266,28 @@ permuter b/c|1</textarea>
                 arr[i] = str[j]
 
                 return arr.join("")
+            }
+
+            function encode(t) {
+                [str, jump] = t
+
+                opcode = (!str) ? "x" : str.split(/ |\//).map(w => w[0]).join("")
+
+                return opcode + String(jump)
+            }
+
+            function truncate(lines) {
+                // 10 lines, 18px font size, ~50% vertical space
+                // gives 270px < 275px height
+                if (lines.length > 10)
+                    lines = lines.slice(0, 9).concat(["&hellip;"])
+
+                return lines.map(l => {
+                    // 18 chars, 18px font size, ~60% height/width ratio
+                    // gives 194px < 200px width
+                    if (l.length > 17) return l.substring(0, 16) + "&hellip;"
+                    else return l
+                }).join("\n")
             }
         </script>
     </body>

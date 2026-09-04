@@ -36,7 +36,7 @@
     <body>
         <h1>Machine de Turing</h1>
         <p>
-            TODO
+            Dans une machine de Turing, une même transition peut inclure plusieurs opérations, dont des opérations de lecture/écriture de la mémoire. Quatre opérations peuvent être effectuées par transition&nbsp;: lecture du ruban ("si '0'" ou "si '1'"), opération spécifique de la machine (comme "attendre" ou "permuter"), écriture sur le ruban ("écrire '0'" ou "écrire '1'") et mouvement de la tête de lecture ("aller à gauche" ou "aller à droite"). Elles ne sont pas toutes requises mais elles doivent être spécifiées dans cet ordre.
         </p>
         <div>
             <textarea
@@ -53,7 +53,10 @@
             <button onclick="load()">Charger le programme</button>
         </div>
         <p>
-            TODO
+            L'encodage des transitions en instructions fonctionne de la même manière que pour les machines à états finis. L'instruction "0a1g3" correspond à "si '0', attendre, écrire '1' et aller à gauche, puis pointer vers l'instruction à l'index 3". Si une opération n'est pas spécifiée, elle est encodée avec le caractère "x".
+        </p>
+        <p>
+            L'état courant d'une machine de Turing est défini par deux valeurs&nbsp;: un pointeur d'instruction (IP) et un pointeur vers la mémoire, c'est-à-dire le ruban ("tape pointer", TP).
         </p>
         <div>
             <span>Entrée&nbsp;:</span>
@@ -128,7 +131,7 @@
             style="font-size:24px;"
             x="330"
             y="75"
-            id="sp">0</text>
+            id="tp">0</text>
             <rect
             width="180"
             height="80"
@@ -156,7 +159,7 @@
             id="program"
             style="font-size:18px;white-space:pre;"
             x="225"
-            y="340"></text>
+            y="325"></text>
             <rect
             width="150"
             height="80"
@@ -205,13 +208,14 @@
 
             const tape = document.getElementById("tape")
             const ip = document.getElementById("ip")
-            const sp = document.getElementById("sp")
+            const tp = document.getElementById("tp")
             const instruction = document.getElementById("instruction")
             const program = document.getElementById("program")
             const input = document.getElementById("input")
             const output = document.getElementById("output")
 
             let compiledProgram = undefined
+            let tapeWrites = []
 
             function parseProgram(str) {
                 return str.split("\n").map(parseTransition)
@@ -310,13 +314,13 @@
 
                     for (let t of compiledProgram) t[1] = jumps[t[1]]
 
-                    // TODO truncate (horizontally and vertically)
-                    program.innerHTML = compiledProgram.map(encode).join("\n")
+                    let encodedProgram = compiledProgram.map(encode)
+                    program.innerHTML = truncate(encodedProgram)
 
                     // FIXME on Chrome, text wrapping is broken
                 } catch (e) {
                     compiledProgram = undefined
-                    program.innerHTML = truncate("Erreur de chargement")
+                    program.innerHTML = truncate(["Erreur de chargement"])
                     console.log(e)
                 }
             }
@@ -332,12 +336,11 @@
                 val = inputPeripheral.value
                 input.innerHTML = val
 
-                let tp0 = 20 + Number(sp.innerHTML)
-                
-                let tape0 = tape.innerHTML
-                // TODO check bounds
-                let tval = tape0[tp0]
-                
+                let tp0 = Number(tp.innerHTML)
+
+                let tw = tapeWrites.find(([idx, val]) => idx == tp0)
+                let tval = (tw) ? tw[1] : "0"
+
                 let [cond, op, w, mov] = i
 
                 if (tval == cond || !cond) {
@@ -349,11 +352,8 @@
                     }
 
                     if (w) {
-                        let prefix = tape0.substring(0, tp0)
-                        let suffix = tape0.substring(tp0 + 1)
-                        tape0 = prefix + w + suffix
-
-                        // TODO add color to each character (using tspan)
+                        if (tw) tw[1] = w
+                        else tapeWrites.push([tp0, w])
                     }
 
                     if (mov) {
@@ -362,9 +362,9 @@
                     }
 
                     output.innerHTML = val
-                    tape.innerHTML = tape0
+                    tape.innerHTML = format(tapeWrites, tp0)
                     ip.innerHTML = String(jump)
-                    sp.innerHTML = String(tp0 - 20)
+                    tp.innerHTML = String(tp0)
                 } else {
                     ip.innerHTML = String(cur + 1)
                 }
@@ -390,11 +390,40 @@
                 }).join("") + String(jump)
             }
 
-            function truncate(str) {
-                // 18 chars, 18px font size, ~60% height/width ratio
-                // gives 194px < 200px width
-                if (str.length > 18) return str.substring(0, 16) + "&hellip;"
-                else return str
+            function truncate(lines) {
+                // 10 lines, 18px font size, ~50% vertical space
+                // gives 270px < 275px height
+                if (lines.length > 10)
+                    lines = lines.slice(0, 9).concat(["&hellip;"])
+
+                return lines.map(l => {
+                    // 18 chars, 18px font size, ~60% height/width ratio
+                    // gives 194px < 200px width
+                    if (l.length > 17) return l.substring(0, 16) + "&hellip;"
+                    else return l
+                }).join("\n")
+            }
+
+            function format(writes, tp0) {
+                let str = ""
+
+                for (let n = 0; n < 40; n++) {
+                    let cell = "0"
+
+                    let tw = writes.find(([idx, val]) => idx == n - 20)
+                    if (tw) cell = tw[1]
+
+                    let style = ""
+
+                    if (tp0 == n - 20) style = "text-decoration:underline;"
+                    if (cell == "1") style += "fill:#f8ad17;"
+
+                    if (style) cell = `<tspan style="${style}">${cell}</tspan>`
+                    
+                    str += cell
+                }
+
+                return "&hellip;" + str + "&hellip;"
             }
         </script>
     </body>
