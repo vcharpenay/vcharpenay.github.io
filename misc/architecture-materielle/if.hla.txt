@@ -1,0 +1,17 @@
+// if (x - y > z) { ... }
+
+// initialiser x, y, z dans le tas
+
+mov(12, [32]);
+mov(7, [33]);
+mov(9, [34]);
+
+// calculer y - x
+
+mov([32], ax);
+sub([33], ax);
+
+// comparer à z
+
+cmp([34], ax);
+ja(17);

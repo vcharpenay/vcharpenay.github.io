@@ -1,0 +1,1 @@
+// lire et écrire dans un tableau, en utilisant BX

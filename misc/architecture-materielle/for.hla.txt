@@ -1,0 +1,17 @@
+// for (i = 0; i < n; i++) { ... }
+
+// initialiser n
+
+mov(12, [32]);
+
+// initialiser i dans le registre CX (compteur)
+
+mov(0, cx);
+
+// ... (instructions du bloc)
+
+// comparer i à n, incrémenter i et boucler si i < n
+
+cmp([32], cx);
+add(1, cx);
+jb(2);

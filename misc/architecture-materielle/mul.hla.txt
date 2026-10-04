@@ -1,0 +1,21 @@
+// lire le premier opérande x depuis l'entrée, le stocker dans CX
+
+get;
+mov(ax, cx);
+
+// lire le second opérande y, le stocker dans DX (AX reste inchangé)
+
+get;
+mov(ax, dx);
+
+// ajouter x-1 fois y à AX, décrémenter x et boucler tant que
+// x-1 n'est pas égal à 0 (tant que x > 1)
+
+add(dx, ax);
+sub(1, cx);
+cmp(1, cx);
+ja(4);
+
+// afficher le résultat en sortie
+
+put;

@@ -1,0 +1,7 @@
+0 -> 1 : attendre
+1 -> 2 : permuter a/b
+2 -> 1 : permuter a/b
+1 -> 3 : permuter a/b
+3 -> 1 : permuter a/b
+3 -> 4 : permuter b/c
+4 -> 3 : permuter b/c

@@ -1,0 +1,20 @@
+// stocker en mémoire (aux premières adresses du tas) deux valeurs
+// correspondant à l'état des deux brins d'une tresse
+
+mov(0, [32]);
+mov(1, [33]);
+
+// lire l'état des deux brins et mémoire et place les valeurs lues
+// dans les registres AX et BX 
+
+mov([32], ax);
+mov([33], bx);
+
+// permuter les deux valeurs en mémoire
+
+mov(bx, [32]);
+mov(ax, [33]);
+
+// boucler en retournant à la 3ème instruction du programme (1ère ligne = 0)
+
+jmp(2);

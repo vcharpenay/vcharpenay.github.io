@@ -6,7 +6,12 @@
 cowl:template
     a rdf:Property ;
     rdfs:label "template"@en ;
-    rdfs:comment "Property or class template to generate Controwlled sentences"@en .
+    rdfs:comment "Property template to generate Controwlled sentences"@en .
+
+cowl:expression
+    a rdf:Property ;
+    rdfs:label "expression"@en ;
+    rdfs:comment "Words denoting the node (class or instance)"@en .
 
 schema:Thing a rdfs:Class ; cowl:template "something"@en .
 schema:Person a rdfs:Class ; cowl:template "a person"@en .
@@ -180,7 +185,8 @@ schema:about a rdf:Property ; cowl:template "is about <>"@en .
 schema:potentialAction a rdf:Property ; cowl:template "can be acted upon by <>"@en .
 schema:alternateName a rdf:Property ; cowl:template "is also known as <>"@en .
 # when the property template has a suffix,
-# relative clauses with the same property are hardly readable
+# relative clauses with the same property are hardly readable;
+# multiple objects may also be problematic (singular/plural)
 schema:additionalName a rdf:Property ; cowl:template "has <> as additional name"@en .
 schema:address a rdf:Property ; cowl:template "has address <>"@en .
 schema:affiliation a rdf:Property ; cowl:template "is affiliated to <>"@en .
@@ -232,5 +238,74 @@ schema:foundingDate a rdf:Property ; cowl:template "was founded <>"@en .
 schema:subOrganization a rdf:Property ; cowl:template "controls <>"@en .
 schema:geoTouches a rdf:Property ; cowl:template "has border with <>"@en .
 schema:countryOfOrigin a rdf:Property ; cowl:template "originates from <>"@en .
+# TODO same problem as birthDate
 schema:productionDate a rdf:Property ; cowl:template "was produced in <>"@en .
 schema:containedInPlace a rdf:Property ; cowl:template "is in <>"@en .
+
+# below are other properties used in YAGO
+
+schema:author a rdf:Property ; cowl:template "is authored by <>"@en .
+# TODO here, type information is important for disambiguation
+schema:color a rdf:Property ; cowl:template "is <>"@en .
+# TODO "in" may not be the right preposition
+schema:contentLocation a rdf:Property ; cowl:template "depicts content in <>"@en .
+# TODO same problem as birthDate (preposition expected)
+schema:dateCreated a rdf:Property ; cowl:template "was created <>"@en .
+# creative work is assumed to exist (past tense)
+schema:director a rdf:Property ; cowl:template "was directed by <>"@en .
+# TODO same problem as birthDate
+schema:dissolutionDate a rdf:Property ; cowl:template "was dissolved <>"@en .
+schema:duration a rdf:Property ; cowl:template "lasts <>"@en .
+schema:editor a rdf:Property ; cowl:template "was edited by <>"@en .
+# TODO same problem as birthDate
+schema:endDate a rdf:Property ; cowl:template "ended <>"@en .
+schema:founder a rdf:Property ; cowl:template "was founded by <>"@en .
+# TODO same as color
+schema:gender a rdf:Property ; cowl:template "is <>"@en .
+schema:geo a rdf:Property ; cowl:template "has geo-coordinates <>"@en .
+schema:illustrator a rdf:Property ; cowl:template "was illustrated by <>"@en .
+# TODO same as color
+schema:inLanguage a rdf:Property ; cowl:template "is in <>"@en .
+# TODO role in an n-ary statement: difficult to render
+# use another kind of template (SPARQL graph pattern / STTL)?
+schema:instrument a rdf:Property ; cowl:template ""@en .
+# TODO type information to distinguish with knows
+schema:knowsLanguage a rdf:Property ; cowl:template "knows <>"@en .
+schema:locationCreated a rdf:Property ; cowl:template "was created in <>"@en .
+# here, the domain (music composition) is necessary for text-to-triples
+# TODO enforce full classification? Make template domain-specific?
+schema:lyricist a rdf:Property ; cowl:template "was written by <>"@en .
+# FIXME all past tense properties have the problem that
+# existential nodes ("a product that...") won't fit
+schema:manufacturer a rdf:Property ; cowl:template "was manufactured by <>"@en .
+schema:material a rdf:Property ; cowl:template "is made of <>"@en .
+schema:maximumAttendeeCapacity a rdf:Property ; cowl:template "can host at most <> individuals"@en .
+schema:musicBy a rdf:Property ; cowl:template "was composed by <>"@en .
+schema:numberOfEmployees a rdf:Property ; cowl:template "has <> employees"@en .
+schema:numberOfEpisodes a rdf:Property ; cowl:template "has <> episodes"@en .
+schema:numberOfPages a rdf:Property ; cowl:template "has <> pages"@en .
+schema:numberOfSeasons a rdf:Property ; cowl:template "has <> seasons"@en .
+schema:organizer a rdf:Property ; cowl:template "was organized by <>"@en .
+schema:parentTaxon a rdf:Property ; cowl:template "is a kind of <>"@en .
+schema:performer a rdf:Property ; cowl:template "includes performance by <>"@en .
+schema:postalCode a rdf:Property ; cowl:template "has postal code <>"@en .
+# TODO ambiguous property (Offer vs. PriceSpecification)
+schema:price a rdf:Property ; cowl:template ""@en .
+schema:productionCompany a rdf:Property ; cowl:template "was produced by <>"@en .
+schema:publisher a rdf:Property ; cowl:template "was published by <>"@en .
+schema:requiredMaxAge a rdf:Property ; cowl:template ""@en .
+schema:requiredMinAge a rdf:Property ; cowl:template ""@en .
+schema:sameAs a rdf:Property ; cowl:template ""@en .
+schema:slogan a rdf:Property ; cowl:template ""@en .
+schema:sponsor a rdf:Property ; cowl:template ""@en .
+schema:spouse a rdf:Property ; cowl:template ""@en .
+schema:startDate a rdf:Property ; cowl:template ""@en .
+schema:width a rdf:Property ; cowl:template ""@en .
+schema:worksFor a rdf:Property ; cowl:template ""@en .
+
+# if a controwlled langage is defined in STTL,
+# fixed part: templates for node/class/property phrase
+# vocab-specific part: templates for class/property names
+
+# inverse transformation (lifting)?
+# requirement: should be expressed as a context-free grammar?

@@ -328,7 +328,7 @@
             function doStep() {
                 if (!compiledProgram) return;
 
-                cur = Number(ip.innerHTML)
+                let cur = Number(ip.innerHTML)
                 let [i, jump] = compiledProgram[cur]
 
                 instruction.innerHTML = encode([i, jump])

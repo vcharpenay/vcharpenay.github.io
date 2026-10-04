@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta >
+        <title>Assembleur</title>
+        <style>
+            body {
+                max-width: 640px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            * {
+                font-family: monospace;
+            }
+
+            svg .box-header {
+                font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#7a7a7a;fill-opacity:1;stroke:none
+            }
+
+            svg rect {
+                fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1
+            }
+
+            svg path {
+                fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Assembleur</h1>
+        <p>
+            Le langage assembleur présenté ici, inspiré de High-Level Assembly (HLA), est défini pour un sous-ensemble du jeu d'instructions x86 conçu par Randall Hyde (cf. <a href="https://www.randallhyde.com/AssemblyLanguage/www.artofasm.com/index.html">The Art of Assembly</a>, chapitre "Instruction Set Architecture"). Il comprend les instructions suivantes&nbsp;:
+        </p>
+        <table>
+            <tr>
+                <th>Instruction</th><th>Nom</th><th>Description</th>
+            </tr>
+
+            <tr>
+                <td>mov(x,y);</td><td>Move</td><td>Déplace la valeur de x dans y</td>
+            </tr>
+
+            <tr>
+                <td>add(x,y);</td><td>Add</td><td>Addition entière (y += x)</td>
+            </tr>
+            <tr>
+                <td>sub(x,y);</td><td>Substract</td><td>Soustraction entière (y -= x)</td>
+            </tr>
+            <tr>
+                <td>cmp(x,y);</td><td>Compare</td><td>Comparaison (résultat stocké dans EFLAGS)</td>
+            </tr>
+            <tr>
+                <td>and(x,y);</td><td>Logical and</td><td>Conjonction logique</td>
+            </tr>
+            <tr>
+                <td>or(x,y);</td><td>Logical or</td><td>Disjunction logique</td>
+            </tr>
+            <tr>
+                <td>not(x);</td><td>Logical not</td><td>Négation logique</td>
+            </tr>
+
+            <tr>
+                <td>ja(x);</td><td>Jump if above</td><td>Saut conditionnel</td>
+            </tr>
+            <tr>
+                <td>jae(x);</td><td>Jump if above or equal</td><td>Saut conditionnel</td>
+            </tr>
+            <tr>
+                <td>jb(x);</td><td>Jump if below</td><td>Saut conditionnel</td>
+            </tr>
+            <tr>
+                <td>jbe(x);</td><td>Jump if below or equal</td><td>Saut conditionnel</td>
+            </tr>
+            <tr>
+                <td>je(x);</td><td>Jump if equal</td><td>Saut conditionnel</td>
+            </tr>
+            <tr>
+                <td>jne(x);</td><td>Jump if not equal</td><td>Saut conditionnel</td>
+            </tr>
+            <tr>
+                <td>jmp(x);</td><td>Jump</td><td>Saut inconditionnel</td>
+            </tr>
+
+            <tr>
+                <td>get;</td><td>Read from input</td><td>Copie l'entrée dans AX</td>
+            </tr>
+            <tr>
+                <td>put;</td><td>Write to output</td><td>Copie AX dans la sortie</td>
+            </tr>
+
+            <tr>
+                <td>iret;</td><td>Return from interrupt</td><td>Termine la routine d'exécution</td>
+            </tr>
+            <tr>
+                <td>brk;</td><td>Break</td><td>Suspend l'exécution du programme</td>
+            </tr>
+            <tr>
+                <td>halt;</td><td>Halt</td><td>Termine l'exécution du programme (IP figé)</td>
+            </tr>
+        </table>
+        <p>
+            Les adresses de programmes sont indexées par rapport à la première instruction. Les adresses mémoires sont indexées par rapport au début de la pile.
+        </p>
+        <div>
+            <textarea
+            id="program-tape"
+            cols="80"
+            rows="10"
+            style="resize:none;width:calc(100% - 8px);">mov(a, b);</textarea>
+            <button onclick="load()">Charger le programme</button>
+        </div>
+        <p>
+            L'adresse 0, en mémoire, correspond au début de la pile. La pile ayant une taille maximale, l'adresse immédiatement après la dernière adresse de pile est celle du début du tas. Arrive ensuite la mémoire statique, puis le code du programme. Les adresses progressent donc de haut en bas, dans le diagriamme ci-dessous.
+        </p>
+        <div>
+            <span>Entrée&nbsp;:</span>
+            <input
+            id="input-peripheral"
+            type="text"></input>
+            <button onclick="doStep()">Effectuer une transition</button>
+        </div>
+
+        <svg
+            width="640"
+            height="940"
+            viewBox="0 0 640 940"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker
+                style="overflow:visible;"
+                id="arrow-triangle"
+                refX="0"
+                refY="0"
+                orient="auto-start-reverse"
+                markerWidth="10"
+                markerHeight="10">
+                <path
+                    d="M 0,0 -20,10 V -10 Z" />
+                </marker>
+            </defs>
+
+            <rect
+            width="280"
+            height="220"
+            x="180"
+            y="10" />
+
+            <rect
+            width="80"
+            height="60"
+            x="190"
+            y="20"
+            style="fill: antiquewhite;" />
+            <text
+            class="box-header"
+            x="195"
+            y="35">A</text>
+            <text
+            style="font-size:24px;"
+            x="195"
+            y="70"
+            id="a">0</text>
+            <rect
+            width="80"
+            height="60"
+            x="280"
+            y="20"
+            style="fill: antiquewhite;" />
+            <text
+            class="box-header"
+            x="285"
+            y="35">B</text>
+            <text
+            style="font-size:24px;"
+            x="285"
+            y="70"
+            id="b">0</text>
+            <rect
+            width="80"
+            height="60"
+            x="370"
+            y="20" />
+            <text
+            class="box-header"
+            x="375"
+            y="35">IP</text>
+            <text
+            style="font-size:24px;"
+            x="375"
+            y="70"
+            id="ip">0</text>
+
+            <rect
+            width="80"
+            height="60"
+            x="190"
+            y="90"
+            style="fill: antiquewhite;" />
+            <text
+            class="box-header"
+            x="195"
+            y="105">C</text>
+            <text
+            style="font-size:24px;"
+            x="195"
+            y="135"
+            id="c">0</text>
+            <rect
+            width="80"
+            height="60"
+            x="280"
+            y="90"
+            style="fill: antiquewhite;" />
+            <text
+            class="box-header"
+            x="285"
+            y="105">D</text>
+            <text
+            style="font-size:24px;"
+            x="285"
+            y="135"
+            id="d">0</text>
+            <rect
+            width="80"
+            height="60"
+            x="370"
+            y="90" />
+            <text
+            class="box-header"
+            x="375"
+            y="105">SP</text>
+            <text
+            style="font-size:24px;"
+            x="375"
+            y="135"
+            id="sp">0</text>
+
+            <rect
+            width="80"
+            height="60"
+            x="190"
+            y="160"
+            style="fill: antiquewhite;" />
+            <text
+            class="box-header"
+            x="195"
+            y="175">E</text>
+            <text
+            style="font-size:24px;"
+            x="195"
+            y="205"
+            id="e">0</text>
+            <rect
+            width="80"
+            height="60"
+            x="280"
+            y="160" />
+            <text
+            class="box-header"
+            x="285"
+            y="175">EFLAGS</text>
+            <text
+            style="font-size:24px;"
+            x="285"
+            y="205"
+            id="eflags">0</text>
+            <rect
+            width="80"
+            height="60"
+            x="370"
+            y="160" />
+            <text
+            class="box-header"
+            x="375"
+            y="175">ALU</text>
+            <text
+            style="font-size:24px;"
+            x="375"
+            y="205"
+            id="alu">0</text>
+
+            <rect
+            width="280"
+            height="650"
+            x="180"
+            y="280" />
+
+            <rect
+            width="260"
+            height="200"
+            x="190"
+            y="290" />
+            <text
+            class="box-header"
+            x="195"
+            y="305">Pile (32 entiers)</text>
+            <text
+            id="stack"
+            style="font-size:18px;white-space:pre;"
+            x="195"
+            y="325"></text>
+
+            <rect
+            width="260"
+            height="200"
+            x="190"
+            y="500" />
+            <text
+            class="box-header"
+            x="195"
+            y="515">Tas (32  entiers)</text>
+            <text
+            id="heap"
+            style="font-size:18px;white-space:pre;"
+            x="195"
+            y="535"></text>
+
+            <rect
+            width="260"
+            height="100"
+            x="190"
+            y="710" />
+            <text
+            class="box-header"
+            x="195"
+            y="725">Mémoire statique (16 entiers)</text>
+            <text
+            id="static"
+            style="font-size:18px;white-space:pre;"
+            x="195"
+            y="745"></text>
+
+            <rect
+            width="260"
+            height="100"
+            x="190"
+            y="820" />
+            <text
+            class="box-header"
+            x="195"
+            y="835">Programme (16 entiers)</text>
+            <text
+            id="program"
+            style="font-size:18px;white-space:pre;"
+            x="195"
+            y="855"></text>
+
+            <rect
+            width="120"
+            height="80"
+            x="10"
+            y="80" />
+            <text
+            class="box-header"
+            x="15"
+            y="95">Entrée</text>
+            <text
+            style="font-size:24px;"
+            x="15"
+            y="135"
+            id="input"></text>
+
+            <rect
+            width="120"
+            height="80"
+            x="510"
+            y="80" />
+            <text
+            class="box-header"
+            x="515"
+            y="95">Sortie</text>
+            <text
+            style="font-size:24px;"
+            x="515"
+            y="135"
+            id="output"></text>
+
+            <path
+            style="marker-start:url(#arrow-triangle);marker-end:url(#arrow-triangle)"
+            d="M 320,230 320,280" />
+            <path
+            style="marker-end:url(#arrow-triangle)"
+            d="M 130,120 180,120" />
+            <path
+            style="marker-end:url(#arrow-triangle)"
+            d="M 460,120 510,120" />
+        </svg>
+
+        <script type="text/javascript">
+            const programTape = document.getElementById("program-tape")
+            const inputPeripheral = document.getElementById("input-peripheral")
+
+            const ip = document.getElementById("ip")
+            const sp = document.getElementById("sp")
+            const eflags = document.getElementById("eflags")
+            const alu = document.getElementById("alu")
+
+            const a = document.getElementById("a")
+            const b = document.getElementById("b")
+            const c = document.getElementById("c")
+            const d = document.getElementById("d")
+
+            const stack = document.getElementById("stack")
+            const heap = document.getElementById("heap")
+            const static = document.getElementById("static")
+            const program = document.getElementById("program")
+
+            const input = document.getElementById("input")
+            const output = document.getElementById("output")
+
+            const ops = {
+                and: (x, y) => x & y,
+                or: (x, y) => x | y,
+                not: (x) => ~x,
+                add: (x, y) => y + x,
+                sub: (x, y) => y - x,
+                cmp: (x, y) => y - x,
+            }
+
+            const cmps = {
+                jmp: (f) => true,
+                ja: (f) => f > 0,
+                jb: (f) => f < 0,
+                je: (f) => f == 0,
+                jae: (f) => f >= 0,
+                jbe: (f) => f <= 0,
+                jne: (f) => f != 0
+            }
+
+            const sizes = {
+                stack: 32,
+                heap: 32,
+                static: 16,
+                pgm: 16
+            }
+
+            const size = Object.values(sizes).reduce((sum, s) => sum + s, 0)
+            const offset = sizes.stack + sizes.heap + sizes.static
+
+            const state = {
+                pgm: undefined,
+                mem: Array(size),
+                static: {},
+                reg: {
+                    "a": 0,
+                    "b": 0,
+                    "c": 0,
+                    "d": 0,
+                    "ip": 0,
+                    "sp": 0,
+                    "eflags": 0
+                }
+            }
+
+            function parseProgram(str) {
+                let lines = str.split("\n")
+                    .filter(l => !l.match(/^\s*($|\/\/)/))
+                
+                return lines.map(parseInstruction)
+            }
+
+            function parseInstruction(str) {
+                let m = str.match(/(\w{2,4})(\((.+)\))?;/)
+                
+                if (m) {
+                    let op = m[1]
+                    let args = m[2] ? m[3].split(/\s*,\s*/) : []
+                    
+                    return [op, args.map(parseArgument)]
+                } else {
+                    throw new Error(`${str} should be a valid instruction`)
+                }
+            }
+
+            function parseArgument(str) {
+                if (str.match(/^\d+$/))
+                    return { type: "const", val: Number(str) }
+                else if (m = str.match(/^e?(a|b|c|d)(x|l|h)$/))
+                    return { type: "direct", reg: m[1] }
+                else if (str.match(/^[a-z]\w*$/))
+                    return { type: "direct", var: str }
+                else if (m = str.match(/^\[(\d+)\]$/))
+                    return { type: "direct", addr: Number(m[1]) }
+                else if (m = str.match(/^\[([a-z]\w*)\]$/))
+                    return { type: "indirect", reg: m[1] }
+                else if (m = str.match(/^\[([a_z]\w*)(\+\d+|-\d+)\]$/))
+                    return {
+                        type: "indexed",
+                        reg: m[1],
+                        index: Number(m[2])
+                    }
+                else throw new Error(`'${str}' should be a valid argument`)
+            }
+
+            function load() {
+                let source = programTape.value
+
+                try {
+                    let pgm = parseProgram(source)
+
+                    console.log(pgm)
+
+                    // TODO parse static vars? (name/address mapping)
+
+                    let lastOp = pgm[pgm.length - 1][0]
+                    if (lastOp != "halt") pgm.push(["halt", []])
+
+                    let encodedProgram = pgm.map(encode)
+
+                    encodedProgram.copyWithin(state.mem, offset)
+                    program.innerHTML = truncate(encodedProgram)
+
+                    // TODO initialize entire RAM with 0
+                    // TODO reinitialize registers
+
+                    // TODO allocate memory to static vars
+
+                    state.pgm = pgm
+
+                    // FIXME on Chrome, text wrapping is broken
+                } catch (e) {
+                    compiledProgram = undefined
+                    program.innerHTML = truncate(["Erreur de chargement"])
+                    console.error(e)
+                }
+            }
+
+            // TODO no stack/heap: show malloc as HLA?
+            // TODO no E register. (E)SI, (E)DI, instead? (Source index, destination index, for string operations)
+
+            // A: accumulator
+            // B: base index (for arrays)
+            // C: counter (loops and strings)
+            // D: extend A's precision
+            // BP: base pointer (SP copy before invocation)
+            
+            function doStep() {
+                if (!state.pgm) return;
+
+                let [op, args] = state.pgm[state.reg.ip]
+
+                let useALU = Boolean(ops[op])
+                let useEFLAGS = Boolean(cmps[op])
+
+                alu.innerHTML = useALU ? encode([op, args]) : String(0)
+
+                val = inputPeripheral.value
+                input.innerHTML = val
+
+                if (op == "mov") {
+                    let [src, dest] = args
+                    write(dest, read(src))
+
+                    state.reg.ip++
+                } else if (useALU) {
+                    let res = ops[op](...args.map(read))
+
+                    if (op == "cmp") {
+                        // TODO align with eflags value (2 bits)
+                        state.reg.eflags = res
+                    } else {
+                        let lastArg = args[args.length - 1]
+                        write(lastArg, res)
+                    }
+
+                    state.reg.ip++
+                } else if (useEFLAGS) {
+                    let cmp = cmps[op](state.reg.eflags)
+                    if (cmp) state.reg.ip = read(args[0])
+                    else state.reg.ip++
+                } else if (op == "get") {
+                    state.reg.a = Math.floor(Number(val)) || 0
+                    state.reg.ip++
+                } else if (op == "put") {
+                    output.innerHTML = state.reg.a
+                    state.reg.ip++
+                }
+
+                ip.innerHTML = String(state.reg.ip)
+                sp.innerHTML = String(state.reg.sp)
+                eflags.innerHTML = String(state.reg.eflags)
+                
+                a.innerHTML = String(state.reg.a)
+                b.innerHTML = String(state.reg.b)
+                c.innerHTML = String(state.reg.c)
+                d.innerHTML = String(state.reg.d)
+
+                // TODO split into boxes
+                static.innerHTML = truncate(state.mem)
+            }
+
+            function encode(i) {
+                [op, args] = i
+
+                // 1 byte for opcode (5 bits)
+                // 1-2 bytes per argument
+
+                const opcodes = [
+                    // 0 arg
+                    "brk", "iret", "halt", "get", "put",
+                    // 1 arg
+                    "not", "je", "jne", "jb", "jbe", "ja", "jae", "jmp",
+                    // 2 args
+                    "or", "and", "cmp", "sub", "add", "mov"
+                ]
+
+                const registers = ["a", "b", "c", "d"] // TODO IP, ...
+
+                if (opcodes.indexOf(op) < 0)
+                    throw new Error(`${op} instruction is unknown`)
+
+                let fields = args.map(arg => {
+                    // lower 4 bits: register
+                    // upper 4 bits: argument type
+
+                    if (arg.type == "const")
+                        return 256 * arg.val
+                    else if (arg.type == "direct" && arg.reg)
+                        return 32 + registers.indexOf(arg.reg)
+                    else if (arg.type == "direct" && arg.addr)
+                        return 48 + 256 * arg.addr
+                    else if (arg.type == "indirect")
+                        return 64 + registers.indexOf(arg.reg)
+                    else if (arg.type == "indexed")
+                        return 128 + registers.indexOf(arg.reg) + 256 * arg.index
+
+                    throw new Error(`${arg.type} operand cannot be encoded`)
+                }).reduce((cum, cur) => {
+                    let n = Math.log2(cum)
+                    return cum + (cur << n + 1)
+                }, 0)
+
+                return opcodes.indexOf(op) + 256 * fields
+            }
+
+            function read(arg) {
+                if (arg.type == "const") {
+                    return arg.val
+                } else if (arg.type == "direct") {
+                    if (arg.reg) return state.reg[arg.reg]
+                    else if (arg.addr) return state.mem[arg.addr]
+                    
+                    let addr = state.static[arg.var]
+                    return state.mem[addr]
+                } else if (arg.type == "indirect") {
+                    let addr = state.reg[arg.reg]
+                    return state.mem[addr]
+                } else if (arg.type == "indexed") {
+                    let addr = state.reg[arg.reg]
+                    return state.mem[addr + arg.index]
+                }
+                
+                throw Error("Unknown argument type: " + arg.type)
+            }
+
+            function write(arg, val) {
+                if (arg.type == "direct") {
+                    if (arg.reg) state.reg[arg.reg] = val
+                    else if (arg.addr) state.mem[arg.addr] = val
+
+                    let addr = state.static[arg.var]
+                    state.mem[addr] = val
+                } else if (arg.type == "indirect") {
+                    let addr = state.reg[arg.reg]
+                    state.mem[addr] = val
+                } else if (arg.typr == "indexed") {
+                    let addr = state.reg[arg.reg]
+                    state.mem[addr + arg.index] = val
+                } else {
+                    throw Error("Unexpected argument type: " + arg.type)
+                }
+            }
+
+            function truncate(lines) {
+                // TODO 2 columns
+                // TODO variable box height
+
+                // 10 lines, 18px font size, ~50% vertical space
+                // gives 270px < 275px height
+                if (lines.length > 10)
+                    lines = lines.slice(0, 9).concat(["&hellip;"])
+
+                return lines.map(l => {
+                    // 18 chars, 18px font size, ~60% height/width ratio
+                    // gives 194px < 200px width
+                    if (l.length > 17) return l.substring(0, 16) + "&hellip;"
+                    else return l
+                }).join("\n")
+            }
+        </script>
+    </body>
+</html>
