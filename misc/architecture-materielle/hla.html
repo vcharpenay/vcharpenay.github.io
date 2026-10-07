@@ -106,24 +106,58 @@
             </tr>
         </table>
         <p>
-            Les adresses de programmes sont indexées par rapport à la première instruction. Les adresses mémoires sont indexées par rapport au début de la pile.
+            L'architecture matérielle sur laquelle est définie le langage suppose l'existence de huit registres (à l'instar de x86):
+        </p>
+        <ul>
+            <li>A (accumulateur)</li>
+            <li>B (base d'index, pour la gestion des tableaux)</li>
+            <li>C (compteur, pour les itérations en boucle)</li>
+            <li>D (pensé pour étendre la précision du registre A)</li>
+            <li>BP (<i>base pointer</i>, pour dépiler lors d'un renvoi de fonction)</li>
+            <li>SP (<i>stack pointer</i>, pour pointer vers le haut de la pile)</li>
+            <li>EFLAGS (voir cmp et les instructions de saut)</li>
+            <li>IP (<i>instruction pointer</i>)</li>
+        </ul>
+        <p>
+            Ces registres peuvent être utilisés comme arguments d'instructions (noms des registres donnés en minuscule). Les arguments peuvent aussi être des constantes ou des adresses mémoire. L'adressage peut être direct, indirect ou indexé. Par exemple, les trois instructions ci-dessous déplacent une valeur depuis la mémoire vers le registre A, selon chacun des modes d'adressage&nbsp;:
+        </p>
+        <ul>
+            <li>mov([32], a); utilise directement l'adresse 32&nbsp;;</li>
+            <li>mov([b], a); utilise l'adresse stockée dans le registre B&nbsp;;</li>
+            <li>mov([b+4], a); utilise l'adress à 4 unités de celle stockée dans B.</li>
+        </ul>
+        <p>
+            Chaque registre et chaque adresse mémoire peut stocker un entier de taille arbitraire, ce qui n'est évidemment pas réaliste. Dans un véritable processeur, cet entier serait représenté sur un nombre pré-déterminé de bits (8, 16, 32, 64). Pour simplifier, ici, on ne se préoccupe pas de sa représentation concrète. On fait donc référence à A plutôt qu'aux registres AL, AH, AX ou EAX définis dans x86, par exemple. On met aussi de côté la représentation des entiers négatifs (qui utilise le plus souvent la méthode du <a href="https://fr.wikipedia.org/wiki/Compl%C3%A9ment_%C3%A0_deux">complément à deux</a>).
+        </p>
+        <p>
+            L'adresse 0, en mémoire, correspond au début de la pile. La pile ayant une taille maximale de 32 entiers, l'adresse qui suit (adresse 32) est celle du début du tas, dont la taille est aussi de 32 entiers. Arrive ensuite la mémoire statique (16 entiers), puis le code du programme. Les adresses progressent donc de haut en bas dans le diagramme ci-dessous.
+        </p>
+        <p>
+            Pour simplifier l'écriture des programmes, les adresses de programmes sont indexées&nbsp; la première instruction du programme est virtuellement à l'adresse 0, alors qu'elle se trouve en fait à l'adresse 80 (première adresse disponible après la pile, le tas et la mémoire statique).
         </p>
         <div>
             <textarea
             id="program-tape"
             cols="80"
             rows="10"
-            style="resize:none;width:calc(100% - 8px);">mov(a, b);</textarea>
+            style="resize:none;width:calc(100% - 8px);">get;
+add(1, a);
+put;</textarea>
             <button onclick="load()">Charger le programme</button>
         </div>
         <p>
-            L'adresse 0, en mémoire, correspond au début de la pile. La pile ayant une taille maximale, l'adresse immédiatement après la dernière adresse de pile est celle du début du tas. Arrive ensuite la mémoire statique, puis le code du programme. Les adresses progressent donc de haut en bas, dans le diagramme ci-dessous.
+            Voir les exemples ci-dessous de programmes&nbsp;:
         </p>
-        <p>
-            Représentation des entiers : sur un "mot", quelque soit sa taille.
-            Pas de gestion des négatifs.
-            Instructions : toujours sur un "mot", pas réaliste.
-        </p>
+        <ul>
+            <li><a href="tresse-2.hla">tresse-2.hla</a> (permutation de deux registres à l'infini)</li>
+            <li><a href="mul.hla">mul.hla</a> (multiplication)</li>
+            <li><a href="div.hla">div.hla</a> (division entière)</li>
+            <li><a href="if.hla">if.hla</a> (saut conditionnel)</li>
+            <li><a href="for.hla">for.hla</a> (itérations)</li>
+            <li><a href="array.hla">array.hla</a> (représentation d'un tableau)</li>
+            <li><a href="object.hla">object.hla</a> (représentation d'un objet)</li>
+            <li><a href="fun.hla">fun.hla</a> (appel de fonction)</li>
+        </ul>
         <div>
             <span>Entrée&nbsp;:</span>
             <input
@@ -289,7 +323,7 @@
             style="font-size:24px;"
             x="375"
             y="205"
-            id="alu">0</text>
+            id="alu"></text>
 
             <rect
             width="280"
@@ -350,7 +384,7 @@
             <text
             class="box-header"
             x="195"
-            y="835">Programme (16 entiers)</text>
+            y="835">Programme</text>
             <text
             id="program"
             style="font-size:18px;white-space:pre;"
@@ -465,6 +499,7 @@
                     "d": undefined,
                     "ip": undefined,
                     "sp": undefined,
+                    "bp": undefined,
                     "eflags": undefined
                 }
             }
@@ -492,19 +527,19 @@
             function parseArgument(str) {
                 if (str.match(/^\d+$/))
                     return { type: "const", val: Number(str) }
-                else if (m = str.match(/^e?(a|b|c|d)(x|l|h)$/))
+                else if (m = str.match(/^(a|b|c|d|ip|sp|bp)$/))
                     return { type: "direct", reg: m[1] }
                 else if (str.match(/^[a-z]\w*$/))
                     return { type: "direct", var: str }
                 else if (m = str.match(/^\[(\d+)\]$/))
                     return { type: "direct", addr: Number(m[1]) }
-                else if (m = str.match(/^\[(e?(a|b|c|d)(x|l|h))\]$/))
-                    return { type: "indirect", reg: m[2] }
-                else if (m = str.match(/^\[(e?(a|b|c|d)(x|l|h))(\+\d+|-\d+)\]$/))
+                else if (m = str.match(/^\[(a|b|c|d|ip|sp|bp)\]$/))
+                    return { type: "indirect", reg: m[1] }
+                else if (m = str.match(/^\[(a|b|c|d|ip|sp|bp)(\+\d+|-\d+)\]$/))
                     return {
                         type: "indexed",
-                        reg: m[2],
-                        index: Number(m[4])
+                        reg: m[1],
+                        index: Number(m[2])
                     }
                 else throw new Error(`'${str}' should be a valid argument`)
             }
@@ -525,9 +560,12 @@
                     let encodedProgram = pgm.map(encode)
 
                     encodedProgram.copyWithin(state.mem, offset)
-                    program.innerHTML = truncate(encodedProgram)
-
                     init(state.mem, state.reg)
+                    
+                    display()
+                    
+                    input.innerHTML = ""
+                    output.innerHTML = ""
 
                     // TODO allocate memory to static vars
 
@@ -536,19 +574,10 @@
                     // FIXME on Chrome, text wrapping is broken
                 } catch (e) {
                     compiledProgram = undefined
-                    program.innerHTML = truncate(["Erreur de chargement"])
+                    program.innerHTML = "Erreur de chargement"
                     console.error(e)
                 }
             }
-
-            // TODO no stack/heap: show malloc as HLA?
-            // TODO no E register. (E)SI, (E)DI, instead? (Source index, destination index, for string operations)
-
-            // A: accumulator
-            // B: base index (for arrays)
-            // C: counter (loops and strings)
-            // D: extend A's precision
-            // BP: base pointer (SP copy before invocation)
             
             function doStep() {
                 if (!state.pgm) return;
@@ -558,7 +587,8 @@
                 let useALU = Boolean(ops[op])
                 let useEFLAGS = Boolean(cmps[op])
 
-                alu.innerHTML = useALU ? encode([op, args]) : String(0)
+                alu.innerHTML = useALU ?
+                    "<tspan style=\"fill:cadetblue;\">*</tspan>" : ""
 
                 val = inputPeripheral.value
                 input.innerHTML = val
@@ -592,24 +622,12 @@
                     state.reg.ip++
                 }
 
-                ip.innerHTML = String(state.reg.ip)
-                sp.innerHTML = String(state.reg.sp)
-                eflags.innerHTML = String(state.reg.eflags)
-                
-                a.innerHTML = String(state.reg.a)
-                b.innerHTML = String(state.reg.b)
-                c.innerHTML = String(state.reg.c)
-                d.innerHTML = String(state.reg.d)
-
-                // TODO split into boxes
-                static.innerHTML = truncate(state.mem)
+                display()
             }
 
             function init(mem, reg) {
                 for (let i = 0; i < mem.length; i++) mem[i] = 0
                 for (let r in reg) reg[r] = 0
-
-                // TODO update UI
             }
 
             function encode(i) {
@@ -629,7 +647,7 @@
                     "mul", "div", "xor"
                 ]
 
-                const registers = ["a", "b", "c", "d"] // TODO IP, ...
+                const registers = ["a", "b", "c", "d", "ip", "sp", "bp"]
 
                 if (opcodes.indexOf(op) < 0)
                     throw new Error(`${op} instruction is unknown`)
@@ -696,14 +714,27 @@
                 }
             }
 
-            function truncate(lines) {
-                // TODO 2 columns
-                // TODO variable box height
+            function display() {
+                ip.innerHTML = String(state.reg.ip)
+                sp.innerHTML = String(state.reg.sp)
+                bp.innerHTML = String(state.reg.bp)
+                eflags.innerHTML = String(state.reg.eflags)
+                
+                a.innerHTML = String(state.reg.a)
+                b.innerHTML = String(state.reg.b)
+                c.innerHTML = String(state.reg.c)
+                d.innerHTML = String(state.reg.d)
 
-                // 10 lines, 18px font size, ~50% vertical space
-                // gives 270px < 275px height
-                if (lines.length > 10)
-                    lines = lines.slice(0, 9).concat(["&hellip;"])
+                stack.innerHTML = truncate(state.mem.slice(0, 7))
+                heap.innerHTML = truncate(state.mem.slice(32, 39))
+                static.innerHTML = truncate(state.mem.slice(64, 66))
+                program.innerHTML = truncate(state.mem.slice(80, 82))
+            }
+
+            function truncate(lines) {
+                // TODO 2 or 3 columns
+
+                lines = lines.concat(["&hellip;"])
 
                 return lines.map(l => {
                     // 18 chars, 18px font size, ~60% height/width ratio

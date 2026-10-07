@@ -5,15 +5,15 @@ mov(0, [32]);
 mov(1, [33]);
 
 // lire l'état des deux brins et mémoire et place les valeurs lues
-// dans les registres AX et BX 
+// dans les registres A et B 
 
-mov([32], ax);
-mov([33], bx);
+mov([32], a);
+mov([33], b);
 
 // permuter les deux valeurs en mémoire
 
-mov(bx, [32]);
-mov(ax, [33]);
+mov(b, [32]);
+mov(a, [33]);
 
 // boucler en retournant à la 3ème instruction du programme (1ère ligne = 0)
 

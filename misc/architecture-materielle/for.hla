@@ -4,17 +4,17 @@
 
 mov(12, [32]);
 
-// initialiser i dans le registre CX (compteur)
+// initialiser i dans le registre C (compteur)
 
-mov(0, cx);
+mov(0, c);
 
 // comparer i à n et sauter la boucle si i >= n
 // sinon, en fin de bloc, incrémenter i et boucler
 
-cmp([32], cx);
+cmp([32], c);
 jae(6);
 
 // ... (instructions du bloc)
 
-add(1, cx);
+add(1, c);
 jmp(2);

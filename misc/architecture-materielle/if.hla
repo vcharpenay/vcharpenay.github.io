@@ -8,10 +8,10 @@ mov(9, [34]);
 
 // calculer y - x
 
-mov([32], ax);
-sub([33], ax);
+mov([32], a);
+sub([33], a);
 
 // comparer à z
 
-cmp([34], ax);
+cmp([34], a);
 ja(17);

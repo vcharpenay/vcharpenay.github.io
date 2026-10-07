@@ -1,19 +1,19 @@
-// lire le premier opérande x depuis l'entrée, le stocker dans CX
+// lire le premier opérande x depuis l'entrée, le stocker dans C
 
 get;
-mov(ax, cx);
+mov(a, c);
 
-// lire le second opérande y, le stocker dans DX (AX reste inchangé)
+// lire le second opérande y, le stocker dans D (A reste inchangé)
 
 get;
-mov(ax, dx);
+mov(a, d);
 
-// ajouter x-1 fois y à AX, décrémenter x et boucler tant que
+// ajouter x-1 fois y à A, décrémenter x et boucler tant que
 // x-1 n'est pas égal à 0 (tant que x > 1)
 
-add(dx, ax);
-sub(1, cx);
-cmp(1, cx);
+add(d, a);
+sub(1, c);
+cmp(1, c);
 ja(4);
 
 // afficher le résultat en sortie

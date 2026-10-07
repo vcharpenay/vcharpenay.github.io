@@ -2,36 +2,36 @@
 // tab[1] = 97;
 // for (int i = 0; i < tab.length; i++) System.out.println(tab[i]);
 
-// stocker la référence au tableau tab dans BX
+// stocker la référence au tableau tab dans B
 // (pour simuler une allocation dynamique de mémoire)
 
-mov(32, bx);
+mov(32, b);
 
 // initialiser tab avec une taille de 3
 
-mov(3, [bx]);
+mov(3, [b]);
 
 // remplir tab avec le code ASCII pour 't', 'i', 'c'
 
-mov(116, [bx+1]);
-mov(105, [bx+2]);
-mov(99, [bx+3]);
+mov(116, [b+1]);
+mov(105, [b+2]);
+mov(99, [b+3]);
 
 // modifier 'i' en 'a'
 
-mov(97, [bx+2]);
+mov(97, [b+2]);
 
 // afficher en sortie le contenu du tableau, élément par élément
-// (la variable i n'est pas matérialisée, on décrémente CX à la place)
+// (la variable i n'est pas matérialisée, on décrémente C à la place)
 
-mov([bx], cx);
+mov([b], c);
 
-cmp(0, cx);
+cmp(0, c);
 jbe(14);
 
-add(1, bx);
-sub(1, cx);
-mov([bx], ax);
+add(1, b);
+sub(1, c);
+mov([b], a);
 put;
 
 jmp(7);

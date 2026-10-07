@@ -1,26 +1,43 @@
-// someFunction(1, 12);
+// int max(x, y) { return x < y ? y : x; }
+// int x = max(1, 12);
+
+// simuler une exécution en cours avec des valeurs de registres arbitraires
+
+mov(7, a);
+mov(33, b);
 
 // copier l'ensemble des registres de travail (excepté SP) dans la pile
+// (SP pointe vers la valeur de retour de la fonction)
 
-mov(ax, [sp]);
-mov(cx, [sp+1]);
-mov(dx, [sp+2]);
-mov(bx, [sp+3]);
-mov(bp, [sp+4]);
+mov(a, [sp+1]);
+mov(c, [sp+2]);
+mov(d, [sp+3]);
+mov(b, [sp+4]);
+mov(bp, [sp+5]);
 
-// copier SP dans BP avant de mettre à jour SP (5 valeurs empilées)
+// copier SP dans BP avant de mettre à jour SP
+// (1 valeur de retour + 5 valeurs de registre empilées)
 
 mov(sp, bp);
-add(5, sp);
+add(6, sp);
 
-// copier les arguments de la  fonction dans la pile
+// copier les arguments de la fonction dans la pile
 
 mov(1, [sp]);
 add(1, sp);
 mov(12, [sp]);
 add(1, sp);
 
-// ... (instructions de la fonction)
+// exécuter le corps de la fonction (si x < y, retourner y, sinon retourner x)
+// après avoir copié les deux opérandes dans des registres
+
+mov([sp-2], a);
+mov([sp-1], b);
+cmp(a, b);
+jbe(17);
+mov(b, [bp]);
+jmp(18);
+mov(a, [bp]);
 
 // rétablir SP à sa valeur avant appel
 
@@ -28,8 +45,12 @@ mov(bp, sp);
 
 // restaurer les registres de travail depuis la pile
 
-mov(bp, [sp+4]);
-mov(bx, [sp+3]);
-mov(dx, [sp+2]);
-mov(cx, [sp+1]);
-mov(ax, [sp]);
+mov(bp, [sp+5]);
+mov(b, [sp+4]);
+mov(d, [sp+3]);
+mov(c, [sp+2]);
+mov(a, [sp+1]);
+
+// empiler définitivement la valeur de retour en tant que variable x
+
+add(1, sp);
