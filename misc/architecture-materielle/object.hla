@@ -1,0 +1,22 @@
+// class Tresse { private PositionTresse[] abc = new PositionTresse[3]; }
+// class PositionTresse { private int brin = 0; }
+// Tresse t = new Tresse();
+// PositionTresse a = new PositionTresse();
+// t.abc[0] = a;
+
+// initialiser le tableau abc (avec sa taille) puis initialiser t (abc = ...) 
+
+mov(3, [32]);
+mov(32, [36]);
+
+// initialiser a (brin = 0)
+
+mov(0, [37]);
+
+// affecter a au premier élément du tableau abc
+
+mov(37, [33]);
+
+// ici, les allocations en mémoire sont statiques : elles sont déterminées
+// dans la phase de programmation. Le plus souvent, elles sont plutôt
+// dynamiques, c'est-à-dire déterminées durant l'exécution du programme.

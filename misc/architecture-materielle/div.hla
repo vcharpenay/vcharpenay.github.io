@@ -1,0 +1,31 @@
+// lire le deuxième opérande y depuis l'entrée, le stocker dans DX
+
+get;
+mov(ax, dx);
+
+// lire le premier opérande x, le conserver dans AX
+
+get;
+
+// initialiser CX, qui contiendra le résultat de la division z, à 0
+
+mov(0, cx);
+
+// si x < y, alors z = x/y, aller à la fin du programme
+
+cmp(dx, ax);
+jb(9);
+
+// sinon, soustraire y à x et incrémenter z
+
+sub(dx, ax);
+add(1, cx);
+
+// revenir à la comparaison de y à x
+
+jmp(4);
+
+// déplacer le résultat dans AX pour l'afficher en sortie
+
+mov(cx, ax);
+put;

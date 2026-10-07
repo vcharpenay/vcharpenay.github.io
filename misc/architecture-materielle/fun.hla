@@ -1,0 +1,35 @@
+// someFunction(1, 12);
+
+// copier l'ensemble des registres de travail (excepté SP) dans la pile
+
+mov(ax, [sp]);
+mov(cx, [sp+1]);
+mov(dx, [sp+2]);
+mov(bx, [sp+3]);
+mov(bp, [sp+4]);
+
+// copier SP dans BP avant de mettre à jour SP (5 valeurs empilées)
+
+mov(sp, bp);
+add(5, sp);
+
+// copier les arguments de la  fonction dans la pile
+
+mov(1, [sp]);
+add(1, sp);
+mov(12, [sp]);
+add(1, sp);
+
+// ... (instructions de la fonction)
+
+// rétablir SP à sa valeur avant appel
+
+mov(bp, sp);
+
+// restaurer les registres de travail depuis la pile
+
+mov(bp, [sp+4]);
+mov(bx, [sp+3]);
+mov(dx, [sp+2]);
+mov(cx, [sp+1]);
+mov(ax, [sp]);

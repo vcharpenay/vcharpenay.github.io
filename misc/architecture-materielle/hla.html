@@ -67,22 +67,22 @@
             </tr>
 
             <tr>
-                <td>ja(x);</td><td>Jump if above</td><td>Saut conditionnel</td>
+                <td>ja(x);</td><td>Jump if above</td><td>Saut conditionnel (cmp > 0)</td>
             </tr>
             <tr>
-                <td>jae(x);</td><td>Jump if above or equal</td><td>Saut conditionnel</td>
+                <td>jae(x);</td><td>Jump if above or equal</td><td>Saut conditionnel (cmp >= 0)</td>
             </tr>
             <tr>
-                <td>jb(x);</td><td>Jump if below</td><td>Saut conditionnel</td>
+                <td>jb(x);</td><td>Jump if below</td><td>Saut conditionnel (cmp &lt; 0)</td>
             </tr>
             <tr>
-                <td>jbe(x);</td><td>Jump if below or equal</td><td>Saut conditionnel</td>
+                <td>jbe(x);</td><td>Jump if below or equal</td><td>Saut conditionnel (cmp &lt;= 0)</td>
             </tr>
             <tr>
-                <td>je(x);</td><td>Jump if equal</td><td>Saut conditionnel</td>
+                <td>je(x);</td><td>Jump if equal</td><td>Saut conditionnel (cmp == 0)</td>
             </tr>
             <tr>
-                <td>jne(x);</td><td>Jump if not equal</td><td>Saut conditionnel</td>
+                <td>jne(x);</td><td>Jump if not equal</td><td>Saut conditionnel (cmp != 0)</td>
             </tr>
             <tr>
                 <td>jmp(x);</td><td>Jump</td><td>Saut inconditionnel</td>
@@ -117,7 +117,12 @@
             <button onclick="load()">Charger le programme</button>
         </div>
         <p>
-            L'adresse 0, en mémoire, correspond au début de la pile. La pile ayant une taille maximale, l'adresse immédiatement après la dernière adresse de pile est celle du début du tas. Arrive ensuite la mémoire statique, puis le code du programme. Les adresses progressent donc de haut en bas, dans le diagriamme ci-dessous.
+            L'adresse 0, en mémoire, correspond au début de la pile. La pile ayant une taille maximale, l'adresse immédiatement après la dernière adresse de pile est celle du début du tas. Arrive ensuite la mémoire statique, puis le code du programme. Les adresses progressent donc de haut en bas, dans le diagramme ci-dessous.
+        </p>
+        <p>
+            Représentation des entiers : sur un "mot", quelque soit sa taille.
+            Pas de gestion des négatifs.
+            Instructions : toujours sur un "mot", pas réaliste.
         </p>
         <div>
             <span>Entrée&nbsp;:</span>
@@ -191,12 +196,12 @@
             <text
             class="box-header"
             x="375"
-            y="35">IP</text>
+            y="35">BP</text>
             <text
             style="font-size:24px;"
             x="375"
             y="70"
-            id="ip">0</text>
+            id="bp">0</text>
 
             <rect
             width="80"
@@ -247,17 +252,16 @@
             width="80"
             height="60"
             x="190"
-            y="160"
-            style="fill: antiquewhite;" />
+            y="160" />
             <text
             class="box-header"
             x="195"
-            y="175">E</text>
+            y="175">IP</text>
             <text
             style="font-size:24px;"
             x="195"
             y="205"
-            id="e">0</text>
+            id="ip">0</text>
             <rect
             width="80"
             height="60"
@@ -400,6 +404,7 @@
 
             const ip = document.getElementById("ip")
             const sp = document.getElementById("sp")
+            const bp = document.getElementById("bp")
             const eflags = document.getElementById("eflags")
             const alu = document.getElementById("alu")
 
@@ -423,6 +428,10 @@
                 add: (x, y) => y + x,
                 sub: (x, y) => y - x,
                 cmp: (x, y) => y - x,
+                // micro-coded ops
+                mul: (x, y) => y * x,
+                div: (x, y) => Math.floor(y / x),
+                xor: (x, y) => (x | y) & ~(x & y)
             }
 
             const cmps = {
@@ -450,13 +459,13 @@
                 mem: Array(size),
                 static: {},
                 reg: {
-                    "a": 0,
-                    "b": 0,
-                    "c": 0,
-                    "d": 0,
-                    "ip": 0,
-                    "sp": 0,
-                    "eflags": 0
+                    "a": undefined,
+                    "b": undefined,
+                    "c": undefined,
+                    "d": undefined,
+                    "ip": undefined,
+                    "sp": undefined,
+                    "eflags": undefined
                 }
             }
 
@@ -489,13 +498,13 @@
                     return { type: "direct", var: str }
                 else if (m = str.match(/^\[(\d+)\]$/))
                     return { type: "direct", addr: Number(m[1]) }
-                else if (m = str.match(/^\[([a-z]\w*)\]$/))
-                    return { type: "indirect", reg: m[1] }
-                else if (m = str.match(/^\[([a_z]\w*)(\+\d+|-\d+)\]$/))
+                else if (m = str.match(/^\[(e?(a|b|c|d)(x|l|h))\]$/))
+                    return { type: "indirect", reg: m[2] }
+                else if (m = str.match(/^\[(e?(a|b|c|d)(x|l|h))(\+\d+|-\d+)\]$/))
                     return {
                         type: "indexed",
-                        reg: m[1],
-                        index: Number(m[2])
+                        reg: m[2],
+                        index: Number(m[4])
                     }
                 else throw new Error(`'${str}' should be a valid argument`)
             }
@@ -518,8 +527,7 @@
                     encodedProgram.copyWithin(state.mem, offset)
                     program.innerHTML = truncate(encodedProgram)
 
-                    // TODO initialize entire RAM with 0
-                    // TODO reinitialize registers
+                    init(state.mem, state.reg)
 
                     // TODO allocate memory to static vars
 
@@ -597,6 +605,13 @@
                 static.innerHTML = truncate(state.mem)
             }
 
+            function init(mem, reg) {
+                for (let i = 0; i < mem.length; i++) mem[i] = 0
+                for (let r in reg) reg[r] = 0
+
+                // TODO update UI
+            }
+
             function encode(i) {
                 [op, args] = i
 
@@ -609,7 +624,9 @@
                     // 1 arg
                     "not", "je", "jne", "jb", "jbe", "ja", "jae", "jmp",
                     // 2 args
-                    "or", "and", "cmp", "sub", "add", "mov"
+                    "or", "and", "cmp", "sub", "add", "mov",
+                    // micro-coded ops
+                    "mul", "div", "xor"
                 ]
 
                 const registers = ["a", "b", "c", "d"] // TODO IP, ...
@@ -671,7 +688,7 @@
                 } else if (arg.type == "indirect") {
                     let addr = state.reg[arg.reg]
                     state.mem[addr] = val
-                } else if (arg.typr == "indexed") {
+                } else if (arg.type == "indexed") {
                     let addr = state.reg[arg.reg]
                     state.mem[addr + arg.index] = val
                 } else {

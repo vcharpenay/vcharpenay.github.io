@@ -8,10 +8,13 @@ mov(12, [32]);
 
 mov(0, cx);
 
-// ... (instructions du bloc)
-
-// comparer i à n, incrémenter i et boucler si i < n
+// comparer i à n et sauter la boucle si i >= n
+// sinon, en fin de bloc, incrémenter i et boucler
 
 cmp([32], cx);
+jae(6);
+
+// ... (instructions du bloc)
+
 add(1, cx);
-jb(2);
+jmp(2);
