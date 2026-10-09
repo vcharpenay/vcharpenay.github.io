@@ -1,0 +1,32 @@
+// lire le premier opérande x depuis l'entrée, le stocker dans C
+
+get;
+mov(a, c);
+
+// lire le second opérande y, le stocker dans D (A reste inchangé)
+
+get;
+mov(a, d);
+
+// comparer x et y, sauter la permutation si y >= x
+
+cmp(c, d);
+jae(9);
+
+// permuter x et y
+
+mov(c, a);
+mov(d, c);
+mov(a, d);
+
+// ajouter x-1 fois y à A, décrémenter x et boucler tant que
+// x-1 n'est pas égal à 0 (tant que x > 1)
+
+add(d, a);
+sub(1, c);
+cmp(1, c);
+ja(9);
+
+// afficher le résultat en sortie
+
+put;

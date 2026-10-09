@@ -486,7 +486,6 @@ put;</textarea>
             }
 
             const size = Object.values(sizes).reduce((sum, s) => sum + s, 0)
-            const offset = sizes.stack + sizes.heap + sizes.static
 
             const state = {
                 pgm: undefined,
@@ -550,8 +549,6 @@ put;</textarea>
                 try {
                     let pgm = parseProgram(source)
 
-                    console.log(pgm)
-
                     // TODO parse static vars? (name/address mapping)
 
                     let lastOp = pgm[pgm.length - 1][0]
@@ -559,8 +556,8 @@ put;</textarea>
 
                     let encodedProgram = pgm.map(encode)
 
-                    encodedProgram.copyWithin(state.mem, offset)
                     init(state.mem, state.reg)
+                    encodedProgram.forEach((i, k) => state.mem[80+k] = i)
                     
                     display()
                     
@@ -725,6 +722,7 @@ put;</textarea>
                 c.innerHTML = String(state.reg.c)
                 d.innerHTML = String(state.reg.d)
 
+                // FIXME ints should map to strings
                 stack.innerHTML = truncate(state.mem.slice(0, 7))
                 heap.innerHTML = truncate(state.mem.slice(32, 39))
                 static.innerHTML = truncate(state.mem.slice(64, 66))
